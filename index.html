@@ -3,12 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Manami Oyama — AI Engineer & Optimization Strategy</title>
+  <title>Manami Oyama — AI Engineer & Data Scientist</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&family=Noto+Serif+JP:wght@300;400;500;600&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&family=Noto+Serif+JP:wght@300;400&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet" />
 
   <style>
+    /* ── Variables ─────────────────────────────── */
     :root {
       --bg:        #f7f5f0;
       --surface:   #ffffff;
@@ -18,12 +19,13 @@
       --accent2:   #b7d5c8;
       --border:    #e2ddd6;
       --tag-bg:    #eaf2ee;
-      --serif:     'DM Serif Display', 'Noto Serif JP', serif;
+      --serif:     'DM Serif Display', 'Noto Serif JP', Georgia, serif;
       --sans:      'DM Sans', 'Noto Sans JP', sans-serif;
       --radius:    12px;
       --transition: 0.3s ease;
     }
 
+    /* ── Reset ──────────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body {
@@ -35,46 +37,253 @@
       font-weight: 300;
     }
     a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
 
-    .container { max-width: 900px; margin: 0 auto; padding: 0 24px; }
-    section { padding: 100px 0; border-top: 1px solid var(--border); }
-    #hero { border-top: none; padding-top: 140px; padding-bottom: 100px; }
+    /* ── Layout ─────────────────────────────────── */
+    .container {
+      max-width: 960px; /* 2カラム用に少し広げました */
+      margin: 0 auto;
+      padding: 0 24px;
+    }
 
+    section {
+      padding: 80px 0;
+    }
+
+    section + section {
+      border-top: 1px solid var(--border);
+    }
+
+    /* ── Nav ────────────────────────────────────── */
     nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      background: rgba(247, 245, 240, 0.92); backdrop-filter: blur(10px);
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      background: rgba(247, 245, 240, 0.92);
+      backdrop-filter: blur(10px);
       border-bottom: 1px solid var(--border);
     }
+
     .nav-inner {
-      max-width: 900px; margin: 0 auto; padding: 0 24px; height: 60px;
-      display: flex; align-items: center; justify-content: space-between;
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 24px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
-    .nav-logo { font-family: var(--serif); font-size: 1.1rem; }
-    .nav-links { display: flex; align-items: center; gap: 32px; }
-    .nav-links a { font-size: 0.85rem; font-weight: 400; color: var(--muted); }
-    .lang-toggle { display: flex; background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 2px; }
-    .lang-btn { font-size: 0.7rem; font-weight: 600; padding: 4px 10px; border-radius: 16px; border: none; background: transparent; color: var(--muted); cursor: pointer; }
-    .lang-btn.active { background: var(--accent); color: #fff; }
 
-    /* Hero layout */
-    .hero-flex { display: flex; align-items: center; gap: 40px; flex-wrap: wrap; }
-    .hero-content { flex: 1; min-width: 300px; }
-    .hero-avatar { width: 160px; height: 160px; background: var(--border); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 4.5rem; flex-shrink: 0; box-shadow: inset 0 0 20px rgba(0,0,0,0.05); }
-    
-    .hero-eyebrow { font-size: 0.8rem; font-weight: 600; text-transform: uppercase; color: var(--accent); margin-bottom: 16px; letter-spacing: 0.1em; }
-    .hero-name { font-family: var(--serif); font-size: clamp(2.8rem, 7vw, 4.2rem); line-height: 1.1; margin-bottom: 20px; }
-    .hero-name em { font-style: italic; color: var(--accent); }
-    .hero-tagline { font-size: 1.2rem; color: var(--ink); max-width: 600px; margin-bottom: 32px; font-weight: 400; line-height: 1.5; }
+    .nav-logo {
+      font-family: var(--serif);
+      font-size: 1.1rem;
+      letter-spacing: 0.01em;
+    }
 
-    .btn { display: inline-flex; align-items: center; justify-content: center; padding: 12px 24px; border-radius: 6px; font-size: 0.9rem; font-weight: 500; transition: all var(--transition); cursor: pointer; }
-    .btn-primary { background: var(--accent); color: #fff; border: none; }
-    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(45, 106, 79, 0.2); }
-    .btn-outline { background: var(--surface); border: 1px solid var(--border); color: var(--ink); }
-    .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
 
-    .section-label { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 12px; }
+    .nav-links a {
+      font-size: 0.85rem;
+      font-weight: 400;
+      color: var(--muted);
+      letter-spacing: 0.03em;
+      transition: color var(--transition);
+    }
 
-    /* Skills Grid */
+    .nav-links a:hover { color: var(--ink); }
+
+    .lang-toggle {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 4px 6px;
+      cursor: pointer;
+    }
+
+    .lang-btn {
+      font-size: 0.75rem;
+      font-weight: 500;
+      padding: 3px 10px;
+      border-radius: 16px;
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all var(--transition);
+      font-family: var(--sans);
+    }
+
+    .lang-btn.active {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    /* ── Hero ───────────────────────────────────── */
+    #hero {
+      padding-top: 140px;
+      padding-bottom: 100px;
+      border-top: none;
+    }
+
+    .hero-eyebrow {
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 20px;
+    }
+
+    .hero-name {
+      font-family: var(--serif);
+      font-size: clamp(2.8rem, 6vw, 4.5rem);
+      line-height: 1.1;
+      letter-spacing: -0.01em;
+      margin-bottom: 16px;
+    }
+
+    .hero-name em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .hero-tagline {
+      font-size: 1.1rem;
+      color: var(--muted);
+      max-width: 540px;
+      margin-bottom: 40px;
+      line-height: 1.6;
+    }
+
+    .hero-meta {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .hero-meta-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    .hero-meta-item span.dot {
+      width: 6px;
+      height: 6px;
+      background: var(--accent);
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .hero-cta {
+      margin-top: 40px;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 11px 24px;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      font-family: var(--sans);
+      border: none;
+      cursor: pointer;
+      transition: all var(--transition);
+      text-decoration: none;
+    }
+
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-primary:hover { background: #1e4d38; transform: translateY(-1px); }
+    .btn-outline { background: transparent; color: var(--ink); border: 1px solid var(--border); }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); }
+
+    /* ── Section Headers ───────────────────────── */
+    .section-label { font-size: 0.75rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 12px; }
+    .section-title { font-family: var(--serif); font-size: clamp(1.8rem, 4vw, 2.5rem); line-height: 1.15; margin-bottom: 16px; }
+    .section-desc { color: var(--muted); max-width: 520px; margin-bottom: 48px; }
+
+    /* ── About ──────────────────────────────────── */
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
+    .about-text p { color: var(--muted); margin-bottom: 16px; }
+    .about-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; transition: border-color var(--transition); }
+    .stat-card:hover { border-color: var(--accent2); }
+    .stat-number { font-family: var(--serif); font-size: 2.2rem; color: var(--accent); line-height: 1; margin-bottom: 4px; }
+    .stat-label { font-size: 0.8rem; color: var(--muted); line-height: 1.4; }
+
+    /* ── Projects (2x2 Grid) ────────────────────── */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr); /* 2カラム指定 */
+      gap: 24px;
+    }
+
+    .project-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 36px;
+      display: flex;
+      flex-direction: column; /* カード内を縦並びに */
+      transition: all var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .project-card::before {
+      content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--accent); transform: scaleY(0); transition: transform var(--transition);
+    }
+
+    .project-card:hover {
+      border-color: var(--accent2); transform: translateY(-2px); box-shadow: 0 8px 32px rgba(45, 106, 79, 0.08);
+    }
+    .project-card:hover::before { transform: scaleY(1); }
+
+    .project-content-main { flex: 1; } /* バッジを下に寄せるための設定 */
+
+    .project-number { font-family: var(--serif); font-size: 0.8rem; color: var(--accent); letter-spacing: 0.08em; margin-bottom: 12px; }
+    .project-title { font-family: var(--serif); font-size: 1.5rem; margin-bottom: 8px; line-height: 1.2; }
+    .project-subtitle { font-size: 0.85rem; color: var(--accent); font-weight: 500; margin-bottom: 16px; }
+    .project-desc { font-size: 0.9rem; color: var(--muted); margin-bottom: 20px; line-height: 1.7; }
+
+    .project-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; }
+    .tag { font-size: 0.72rem; font-weight: 500; padding: 4px 10px; background: var(--tag-bg); color: var(--accent); border-radius: 20px; letter-spacing: 0.02em; }
+
+    .project-links { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 24px; }
+    .project-link { font-size: 0.82rem; font-weight: 500; color: var(--accent); display: flex; align-items: center; gap: 6px; transition: opacity var(--transition); }
+    .project-link:hover { opacity: 0.7; }
+
+    .project-badge {
+      background: var(--tag-bg);
+      border: 1px solid var(--accent2);
+      border-radius: var(--radius);
+      padding: 12px 20px;
+      display: inline-flex;
+      align-items: center;
+      gap: 16px;
+      width: fit-content;
+      margin-top: auto; /* 一番下に寄せる */
+    }
+    .badge-icon { font-size: 1.6rem; }
+    .badge-label { font-size: 0.75rem; color: var(--muted); line-height: 1.4; }
+
+    /* ── Skills & Timeline ──────────────────────── */
     .skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
     .skill-group { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px; transition: border-color var(--transition); }
     .skill-group:hover { border-color: var(--accent2); }
@@ -84,35 +293,32 @@
     .skill-list li { font-size: 0.85rem; color: var(--muted); display: flex; align-items: center; gap: 8px; }
     .skill-list li::before { content: ''; width: 4px; height: 4px; background: var(--accent); border-radius: 50%; flex-shrink: 0; }
 
-    /* Project Cards */
-    .project-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 48px; margin-bottom: 40px; transition: all var(--transition); }
-    .project-card:hover { border-color: var(--accent2); box-shadow: 0 12px 30px rgba(0,0,0,0.04); }
-    .project-title { font-family: var(--serif); font-size: 2rem; margin-bottom: 12px; }
-    .project-subtitle { color: var(--accent); font-weight: 600; font-size: 0.85rem; text-transform: uppercase; margin-bottom: 20px; letter-spacing: 0.05em; }
-    .project-desc { color: var(--muted); margin-bottom: 32px; font-size: 0.95rem; }
-    .project-links { display: flex; flex-wrap: wrap; gap: 12px; }
-    .link-item { font-size: 0.85rem; font-weight: 500; display: flex; align-items: center; gap: 6px; padding: 8px 16px; background: var(--bg); border-radius: 6px; transition: 0.2s; }
-    .link-item:hover { background: var(--accent3); color: var(--accent); }
-
-    /* Experience Highlight */
-    .highlight-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 48px; }
-    .highlight-card { background: var(--surface); border: 1px solid var(--accent2); border-radius: var(--radius); padding: 28px; }
-    
-    .timeline-item { display: grid; grid-template-columns: 140px 1fr; padding: 28px 0; border-bottom: 1px solid var(--border); }
+    .timeline { display: flex; flex-direction: column; gap: 0; }
+    .timeline-item { display: grid; grid-template-columns: 120px 1fr; gap: 24px; padding: 28px 0; border-bottom: 1px solid var(--border); }
     .timeline-item:last-child { border-bottom: none; }
-    .timeline-year { color: var(--muted); font-size: 0.9rem; }
-    .timeline-role { font-family: var(--serif); font-size: 1.2rem; margin-bottom: 4px; }
+    .timeline-year { font-size: 0.8rem; color: var(--muted); font-weight: 400; padding-top: 3px; }
+    .timeline-role { font-family: var(--serif); font-size: 1.1rem; margin-bottom: 4px; }
+    .timeline-detail { font-size: 0.85rem; color: var(--muted); }
 
-    .offer-box { background: var(--tag-bg); padding: 48px; border-radius: var(--radius); border: 1px solid var(--accent2); text-align: center; max-width: 800px; margin: 0 auto; }
+    /* ── Contact ────────────────────────────────── */
+    #contact { text-align: center; }
+    #contact .section-desc { margin: 0 auto 40px; }
+    .contact-links { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
+    footer { border-top: 1px solid var(--border); padding: 32px 0; text-align: center; font-size: 0.8rem; color: var(--muted); }
 
-    @media (max-width: 768px) {
-      .hero-flex { flex-direction: column-reverse; align-items: flex-start; gap: 24px; }
-      .hero-avatar { width: 120px; height: 120px; font-size: 3.5rem; }
+    /* ── Responsive ─────────────────────────────── */
+    @media (max-width: 860px) {
+      .projects-grid  { grid-template-columns: 1fr; } /* タブレット以下は1カラムに戻す */
+    }
+    @media (max-width: 700px) {
+      .about-grid     { grid-template-columns: 1fr; }
+      .skills-grid    { grid-template-columns: 1fr 1fr; }
+      .timeline-item  { grid-template-columns: 80px 1fr; gap: 16px; }
+      .nav-links a    { display: none; }
+    }
+    @media (max-width: 480px) {
       .skills-grid { grid-template-columns: 1fr; }
-      .highlight-grid { grid-template-columns: 1fr; }
-      .project-card { padding: 32px 24px; }
-      .timeline-item { grid-template-columns: 1fr; gap: 8px; }
-      .nav-links a:not(.lang-toggle) { display: none; }
+      .about-stats { grid-template-columns: 1fr 1fr; }
     }
   </style>
 </head>
@@ -122,97 +328,66 @@
     <div class="nav-inner">
       <div class="nav-logo">Manami Oyama</div>
       <div class="nav-links">
-        <a href="#about" data-i18n="nav_about">About</a>
+        <a href="#about"    data-i18n="nav_about">About</a>
         <a href="#projects" data-i18n="nav_projects">Projects</a>
-        <a href="#experience" data-i18n="nav_exp">Experience</a>
-        <a href="#contact" data-i18n="nav_contact">Contact</a>
+        <a href="#skills"   data-i18n="nav_skills">Skills</a>
+        <a href="#contact"  data-i18n="nav_contact">Contact</a>
         <div class="lang-toggle">
           <button class="lang-btn active" data-lang-btn="en">EN</button>
-          <button class="lang-btn" data-lang-btn="ja">JA</button>
+          <button class="lang-btn"        data-lang-btn="ja">JA</button>
         </div>
       </div>
     </div>
   </nav>
 
   <section id="hero">
-    <div class="container hero-flex">
-      <div class="hero-content">
-        <p class="hero-eyebrow" data-i18n="hero_eyebrow">Sr. Data Scientist & PM</p>
-        <h1 class="hero-name">Manami<br><em>Oyama</em></h1>
-        <p class="hero-tagline" data-i18n="hero_tagline">Transforming Operational Complexity into Profit through Mathematical Optimization & AI.</p>
-        <div style="display: flex; gap: 20px; flex-wrap: wrap; color: var(--muted); font-size: 0.85rem; margin-bottom: 36px;">
-          <span>● Honolulu, Hawaii</span>
-          <span>● KCC · CPT Eligible</span>
-          <span>● 15+ Years Business Experience</span>
-        </div>
-        <div style="display: flex; gap: 12px; flex-wrap: wrap;">
-          <a href="#contact" class="btn btn-primary" data-i18n="hero_cta2">Request a Conversation</a>
-          <a href="#projects" class="btn btn-outline" data-i18n="hero_cta1">View Projects</a>
-          <a href="#" class="btn btn-outline" data-i18n="hero_resume">📄 Resume (PDF)</a>
-        </div>
-      </div>
-      <div class="hero-avatar">
-        👩🏻‍💻
-        </div>
-    </div>
-  </section>
-
-  <section id="about" style="padding-top: 60px;">
     <div class="container">
-      <h2 style="font-family: var(--serif); font-size: 2.5rem; margin-bottom: 40px;" data-i18n="about_title">Bridging Data & Real-world Profit</h2>
-      <div style="display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 60px;">
-        <div>
-          <p style="margin-bottom: 24px; color: var(--muted);" data-i18n="about_p1">I specialize in building end-to-end AI applications that don't just predict the future, but optimize it. Based in Honolulu, I help businesses navigate operational complexity using data-driven logic.</p>
-          <p style="color: var(--muted);" data-i18n="about_p2">With 15 years of business background in Japan and Canada, I design solutions that reduce costs and maximize ROI by understanding the human and economic constraints of every problem.</p>
-        </div>
-        <div>
-          <div style="border-left: 2px solid var(--accent); padding-left: 24px; margin-bottom: 32px;">
-            <div style="font-family: var(--serif); font-size: 2rem; color: var(--accent);">15+</div>
-            <div style="font-size: 0.8rem; color: var(--muted);" data-i18n="stat_biz">Years Business<br>Management</div>
-          </div>
-          <div style="border-left: 2px solid var(--accent); padding-left: 24px;">
-            <div style="font-family: var(--serif); font-size: 2rem; color: var(--accent);">4.5</div>
-            <div style="font-size: 0.8rem; color: var(--muted);" data-i18n="stat_ds">Years Data Science<br>Experience</div>
-          </div>
-        </div>
+      <p class="hero-eyebrow" data-i18n="hero_eyebrow">AI Engineer · Data Scientist · PM</p>
+      <h1 class="hero-name">
+        Manami<br><em>Oyama</em>
+      </h1>
+      <p class="hero-tagline" data-i18n="hero_tagline">
+        Building intelligent systems at the intersection of optimization, machine learning, and product thinking — from Honolulu, Hawaii.
+      </p>
+      <div class="hero-meta">
+        <div class="hero-meta-item"><span class="dot"></span><span data-i18n="hero_location">Honolulu, Hawaii</span></div>
+        <div class="hero-meta-item"><span class="dot"></span><span data-i18n="hero_school">KCC · CPT Eligible</span></div>
+        <div class="hero-meta-item"><span class="dot"></span><span data-i18n="hero_exp">9+ Years Experience</span></div>
+      </div>
+      <div class="hero-cta">
+        <a href="#projects" class="btn btn-primary" data-i18n="hero_cta1">View Projects</a>
+        <a href="#contact"  class="btn btn-outline"  data-i18n="hero_cta2">Get in Touch</a>
       </div>
     </div>
   </section>
 
-  <section id="skills">
+  <section id="about">
     <div class="container">
-      <p class="section-label" data-i18n="skills_label">Skills</p>
-      <h2 style="font-family: var(--serif); font-size: 2.5rem; margin-bottom: 48px;" data-i18n="skills_title">Technical Expertise</h2>
-      <div class="skills-grid">
-        <div class="skill-group">
-          <div class="skill-group-icon">🧠</div>
-          <h3 class="skill-group-title" data-i18n="skill_ai">AI & Optimization</h3>
-          <ul class="skill-list">
-            <li>Mathematical Optimization</li>
-            <li>Google OR-Tools / CP-SAT</li>
-            <li>LLM Integration (Gemini/OpenAI)</li>
-            <li>Prompt Engineering</li>
-          </ul>
+      <p class="section-label" data-i18n="about_label">About</p>
+      <h2 class="section-title" data-i18n="about_title">Data Scientist<br>turned AI Engineer</h2>
+      <div class="about-grid">
+        <div class="about-text">
+          <p data-i18n="about_p1">I'm an AI Engineer and Data Scientist based in Honolulu, Hawaii, currently studying at Kapiolani Community College while working as a freelancer. I specialize in building AI-powered applications that solve real-world problems.</p>
+          <p data-i18n="about_p2">My background spans data science, AI engineering, and web development — giving me the ability to take a project from model design to deployed product. I'm passionate about mathematical optimization, LLM integration, and product thinking.</p>
+          <p data-i18n="about_p3">Currently seeking CPT part-time positions in Data Science or AI Engineering roles.</p>
         </div>
-        <div class="skill-group">
-          <div class="skill-group-icon">📊</div>
-          <h3 class="skill-group-title" data-i18n="skill_ds">Data Science</h3>
-          <ul class="skill-list">
-            <li>Python / SQL</li>
-            <li>Uplift Modeling</li>
-            <li>Survival Analysis</li>
-            <li>Data Visualization (Plotly)</li>
-          </ul>
-        </div>
-        <div class="skill-group">
-          <div class="skill-group-icon">📋</div>
-          <h3 class="skill-group-title" data-i18n="skill_pm">Product & Web</h3>
-          <ul class="skill-list">
-            <li>Flask / Streamlit</li>
-            <li>Docker / Git</li>
-            <li>UX Design & Roadmapping</li>
-            <li>Bilingual (English/Japanese)</li>
-          </ul>
+        <div class="about-stats">
+          <div class="stat-card">
+            <div class="stat-number">4</div>
+            <div class="stat-label" data-i18n="stat1">Years as<br>Data Scientist</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">2</div>
+            <div class="stat-label" data-i18n="stat2">Years as<br>AI Engineer</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">3</div>
+            <div class="stat-label" data-i18n="stat3">Years as<br>Web Developer</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">4</div>
+            <div class="stat-label" data-i18n="stat4">Portfolio<br>Projects</div>
+          </div>
         </div>
       </div>
     </div>
@@ -220,148 +395,281 @@
 
   <section id="projects">
     <div class="container">
-      <p class="section-label" data-i18n="proj_label">Optimization Showcase</p>
-      <h2 style="font-family: var(--serif); font-size: 2.5rem; margin-bottom: 48px;" data-i18n="proj_title">Turning Data into<br>Actionable Decisions</h2>
+      <p class="section-label" data-i18n="proj_label">Projects</p>
+      <h2 class="section-title" data-i18n="proj_title">Featured Work</h2>
+      <p class="section-desc" data-i18n="proj_desc">
+        AI-powered applications that demonstrate end-to-end product and engineering capabilities.
+      </p>
 
-      <div class="project-card">
-        <p class="project-subtitle" data-i18n="p1_sub">AI × Mathematical Optimization</p>
-        <h3 class="project-title">The Life-Value Optimizer</h3>
-        <p class="project-desc" data-i18n="p1_desc">A full-stack optimizer solving the "knapsack problem" for lifestyle investments. This logic is directly transferable to Logistics Route Optimization, Inventory Allocation, and Staff Scheduling.</p>
-        <div class="project-links">
-          <a href="https://life-value-optimizer-mh.streamlit.app/" target="_blank" class="link-item">↗ Live App</a>
-          <a href="how-it-works-life-value-optimizer.html" class="link-item">ⓘ How It Works</a>
-          <a href="https://github.com/your-username/life-value-optimizer" target="_blank" class="link-item">GitHub</a>
-        </div>
-      </div>
+      <div class="projects-grid">
 
-      <div class="project-card">
-        <p class="project-subtitle" data-i18n="p2_sub">Structured AI Strategy Tool</p>
-        <h3 class="project-title">AI Prompt Builder</h3>
-        <p class="project-desc" data-i18n="p2_desc">A pro-grade tool for generating high-fidelity, role-aware prompts. Standardizes AI output quality across business units, from marketing to technical strategy.</p>
-        <div class="project-links">
-          <a href="https://prompt-builder-x051.onrender.com/" target="_blank" class="link-item">↗ Live App</a>
-          <a href="how-it-works-prompt-builder.html" class="link-item">ⓘ How It Works</a>
-          <a href="https://github.com/your-username/ai-prompt-builder" target="_blank" class="link-item">GitHub</a>
+        <div class="project-card">
+          <div class="project-content-main">
+            <p class="project-number">01</p>
+            <h3 class="project-title">The Life-Value Optimizer</h3>
+            <p class="project-subtitle" data-i18n="p1_sub">AI × Mathematical Optimization Web App</p>
+            <p class="project-desc" data-i18n="p1_desc">
+              A full-stack web application that finds the optimal combination of lifestyle spending within a real budget. Treats purchases as investment decisions — gym memberships, travel funds, and subscriptions compete directly against savings goals using utility theory and OR-Tools' CP-SAT solver.
+            </p>
+            <div class="project-tags">
+              <span class="tag">Python</span><span class="tag">Streamlit</span><span class="tag">OR-Tools</span>
+              <span class="tag">Gemini API</span><span class="tag">Utility Theory</span>
+            </div>
+            <div class="project-links">
+              <a href="https://life-value-optimizer-mh.streamlit.app/" target="_blank" class="project-link">
+                ↗ <span data-i18n="link_demo">Live Demo</span>
+              </a>
+              <a href="how-it-works-life-value-optimizer.html" class="project-link">ⓘ How It Works</a>
+              <a href="https://github.com/your-username/life-value-optimizer" target="_blank" class="project-link">↗ GitHub</a>
+            </div>
+          </div>
+          <div class="project-badge">
+            <div class="badge-icon">💰</div>
+            <div class="badge-label" data-i18n="p1_badge">CP-SAT<br>Optimization</div>
+          </div>
         </div>
+
+        <div class="project-card">
+          <div class="project-content-main">
+            <p class="project-number">02</p>
+            <h3 class="project-title">AI Prompt Builder</h3>
+            <p class="project-subtitle" data-i18n="p2_sub">Structured Prompt Engineering Tool</p>
+            <p class="project-desc" data-i18n="p2_desc">
+              A personal AI assistant that generates structured, role-aware prompts across 10 domains — from AI/PM strategy to recipe creation. Injects user profile context, assigns expert personas to the AI, and supports both Gemini and OpenAI models interchangeably.
+            </p>
+            <div class="project-tags">
+              <span class="tag">Python</span><span class="tag">Flask</span><span class="tag">Gemini / OpenAI</span>
+              <span class="tag">Prompt Engineering</span>
+            </div>
+            <div class="project-links">
+              <a href="https://prompt-builder-x051.onrender.com/" target="_blank" class="project-link">
+                ↗ <span data-i18n="link_demo">Live Demo</span>
+              </a>
+              <a href="how-it-works-prompt-builder.html" class="project-link">ⓘ How It Works</a>
+              <a href="https://github.com/your-username/ai-prompt-builder" target="_blank" class="project-link">↗ GitHub</a>
+            </div>
+          </div>
+          <div class="project-badge">
+            <div class="badge-icon">🤖</div>
+            <div class="badge-label" data-i18n="p2_badge">Multi-LLM<br>Integration</div>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="project-content-main">
+            <p class="project-number">03</p>
+            <h3 class="project-title">Shift Optimizer</h3>
+            <p class="project-subtitle" data-i18n="p3_sub">Constraint Programming / Workforce Scheduling</p>
+            <p class="project-desc" data-i18n="p3_desc">
+              An AI-powered scheduling system that replaces manual spreadsheets. It uses Google's OR-Tools (CP-SAT) to mathematically prove the optimal schedule for 30+ employees, guaranteeing hard rules (like minimum staff and labor laws) while minimizing employee dissatisfaction (soft preferences).
+            </p>
+            <div class="project-tags">
+              <span class="tag">Python</span><span class="tag">Streamlit</span><span class="tag">OR-Tools</span>
+              <span class="tag">Constraint Programming</span><span class="tag">Plotly</span>
+            </div>
+            <div class="project-links">
+              <a href="https://shift-optimizer-3mw2yb9vwve4iva6b4rpbu.streamlit.app/" target="_blank" class="project-link">
+                ↗ <span data-i18n="link_demo">Live Demo</span>
+              </a>
+              <a href="how-it-works-shift-optimizer.html" class="project-link">ⓘ How It Works</a>
+            </div>
+          </div>
+          <div class="project-badge">
+            <div class="badge-icon">📅</div>
+            <div class="badge-label" data-i18n="p3_badge">Automated<br>Scheduling</div>
+          </div>
+        </div>
+
+        <div class="project-card" style="border: 2px dashed var(--border); background: transparent;">
+          <div class="project-content-main" style="opacity: 0.6;">
+            <p class="project-number">04</p>
+            <h3 class="project-title">Promo ROI Predictor</h3>
+            <p class="project-subtitle" data-i18n="p4_sub">Uplift Modeling Dashboard / Coming Soon</p>
+            <p class="project-desc" data-i18n="p4_desc">
+              A dashboard demonstrating Uplift Modeling on retail customer data (e.g. Starbucks promotion data). It segments customers to identify the "Persuadables"—proving how targeted promotions can halve marketing costs while maintaining the same revenue.
+            </p>
+            <div class="project-tags">
+              <span class="tag">Python</span><span class="tag">scikit-uplift</span><span class="tag">Causal Inference</span>
+            </div>
+            <div class="project-links">
+              <span class="project-link" style="cursor: default; color: var(--muted);" data-i18n="p4_status">🚧 In Development</span>
+            </div>
+          </div>
+          <div class="project-badge" style="opacity: 0.6; background: transparent;">
+            <div class="badge-icon">📈</div>
+            <div class="badge-label" data-i18n="p4_badge">Marketing<br>ROI</div>
+          </div>
+        </div>
+
       </div>
     </div>
   </section>
 
-  <section id="experience">
+  <section id="skills">
     <div class="container">
-      <p class="section-label" data-i18n="exp_label">Experience</p>
-      <h2 style="font-family: var(--serif); font-size: 2.5rem; margin-bottom: 40px;" data-i18n="exp_title">Professional Background</h2>
-      
-      <div class="highlight-grid">
-        <div class="highlight-card">
-          <div style="font-size: 1.8rem; margin-bottom: 12px;">🛒</div>
-          <h3 style="font-family: var(--serif); font-size: 1.15rem; margin-bottom: 8px;" data-i18n="hl1_title">eCommerce Uplift Modeling</h3>
-          <p style="font-size: 0.9rem; color: var(--muted); line-height: 1.6;" data-i18n="hl1_desc">Identified persuadable customer segments, optimizing promotional budgets and significantly improving marketing ROI.</p>
+      <p class="section-label" data-i18n="skills_label">Skills</p>
+      <h2 class="section-title" data-i18n="skills_title">Technical Expertise</h2>
+      <div class="skills-grid">
+        <div class="skill-group">
+          <div class="skill-group-icon">🧠</div>
+          <h3 class="skill-group-title" data-i18n="skill_ai">AI & Machine Learning</h3>
+          <ul class="skill-list">
+            <li>Mathematical Optimization</li>
+            <li>OR-Tools / CP-SAT</li>
+            <li>LLM Integration</li>
+            <li>Prompt Engineering</li>
+            <li>Model Development</li>
+          </ul>
         </div>
-        <div class="highlight-card">
-          <div style="font-size: 1.8rem; margin-bottom: 12px;">⚙️</div>
-          <h3 style="font-family: var(--serif); font-size: 1.15rem; margin-bottom: 8px;" data-i18n="hl2_title">IoT Survival Analysis</h3>
-          <p style="font-size: 0.9rem; color: var(--muted); line-height: 1.6;" data-i18n="hl2_desc">Built predictive models for hardware failure, enabling proactive maintenance and reducing operational downtime.</p>
+        <div class="skill-group">
+          <div class="skill-group-icon">📊</div>
+          <h3 class="skill-group-title" data-i18n="skill_ds">Data Science</h3>
+          <ul class="skill-list">
+            <li>Python (Primary)</li>
+            <li>Data Engineering</li>
+            <li>Statistical Analysis</li>
+            <li>Visualization (Plotly)</li>
+            <li>pandas / numpy</li>
+          </ul>
+        </div>
+        <div class="skill-group">
+          <div class="skill-group-icon">🌐</div>
+          <h3 class="skill-group-title" data-i18n="skill_web">Web Development</h3>
+          <ul class="skill-list">
+            <li>Flask / Streamlit</li>
+            <li>REST API Design</li>
+            <li>HTML / CSS / JS</li>
+            <li>Docker</li>
+            <li>GitHub</li>
+          </ul>
         </div>
       </div>
 
-      <div class="timeline">
-        <div class="timeline-item">
-          <div class="timeline-year">2023 – Pres.</div>
-          <div>
-            <div class="timeline-role" data-i18n="exp1_role">Freelance AI Engineer & PM</div>
-            <div style="font-size: 0.9rem; color: var(--muted);" data-i18n="exp1_detail">Focusing on mathematical optimization and LLM solutions for operational efficiency.</div>
+      <div style="margin-top: 60px;">
+        <p class="section-label" data-i18n="exp_label">Experience</p>
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-year" data-i18n="exp1_year">2023 –</div>
+            <div>
+              <div class="timeline-role" data-i18n="exp1_role">AI Engineer / PM · Freelance</div>
+              <div class="timeline-detail" data-i18n="exp1_detail">Full-stack AI application development, LLM integration, mathematical optimization</div>
+            </div>
           </div>
-        </div>
-        <div class="timeline-item">
-          <div class="timeline-year">2019 – 2023</div>
-          <div>
-            <div class="timeline-role" data-i18n="exp2_role">Data Scientist (eCommerce & IoT)</div>
-            <div style="font-size: 0.9rem; color: var(--muted);" data-i18n="exp2_detail">Implemented predictive models and data pipelines to drive business intelligence.</div>
+          <div class="timeline-item">
+            <div class="timeline-year" data-i18n="exp2_year">2019 – 2023</div>
+            <div>
+              <div class="timeline-role" data-i18n="exp2_role">Data Scientist · 4 years</div>
+              <div class="timeline-detail" data-i18n="exp2_detail">Statistical modeling, data pipeline engineering, business intelligence</div>
+            </div>
           </div>
-        </div>
-        <div class="timeline-item">
-          <div class="timeline-year">2016 – 2019</div>
-          <div>
-            <div class="timeline-role" data-i18n="exp3_role">Web Developer & Office Manager</div>
-            <div style="font-size: 0.9rem; color: var(--muted);" data-i18n="exp3_detail">Achieved full profitability within 3 years (2 years ahead of plan) through data-driven management.</div>
+          <div class="timeline-item">
+            <div class="timeline-year" data-i18n="exp3_year">2016 – 2019</div>
+            <div>
+              <div class="timeline-role" data-i18n="exp3_role">Web Developer · 3 years</div>
+              <div class="timeline-detail" data-i18n="exp3_detail">Full-stack web development, backend APIs, frontend implementation</div>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <section id="contact" style="background: #fff; border-bottom: none;">
+  <section id="contact">
     <div class="container">
-      <div class="offer-box">
-        <h3 style="font-family: var(--serif); font-size: 1.8rem; margin-bottom: 20px;" data-i18n="offer_title">Open for CPT Collaboration</h3>
-        <p style="color: var(--muted); margin-bottom: 32px; line-height: 1.6;" data-i18n="offer_desc">Currently seeking CPT part-time opportunities. <br><br><b>(Note: CPT requires no visa sponsorship or complex paperwork for the employer.)</b><br><br>I look for project-based collaboration to demonstrate how data science can solve your specific business challenges. Let’s start with an informational conversation about your current operations.</p>
-        <div style="display: flex; justify-content: center; gap: 16px; flex-wrap: wrap;">
-          <a href="mailto:your@email.com" class="btn btn-primary" data-i18n="contact_btn">Email Me</a>
-          <a href="https://linkedin.com/in/your-profile" target="_blank" class="btn btn-outline">LinkedIn</a>
-          <a href="#" class="btn btn-outline" data-i18n="hero_resume">📄 Resume (PDF)</a>
-        </div>
+      <p class="section-label" data-i18n="contact_label">Contact</p>
+      <h2 class="section-title" data-i18n="contact_title">Let's Work Together</h2>
+      <p class="section-desc" data-i18n="contact_desc">
+        Currently seeking CPT part-time positions in Data Science or AI Engineering. Open to collaborations and conversations.
+      </p>
+      <div class="contact-links">
+        <a href="mailto:your@email.com" class="btn btn-primary">✉ <span data-i18n="contact_email">Email Me</span></a>
+        <a href="https://linkedin.com/in/your-profile" target="_blank" class="btn btn-outline">↗ LinkedIn</a>
+        <a href="https://github.com/your-username" target="_blank" class="btn btn-outline">↗ GitHub</a>
       </div>
     </div>
   </section>
 
-  <footer style="padding: 40px 0; text-align: center; font-size: 0.8rem; color: var(--muted);">
-    <p>© 2026 Manami Oyama · Honolulu, HI</p>
+  <footer>
+    <div class="container">
+      <p data-i18n="footer">© 2026 Manami Oyama · Built with HTML, CSS & JavaScript</p>
+    </div>
   </footer>
 
   <script>
     const TRANSLATIONS = {
       en: {
-        nav_about: "About", nav_projects: "Projects", nav_exp: "Experience", nav_contact: "Contact",
-        hero_eyebrow: "Sr. Data Scientist & PM",
-        hero_tagline: "Transforming Operational Complexity into Profit through Mathematical Optimization & AI.",
-        hero_cta1: "View Projects", hero_cta2: "Request a Conversation", hero_resume: "📄 Resume (PDF)",
-        about_title: "Bridging Data & Real-world Profit",
-        about_p1: "I specialize in building end-to-end AI applications that don't just predict the future, but optimize it. Based in Honolulu, I help businesses navigate operational complexity using data-driven logic.",
-        about_p2: "With 15 years of business background in Japan and Canada, I design solutions that reduce costs and maximize ROI by understanding the human and economic constraints of every problem.",
-        stat_biz: "Years Business<br>Management", stat_ds: "Years Data Science<br>Experience",
+        nav_about:    "About", nav_projects: "Projects", nav_skills:   "Skills", nav_contact:  "Contact",
+        hero_eyebrow: "AI Engineer · Data Scientist · PM",
+        hero_tagline: "Building intelligent systems at the intersection of optimization, machine learning, and product thinking — from Honolulu, Hawaii.",
+        hero_location:"Honolulu, Hawaii", hero_school:  "KCC · CPT Eligible", hero_exp:     "9+ Years Experience",
+        hero_cta1:    "View Projects", hero_cta2:    "Get in Touch",
+        about_label:  "About", about_title:  "Data Scientist\nturned AI Engineer",
+        about_p1:     "I'm an AI Engineer and Data Scientist based in Honolulu, Hawaii, currently studying at Kapiolani Community College while working as a freelancer. I specialize in building AI-powered applications that solve real-world problems.",
+        about_p2:     "My background spans data science, AI engineering, and web development — giving me the ability to take a project from model design to deployed product. I'm passionate about mathematical optimization, LLM integration, and product thinking.",
+        about_p3:     "Currently seeking CPT part-time positions in Data Science or AI Engineering roles.",
+        stat1: "Years as\nData Scientist", stat2: "Years as\nAI Engineer", stat3: "Years as\nWeb Developer", stat4: "Portfolio\nProjects",
+        proj_label:   "Projects", proj_title:   "Featured Work",
+        proj_desc:    "AI-powered applications that demonstrate end-to-end product and engineering capabilities.",
+        p1_sub:       "AI × Mathematical Optimization Web App",
+        p1_desc:      "A full-stack web application that finds the optimal combination of lifestyle spending within a real budget. Treats purchases as investment decisions — gym memberships, travel funds, and subscriptions compete directly against savings goals using utility theory and OR-Tools' CP-SAT solver.",
+        p1_badge:     "CP-SAT\nOptimization",
+        p2_sub:       "Structured Prompt Engineering Tool",
+        p2_desc:      "A personal AI assistant that generates structured, role-aware prompts across 10 domains — from AI/PM strategy to recipe creation. Injects user profile context, assigns expert personas to the AI, and supports both Gemini and OpenAI models interchangeably.",
+        p2_badge:     "Multi-LLM\nIntegration",
+        p3_sub:       "Constraint Programming / Workforce Scheduling",
+        p3_desc:      "An AI-powered scheduling system that replaces manual spreadsheets. It uses Google's OR-Tools (CP-SAT) to mathematically prove the optimal schedule for 30+ employees, guaranteeing hard rules (like minimum staff and labor laws) while minimizing employee dissatisfaction (soft preferences).",
+        p3_badge:     "Automated\nScheduling",
+        p4_sub:       "Uplift Modeling / Coming Soon",
+        p4_desc:      "A dashboard demonstrating Uplift Modeling on retail customer data. It segments customers into 4 quadrants to identify the 'Persuadables'—proving how targeted promotions can halve marketing costs while maintaining the same revenue.",
+        p4_status:    "🚧 In Development",
+        p4_badge:     "Marketing\nROI",
+        link_demo:    "Live Demo",
         skills_label: "Skills", skills_title: "Technical Expertise",
-        skill_ai: "AI & Optimization", skill_ds: "Data Science", skill_pm: "Product & Web",
-        proj_label: "Optimization Showcase", proj_title: "Turning Data into<br>Actionable Decisions",
-        p1_sub: "AI × Mathematical Optimization",
-        p1_desc: "A full-stack optimizer solving the 'knapsack problem' for lifestyle investments. This logic is directly transferable to Logistics Route Optimization, Inventory Allocation, and Staff Scheduling.",
-        p2_sub: "Structured AI Strategy Tool",
-        p2_desc: "A pro-grade tool for generating high-fidelity, role-aware prompts. Standardizes AI output quality across business units, from marketing to technical strategy.",
-        exp_label: "Experience", exp_title: "Professional Background",
-        hl1_title: "eCommerce Uplift Modeling", hl1_desc: "Identified persuadable customer segments, optimizing promotional budgets and significantly improving marketing ROI.",
-        hl2_title: "IoT Survival Analysis", hl2_desc: "Built predictive models for hardware failure, enabling proactive maintenance and reducing operational downtime.",
-        exp1_role: "Freelance AI Engineer & PM", exp1_detail: "Focusing on mathematical optimization and LLM solutions for operational efficiency.",
-        exp2_role: "Data Scientist (eCommerce & IoT)", exp2_detail: "Implemented predictive models and data pipelines to drive business intelligence.",
-        exp3_role: "Web Developer & Office Manager", exp3_detail: "Achieved full profitability within 3 years (2 years ahead of plan) through data-driven management.",
-        offer_title: "Open for CPT Collaboration",
-        offer_desc: "Currently seeking CPT part-time opportunities.<br><br><b>(Note: CPT requires no visa sponsorship and involves zero complex paperwork for the employer.)</b><br><br>I look for project-based collaboration to demonstrate how data science can solve your specific business challenges. Let’s start with an informational conversation about your current operations.",
-        contact_btn: "Email Me"
+        skill_ai:     "AI & Machine Learning", skill_ds:     "Data Science", skill_web:    "Web Development",
+        exp_label:    "Experience",
+        exp1_year:    "2023 –", exp1_role:    "AI Engineer / PM · Freelance", exp1_detail:  "Full-stack AI application development, LLM integration, mathematical optimization",
+        exp2_year:    "2019 – 2023", exp2_role:    "Data Scientist · 4 years", exp2_detail:  "Statistical modeling, data pipeline engineering, business intelligence",
+        exp3_year:    "2016 – 2019", exp3_role:    "Web Developer · 3 years", exp3_detail:  "Full-stack web development, backend APIs, frontend implementation",
+        contact_label:"Contact", contact_title:"Let's Work Together",
+        contact_desc: "Currently seeking CPT part-time positions in Data Science or AI Engineering. Open to collaborations and conversations.",
+        contact_email:"Email Me", footer: "© 2026 Manami Oyama · Built with HTML, CSS & JavaScript",
       },
       ja: {
-        nav_about: "紹介", nav_projects: "実績", nav_exp: "経歴", nav_contact: "連絡先",
-        hero_eyebrow: "シニアデータサイエンティスト & PM",
-        hero_tagline: "数理最適化とAIで、業務の複雑さを「利益」に変える。",
-        hero_cta1: "実績を見る", hero_cta2: "情報交換を依頼", hero_resume: "📄 レジュメ (PDF)",
-        about_title: "データと現場の利益を繋ぐ",
-        about_p1: "単に未来を予測するだけでなく、未来を「最適化」するエンドツーエンドのAIアプリ構築を専門としています。ホノルルを拠点に、データ駆動型の論理で複雑な業務課題の解決を支援します。",
-        about_p2: "日本とカナダでの15年のビジネス経験を活かし、人間心理と経済的制約の両面を理解した上で、コスト削減とROI最大化を実現する解決策を設計します。",
-        stat_biz: "ビジネス・マネジメント<br>経験年数", stat_ds: "データサイエンス<br>経験年数",
-        skills_label: "スキル", skills_title: "技術スタック",
-        skill_ai: "AI & 数理最適化", skill_ds: "データサイエンス", skill_pm: "プロダクト & Web",
-        proj_label: "数理最適化の実績", proj_title: "データを「意思決定」に<br>変える力",
-        p1_sub: "AI × 数理最適化 Webアプリ",
-        p1_desc: "ライフスタイル投資の「ナップサック問題」を解くフルスタック最適化ツール。このロジックは配送ルート最適化、在庫配分、シフト作成にそのまま転用可能です。",
-        p2_sub: "構造化AI戦略ツール",
-        p2_desc: "高品質な役割認識プロンプトを生成するプロ向けツール。マーケティングから技術戦略まで、組織全体のAI出力品質を標準化します。",
-        exp_label: "経歴", exp_title: "実務経験とハイライト",
-        hl1_title: "ECサイトのUplift Modeling", hl1_desc: "説得可能な顧客セグメントを特定し、販促予算を最適化。マーケティングROIを大幅に向上させました。",
-        hl2_title: "IoTデバイスの生存時間分析", hl2_desc: "ハードウェアの故障予測モデルを構築し、プロアクティブな保守とダウンタイムの削減を実現しました。",
-        exp1_role: "AIエンジニア / PM（フリーランス）", exp1_detail: "数理最適化とLLMを活用し、業務効率化ソリューションに注力。",
-        exp2_role: "データサイエンティスト（EC & IoT）", exp2_detail: "予測モデルとデータパイプラインを構築し、ビジネスインテリジェンスを推進。",
-        exp3_role: "Web開発 & オフィスマネージャー", exp3_detail: "データ駆動型経営により、3年での黒字化（計画より2年早期）を達成。",
-        offer_title: "CPTでのプロジェクト協力",
-        offer_desc: "現在、CPT（学外就労許可）を活用したパートタイムの機会を探しています。<br><br><b>（※CPTは企業側でのビザスポンサーや複雑な手続きは一切不要です）</b><br><br>まずは特定の課題に基づいたプロジェクトベースの協力から始め、私の専門性が貴社の実業務にどのように貢献できるか判断いただければ幸いです。まずは情報交換から始めさせてください。",
-        contact_btn: "メールを送る"
+        nav_about:    "About", nav_projects: "Projects", nav_skills:   "Skills", nav_contact:  "Contact",
+        hero_eyebrow: "AIエンジニア · データサイエンティスト · PM",
+        hero_tagline: "数理最適化・機械学習・プロダクト思考の交差点でインテリジェントなシステムを構築しています。ハワイ・ホノルル在住。",
+        hero_location:"ホノルル、ハワイ", hero_school:  "KCC在籍 · CPT対象", hero_exp:     "9年以上の経験",
+        hero_cta1:    "プロジェクトを見る", hero_cta2:    "お問い合わせ",
+        about_label:  "About", about_title:  "データサイエンティストから\nAIエンジニアへ",
+        about_p1:     "ハワイ・ホノルルを拠点に活動するAIエンジニア兼データサイエンティストです。現在Kapiolani Community Collegeに在籍しながら、フリーランスとして活動しています。現実の課題を解決するAIアプリケーションの構築を専門としています。",
+        about_p2:     "データサイエンス・AIエンジニアリング・Web開発という幅広いバックグラウンドにより、モデル設計からデプロイまで一貫して対応できます。数理最適化・LLM連携・プロダクト思考に情熱を持っています。",
+        about_p3:     "現在、データサイエンス・AIエンジニアリング分野でのCPTパートタイムポジションを探しています。",
+        stat1: "データサイエンティスト\n経験年数", stat2: "AIエンジニア\n経験年数", stat3: "Web開発\n経験年数", stat4: "ポートフォリオ\nプロジェクト",
+        proj_label:   "Projects", proj_title:   "制作実績",
+        proj_desc:    "エンドツーエンドのプロダクト・エンジニアリング能力を示すAIアプリケーションです。",
+        p1_sub:       "AI × 数理最適化 Webアプリ",
+        p1_desc:      "限られた予算の中でライフスタイル支出の最適な組み合わせを見つけるWebアプリ。ジム・旅行・サブスクが貯蓄目標と直接競合する効用理論ベースの設計。OR-ToolsのCP-SATソルバーを活用。",
+        p1_badge:     "CP-SAT\n最適化",
+        p2_sub:       "構造化プロンプトエンジニアリングツール",
+        p2_desc:      "10カテゴリにわたる構造化プロンプトを生成するAIアシスタント。ユーザープロフィールのコンテキスト注入、専門家ペルソナ割り当て、Gemini・OpenAI両対応。",
+        p2_badge:     "マルチLLM\n統合",
+        p3_sub:       "制約プログラミング / シフト自動作成ツール",
+        p3_desc:      "手作業のスプレッドシートを置き換えるAIスケジューリングシステム。GoogleのOR-Tools（CP-SAT）を活用し、ハード制約（労働法規等）を確実に守りつつ従業員の不満を最小化する最適スケジュールを証明します。",
+        p3_badge:     "シフト作成\n自動化",
+        p4_sub:       "Uplift Modeling / Coming Soon",
+        p4_desc:      "小売顧客データを用いたアップリフトモデリングのダッシュボード。顧客を4象限にセグメント化し「説得可能層」を特定することで、プロモーション費用を半減させながら同等の売上を維持する方法を証明します。",
+        p4_status:    "🚧 制作中",
+        p4_badge:     "マーケティング\nROI予測",
+        link_demo:    "ライブデモ",
+        skills_label: "Skills", skills_title: "技術スキル",
+        skill_ai:     "AI・機械学習", skill_ds:     "データサイエンス", skill_web:    "Web開発",
+        exp_label:    "経験",
+        exp1_year:    "2023年〜", exp1_role:    "AIエンジニア / PM · フリーランス", exp1_detail:  "フルスタックAIアプリ開発、LLM連携、数理最適化",
+        exp2_year:    "2019〜2023年", exp2_role:    "データサイエンティスト · 4年", exp2_detail:  "統計モデリング、データパイプライン構築、ビジネスインテリジェンス",
+        exp3_year:    "2016〜2019年", exp3_role:    "Webデベロッパー · 3年", exp3_detail:  "フルスタックWeb開発、バックエンドAPI、フロントエンド実装",
+        contact_label:"Contact", contact_title:"一緒に働きましょう",
+        contact_desc: "データサイエンス・AIエンジニアリング分野でのCPTパートタイムポジションを探しています。コラボレーションや情報交換もお気軽にどうぞ。",
+        contact_email:"メールを送る", footer: "© 2026 Manami Oyama · HTML、CSS、JavaScriptで構築",
       }
     };
 
@@ -369,16 +677,22 @@
       const t = TRANSLATIONS[lang];
       document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
-        if (t[key]) el.innerHTML = t[key];
+        if (t[key] !== undefined) {
+          el.innerHTML = t[key].replace(/\n/g, '<br>');
+        }
       });
       document.documentElement.lang = lang;
-      document.body.style.fontFamily = lang === 'ja' ? "var(--serif)" : "var(--sans)";    }
+      document.body.style.fontFamily = lang === 'ja'
+        ? "'DM Sans', 'Noto Sans JP', sans-serif"
+        : "'DM Sans', sans-serif";
+    }
 
     document.querySelectorAll('[data-lang-btn]').forEach(btn => {
       btn.addEventListener('click', () => {
+        const lang = btn.getAttribute('data-lang-btn');
         document.querySelectorAll('[data-lang-btn]').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
-        applyLang(btn.getAttribute('data-lang-btn'));
+        applyLang(lang);
       });
     });
 
