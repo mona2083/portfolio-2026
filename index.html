@@ -6,7 +6,7 @@
   <title>Manami Oyama — AI Engineer & Optimization Strategy</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&family=Shippori+Mincho:wght@400;500;600&family=Zen+Kaku+Gothic+New:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&family=Noto+Serif+JP:wght@300;400;500;600&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet" />
 
   <style>
     :root {
@@ -18,10 +18,8 @@
       --accent2:   #b7d5c8;
       --border:    #e2ddd6;
       --tag-bg:    #eaf2ee;
-      /* ここからフォントを変更 */
-      --serif:     'DM Serif Display', 'Shippori Mincho', 'Hiragino Mincho ProN', 'Yu Mincho', serif;
-      --sans:      'DM Sans', 'Zen Kaku Gothic New', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'YuGothic', sans-serif;
-      /* ここまで */
+      --serif:     'DM Serif Display', 'Noto Serif JP', serif;
+      --sans:      'DM Sans', 'Noto Sans JP', sans-serif;
       --radius:    12px;
       --transition: 0.3s ease;
     }
@@ -374,8 +372,7 @@
         if (t[key]) el.innerHTML = t[key];
       });
       document.documentElement.lang = lang;
-      document.body.style.fontFamily = lang === 'ja' ? "var(--sans)" : "'DM Sans', sans-serif";
-    }
+      document.body.style.fontFamily = lang === 'ja' ? "var(--serif)" : "var(--sans)";    }
 
     document.querySelectorAll('[data-lang-btn]').forEach(btn => {
       btn.addEventListener('click', () => {
