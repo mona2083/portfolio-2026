@@ -1,18 +1,26 @@
 // localStorageから保存された言語を読み込む（なければ英語）
 let currentLang = localStorage.getItem('preferredLang') || 'en';
 
+// 翻訳データを安全に取得する関数（constで定義された変数も拾えるように修正）
+function getTranslations() {
+  if (typeof PAGE_TRANSLATIONS !== 'undefined') return PAGE_TRANSLATIONS;
+  if (typeof TRANSLATIONS !== 'undefined') return TRANSLATIONS;
+  if (typeof T !== 'undefined') return T;
+  return null;
+}
+
 function applyLang(lang) {
   currentLang = lang;
   localStorage.setItem('preferredLang', lang); // 選択した言語を保存
   
-  // 各HTMLファイルに残された変数から翻訳データを読み込む
-  const translationsData = window.TRANSLATIONS || window.T || window.PAGE_TRANSLATIONS;
+  // 翻訳データを取得
+  const translationsData = getTranslations();
   
-  if (translationsData) {
+  if (translationsData && translationsData[lang]) {
     const t = translationsData[lang];
     document.querySelectorAll('[data-i18n]').forEach(el => {
       const key = el.getAttribute('data-i18n');
-      if (t && t[key] !== undefined) {
+      if (t[key] !== undefined) {
         el.innerHTML = t[key].replace(/\n/g, '<br>');
       }
     });
