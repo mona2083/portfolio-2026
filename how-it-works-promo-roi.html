@@ -32,9 +32,9 @@
       <div class="one-liner">
         <p data-i18n="one_liner">Sending coupons to <em>everyone</em> is wasteful. This app uses AI to find the exact customers where a promotion will actually change their behavior — and ignores everyone else.</p>
       </div>
-      <div style="margin-bottom: 20px;">
-        <a href="https://uplift-demo-2hybmyogzljzqureo9qvru.streamlit.app/" target="_blank" class="btn-primary" data-i18n="hero_btn">↗ Open Live App</a>
-        <a href="https://github.com/mona2083/uplift-demo" target="_blank" class="btn-outline">↗ GitHub</a>
+      <div class="btn-group fade-up" style="margin-bottom: 20px;">
+        <a href="https://uplift-demo-2hybmyogzljzqureo9qvru.streamlit.app/" target="_blank" class="btn btn-primary" data-i18n="hero_btn">↗ Open Live App</a>
+        <a href="https://github.com/mona2083/uplift-demo" target="_blank" class="btn btn-outline">↗ GitHub</a>
       </div>
     </div>
   </div>
@@ -151,28 +151,28 @@
           <div class="biz-icon">🛒</div>
           <div class="biz-industry" data-i18n="b1_ind">Grocery / Supermarket</div>
           <h3 class="biz-title" data-i18n="b1_title">Loyalty Program Member Coupon Optimization</h3>
-          <p class="biz-desc" data-i18n="b1_desc">Major Grocery Chain currently sends weekly coupon emails to all loyalty program members regardless of their purchasing behavior. Uplift Modeling on purchase history, visit frequency, and recency can identify the ~25% of members who are genuine Persuadables. Targeting only Persuadables cuts coupon distribution by 75% while maintaining or improving incremental revenue.</p>
+          <p class="biz-desc" data-i18n="b1_desc">Major Grocery Chain currently sends weekly coupon emails to all loyalty program members regardless of their purchasing behavior. Uplift Modeling on purchase history, visit frequency, and recency can identify the ~25% of members who are genuine Persuadables. The remaining 75% are either Sure Things (loyal regulars who shop anyway) or Sleeping Dogs (frequent buyers who resent promotional noise). Targeting only Persuadables cuts coupon distribution by 75% while maintaining or improving incremental revenue.</p>
           <div class="biz-result" data-i18n="b1_result">Expected: 60–75% coupon cost reduction, same incremental revenue</div>
         </div>
         <div class="biz-card">
           <div class="biz-icon">🏪</div>
           <div class="biz-industry" data-i18n="b2_ind">Discount Retail / Major Discount Retailer</div>
           <h3 class="biz-title" data-i18n="b2_title">Flash Sale Audience Selection</h3>
-          <p class="biz-desc" data-i18n="b2_desc">A major discount retailer's app sends flash sale notifications to all users, resulting in low CTR and high unsubscribe rates. Uplift Modeling on app session frequency, browsing patterns, and price sensitivity identifies which users convert on flash sales (Persuadables) vs. which open promotions but don't buy (Lost Causes).</p>
+          <p class="biz-desc" data-i18n="b2_desc">A major discount retailer's app sends flash sale notifications to all users, resulting in low CTR and high unsubscribe rates. Uplift Modeling on app session frequency, browsing patterns, and price sensitivity identifies which users convert on flash sales (Persuadables) vs. which open promotions but don't buy (Lost Causes) vs. which power users unsubscribe when over-messaged (Sleeping Dogs).</p>
           <div class="biz-result" data-i18n="b2_result">Expected: 3–5x CTR improvement, reduced VIP churn</div>
         </div>
         <div class="biz-card">
           <div class="biz-icon">👗</div>
           <div class="biz-industry" data-i18n="b3_ind">Apparel / Fashion Retail</div>
           <h3 class="biz-title" data-i18n="b3_title">End-of-Season Clearance Targeting</h3>
-          <p class="biz-desc" data-i18n="b3_desc">Apparel brands face a dilemma at season-end: deep discounts move inventory but train customers to wait for sales, eroding full-price margins. Uplift Modeling identifies customers who genuinely need a discount to purchase clearance (Persuadables) vs. full-price buyers who would purchase clearance regardless (Sure Things).</p>
+          <p class="biz-desc" data-i18n="b3_desc">Apparel brands face a dilemma at season-end: deep discounts move inventory but train customers to wait for sales, eroding full-price margins. Uplift Modeling identifies customers who genuinely need a discount to purchase clearance (Persuadables) vs. full-price buyers who would purchase clearance regardless (Sure Things). This protects pricing power while clearing inventory efficiently.</p>
           <div class="biz-result" data-i18n="b3_result">Expected: Inventory cleared at 15–20% higher average price</div>
         </div>
         <div class="biz-card">
           <div class="biz-icon">📱</div>
           <div class="biz-industry" data-i18n="b4_ind">Subscription / SaaS</div>
           <h3 class="biz-title" data-i18n="b4_title">Churn Prevention Intervention</h3>
-          <p class="biz-desc" data-i18n="b4_desc">Subscription businesses often send retention discounts to all churning users. But some churned users were leaving regardless of price (Lost Causes), and some will return on their own (Sure Things). Uplift Modeling identifies the narrow Persuadable window: customers who left for price reasons and would return with a targeted offer.</p>
+          <p class="biz-desc" data-i18n="b4_desc">Subscription businesses often send retention discounts to all churning users. But some churned users were leaving regardless of price (Lost Causes), and some will return on their own (Sure Things). Uplift Modeling on usage patterns and engagement trends identifies the narrow Persuadable window: customers who left for price reasons and would return with a targeted offer.</p>
           <div class="biz-result" data-i18n="b4_result">Expected: 40–50% reduction in unnecessary win-back discounts</div>
         </div>
         <div class="biz-card">
@@ -186,7 +186,7 @@
           <div class="biz-icon">✈️</div>
           <div class="biz-industry" data-i18n="b6_ind">Travel / Hospitality</div>
           <h3 class="biz-title" data-i18n="b6_title">Loyalty Program Upgrade Offers</h3>
-          <p class="biz-desc" data-i18n="b6_desc">Airlines and hotels send status upgrade promotions to their entire member base. Uplift Modeling segments: Persuadables (travelers on the edge of qualifying who need a nudge), Sure Things (business travelers who will upgrade regardless), and Sleeping Dogs (leisure travelers who resent being sold to). Precision targeting dramatically improves conversion.</p>
+          <p class="biz-desc" data-i18n="b6_desc">Airlines and hotels send status upgrade promotions to their entire member base. Uplift Modeling segments: Persuadables (travelers on the edge of qualifying who need a nudge), Sure Things (business travelers who will upgrade regardless), and Sleeping Dogs (leisure travelers who resent being sold to). Precision targeting dramatically improves conversion while protecting member satisfaction.</p>
           <div class="biz-result" data-i18n="b6_result">Expected: 50–70% higher upgrade conversion at same or lower offer cost</div>
         </div>
       </div>
@@ -227,9 +227,11 @@
       <p class="section-label" data-i18n="cta_label">Try It</p>
       <h2 class="section-title" data-i18n="cta_title">See it in action</h2>
       <p class="section-desc" style="margin:0 auto 28px;" data-i18n="cta_desc">Run the model on 10,000 demo customers and see the 4-quadrant breakdown in seconds. No setup required.</p>
-      <a href="https://uplift-demo-2hybmyogzljzqureo9qvru.streamlit.app/" target="_blank" class="btn-primary" data-i18n="cta_btn1">↗ Open Live App</a>
-      <a href="https://github.com/mona2083/uplift-demo" target="_blank" class="btn-outline">↗ GitHub</a>
-      <a href="index.html" class="btn-outline" data-i18n="cta_btn2">← Back to Portfolio</a>
+      <div class="btn-group">
+        <a href="https://uplift-demo-2hybmyogzljzqureo9qvru.streamlit.app/" target="_blank" class="btn btn-primary" data-i18n="cta_btn1">↗ Open Live App</a>
+        <a href="https://github.com/mona2083/uplift-demo" target="_blank" class="btn btn-outline">↗ GitHub</a>
+        <a href="index.html" class="btn btn-outline" data-i18n="cta_btn2">← Back to Portfolio</a>
+      </div>
     </div>
   </div>
 
@@ -399,7 +401,6 @@
       }
     };
   </script>
-
   <script src="js/main.js"></script>
 </body>
 </html>

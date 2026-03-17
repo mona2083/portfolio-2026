@@ -52,12 +52,62 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba
 .lang-btn { font-size: 0.75rem; font-weight: 500; padding: 3px 10px; border-radius: 16px; border: none; background: transparent; color: var(--muted); cursor: pointer; transition: all var(--transition); font-family: var(--sans); }
 .lang-btn.active { background: var(--accent); color: #fff; }
 
-/* ── Buttons ────────────────────────────────── */
-.btn { display: inline-flex; align-items: center; gap: 8px; padding: 11px 24px; border-radius: 6px; font-size: 0.9rem; font-weight: 500; font-family: var(--sans); border: none; cursor: pointer; transition: all var(--transition); text-decoration: none; }
-.btn-primary { background: var(--accent); color: #fff; }
-.btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
-.btn-outline { background: transparent; color: var(--ink); border: 1px solid var(--border); }
-.btn-outline:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); }
+/* ── Button Layout Wrapper ── */
+.btn-group {
+  display: flex;
+  justify-content: center; /* 常に中央揃え */
+  flex-wrap: wrap;         /* スマホで綺麗に折り返す */
+  gap: 16px;               /* 要素間の完璧な余白管理 */
+}
+
+/* ── Button Base (構造・レイアウト) ── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 32px;  /* タップ領域の確保 */
+  border-radius: 50px; /* ピル型（角丸） */
+  font-size: 0.95rem;
+  font-weight: 600;
+  font-family: var(--sans);
+  text-decoration: none;
+  cursor: pointer;
+  line-height: 1;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  border: 2px solid transparent; /* ホバー時のガタつき防止 */
+}
+
+/* ── Button Modifiers (装飾・状態) ── */
+.btn-primary {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+  box-shadow: 0 4px 12px rgba(45, 106, 79, 0.2);
+}
+
+.btn-primary:hover {
+  background: #1e4d38;
+  border-color: #1e4d38;
+  color: #fff;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(45, 106, 79, 0.3);
+}
+
+.btn-outline {
+  background: var(--surface);
+  color: var(--ink);
+  border-color: var(--border);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.btn-outline:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--surface);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
 
 /* ── Animations (Intersection Observer) ─────── */
 .fade-up, .project-card, .skill-group, .stat-card, .timeline-item, 
