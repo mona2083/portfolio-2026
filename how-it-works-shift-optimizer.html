@@ -7,88 +7,16 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&family=Noto+Serif+JP:wght@300;400&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
   <style>
+    /* 特定のテーマカラーを上書き */
     :root {
-      --bg:#f4f6f3;--surface:#fff;--ink:#1a1a1a;--muted:#6b6b6b;
-      --accent:#2d6a4f;--accent2:#b7d5c8;--accent3:#eaf2ee;--border:#dde8e2;
-      --serif:'DM Serif Display','Noto Serif JP',Georgia,serif;
-      --sans:'DM Sans','Noto Sans JP',sans-serif;
-      --radius:12px;--ease:0.4s ease;
+      --bg: #f4f6f3;
+      --accent: #2d6a4f;
+      --accent2: #b7d5c8;
+      --accent3: #eaf2ee;
+      --border: #dde8e2;
     }
-    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-    html{scroll-behavior:smooth;}
-    body{font-family:var(--sans);background:var(--bg);color:var(--ink);font-size:16px;line-height:1.7;font-weight:300;}
-    a{color:inherit;text-decoration:none;}
-    .container{max-width:860px;margin:0 auto;padding:0 24px;}
-    nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(244,246,243,0.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);}
-    .nav-inner{max-width:860px;margin:0 auto;padding:0 24px;height:56px;display:flex;align-items:center;justify-content:space-between;}
-    .nav-logo{font-family:var(--serif);font-size:1rem;}
-    .nav-links{display:flex;gap:16px;align-items:center;}
-    .btn-back{font-size:.82rem;font-weight:500;color:var(--accent);border:1px solid var(--accent2);border-radius:6px;padding:6px 16px;transition:all var(--ease);}
-    .btn-back:hover{background:var(--accent3);}
-    .lang-toggle{display:flex;align-items:center;gap:3px;background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:3px 5px;}
-    .lang-btn{font-size:.72rem;font-weight:500;padding:3px 9px;border-radius:16px;border:none;background:transparent;color:var(--muted);cursor:pointer;font-family:var(--sans);transition:all var(--ease);}
-    .lang-btn.active{background:var(--accent);color:#fff;}
-    .hero{padding:110px 0 56px;text-align:center;}
-    .hero-eyebrow{font-size:.75rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:14px;}
-    .hero-title{font-family:var(--serif);font-size:clamp(2rem,5vw,3.2rem);line-height:1.1;margin-bottom:18px;}
-    .hero-title em{font-style:italic;color:var(--accent);}
-    .hero-desc{color:var(--muted);max-width:500px;margin:0 auto 40px;font-size:.95rem;}
-    .one-liner{background:var(--accent);border-radius:var(--radius);padding:28px 36px;text-align:center;margin-bottom:32px;}
-    .one-liner p{font-family:var(--serif);font-size:clamp(1.1rem,2.5vw,1.5rem);color:#fff;line-height:1.45;}
-    .one-liner em{font-style:italic;opacity:.85;}
-    section{padding:60px 0;border-top:1px solid var(--border);}
-    .section-label{font-size:.72rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:8px;}
-    .section-title{font-family:var(--serif);font-size:clamp(1.5rem,3.5vw,2.1rem);line-height:1.15;margin-bottom:10px;}
-    .section-desc{color:var(--muted);max-width:540px;margin-bottom:36px;}
-    .tech-cards{display:grid;gap:18px;}
-    .tech-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px;display:grid;grid-template-columns:52px 1fr;gap:20px;align-items:start;transition:all var(--ease);opacity:0;transform:translateY(14px);}
-    .tech-card.visible{opacity:1;transform:translateY(0);}
-    .tech-card:hover{border-color:var(--accent2);box-shadow:0 4px 20px rgba(45,106,79,.07);}
-    .tech-icon{width:52px;height:52px;background:var(--accent3);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0;}
-    .tech-label{font-size:.68rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:3px;}
-    .tech-title{font-family:var(--serif);font-size:1.15rem;margin-bottom:7px;}
-    .tech-desc{font-size:.86rem;color:var(--muted);line-height:1.7;}
-    .tech-pill{display:inline-block;margin-top:10px;font-size:.7rem;font-weight:500;background:var(--accent3);color:var(--accent);border-radius:20px;padding:3px 12px;}
-    .flow{display:flex;flex-direction:column;}
-    .flow-step{display:grid;grid-template-columns:44px 1fr;gap:18px;padding:22px 0;border-bottom:1px solid var(--border);opacity:0;transform:translateX(-10px);transition:opacity .5s ease,transform .5s ease;}
-    .flow-step.visible{opacity:1;transform:translateX(0);}
-    .flow-step:last-child{border-bottom:none;}
-    .flow-num{width:38px;height:38px;background:var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:.95rem;color:#fff;flex-shrink:0;}
-    .flow-title{font-family:var(--serif);font-size:1rem;margin-bottom:5px;}
-    .flow-desc{font-size:.85rem;color:var(--muted);line-height:1.65;}
-    .flow-code{margin-top:10px;background:#1a1a1a;border-radius:8px;padding:14px 18px;font-family:'Courier New',monospace;font-size:.76rem;color:#b7d5c8;line-height:1.65;overflow-x:auto;}
-    .flow-code .cm{color:#5a8a6a;}.flow-code .kw{color:#f5c96e;}.flow-code .nu{color:#7ec8e3;}
-    .constraint-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:24px;}
-    .constraint-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:18px;opacity:0;transform:translateY(8px);transition:opacity .5s ease,transform .5s ease;}
-    .constraint-card.visible{opacity:1;transform:translateY(0);}
-    .constraint-card:hover{border-color:var(--accent2);}
-    .constraint-type{font-size:.68rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px;}
-    .constraint-type.hard{color:#c0392b;}
-    .constraint-type.soft{color:#2d6a4f;}
-    .constraint-title{font-family:var(--serif);font-size:.95rem;margin-bottom:5px;}
-    .constraint-desc{font-size:.8rem;color:var(--muted);line-height:1.6;}
-    .biz-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
-    .biz-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;opacity:0;transform:translateY(10px);transition:opacity .5s ease,transform .5s ease;}
-    .biz-card.visible{opacity:1;transform:translateY(0);}
-    .biz-card:hover{border-color:var(--accent2);}
-    .biz-icon{font-size:1.4rem;margin-bottom:10px;}
-    .biz-title{font-family:var(--serif);font-size:1rem;margin-bottom:7px;}
-    .biz-desc{font-size:.83rem;color:var(--muted);line-height:1.65;}
-    .why-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
-    .why-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:22px;opacity:0;transform:translateY(10px);transition:opacity .5s ease,transform .5s ease;}
-    .why-card.visible{opacity:1;transform:translateY(0);}
-    .why-card:hover{border-color:var(--accent2);}
-    .why-icon{font-size:1.3rem;margin-bottom:8px;}
-    .why-title{font-family:var(--serif);font-size:.95rem;margin-bottom:6px;}
-    .why-desc{font-size:.83rem;color:var(--muted);line-height:1.65;}
-    .cta-section{padding:60px 0;text-align:center;border-top:1px solid var(--border);}
-    .btn-primary{display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:#fff;padding:11px 26px;border-radius:6px;font-size:.88rem;font-weight:500;font-family:var(--sans);transition:all var(--ease);margin:5px;}
-    .btn-primary:hover{background:#1e4d38;transform:translateY(-1px);}
-    .btn-outline{display:inline-flex;align-items:center;gap:8px;background:transparent;color:var(--ink);border:1px solid var(--border);padding:11px 26px;border-radius:6px;font-size:.88rem;font-weight:500;font-family:var(--sans);transition:all var(--ease);margin:5px;}
-    .btn-outline:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-1px);}
-    footer{border-top:1px solid var(--border);padding:26px 0;text-align:center;font-size:.76rem;color:var(--muted);}
-    @media(max-width:640px){.why-grid{grid-template-columns:1fr;}.tech-card{grid-template-columns:1fr;}.constraint-grid{grid-template-columns:1fr;}.biz-grid{grid-template-columns:1fr;}}
   </style>
 </head>
 <body>
@@ -107,16 +35,19 @@
 
   <div class="hero">
     <div class="container">
-      <p class="hero-eyebrow" data-i18n="hero_eyebrow">Technical Deep Dive</p>
-      <h1 class="hero-title" data-i18n="hero_title">How the <em>Optimizer</em> works</h1>
-      <p class="hero-desc" data-i18n="hero_desc">A plain-English explanation of the AI scheduling system behind Shift Optimizer — written for hiring managers, not just engineers.</p>
-      <div class="one-liner">
+      <p class="hero-eyebrow fade-up" data-i18n="hero_eyebrow">Technical Deep Dive</p>
+      <h1 class="hero-title fade-up" data-i18n="hero_title">How the <em>Optimizer</em> works</h1>
+      <p class="hero-desc fade-up" data-i18n="hero_desc">A plain-English explanation of the AI scheduling system behind Shift Optimizer — written for hiring managers, not just engineers.</p>
+      <div class="one-liner fade-up">
         <p data-i18n="one_liner">Instead of manually juggling spreadsheets, this app <em>mathematically proves</em> the best possible schedule — satisfying every hard rule while maximizing employee happiness.</p>
+      </div>
+      <div style="margin-bottom: 20px;" class="fade-up">
+        <a href="https://shift-optimizer-3mw2yb9vwve4iva6b4rpbu.streamlit.app/" target="_blank" class="btn-primary" data-i18n="hero_btn">↗ Open Live App</a>
+        <a href="https://github.com/mona2083/shift-optimizer" target="_blank" class="btn-outline">↗ GitHub</a>
       </div>
     </div>
   </div>
 
-  <!-- Tech -->
   <section>
     <div class="container">
       <p class="section-label" data-i18n="tech_label">The Technology</p>
@@ -145,7 +76,6 @@
     </div>
   </section>
 
-  <!-- Constraints -->
   <section>
     <div class="container">
       <p class="section-label" data-i18n="con_label">Constraint Design</p>
@@ -186,7 +116,6 @@
     </div>
   </section>
 
-  <!-- Flow -->
   <section>
     <div class="container">
       <p class="section-label" data-i18n="flow_label">The Process</p>
@@ -258,7 +187,6 @@
     </div>
   </section>
 
-  <!-- Business Applications -->
   <section>
     <div class="container">
       <p class="section-label" data-i18n="biz_label">Business Applications</p>
@@ -284,7 +212,6 @@
     </div>
   </section>
 
-  <!-- Why -->
   <section>
     <div class="container">
       <p class="section-label" data-i18n="why_label">Why It Matters</p>
@@ -319,7 +246,8 @@
       <p class="section-label" data-i18n="cta_label">Try It</p>
       <h2 class="section-title" data-i18n="cta_title">See it in action</h2>
       <p class="section-desc" style="margin:0 auto 28px;" data-i18n="cta_desc">The app is live. Randomize preferences and constraints, then click Optimize.</p>
-      <a href="https://your-username-shift-optimizer.streamlit.app" target="_blank" class="btn-primary" data-i18n="cta_btn1">&#8599; Open Live App</a>
+      <a href="https://shift-optimizer-3mw2yb9vwve4iva6b4rpbu.streamlit.app/" target="_blank" class="btn-primary" data-i18n="cta_btn1">&#8599; Open Live App</a>
+      <a href="https://github.com/mona2083/shift-optimizer" target="_blank" class="btn-outline">↗ GitHub</a>
       <a href="index.html" class="btn-outline" data-i18n="cta_btn2">&#8592; Back to Portfolio</a>
     </div>
   </div>
@@ -327,13 +255,8 @@
   <footer><div class="container"><p>&#169; 2026 Manami Oyama</p></div></footer>
 
   <script>
-    const T={en:{nav_back:"← Portfolio",hero_eyebrow:"Technical Deep Dive",hero_title:"How the Optimizer works",hero_desc:"A plain-English explanation of the AI scheduling system behind Shift Optimizer — written for hiring managers, not just engineers.",one_liner:"Instead of manually juggling spreadsheets, this app mathematically proves the best possible schedule — satisfying every hard rule while maximizing employee happiness.",tech_label:"The Technology",tech_title:"2 AI layers working together",tech_desc:"One layer guarantees every rule is satisfied. The other maximizes how happy employees are with the result.",t1_title:"Constraint Programming — OR-Tools CP-SAT",t1_desc:"Google's CP-SAT solver assigns shifts across 30 employees, 3 departments, and 7 days simultaneously. It doesn't try schedules one by one — it reasons over all possibilities at once. The result is a mathematically proven optimal schedule. The same solver powers Google's workforce scheduling, logistics routing, and production planning systems.",t1_pill:"Provably optimal — not trial and error",t2_title:"Soft Constraint Optimization — Penalty Minimization",t2_desc:"Beyond satisfying rules, the optimizer minimizes a penalty score representing employee dissatisfaction. 'Must-off' days are hard constraints (never violated). 'Prefer-off' days and shift preference mismatches carry numerical penalties. The solver finds the schedule that satisfies all hard rules AND minimizes total employee unhappiness.",t2_pill:"Hard rules guaranteed + soft preferences maximized",con_label:"Constraint Design",con_title:"Hard rules vs. soft preferences",con_desc:"The key engineering decision: which rules must never be broken, and which are best-effort goals the optimizer tries to satisfy?",hard_label:"Hard Constraint — Always enforced",soft_label:"Soft Constraint — Best effort",h1_title:"Must-off days",h1_desc:"Absolute unavailability. The solver will never assign a shift on these days — no exceptions.",h2_title:"Department staffing minimums",h2_desc:"Each shift must have at least the required number of staff. If unsatisfiable, the solver reports 'no solution' rather than producing an invalid schedule.",h3_title:"Manager & certified staff coverage",h3_desc:"At least one manager/assistant manager per day, and (for Grocery) one certified staff per shift. Guaranteed by the model structure.",h4_title:"Max consecutive working days",h4_desc:"No employee works more than the configured consecutive days. Prevents burnout and complies with labor regulations.",s1_title:"Prefer-off days (penalty: 100)",s1_desc:"The optimizer tries to respect these, but may assign shifts if no valid schedule exists otherwise. Each violation adds 100 to the penalty score.",s2_title:"Shift time preference (penalty: 50)",s2_desc:"Employees who prefer morning shifts get penalized 50 points for each afternoon or night shift assigned. The optimizer minimizes the total across all employees.",flow_label:"The Process",flow_title:"From preferences to optimal schedule",flow_desc:"Here's exactly what happens when you click \"Optimize Shifts.\"",f1_title:"Decision variables are created (one per slot)",f1_desc:"For every combination of employee × day × shift, a binary variable is created: 1 = assigned, 0 = not assigned. With 30 employees × 7 days × 3 shifts, that's 630 variables the solver must assign simultaneously.",f2_title:"Hard constraints are added to the model",f2_desc:"Each business rule becomes a mathematical constraint. 'At most one shift per day' becomes a linear inequality. 'Must-off day' sets a variable to 0. 'Max consecutive days' adds a sliding window constraint.",f3_title:"Soft constraints become a penalty objective",f3_desc:"Prefer-off days and shift preferences are converted into penalty terms. The solver's objective is to minimize the total penalty score — trying its hardest to honor soft preferences without breaking hard rules.",f4_title:"CP-SAT solves and returns the optimal assignment",f4_desc:"The solver explores the solution space using constraint propagation and branch-and-bound search. It returns the schedule with minimum penalty score within the time limit, along with a satisfaction score for each employee.",biz_label:"Business Applications",biz_title:"How this translates to your business",biz_desc:"Mathematical optimization transforms shift scheduling from a painful weekly chore into a solved, scalable, and auditable process.",biz1_title:"Hours of Manager Time Saved",biz1_desc:"Manually building schedules for 30+ staff typically takes hours each week. The optimizer produces a valid, optimized schedule in under 15 seconds — freeing managers to focus on higher-value work.",biz2_title:"Zero Compliance Violations",biz2_desc:"Labor rules (max consecutive days, minimum certified coverage, mandatory manager presence) are guaranteed by the model — not enforced by human memory. Every schedule is provably compliant with every configured rule.",biz3_title:"Higher Employee Satisfaction",biz3_desc:"The optimizer explicitly quantifies and minimizes employee dissatisfaction. Rather than ignoring preferences when scheduling gets complex, it mathematically balances fairness across the entire team.",why_label:"Why It Matters",why_title:"What this demonstrates",why1_title:"Operations Research Applied",why1_desc:"Shift scheduling is a classic OR problem. Formulating it correctly — choosing which constraints are hard vs. soft, how to weight penalty terms — requires deep understanding of both the business problem and the solver's capabilities.",why2_title:"Production-Grade Solver",why2_desc:"OR-Tools CP-SAT is the same solver used internally at Google. Using it in a portfolio project demonstrates familiarity with enterprise-grade optimization tools, not just academic toy problems.",why3_title:"Full-Stack Data Product",why3_desc:"The app goes from user input to deployed web product: Streamlit UI, Python optimization engine, Plotly visualizations, bilingual i18n, and Streamlit Cloud deployment. End-to-end data product thinking.",why4_title:"Explainable Results",why4_desc:"The satisfaction score and per-employee breakdown make optimization results auditable — not a black box. Managers can see exactly why each schedule was chosen and where trade-offs were made.",cta_label:"Try It",cta_title:"See it in action",cta_desc:"The app is live. Randomize preferences and constraints, then click Optimize.",cta_btn1:"↗ Open Live App",cta_btn2:"← Back to Portfolio"},ja:{nav_back:"← ポートフォリオ",hero_eyebrow:"技術解説",hero_title:"オプティマイザーの仕組み",hero_desc:"シフトオプティマイザーのAIスケジューリングシステムを、エンジニア以外にも伝わる言葉で説明します。採用担当者向けに書いています。",one_liner:"スプレッドシートを手作業で管理する代わりに、このアプリがあらゆるルールを満たしながら従業員の満足度を最大化するシフトを数学的に証明します。",tech_label:"使用技術",tech_title:"2つのAI技術が連携",tech_desc:"一方はすべてのルールを保証し、もう一方は従業員の満足度を最大化します。",t1_title:"制約プログラミング — OR-Tools CP-SAT",t1_desc:"GoogleのCP-SATソルバーが30名の従業員・3デパートメント・7日間のシフトを同時に割り当てます。1つずつ試すのではなく、すべての可能性を一度に推論します。返される結果は数学的に証明された最適スケジュールです。同じソルバーがGoogleの社内シフト管理・物流ルーティング・生産計画に使われています。",t1_pill:"証明可能な最適解 — 試行錯誤ではない",t2_title:"ソフト制約最適化 — ペナルティ最小化",t2_desc:"ルールを満たすだけでなく、従業員の不満足度を表すペナルティスコアを最小化します。「絶対NG」はハード制約（絶対に違反しない）。「できればNG」とシフト希望の不一致には数値ペナルティが付きます。すべてのハードルールを満たしながら総不満足度を最小化するスケジュールを見つけます。",t2_pill:"ハードルール保証 ＋ ソフト希望の最大限の尊重",con_label:"制約設計",con_title:"ハード制約 vs. ソフト制約",con_desc:"どのルールを絶対に守り、どれをベストエフォートにするか——これが重要なエンジニアリング上の意思決定です。",hard_label:"ハード制約 — 必ず守る",soft_label:"ソフト制約 — ベストエフォート",h1_title:"絶対NGの日",h1_desc:"絶対に出勤できない日。ソルバーはこの日にシフトを絶対に割り当てません。例外なし。",h2_title:"デパートメントの最低人数",h2_desc:"各シフトには最低必要人数が必要です。満たせない場合、ソルバーは無効なスケジュールを返すのではなく「解なし」を報告します。",h3_title:"マネージャー・資格保持者のカバレッジ",h3_desc:"1日に最低1名のMGR/AsMGR、食料品デパートでは各シフトに資格保持者1名が必要。モデル構造で保証されます。",h4_title:"最大連続勤務日数",h4_desc:"設定された連続日数を超えて働く従業員は0人。燃え尽き防止と労働規制への準拠を保証します。",s1_title:"できればNGの日（ペナルティ：100）",s1_desc:"オプティマイザーはこれを守ろうとしますが、有効なスケジュールが存在しない場合はシフトを割り当てることがあります。違反1件につきペナルティ100が加算されます。",s2_title:"希望シフト帯（ペナルティ：50）",s2_desc:"朝希望の従業員が昼・夜シフトに割り当てられるたびにペナルティ50が加算されます。オプティマイザーは全従業員の合計を最小化します。",flow_label:"処理の流れ",flow_title:"希望入力から最適スケジュールまで",flow_desc:"「シフトを最適化する」をクリックしたとき内部で何が起きているかを説明します。",f1_title:"決定変数の作成（スロットごとに1つ）",f1_desc:"従業員×日×シフトのすべての組み合わせに対して2値変数が作成されます：1=割り当て、0=非割り当て。30名×7日×3シフトで630個の変数をソルバーが同時に割り当てます。",f2_title:"ハード制約をモデルに追加",f2_desc:"各ビジネスルールが数学的制約になります。「1日最大1シフト」は線形不等式に。「絶対NG日」は変数を0に固定。「最大連続日数」はスライディングウィンドウ制約になります。",f3_title:"ソフト制約をペナルティ目的関数に変換",f3_desc:"できればNGの日とシフト希望がペナルティ項に変換されます。ソルバーの目的はペナルティ合計を最小化すること——ハードルールを破らない範囲でソフト希望を最大限尊重します。",f4_title:"CP-SATが最適割り当てを返す",f4_desc:"制約伝播（不可能な割り当ての早期除去）とブランチアンドバウンド探索を使って解空間を探索します。時間制限内で最小ペナルティのスケジュールと各従業員の満足度スコアを返します。",biz_label:"ビジネスへの応用",biz_title:"この技術を貴社のビジネスにどう活かすか",biz_desc:"数理最適化はシフト作成を「毎週の苦痛な手作業」から「解決済みで拡張可能な自動プロセス」へと変革します。",biz1_title:"マネージャーの工数を大幅削減",biz1_desc:"30名以上のスタッフのシフトを手作業で作成すると毎週数時間かかります。このオプティマイザーは15秒以内に有効な最適スケジュールを生成し、マネージャーがより価値の高い業務に集中できるようにします。",biz2_title:"コンプライアンス違反ゼロ",biz2_desc:"労働規制（最大連続勤務日数・資格保持者の最低配置・マネージャー必須）はモデルによって保証されます——人間の記憶に依存しません。生成されるすべてのスケジュールは設定されたすべてのルールに準拠していることが証明されています。",biz3_title:"従業員満足度の向上",biz3_desc:"オプティマイザーは従業員の不満足度を明示的に数値化し最小化します。スケジューリングが複雑になっても希望を無視するのではなく、チーム全体の公平性を数学的にバランスさせることで離職につながるシフト紛争を減らします。",why_label:"なぜ重要か",why_title:"このプロジェクトが示すもの",why1_title:"応用オペレーションズリサーチ",why1_desc:"シフトスケジューリングは典型的なOR問題です。どの制約をハード・ソフトにするか、ペナルティをどう重み付けするかの定式化には、ビジネス問題とソルバーの両方への深い理解が必要です。",why2_title:"本番グレードのソルバー",why2_desc:"OR-Tools CP-SATはGoogle社内でも使われているソルバーです。ポートフォリオプロジェクトで使用することで、学術的なおもちゃの問題だけでなく、エンタープライズグレードの最適化ツールへの習熟を示しています。",why3_title:"フルスタックデータプロダクト",why3_desc:"ユーザー入力からデプロイされたWebプロダクトまで：Streamlit UI・Python最適化エンジン・Plotly可視化・バイリンガルi18n・Streamlit Cloudデプロイ。エンドツーエンドのデータプロダクト思考です。",why4_title:"説明可能な結果",why4_desc:"満足度スコアと従業員ごとの内訳により、最適化結果が監査可能になります——ブラックボックスではありません。マネージャーは各スケジュールがなぜ選ばれたか、どこでトレードオフが行われたかを正確に確認できます。",cta_label:"試してみる",cta_title:"実際に動かしてみる",cta_desc:"アプリは稼働中です。希望と制約をランダム設定して最適化を実行してみてください。",cta_btn1:"↗ ライブアプリを開く",cta_btn2:"← ポートフォリオに戻る"}};
-
-    function applyLang(l){const t=T[l];document.querySelectorAll('[data-i18n]').forEach(el=>{const k=el.getAttribute('data-i18n');if(t[k]!==undefined)el.textContent=t[k];});document.documentElement.lang=l;}
-    document.querySelectorAll('[data-lang-btn]').forEach(btn=>{btn.addEventListener('click',()=>{document.querySelectorAll('[data-lang-btn]').forEach(b=>b.classList.remove('active'));btn.classList.add('active');applyLang(btn.getAttribute('data-lang-btn'));});});
-    applyLang('en');
-    const observer=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:0.08});
-    document.querySelectorAll('.tech-card,.flow-step,.why-card,.constraint-card,.biz-card').forEach(el=>observer.observe(el));
+    const PAGE_TRANSLATIONS={en:{nav_back:"← Portfolio",hero_btn:"↗ Open Live App",hero_eyebrow:"Technical Deep Dive",hero_title:"How the Optimizer works",hero_desc:"A plain-English explanation of the AI scheduling system behind Shift Optimizer — written for hiring managers, not just engineers.",one_liner:"Instead of manually juggling spreadsheets, this app mathematically proves the best possible schedule — satisfying every hard rule while maximizing employee happiness.",tech_label:"The Technology",tech_title:"2 AI layers working together",tech_desc:"One layer guarantees every rule is satisfied. The other maximizes how happy employees are with the result.",t1_title:"Constraint Programming — OR-Tools CP-SAT",t1_desc:"Google's CP-SAT solver assigns shifts across 30 employees, 3 departments, and 7 days simultaneously. It doesn't try schedules one by one — it reasons over all possibilities at once. The result is a mathematically proven optimal schedule. The same solver powers Google's workforce scheduling, logistics routing, and production planning systems.",t1_pill:"Provably optimal — not trial and error",t2_title:"Soft Constraint Optimization — Penalty Minimization",t2_desc:"Beyond satisfying rules, the optimizer minimizes a penalty score representing employee dissatisfaction. 'Must-off' days are hard constraints (never violated). 'Prefer-off' days and shift preference mismatches carry numerical penalties. The solver finds the schedule that satisfies all hard rules AND minimizes total employee unhappiness.",t2_pill:"Hard rules guaranteed + soft preferences maximized",con_label:"Constraint Design",con_title:"Hard rules vs. soft preferences",con_desc:"The key engineering decision: which rules must never be broken, and which are best-effort goals the optimizer tries to satisfy?",hard_label:"Hard Constraint — Always enforced",soft_label:"Soft Constraint — Best effort",h1_title:"Must-off days",h1_desc:"Absolute unavailability. The solver will never assign a shift on these days — no exceptions.",h2_title:"Department staffing minimums",h2_desc:"Each shift must have at least the required number of staff. If unsatisfiable, the solver reports 'no solution' rather than producing an invalid schedule.",h3_title:"Manager & certified staff coverage",h3_desc:"At least one manager/assistant manager per day, and (for Grocery) one certified staff per shift. Guaranteed by the model structure.",h4_title:"Max consecutive working days",h4_desc:"No employee works more than the configured consecutive days. Prevents burnout and complies with labor regulations.",s1_title:"Prefer-off days (penalty: 100)",s1_desc:"The optimizer tries to respect these, but may assign shifts if no valid schedule exists otherwise. Each violation adds 100 to the penalty score.",s2_title:"Shift time preference (penalty: 50)",s2_desc:"Employees who prefer morning shifts get penalized 50 points for each afternoon or night shift assigned. The optimizer minimizes the total across all employees.",flow_label:"The Process",flow_title:"From preferences to optimal schedule",flow_desc:"Here's exactly what happens when you click \"Optimize Shifts.\"",f1_title:"Decision variables are created (one per slot)",f1_desc:"For every combination of employee × day × shift, a binary variable is created: 1 = assigned, 0 = not assigned. With 30 employees × 7 days × 3 shifts, that's 630 variables the solver must assign simultaneously.",f2_title:"Hard constraints are added to the model",f2_desc:"Each business rule becomes a mathematical constraint. 'At most one shift per day' becomes a linear inequality. 'Must-off day' sets a variable to 0. 'Max consecutive days' adds a sliding window constraint.",f3_title:"Soft constraints become a penalty objective",f3_desc:"Prefer-off days and shift preferences are converted into penalty terms. The solver's objective is to minimize the total penalty score — trying its hardest to honor soft preferences without breaking hard rules.",f4_title:"CP-SAT solves and returns the optimal assignment",f4_desc:"The solver explores the solution space using constraint propagation and branch-and-bound search. It returns the schedule with minimum penalty score within the time limit, along with a satisfaction score for each employee.",biz_label:"Business Applications",biz_title:"How this translates to your business",biz_desc:"Mathematical optimization transforms shift scheduling from a painful weekly chore into a solved, scalable, and auditable process.",biz1_title:"Hours of Manager Time Saved",biz1_desc:"Manually building schedules for 30+ staff typically takes hours each week. The optimizer produces a valid, optimized schedule in under 15 seconds — freeing managers to focus on higher-value work.",biz2_title:"Zero Compliance Violations",biz2_desc:"Labor rules (max consecutive days, minimum certified coverage, mandatory manager presence) are guaranteed by the model — not enforced by human memory. Every schedule is provably compliant with every configured rule.",biz3_title:"Higher Employee Satisfaction",biz3_desc:"The optimizer explicitly quantifies and minimizes employee dissatisfaction. Rather than ignoring preferences when scheduling gets complex, it mathematically balances fairness across the entire team.",why_label:"Why It Matters",why_title:"What this demonstrates",why1_title:"Operations Research Applied",why1_desc:"Shift scheduling is a classic OR problem. Formulating it correctly — choosing which constraints are hard vs. soft, how to weight penalty terms — requires deep understanding of both the business problem and the solver's capabilities.",why2_title:"Production-Grade Solver",why2_desc:"OR-Tools CP-SAT is the same solver used internally at Google. Using it in a portfolio project demonstrates familiarity with enterprise-grade optimization tools, not just academic toy problems.",why3_title:"Full-Stack Data Product",why3_desc:"The app goes from user input to deployed web product: Streamlit UI, Python optimization engine, Plotly visualizations, bilingual i18n, and Streamlit Cloud deployment. End-to-end data product thinking.",why4_title:"Explainable Results",why4_desc:"The satisfaction score and per-employee breakdown make optimization results auditable — not a black box. Managers can see exactly why each schedule was chosen and where trade-offs were made.",cta_label:"Try It",cta_title:"See it in action",cta_desc:"The app is live. Randomize preferences and constraints, then click Optimize.",cta_btn1:"↗ Open Live App",cta_btn2:"← Back to Portfolio"},ja:{nav_back:"← ポートフォリオ",hero_btn:"↗ ライブアプリを開く",hero_eyebrow:"技術解説",hero_title:"オプティマイザーの仕組み",hero_desc:"シフトオプティマイザーのAIスケジューリングシステムを、エンジニア以外にも伝わる言葉で説明します。採用担当者向けに書いています。",one_liner:"スプレッドシートを手作業で管理する代わりに、このアプリがあらゆるルールを満たしながら従業員の満足度を最大化するシフトを数学的に証明します。",tech_label:"使用技術",tech_title:"2つのAI技術が連携",tech_desc:"一方はすべてのルールを保証し、もう一方は従業員の満足度を最大化します。",t1_title:"制約プログラミング — OR-Tools CP-SAT",t1_desc:"GoogleのCP-SATソルバーが30名の従業員・3デパートメント・7日間のシフトを同時に割り当てます。1つずつ試すのではなく、すべての可能性を一度に推論します。返される結果は数学的に証明された最適スケジュールです。同じソルバーがGoogleの社内シフト管理・物流ルーティング・生産計画に使われています。",t1_pill:"証明可能な最適解 — 試行錯誤ではない",t2_title:"ソフト制約最適化 — ペナルティ最小化",t2_desc:"ルールを満たすだけでなく、従業員の不満足度を表すペナルティスコアを最小化します。「絶対NG」はハード制約（絶対に違反しない）。「できればNG」とシフト希望の不一致には数値ペナルティが付きます。すべてのハードルールを満たしながら総不満足度を最小化するスケジュールを見つけます。",t2_pill:"ハードルール保証 ＋ ソフト希望の最大限の尊重",con_label:"制約設計",con_title:"ハード制約 vs. ソフト制約",con_desc:"どのルールを絶対に守り、どれをベストエフォートにするか——これが重要なエンジニアリング上の意思決定です。",hard_label:"ハード制約 — 必ず守る",soft_label:"ソフト制約 — ベストエフォート",h1_title:"絶対NGの日",h1_desc:"絶対に出勤できない日。ソルバーはこの日にシフトを絶対に割り当てません。例外なし。",h2_title:"デパートメントの最低人数",h2_desc:"各シフトには最低必要人数が必要です。満たせない場合、ソルバーは無効なスケジュールを返すのではなく「解なし」を報告します。",h3_title:"マネージャー・資格保持者のカバレッジ",h3_desc:"1日に最低1名のMGR/AsMGR、食料品デパートでは各シフトに資格保持者1名が必要。モデル構造で保証されます。",h4_title:"最大連続勤務日数",h4_desc:"設定された連続日数を超えて働く従業員は0人。燃え尽き防止と労働規制への準拠を保証します。",s1_title:"できればNGの日（ペナルティ：100）",s1_desc:"オプティマイザーはこれを守ろうとしますが、有効なスケジュールが存在しない場合はシフトを割り当てることがあります。違反1件につきペナルティ100が加算されます。",s2_title:"希望シフト帯（ペナルティ：50）",s2_desc:"朝希望の従業員が昼・夜シフトに割り当てられるたびにペナルティ50が加算されます。オプティマイザーは全従業員の合計を最小化します。",flow_label:"処理の流れ",flow_title:"希望入力から最適スケジュールまで",flow_desc:"「シフトを最適化する」をクリックしたとき内部で何が起きているかを説明します。",f1_title:"決定変数の作成（スロットごとに1つ）",f1_desc:"従業員×日×シフトのすべての組み合わせに対して2値変数が作成されます：1=割り当て、0=非割り当て。30名×7日×3シフトで630個の変数をソルバーが同時に割り当てます。",f2_title:"ハード制約をモデルに追加",f2_desc:"各ビジネスルールが数学的制約になります。「1日最大1シフト」は線形不等式に。「絶対NG日」は変数を0に固定。「最大連続日数」はスライディングウィンドウ制約になります。",f3_title:"ソフト制約をペナルティ目的関数に変換",f3_desc:"できればNGの日とシフト希望がペナルティ項に変換されます。ソルバーの目的はペナルティ合計を最小化すること——ハードルールを破らない範囲でソフト希望を最大限尊重します。",f4_title:"CP-SATが最適割り当てを返す",f4_desc:"制約伝播（不可能な割り当ての早期除去）とブランチアンドバウンド探索を使って解空間を探索します。時間制限内で最小ペナルティのスケジュールと各従業員の満足度スコアを返します。",biz_label:"ビジネスへの応用",biz_title:"この技術を貴社のビジネスにどう活かすか",biz_desc:"数理最適化はシフト作成を「毎週の苦痛な手作業」から「解決済みで拡張可能な自動プロセス」へと変革します。",biz1_title:"マネージャーの工数を大幅削減",biz1_desc:"30名以上のスタッフのシフトを手作業で作成すると毎週数時間かかります。このオプティマイザーは15秒以内に有効な最適スケジュールを生成し、マネージャーがより価値の高い業務に集中できるようにします。",biz2_title:"コンプライアンス違反ゼロ",biz2_desc:"労働規制（最大連続勤務日数・資格保持者の最低配置・マネージャー必須）はモデルによって保証されます——人間の記憶に依存しません。生成されるすべてのスケジュールは設定されたすべてのルールに準拠していることが証明されています。",biz3_title:"従業員満足度の向上",biz3_desc:"オプティマイザーは従業員の不満足度を明示的に数値化し最小化します。スケジューリングが複雑になっても希望を無視するのではなく、チーム全体の公平性を数学的にバランスさせることで離職につながるシフト紛争を減らします。",why_label:"なぜ重要か",why_title:"このプロジェクトが示すもの",why1_title:"応用オペレーションズリサーチ",why1_desc:"シフトスケジューリングは典型的なOR問題です。どの制約をハード・ソフトにするか、ペナルティをどう重み付けするかの定式化には、ビジネス問題とソルバーの両方への深い理解が必要です。",why2_title:"本番グレードのソルバー",why2_desc:"OR-Tools CP-SATはGoogle社内でも使われているソルバーです。ポートフォリオプロジェクトで使用することで、学術的なおもちゃの問題だけでなく、エンタープライズグレードの最適化ツールへの習熟を示しています。",why3_title:"フルスタックデータプロダクト",why3_desc:"ユーザー入力からデプロイされたWebプロダクトまで：Streamlit UI・Python最適化エンジン・Plotly可視化・バイリンガルi18n・Streamlit Cloudデプロイ。エンドツーエンドのデータプロダクト思考です。",why4_title:"説明可能な結果",why4_desc:"満足度スコアと従業員ごとの内訳により、最適化結果が監査可能になります——ブラックボックスではありません。マネージャーは各スケジュールがなぜ選ばれたか、どこでトレードオフが行われたかを正確に確認できます。",cta_label:"試してみる",cta_title:"実際に動かしてみる",cta_desc:"アプリは稼働中です。希望と制約をランダム設定して最適化を実行してみてください。",cta_btn1:"↗ ライブアプリを開く",cta_btn2:"← ポートフォリオに戻る"}};
   </script>
+  <script src="js/main.js"></script>
 </body>
 </html>
