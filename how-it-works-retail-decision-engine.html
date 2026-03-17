@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>How It Works — Retail Decision Engine</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&family=Noto+Serif+JP:wght@300;400&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root{
+      --bg:#f5f7f2;--surface:#fff;--ink:#1a1a1a;--muted:#6b6b6b;
+      --accent:#2d6a4f;--accent2:#b7d5c8;--accent3:#eaf2ee;--border:#dde8e2;
+      --orange:#b5451b;--blue:#1a4a7a;--gray:#888;
+      --serif:'DM Serif Display','Noto Serif JP',Georgia,serif;
+      --sans:'DM Sans','Noto Sans JP',sans-serif;
+      --radius:12px;--ease:0.4s ease;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{font-family:var(--sans);background:var(--bg);color:var(--ink);font-size:16px;line-height:1.7;font-weight:300;}
+    a{color:inherit;text-decoration:none;}
+    .container{max-width:900px;margin:0 auto;padding:0 24px;}
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(245,247,242,0.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);}
+    .nav-inner{max-width:900px;margin:0 auto;padding:0 24px;height:56px;display:flex;align-items:center;justify-content:space-between;}
+    .nav-logo{font-family:var(--serif);font-size:1rem;}
+    .nav-links{display:flex;gap:16px;align-items:center;}
+    .btn-back{font-size:.82rem;font-weight:500;color:var(--accent);border:1px solid var(--accent2);border-radius:6px;padding:6px 16px;transition:all var(--ease);}
+    .btn-back:hover{background:var(--accent3);}
+    .lang-toggle{display:flex;align-items:center;gap:3px;background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:3px 5px;}
+    .lang-btn{font-size:.72rem;font-weight:500;padding:3px 9px;border-radius:16px;border:none;background:transparent;color:var(--muted);cursor:pointer;font-family:var(--sans);transition:all var(--ease);}
+    .lang-btn.active{background:var(--accent);color:#fff;}
+    .hero{padding:110px 0 56px;text-align:center;}
+    .hero-eyebrow{font-size:.75rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:14px;}
+    .hero-title{font-family:var(--serif);font-size:clamp(2rem,5vw,3.2rem);line-height:1.1;margin-bottom:18px;}
+    .hero-title em{font-style:italic;color:var(--accent);}
+    .hero-desc{color:var(--muted);max-width:540px;margin:0 auto 40px;font-size:.95rem;}
+    .one-liner{background:var(--accent);border-radius:var(--radius);padding:28px 36px;text-align:center;margin-bottom:32px;}
+    .one-liner p{font-family:var(--serif);font-size:clamp(1.1rem,2.5vw,1.5rem);color:#fff;line-height:1.45;}
+    .one-liner em{font-style:italic;opacity:.85;}
+    section{padding:64px 0;border-top:1px solid var(--border);}
+    .section-label{font-size:.72rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:8px;}
+    .section-title{font-family:var(--serif);font-size:clamp(1.5rem,3.5vw,2.2rem);line-height:1.15;margin-bottom:10px;}
+    .section-desc{color:var(--muted);max-width:600px;margin-bottom:40px;}
+
+    /* 3モジュールフロー */
+    .modules{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:40px;}
+    .module{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;text-align:center;position:relative;transition:all var(--ease);}
+    .module:hover{border-color:var(--accent2);box-shadow:0 4px 20px rgba(45,106,79,.07);}
+    .module-num{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:.9rem;color:#fff;margin:0 auto 12px;background:var(--accent);}
+    .module-icon{font-size:1.8rem;margin-bottom:8px;}
+    .module-title{font-family:var(--serif);font-size:1rem;margin-bottom:6px;}
+    .module-desc{font-size:.78rem;color:var(--muted);line-height:1.5;}
+    .arrow{display:flex;align-items:center;justify-content:center;font-size:1.4rem;color:var(--accent2);}
+
+    /* テックカード */
+    .tech-cards{display:grid;gap:18px;}
+    .tech-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px;display:grid;grid-template-columns:52px 1fr;gap:20px;align-items:start;transition:all var(--ease);opacity:0;transform:translateY(14px);}
+    .tech-card.visible{opacity:1;transform:translateY(0);}
+    .tech-card:hover{border-color:var(--accent2);box-shadow:0 4px 20px rgba(45,106,79,.07);}
+    .tech-icon{width:52px;height:52px;background:var(--accent3);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0;}
+    .tech-label{font-size:.68rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:3px;}
+    .tech-title{font-family:var(--serif);font-size:1.15rem;margin-bottom:7px;}
+    .tech-desc{font-size:.86rem;color:var(--muted);line-height:1.7;}
+    .tech-pill{display:inline-block;margin-top:10px;font-size:.7rem;font-weight:500;background:var(--accent3);color:var(--accent);border-radius:20px;padding:3px 12px;}
+
+    /* 統合フロー */
+    .flow{display:flex;flex-direction:column;}
+    .flow-step{display:grid;grid-template-columns:44px 1fr;gap:18px;padding:22px 0;border-bottom:1px solid var(--border);opacity:0;transform:translateX(-10px);transition:opacity .5s ease,transform .5s ease;}
+    .flow-step.visible{opacity:1;transform:translateX(0);}
+    .flow-step:last-child{border-bottom:none;}
+    .flow-num{width:38px;height:38px;background:var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:.95rem;color:#fff;flex-shrink:0;}
+    .flow-title{font-family:var(--serif);font-size:1rem;margin-bottom:5px;}
+    .flow-desc{font-size:.85rem;color:var(--muted);line-height:1.65;}
+    .flow-code{margin-top:10px;background:#1a1a1a;border-radius:8px;padding:14px 18px;font-family:'Courier New',monospace;font-size:.76rem;color:#b7d5c8;line-height:1.65;overflow-x:auto;}
+    .flow-code .cm{color:#5a8a6a;}.flow-code .kw{color:#f5c96e;}.flow-code .nu{color:#7ec8e3;}
+
+    /* ビジネスカード */
+    .biz-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+    .biz-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px;opacity:0;transform:translateY(12px);transition:opacity .5s ease,transform .5s ease;}
+    .biz-card.visible{opacity:1;transform:translateY(0);}
+    .biz-card:hover{border-color:var(--accent2);}
+    .biz-icon{font-size:1.6rem;margin-bottom:10px;}
+    .biz-industry{font-size:.68rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:4px;}
+    .biz-title{font-family:var(--serif);font-size:1.05rem;margin-bottom:8px;}
+    .biz-desc{font-size:.84rem;color:var(--muted);line-height:1.7;}
+    .biz-result{margin-top:12px;font-size:.78rem;font-weight:500;color:var(--accent);background:var(--accent3);border-radius:6px;padding:6px 12px;display:inline-block;}
+
+    /* WHY */
+    .why-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+    .why-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:22px;opacity:0;transform:translateY(10px);transition:opacity .5s ease,transform .5s ease;}
+    .why-card.visible{opacity:1;transform:translateY(0);}
+    .why-card:hover{border-color:var(--accent2);}
+    .why-icon{font-size:1.3rem;margin-bottom:8px;}
+    .why-title{font-family:var(--serif);font-size:.95rem;margin-bottom:6px;}
+    .why-desc{font-size:.83rem;color:var(--muted);line-height:1.65;}
+
+    .cta-section{padding:60px 0;text-align:center;border-top:1px solid var(--border);}
+    .btn-primary{display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:#fff;padding:11px 26px;border-radius:6px;font-size:.88rem;font-weight:500;font-family:var(--sans);transition:all var(--ease);margin:5px;}
+    .btn-primary:hover{background:#1e4d38;transform:translateY(-1px);}
+    .btn-outline{display:inline-flex;align-items:center;gap:8px;background:transparent;color:var(--ink);border:1px solid var(--border);padding:11px 26px;border-radius:6px;font-size:.88rem;font-weight:500;font-family:var(--sans);transition:all var(--ease);margin:5px;}
+    .btn-outline:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-1px);}
+    footer{border-top:1px solid var(--border);padding:26px 0;text-align:center;font-size:.76rem;color:var(--muted);}
+
+    @media(max-width:640px){
+      .modules{grid-template-columns:1fr;}
+      .biz-grid,.why-grid{grid-template-columns:1fr;}
+      .tech-card{grid-template-columns:1fr;}
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="nav-inner">
+      <div class="nav-logo">Retail Decision Engine</div>
+      <div class="nav-links">
+        <a href="index.html" class="btn-back" data-i18n="nav_back">← Portfolio</a>
+        <div class="lang-toggle">
+          <button class="lang-btn active" data-lang-btn="en">EN</button>
+          <button class="lang-btn" data-lang-btn="ja">JA</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="hero">
+    <div class="container">
+      <p class="hero-eyebrow" data-i18n="hero_eyebrow">Technical Deep Dive</p>
+      <h1 class="hero-title" data-i18n="hero_title">How the <em>Retail Decision Engine</em> works</h1>
+      <p class="hero-desc" data-i18n="hero_desc">Three AI models — demand forecasting, dynamic pricing, and inventory optimization — working together to tell a retailer exactly what to do this week.</p>
+      <div class="one-liner">
+        <p data-i18n="one_liner">Most retailers make pricing and ordering decisions based on gut feeling. This app replaces intuition with <em>three connected AI models</em> that optimize every decision simultaneously.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3モジュール概要 -->
+  <section>
+    <div class="container">
+      <p class="section-label" data-i18n="overview_label">The System</p>
+      <h2 class="section-title" data-i18n="overview_title">3 AI models, 1 integrated decision</h2>
+      <p class="section-desc" data-i18n="overview_desc">Each module solves a different business problem. The Summary Dashboard combines all three into one actionable recommendation per product, per week.</p>
+
+      <div class="modules">
+        <div class="module">
+          <div class="module-num">1</div>
+          <div class="module-icon">📈</div>
+          <div class="module-title" data-i18n="m1_title">Demand Forecasting</div>
+          <div class="module-desc" data-i18n="m1_desc">Holt-Winters time series model learns seasonal patterns and predicts future demand with confidence intervals.</div>
+        </div>
+        <div class="module">
+          <div class="module-num">2</div>
+          <div class="module-icon">💰</div>
+          <div class="module-title" data-i18n="m2_title">Dynamic Pricing</div>
+          <div class="module-desc" data-i18n="m2_desc">Price elasticity model finds the exact price point that maximizes weekly profit using SciPy optimization.</div>
+        </div>
+        <div class="module">
+          <div class="module-num">3</div>
+          <div class="module-icon">📦</div>
+          <div class="module-title" data-i18n="m3_title">Inventory Optimization</div>
+          <div class="module-desc" data-i18n="m3_desc">OR-Tools CP-SAT solver calculates the optimal order quantity and timing for the next 8 weeks.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 各AIモデルの詳細 -->
+  <section>
+    <div class="container">
+      <p class="section-label" data-i18n="tech_label">The Technology</p>
+      <h2 class="section-title" data-i18n="tech_title">How each AI model works</h2>
+      <p class="section-desc" data-i18n="tech_desc">Each model is chosen for a specific reason — not just because it's popular, but because it's the right tool for the problem.</p>
+
+      <div class="tech-cards">
+
+        <div class="tech-card">
+          <div class="tech-icon">📈</div>
+          <div>
+            <p class="tech-label">Module 1</p>
+            <h3 class="tech-title" data-i18n="t1_title">Holt-Winters Exponential Smoothing — Demand Forecasting</h3>
+            <p class="tech-desc" data-i18n="t1_desc">Holt-Winters is a classical time series model that decomposes sales history into three components: level (the baseline), trend (is demand growing or shrinking?), and seasonality (how much does demand fluctuate by week or month?). Unlike black-box deep learning models, every component is interpretable — you can see exactly why the model predicts higher demand in December vs. July. It's trained on 104 weeks of historical sales data per product and outputs a point forecast plus a 95% confidence interval for each future week. The confidence interval is critical for inventory planning: ordering to the upper bound protects against stockouts; ordering to the lower bound minimizes holding costs.</p>
+            <span class="tech-pill" data-i18n="t1_pill">statsmodels · Additive seasonality · 52-week seasonal period</span>
+          </div>
+        </div>
+
+        <div class="tech-card">
+          <div class="tech-icon">💰</div>
+          <div>
+            <p class="tech-label">Module 2</p>
+            <h3 class="tech-title" data-i18n="t2_title">Price Elasticity + SciPy Optimization — Dynamic Pricing</h3>
+            <p class="tech-desc" data-i18n="t2_desc">Price elasticity measures how sensitive customers are to price changes. A product with elasticity of −1.8 means: raise the price 10% and demand drops 18%. The elasticity is estimated from historical price and sales data. Once known, the profit function — (price − cost) × demand(price) — becomes a continuous curve with a single peak. SciPy's bounded scalar minimizer finds this peak mathematically in milliseconds. The key insight: this is not a lookup table or a heuristic — it's a mathematical proof that no other price generates more weekly profit given the estimated elasticity. The live price slider lets users see in real time how far their current price is from the optimum.</p>
+            <span class="tech-pill" data-i18n="t2_pill">scipy.optimize · Price elasticity model · Real-time profit curve</span>
+          </div>
+        </div>
+
+        <div class="tech-card">
+          <div class="tech-icon">📦</div>
+          <div>
+            <p class="tech-label">Module 3</p>
+            <h3 class="tech-title" data-i18n="t3_title">OR-Tools CP-SAT Solver — Inventory Optimization</h3>
+            <p class="tech-desc" data-i18n="t3_desc">The inventory problem is fundamentally different from pricing — it's a discrete, multi-period decision with hard constraints. For each of the next 8 weeks, the solver must decide: order or not order, and if so, how many units? The constraints include: stock must never fall below the minimum safety level, stock cannot exceed warehouse capacity, and there is a lead time between ordering and receiving. CP-SAT models this as a mixed-integer optimization problem — 630 binary and integer variables — and finds the combination that minimizes total cost (order fixed cost + per-unit cost + holding cost + shortage penalty). It also calculates the EOQ (Economic Order Quantity) as a reference benchmark from classical inventory theory.</p>
+            <span class="tech-pill" data-i18n="t3_pill">OR-Tools CP-SAT · Multi-period planning · EOQ benchmark</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- 統合の仕組み -->
+  <section>
+    <div class="container">
+      <p class="section-label" data-i18n="flow_label">How They Connect</p>
+      <h2 class="section-title" data-i18n="flow_title">From data to decision in 4 steps</h2>
+      <p class="section-desc" data-i18n="flow_desc">The three models are not independent — they feed into each other to produce a single integrated recommendation.</p>
+      <div class="flow">
+
+        <div class="flow-step">
+          <div class="flow-num">1</div>
+          <div>
+            <h3 class="flow-title" data-i18n="f1_title">Historical sales → Holt-Winters fits seasonal pattern</h3>
+            <p class="flow-desc" data-i18n="f1_desc">104 weeks of weekly sales data is decomposed into trend + seasonal components. The model is fit separately for each product because each has a different seasonal pattern — milk peaks in winter, orange juice peaks in summer.</p>
+            <div class="flow-code">
+              model = ExponentialSmoothing(<br>
+              &nbsp;&nbsp;weekly_sales, trend=<span class="kw">"add"</span>, seasonal=<span class="kw">"add"</span>,<br>
+              &nbsp;&nbsp;seasonal_periods=<span class="nu">52</span><br>
+              )<br>
+              forecast = model.fit().forecast(<span class="nu">8</span>)&nbsp;&nbsp;<span class="cm"># next 8 weeks</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="flow-step">
+          <div class="flow-num">2</div>
+          <div>
+            <h3 class="flow-title" data-i18n="f2_title">Price elasticity → SciPy finds the profit-maximizing price</h3>
+            <p class="flow-desc" data-i18n="f2_desc">The demand function D(price) = base_demand × (price/base_price)^elasticity is combined with the profit formula to create a continuous profit curve. SciPy searches this curve for its peak — the optimal price — in under 1 millisecond.</p>
+            <div class="flow-code">
+              <span class="cm"># Profit = (price - cost) × demand(price)</span><br>
+              def profit(p):<br>
+              &nbsp;&nbsp;d = base_demand × (p/base_price) ** elasticity<br>
+              &nbsp;&nbsp;return -(p - unit_cost) × d<br><br>
+              result = minimize_scalar(profit, bounds=(min_p, max_p))
+            </div>
+          </div>
+        </div>
+
+        <div class="flow-step">
+          <div class="flow-num">3</div>
+          <div>
+            <h3 class="flow-title" data-i18n="f3_title">Forecast demand → OR-Tools plans 8-week order schedule</h3>
+            <p class="flow-desc" data-i18n="f3_desc">The 8-week demand forecast from Module 1 is passed directly into the inventory optimizer as the demand input. The solver then determines the cheapest combination of order quantities and timing that keeps stock within safe levels throughout the planning horizon.</p>
+            <div class="flow-code">
+              <span class="cm"># Minimize: order costs + holding costs</span><br>
+              model.Minimize(<br>
+              &nbsp;&nbsp;Σ(order_flag[t] × order_cost)<br>
+              &nbsp;&nbsp;+ Σ(order_qty[t] × unit_cost)<br>
+              &nbsp;&nbsp;+ Σ(stock[t] × holding_cost)<br>
+              )
+            </div>
+          </div>
+        </div>
+
+        <div class="flow-step">
+          <div class="flow-num">4</div>
+          <div>
+            <h3 class="flow-title" data-i18n="f4_title">Summary Dashboard integrates all 3 into one action</h3>
+            <p class="flow-desc" data-i18n="f4_desc">The Summary Dashboard combines outputs from all three modules for every product and presents them side-by-side: this week's demand forecast vs. last week, the recommended price adjustment and its profit impact, and whether to place an order this week and how many units. One page, three products, complete picture.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ビジネス応用 -->
+  <section>
+    <div class="container">
+      <p class="section-label" data-i18n="biz_label">Business Applications</p>
+      <h2 class="section-title" data-i18n="biz_title">How retailers can use this today</h2>
+      <p class="section-desc" data-i18n="biz_desc">Every decision this system makes replaces a manual process that currently takes hours — or doesn't happen at all. Here are six concrete applications.</p>
+
+      <div class="biz-grid">
+
+        <div class="biz-card">
+          <div class="biz-icon">🥛</div>
+          <div class="biz-industry" data-i18n="b1_ind">Grocery / Perishables</div>
+          <h3 class="biz-title" data-i18n="b1_title">Perishable Waste Reduction</h3>
+          <p class="biz-desc" data-i18n="b1_desc">Perishable products like milk, bread, and fresh produce have a shelf life of days. Overordering leads to waste and markdowns; underordering leads to empty shelves and lost sales. The demand forecast tells a store manager exactly how much to order each week, accounting for seasonal patterns (milk sells more in winter, juice in summer) and day-of-week peaks (Saturday sells 40% more than Tuesday). The inventory optimizer then calculates the precise order quantity that minimizes waste while avoiding stockouts — a calculation that would take a manager hours to do manually for every SKU.</p>
+          <div class="biz-result" data-i18n="b1_result">Expected: 15–25% reduction in perishable waste</div>
+        </div>
+
+        <div class="biz-card">
+          <div class="biz-icon">🏷️</div>
+          <div class="biz-industry" data-i18n="b2_ind">Grocery / Pricing</div>
+          <h3 class="biz-title" data-i18n="b2_title">Weekly Price Optimization</h3>
+          <p class="biz-desc" data-i18n="b2_desc">Most small and mid-size grocery chains set prices once a quarter based on competitor surveys and gut feeling. The dynamic pricing module shows that even a $0.20 price adjustment on a high-velocity item like milk can shift weekly profit by hundreds of dollars. By calculating the optimal price for each product each week — factoring in cost, demand sensitivity, and competitive positioning — the engine enables data-driven weekly price reviews that take minutes instead of days.</p>
+          <div class="biz-result" data-i18n="b2_result">Expected: 8–15% improvement in gross margin per SKU</div>
+        </div>
+
+        <div class="biz-card">
+          <div class="biz-icon">📅</div>
+          <div class="biz-industry" data-i18n="b3_ind">Grocery / Operations</div>
+          <h3 class="biz-title" data-i18n="b3_title">Seasonal Inventory Planning</h3>
+          <p class="biz-desc" data-i18n="b3_desc">Orange juice demand spikes in December and January; bread demand rises in November. Without forecasting, buyers either overstock at peak (wasting capital on inventory) or understock (missing the seasonal opportunity). The 8-week planning horizon in the inventory optimizer gives buyers enough lead time to build up stock before the seasonal peak and run it down cleanly afterward — matching inventory investment precisely to expected demand rather than to last year's intuition.</p>
+          <div class="biz-result" data-i18n="b3_result">Expected: 20–30% reduction in peak-season overstock</div>
+        </div>
+
+        <div class="biz-card">
+          <div class="biz-icon">🏪</div>
+          <div class="biz-industry" data-i18n="b4_ind">Convenience Stores</div>
+          <h3 class="biz-title" data-i18n="b4_title">Multi-SKU Category Management</h3>
+          <p class="biz-desc" data-i18n="b4_desc">A convenience store manager typically oversees hundreds of SKUs with limited time for analysis. The product-by-product tab structure of the Retail Decision Engine mirrors how a category manager thinks — one product at a time, with all the relevant data in one view. Scaling this system to cover 50 or 100 products would give a category manager a complete weekly decision brief: which prices to adjust, which products to order, and which categories are trending up or down — all without opening a spreadsheet.</p>
+          <div class="biz-result" data-i18n="b4_result">Expected: 3–4 hours saved per buyer per week</div>
+        </div>
+
+        <div class="biz-card">
+          <div class="biz-icon">🚚</div>
+          <div class="biz-industry" data-i18n="b5_ind">Wholesale / Distribution</div>
+          <h3 class="biz-title" data-i18n="b5_title">Supplier Order Consolidation</h3>
+          <p class="biz-desc" data-i18n="b5_desc">Wholesalers and distributors place orders from multiple suppliers with different lead times and minimum order quantities. The inventory optimizer's 8-week planning horizon makes it possible to consolidate orders across products supplied by the same vendor — reducing the number of individual purchase orders, qualifying for volume discounts, and smoothing delivery schedules. The EOQ benchmark provides a principled starting point for negotiating minimum order quantities with suppliers.</p>
+          <div class="biz-result" data-i18n="b5_result">Expected: 10–20% reduction in order processing costs</div>
+        </div>
+
+        <div class="biz-card">
+          <div class="biz-icon">📊</div>
+          <div class="biz-industry" data-i18n="b6_ind">Retail Analytics / Consulting</div>
+          <h3 class="biz-title" data-i18n="b6_title">Data-Driven Buyer Training</h3>
+          <p class="biz-desc" data-i18n="b6_desc">The real-time price slider and live profit curve make the relationship between price, demand, and profit viscerally clear — even to non-technical buyers. Many retail organizations struggle to get buyers to adopt data-driven pricing because the models feel like black boxes. The Retail Decision Engine's interactive visualizations make the logic transparent: move the price slider and watch the profit curve update in real time. This transparency builds trust in the model and accelerates adoption across the buying team.</p>
+          <div class="biz-result" data-i18n="b6_result">Expected: Faster adoption of analytical decision-making across teams</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Why It Matters -->
+  <section>
+    <div class="container">
+      <p class="section-label" data-i18n="why_label">Why It Matters</p>
+      <h2 class="section-title" data-i18n="why_title">What this demonstrates</h2>
+      <div class="why-grid">
+        <div class="why-card">
+          <div class="why-icon">🔗</div>
+          <h3 class="why-title" data-i18n="why1_title">Systems Thinking</h3>
+          <p class="why-desc" data-i18n="why1_desc">Connecting three different AI models — time series, continuous optimization, and combinatorial optimization — into a single coherent product requires understanding how each model's output becomes another model's input. This end-to-end design thinking is what separates a data scientist from a data product builder.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon">🧰</div>
+          <h3 class="why-title" data-i18n="why2_title">Right Tool for Each Problem</h3>
+          <p class="why-desc" data-i18n="why2_desc">Holt-Winters for time series (interpretable, fast, proven), SciPy for continuous optimization (mathematically exact), OR-Tools for discrete scheduling (provably optimal). Using the right tool for each problem — rather than forcing one tool to do everything — is a hallmark of experienced engineering.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon">🎨</div>
+          <h3 class="why-title" data-i18n="why3_title">UX for Non-Technical Users</h3>
+          <p class="why-desc" data-i18n="why3_desc">The live price slider, color-coded charts, and plain-language Summary Dashboard are designed for a store manager, not a data scientist. Making complex AI outputs immediately actionable for non-technical decision-makers is a product management skill as much as an engineering one.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon">🌺</div>
+          <h3 class="why-title" data-i18n="why4_title">Directly Applicable to Hawaii Retail</h3>
+          <p class="why-desc" data-i18n="why4_desc">Hawaii's grocery and convenience retail market operates with thin margins, high transportation costs, and unique seasonal patterns (tourist peaks, local festivals). The combination of demand forecasting, optimal pricing, and inventory minimization addresses exactly the pressures that Hawaii retailers face — making this not just a portfolio demo but a deployable tool.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="cta-section">
+    <div class="container">
+      <p class="section-label" data-i18n="cta_label">Try It</p>
+      <h2 class="section-title" data-i18n="cta_title">See all three models in action</h2>
+      <p class="section-desc" style="margin:0 auto 28px;" data-i18n="cta_desc">Generate demo data, move the price slider, run the inventory optimizer — then check the Summary Dashboard for the integrated recommendation.</p>
+      <a href="https://your-app-url.streamlit.app" target="_blank" class="btn-primary" data-i18n="cta_btn1">↗ Open Live App</a>
+      <a href="index.html" class="btn-outline" data-i18n="cta_btn2">← Back to Portfolio</a>
+    </div>
+  </div>
+
+  <footer><div class="container"><p>© 2026 Manami Oyama</p></div></footer>
+
+  <script>
+    const T = {
+      en: {
+        nav_back:"← Portfolio",hero_eyebrow:"Technical Deep Dive",
+        hero_title:"How the Retail Decision Engine works",
+        hero_desc:"Three AI models — demand forecasting, dynamic pricing, and inventory optimization — working together to tell a retailer exactly what to do this week.",
+        one_liner:"Most retailers make pricing and ordering decisions based on gut feeling. This app replaces intuition with three connected AI models that optimize every decision simultaneously.",
+        overview_label:"The System",overview_title:"3 AI models, 1 integrated decision",
+        overview_desc:"Each module solves a different business problem. The Summary Dashboard combines all three into one actionable recommendation per product, per week.",
+        m1_title:"Demand Forecasting",m1_desc:"Holt-Winters time series model learns seasonal patterns and predicts future demand with confidence intervals.",
+        m2_title:"Dynamic Pricing",m2_desc:"Price elasticity model finds the exact price point that maximizes weekly profit using SciPy optimization.",
+        m3_title:"Inventory Optimization",m3_desc:"OR-Tools CP-SAT solver calculates the optimal order quantity and timing for the next 8 weeks.",
+        tech_label:"The Technology",tech_title:"How each AI model works",
+        tech_desc:"Each model is chosen for a specific reason — not just because it's popular, but because it's the right tool for the problem.",
+        t1_title:"Holt-Winters Exponential Smoothing — Demand Forecasting",
+        t1_desc:"Holt-Winters decomposes sales history into three components: level (the baseline), trend (is demand growing?), and seasonality (how much does demand vary by week or month?). Unlike black-box deep learning models, every component is interpretable. It's trained on 104 weeks of historical data per product and outputs a point forecast plus a 95% confidence interval. The confidence interval is critical for inventory planning: ordering to the upper bound protects against stockouts; ordering to the lower bound minimizes holding costs.",
+        t1_pill:"statsmodels · Additive seasonality · 52-week seasonal period",
+        t2_title:"Price Elasticity + SciPy Optimization — Dynamic Pricing",
+        t2_desc:"Price elasticity measures how sensitive customers are to price changes. Elasticity of −1.8 means: raise price 10% and demand drops 18%. Once known, the profit function — (price − cost) × demand(price) — becomes a continuous curve with a single peak. SciPy's bounded scalar minimizer finds this peak mathematically in milliseconds. The live price slider lets users see in real time how far their current price is from the optimum.",
+        t2_pill:"scipy.optimize · Price elasticity model · Real-time profit curve",
+        t3_title:"OR-Tools CP-SAT Solver — Inventory Optimization",
+        t3_desc:"The inventory problem is a discrete, multi-period decision with hard constraints. For each of the next 8 weeks, the solver decides: order or not, and how many? Constraints include: stock must never fall below the safety level, stock cannot exceed warehouse capacity, and there is a lead time between ordering and receiving. CP-SAT models this as a mixed-integer optimization problem and finds the combination that minimizes total cost. It also calculates EOQ (Economic Order Quantity) as a classical benchmark.",
+        t3_pill:"OR-Tools CP-SAT · Multi-period planning · EOQ benchmark",
+        flow_label:"How They Connect",flow_title:"From data to decision in 4 steps",
+        flow_desc:"The three models are not independent — they feed into each other to produce a single integrated recommendation.",
+        f1_title:"Historical sales → Holt-Winters fits seasonal pattern",
+        f1_desc:"104 weeks of weekly sales data is decomposed into trend + seasonal components. The model is fit separately for each product because each has a different seasonal pattern — milk peaks in winter, orange juice in summer.",
+        f2_title:"Price elasticity → SciPy finds the profit-maximizing price",
+        f2_desc:"The demand function D(price) = base_demand × (price/base_price)^elasticity is combined with the profit formula to create a continuous profit curve. SciPy searches this curve for its peak in under 1 millisecond.",
+        f3_title:"Forecast demand → OR-Tools plans 8-week order schedule",
+        f3_desc:"The 8-week demand forecast from Module 1 is passed directly into the inventory optimizer. The solver determines the cheapest combination of order quantities and timing that keeps stock within safe levels throughout the planning horizon.",
+        f4_title:"Summary Dashboard integrates all 3 into one action",
+        f4_desc:"The Summary Dashboard combines outputs from all three modules for every product: this week's demand forecast vs. last week, the recommended price adjustment and its profit impact, and whether to place an order this week and how many units.",
+        biz_label:"Business Applications",biz_title:"How retailers can use this today",
+        biz_desc:"Every decision this system makes replaces a manual process that currently takes hours — or doesn't happen at all.",
+        b1_ind:"Grocery / Perishables",b1_title:"Perishable Waste Reduction",
+        b1_desc:"Perishable products have a shelf life of days. Overordering leads to waste; underordering leads to empty shelves. The demand forecast tells a store manager exactly how much to order each week, accounting for seasonal patterns and day-of-week peaks. The inventory optimizer calculates the precise order quantity that minimizes waste while avoiding stockouts.",
+        b1_result:"Expected: 15–25% reduction in perishable waste",
+        b2_ind:"Grocery / Pricing",b2_title:"Weekly Price Optimization",
+        b2_desc:"Most small grocery chains set prices quarterly based on competitor surveys and gut feeling. Even a $0.20 price adjustment on a high-velocity item like milk can shift weekly profit by hundreds of dollars. The dynamic pricing module calculates the optimal price for each product each week — enabling data-driven weekly price reviews that take minutes instead of days.",
+        b2_result:"Expected: 8–15% improvement in gross margin per SKU",
+        b3_ind:"Grocery / Operations",b3_title:"Seasonal Inventory Planning",
+        b3_desc:"Orange juice demand spikes in December; bread demand rises in November. Without forecasting, buyers either overstock at peak or understock and miss the seasonal opportunity. The 8-week planning horizon gives buyers enough lead time to build stock before the seasonal peak and run it down cleanly afterward.",
+        b3_result:"Expected: 20–30% reduction in peak-season overstock",
+        b4_ind:"Convenience Stores",b4_title:"Multi-SKU Category Management",
+        b4_desc:"A convenience store manager oversees hundreds of SKUs with limited time for analysis. The product-by-product tab structure mirrors how a category manager thinks. Scaling this system to 100 products would give a buyer a complete weekly decision brief — which prices to adjust, which products to order, which categories are trending — without opening a spreadsheet.",
+        b4_result:"Expected: 3–4 hours saved per buyer per week",
+        b5_ind:"Wholesale / Distribution",b5_title:"Supplier Order Consolidation",
+        b5_desc:"Wholesalers place orders from multiple suppliers with different lead times. The 8-week planning horizon makes it possible to consolidate orders across products from the same vendor — reducing purchase orders, qualifying for volume discounts, and smoothing delivery schedules. The EOQ provides a principled starting point for negotiating minimum order quantities.",
+        b5_result:"Expected: 10–20% reduction in order processing costs",
+        b6_ind:"Retail Analytics / Consulting",b6_title:"Data-Driven Buyer Training",
+        b6_desc:"The real-time price slider and live profit curve make the relationship between price, demand, and profit viscerally clear — even to non-technical buyers. Moving the slider and watching the profit curve update in real time builds trust in the model and accelerates adoption of analytical decision-making across the buying team.",
+        b6_result:"Expected: Faster adoption of analytical decision-making across teams",
+        why_label:"Why It Matters",why_title:"What this demonstrates",
+        why1_title:"Systems Thinking",
+        why1_desc:"Connecting three different AI models into a single coherent product requires understanding how each model's output becomes another model's input. This end-to-end design thinking is what separates a data scientist from a data product builder.",
+        why2_title:"Right Tool for Each Problem",
+        why2_desc:"Holt-Winters for time series, SciPy for continuous optimization, OR-Tools for discrete scheduling. Using the right tool for each problem — rather than forcing one tool to do everything — is a hallmark of experienced engineering.",
+        why3_title:"UX for Non-Technical Users",
+        why3_desc:"The live price slider, color-coded charts, and plain-language Summary Dashboard are designed for a store manager, not a data scientist. Making complex AI outputs immediately actionable for non-technical users is a product management skill as much as an engineering one.",
+        why4_title:"Directly Applicable to Hawaii Retail",
+        why4_desc:"Hawaii's grocery market operates with thin margins, high transportation costs, and unique seasonal patterns. The combination of demand forecasting, optimal pricing, and inventory minimization addresses exactly the pressures that Hawaii retailers face — making this a deployable tool, not just a portfolio demo.",
+        cta_label:"Try It",cta_title:"See all three models in action",
+        cta_desc:"Generate demo data, move the price slider, run the inventory optimizer — then check the Summary Dashboard for the integrated recommendation.",
+        cta_btn1:"↗ Open Live App",cta_btn2:"← Back to Portfolio",
+      },
+      ja: {
+        nav_back:"← ポートフォリオ",hero_eyebrow:"技術解説",
+        hero_title:"Retail Decision Engineの仕組み",
+        hero_desc:"需要予測・ダイナミックプライシング・発注最適化の3つのAIモデルが連携し、小売業者に「今週何をすべきか」を正確に伝えます。",
+        one_liner:"ほとんどの小売業者は価格設定と発注を直感で行っています。このアプリは直感を3つの連携したAIモデルに置き換え、すべての意思決定を同時に最適化します。",
+        overview_label:"システム全体像",overview_title:"3つのAIモデル、1つの統合判断",
+        overview_desc:"各モジュールが異なるビジネス問題を解きます。総合ダッシュボードが3つを統合し、商品ごとに週次の推奨アクションを提供します。",
+        m1_title:"需要予測",m1_desc:"Holt-Wintersの時系列モデルが季節パターンを学習し、信頼区間付きで将来の需要を予測します。",
+        m2_title:"ダイナミックプライシング",m2_desc:"価格弾力性モデルがSciPy最適化を使って週次利益を最大化する価格を数学的に特定します。",
+        m3_title:"発注最適化",m3_desc:"OR-Tools CP-SATソルバーが今後8週間の最適な発注数量とタイミングを計算します。",
+        tech_label:"使用技術",tech_title:"各AIモデルの仕組み",
+        tech_desc:"各モデルは人気があるからではなく、その問題に最適なツールだから選ばれています。",
+        t1_title:"Holt-Winters指数平滑化 — 需要予測",
+        t1_desc:"Holt-Wintersは売上履歴を3つの成分に分解します：レベル（基準値）・トレンド（需要は成長しているか？）・季節性（週または月ごとにどれだけ変動するか？）。ブラックボックスの深層学習とは異なり、すべての成分が解釈可能です。商品ごとに104週の週次データで学習し、予測値と95%信頼区間を出力します。信頼区間は在庫計画に重要です：上限に合わせた発注は欠品を防ぎ、下限に合わせた発注は保管コストを最小化します。",
+        t1_pill:"statsmodels · 加法的季節性 · 52週の季節周期",
+        t2_title:"価格弾力性 + SciPy最適化 — ダイナミックプライシング",
+        t2_desc:"価格弾力性は顧客が価格変化にどれだけ敏感かを測ります。弾力性−1.8は「価格を10%上げると需要が18%下がる」ことを意味します。これが分かると、利益関数（価格−コスト）×需要（価格）は単一のピークを持つ連続カーブになります。ScipyのBounded Scalar Minimizerがこのピークをミリ秒で数学的に特定します。リアルタイムの価格スライダーで現在の価格が最適値からどれだけ離れているかを即座に確認できます。",
+        t2_pill:"scipy.optimize · 価格弾力性モデル · リアルタイム利益カーブ",
+        t3_title:"OR-Tools CP-SATソルバー — 発注最適化",
+        t3_desc:"在庫問題は離散的・複数期間の意思決定でハード制約があります。今後8週間の各週について「発注するかどうか、するなら何個？」を決める必要があります。制約は「在庫が最低安全水準を下回らないこと」「倉庫容量を超えないこと」「リードタイムがあること」です。CP-SATはこれを混合整数最適化問題としてモデル化し、総コスト（発注固定費＋単価＋保管費＋欠品ペナルティ）を最小化する組み合わせを見つけます。",
+        t3_pill:"OR-Tools CP-SAT · 複数期間計画 · EOQベンチマーク",
+        flow_label:"モデルの連携",flow_title:"データから意思決定まで4ステップ",
+        flow_desc:"3つのモデルは独立していません——それぞれが次のモデルの入力を生成し、統合された推奨を生み出します。",
+        f1_title:"過去の売上 → Holt-Wintersが季節パターンを学習",
+        f1_desc:"104週の週次売上データをトレンド＋季節成分に分解します。商品ごとに季節パターンが異なるため（牛乳は冬にピーク、オレンジジュースは夏にピーク）、モデルは商品ごとに個別に学習されます。",
+        f2_title:"価格弾力性 → ScipyがGが利益を最大化する価格を発見",
+        f2_desc:"需要関数D(価格) = 基準需要 × (価格/基準価格)^弾力性を利益式と組み合わせて連続的な利益カーブを作成します。ScipyがこのカーブのピークをMillisecond以下で探索します。",
+        f3_title:"需要予測 → OR-Toolsが8週間の発注スケジュールを計画",
+        f3_desc:"モジュール1の8週間需要予測が在庫オプティマイザーの入力として直接渡されます。ソルバーは計画期間中ずっと安全在庫を維持しながら総コストを最小化する発注数量とタイミングの組み合わせを決定します。",
+        f4_title:"総合ダッシュボードが3つを1つのアクションに統合",
+        f4_desc:"総合ダッシュボードは全商品について3つのモジュールの出力を統合して表示します：先週比の需要予測、価格調整の推奨とその利益インパクト、今週発注すべきかどうかと数量。",
+        biz_label:"ビジネスへの応用",biz_title:"小売業者が今日から活用できる6つの方法",
+        biz_desc:"このシステムが行うすべての意思決定は、現在数時間かかる手作業のプロセスを置き換えます。",
+        b1_ind:"食料品 / 生鮮食品",b1_title:"生鮮食品の廃棄ロス削減",
+        b1_desc:"牛乳・パン・生鮮食品の賞味期限は数日です。過剰発注は廃棄とマークダウンにつながり、過小発注は欠品と売上損失を招きます。需要予測は季節パターンと曜日別ピーク（土曜日は火曜日の40%増）を考慮して毎週の最適発注量を正確に提示します。",
+        b1_result:"期待効果：生鮮廃棄ロス 15〜25%削減",
+        b2_ind:"食料品 / 価格設定",b2_title:"週次価格最適化",
+        b2_desc:"多くの中小スーパーは競合調査と直感で四半期ごとに価格を設定します。牛乳のような高回転商品で0.20ドルの価格調整だけで週次利益が数百ドル変わります。ダイナミックプライシングモジュールは商品ごとに週次で最適価格を計算し、数日かかっていたデータ基準の価格見直しを数分で完了させます。",
+        b2_result:"期待効果：SKUごとの粗利率 8〜15%改善",
+        b3_ind:"食料品 / オペレーション",b3_title:"季節性在庫計画",
+        b3_desc:"オレンジジュースの需要は12月にスパイクし、パンの需要は11月に上昇します。予測なしでは、バイヤーはピーク時に過剰在庫（資本の無駄）を抱えるかピーク商機を逃します。8週間の計画ホライゾンにより、季節ピーク前に在庫を積み上げてピーク後にきれいに消化するリードタイムが確保できます。",
+        b3_result:"期待効果：ピーク季節の過剰在庫 20〜30%削減",
+        b4_ind:"コンビニエンスストア",b4_title:"複数SKUのカテゴリ管理",
+        b4_desc:"コンビニのマネージャーは分析時間が限られた中で数百のSKUを管理します。商品ごとのタブ構造はカテゴリマネージャーの思考に沿っています。100商品に拡張すれば、スプレッドシートを開かずに「どの価格を調整すべきか・どの商品を発注すべきか・どのカテゴリがトレンドか」を週次で把握できます。",
+        b4_result:"期待効果：バイヤー1人あたり週3〜4時間の削減",
+        b5_ind:"卸売 / 流通",b5_title:"仕入先への発注統合",
+        b5_desc:"卸業者は異なるリードタイムと最低発注数量を持つ複数の仕入先に発注します。8週間の計画ホライゾンにより同一仕入先からの複数商品の発注を統合し、発注書の削減・ボリュームディスカウントの獲得・配送スケジュールの平準化が可能になります。",
+        b5_result:"期待効果：発注処理コスト 10〜20%削減",
+        b6_ind:"小売分析 / コンサルティング",b6_title:"データドリブンなバイヤー研修",
+        b6_desc:"リアルタイムの価格スライダーとライブ利益カーブは、価格・需要・利益の関係を非技術系のバイヤーにも直感的に理解させます。スライダーを動かして利益カーブがリアルタイムに更新されるのを見ることでモデルへの信頼が生まれ、分析的意思決定の組織内導入が加速します。",
+        b6_result:"期待効果：チーム全体での分析的意思決定の採用加速",
+        why_label:"なぜ重要か",why_title:"このプロジェクトが示すもの",
+        why1_title:"システム思考",
+        why1_desc:"3つの異なるAIモデルを1つの一貫したプロダクトに繋げるには、各モデルの出力が次のモデルの入力になる仕組みを理解する必要があります。このエンドツーエンドの設計思考がデータサイエンティストとデータプロダクトビルダーを区別します。",
+        why2_title:"問題に最適なツールを選ぶ",
+        why2_desc:"時系列にはHolt-Winters、連続最適化にはSciPy、離散スケジューリングにはOR-Tools。すべてを一つのツールで無理やり解決するのではなく問題ごとに最適なツールを選ぶのは、経験豊富なエンジニアの特徴です。",
+        why3_title:"非技術ユーザー向けUX",
+        why3_desc:"ライブ価格スライダー・色分けされたチャート・平易な言語の総合ダッシュボードは、データサイエンティストではなく店舗マネージャーのために設計されています。複雑なAI出力を非技術的な意思決定者がすぐに行動に移せるようにするのはエンジニアリングと同様にプロダクトマネジメントのスキルです。",
+        why4_title:"ハワイ小売業への直接的な適用可能性",
+        why4_desc:"ハワイの食料品市場は薄い利益率・高い輸送コスト・独自の季節パターンで運営されています。需要予測・最適価格設定・在庫最小化の組み合わせは、ハワイの小売業者が直面する課題に正確に対応しており、ポートフォリオのデモだけでなく実際に展開可能なツールです。",
+        cta_label:"試してみる",cta_title:"3つのモデルを動かしてみる",
+        cta_desc:"デモデータを生成して価格スライダーを動かし、発注最適化を実行してから総合ダッシュボードで統合された推奨を確認してください。",
+        cta_btn1:"↗ ライブアプリを開く",cta_btn2:"← ポートフォリオに戻る",
+      }
+    };
+
+    function applyLang(l) {
+      const t = T[l];
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const k = el.getAttribute('data-i18n');
+        if (t[k] !== undefined) el.textContent = t[k];
+      });
+      document.documentElement.lang = l;
+    }
+
+    document.querySelectorAll('[data-lang-btn]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('[data-lang-btn]').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        applyLang(btn.getAttribute('data-lang-btn'));
+      });
+    });
+
+    applyLang('en');
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.08 });
+
+    document.querySelectorAll('.tech-card,.flow-step,.biz-card,.why-card').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
