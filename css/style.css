@@ -52,6 +52,44 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba
 .section-title { font-family: var(--serif); font-size: clamp(1.8rem, 4vw, 2.5rem); line-height: 1.15; margin-bottom: 16px; }
 .section-desc { color: var(--muted); max-width: 600px; margin-bottom: 48px; }
 
+/* ── Index Hero Layout (2 Columns + Avatar) ── */
+.hero-flex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+.hero-content {
+  flex: 1;
+  min-width: 300px;
+}
+.hero-avatar {
+  width: 180px;
+  height: 180px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 5rem;
+  flex-shrink: 0;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+  position: relative;
+}
+.hero-avatar img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+@media(max-width: 768px) {
+  .hero-flex { flex-direction: column-reverse; align-items: flex-start; gap: 24px; }
+  .hero-avatar { width: 120px; height: 120px; font-size: 3.5rem; }
+}
+
 /* ── Buttons ── */
 .btn-group { display: flex; justify-content: center; flex-wrap: wrap; gap: 16px; }
 .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 14px 32px; border-radius: 50px; font-size: 0.95rem; font-weight: 600; font-family: var(--sans); text-decoration: none; cursor: pointer; line-height: 1; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); border: 2px solid transparent; }
