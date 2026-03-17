@@ -44,7 +44,7 @@
     .hero-title em{font-style:italic;color:var(--accent);}
     .hero-desc{color:var(--muted);max-width:500px;margin:0 auto 40px;font-size:0.95rem;}
 
-    .one-liner{background:var(--accent);border-radius:var(--radius);padding:28px 36px;text-align:center;margin-bottom:72px;}
+    .one-liner{background:var(--accent);border-radius:var(--radius);padding:28px 36px;text-align:center;margin-bottom:32px;}
     .one-liner p{font-family:var(--serif);font-size:clamp(1.1rem,2.5vw,1.5rem);color:#fff;line-height:1.45;}
     .one-liner em{font-style:italic;opacity:0.85;}
 
@@ -143,6 +143,9 @@
       <p class="hero-desc" data-i18n="hero_desc">A plain-English explanation of the math and AI behind the Life-Value Optimizer — written for hiring managers, not just engineers.</p>
       <div class="one-liner">
         <p data-i18n="one_liner">The app uses <em>mathematical optimization</em> to find the combination of spending that maximizes <em>your life quality</em> — not just the cheapest option.</p>
+      </div>
+      <div style="margin-bottom: 20px;">
+        <a href="https://life-value-optimizer-mh.streamlit.app/" target="_blank" class="btn-primary" data-i18n="hero_btn">↗ Open Live App</a>
       </div>
     </div>
   </div>
@@ -309,6 +312,31 @@
 
   <section>
     <div class="container">
+      <p class="section-label" data-i18n="biz_label">Business Applications</p>
+      <h2 class="section-title" data-i18n="biz_title">How this translates to your business</h2>
+      <p class="section-desc" data-i18n="biz_desc">The same mathematical logic ("knapsack problem" & CP-SAT solver) used here to optimize personal budget can directly solve complex operational challenges.</p>
+      <div class="why-grid">
+        <div class="why-card">
+          <div class="why-icon">🚚</div>
+          <h3 class="why-title" data-i18n="biz1_title">Logistics & Route Optimization</h3>
+          <p class="why-desc" data-i18n="biz1_desc">Maximize delivery value while strictly adhering to vehicle capacity, time windows, and driver shift constraints.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon">👥</div>
+          <h3 class="why-title" data-i18n="biz2_title">Staff Scheduling</h3>
+          <p class="why-desc" data-i18n="biz2_desc">Automatically generate optimal shift schedules that minimize labor costs while satisfying employee preferences and legal requirements.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon">📈</div>
+          <h3 class="why-title" data-i18n="biz3_title">Marketing Budget Allocation</h3>
+          <p class="why-desc" data-i18n="biz3_desc">Distribute limited ad spend across multiple channels to maximize total ROI based on predicted performance models.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
       <p class="section-label" data-i18n="why_label">Why It Matters</p>
       <h2 class="section-title" data-i18n="why_title">What this demonstrates</h2>
       <div class="why-grid">
@@ -355,6 +383,7 @@
         hero_title:"How the AI works",
         hero_desc:"A plain-English explanation of the math and AI behind the Life-Value Optimizer — written for hiring managers, not just engineers.",
         one_liner:"The app uses mathematical optimization to find the combination of spending that maximizes your life quality — not just the cheapest option.",
+        hero_btn: "↗ Open Live App",
         tech_label:"The Technology", tech_title:"3 AI layers working together",
         tech_desc:"Each layer handles a different part of the problem. Together they form a system no single technology could achieve alone.",
         t1_title:"Mathematical Optimization — OR-Tools",
@@ -385,6 +414,15 @@
         ex_winner:"✓ Selected", ex_calc:"The calculation",
         ex_gym_calc:"Gym", ex_travel_calc:"Travel",
         ex_verdict:"→ Gym wins (446 > 214) — Health weight=9 amplifies its high health score.",
+        biz_label: "Business Applications",
+        biz_title: "How this translates to your business",
+        biz_desc: "The same mathematical logic ('knapsack problem' & CP-SAT solver) used here to optimize personal budget can directly solve complex operational challenges.",
+        biz1_title: "Logistics & Route Optimization",
+        biz1_desc: "Maximize delivery value while strictly adhering to vehicle capacity, time windows, and driver shift constraints.",
+        biz2_title: "Staff Scheduling",
+        biz2_desc: "Automatically generate optimal shift schedules that minimize labor costs while satisfying employee preferences and legal requirements.",
+        biz3_title: "Marketing Budget Allocation",
+        biz3_desc: "Distribute limited ad spend across multiple channels to maximize total ROI based on predicted performance models.",
         why_label:"Why It Matters", why_title:"What this demonstrates",
         why1_title:"Problem Formulation",
         why1_desc:"Translating \"what makes life better\" into a precise mathematical model is the core skill of an AI engineer. This project does exactly that.",
@@ -403,6 +441,7 @@
         hero_title:"AIの仕組み",
         hero_desc:"Life-Value Optimizerの数学とAIを、エンジニア以外にも伝わる言葉で説明します。採用担当者向けに書いています。",
         one_liner:"このアプリは数理最適化を使い、「最も安い選択」ではなく「あなたの人生の質を最大化する支出の組み合わせ」を数学的に見つけます。",
+        hero_btn: "↗ ライブアプリを開く",
         tech_label:"使用技術", tech_title:"3つのAI技術が連携",
         tech_desc:"それぞれが異なる問題を担当し、単一の技術では実現できないシステムを構成しています。",
         t1_title:"数理最適化 — OR-Tools",
@@ -433,6 +472,15 @@
         ex_winner:"✓ 選択された", ex_calc:"計算式",
         ex_gym_calc:"ジム", ex_travel_calc:"旅行積立",
         ex_verdict:"→ ジムが勝つ（446 > 214）。健康の重み=9が高い健康スコアを大きく増幅するため。",
+        biz_label: "ビジネスへの応用",
+        biz_title: "この技術を貴社のビジネスにどう活かすか",
+        biz_desc: "個人の予算最適化に使われている「ナップサック問題」とCP-SATソルバーの論理は、企業の複雑なオペレーション課題の解決に直結します。",
+        biz1_title: "物流・配送ルートの最適化",
+        biz1_desc: "車両の積載量、指定時間、ドライバーのシフトなどの制約を厳格に守りながら、一度の配送で運べる価値（利益）を最大化します。",
+        biz2_title: "スタッフのシフト自動作成",
+        biz2_desc: "従業員の希望や労働法規（休憩時間など）の制約を満たしつつ、人件費が最小となる最適なシフト表を自動生成します。",
+        biz3_title: "マーケティング予算の最適配分",
+        biz3_desc: "予測モデルに基づき、限られた広告予算を複数のチャネルにどう配分すればROI（投資対効果）が最大になるかを算出します。",
         why_label:"なぜ重要か", why_title:"このプロジェクトが示すもの",
         why1_title:"問題定式化能力",
         why1_desc:"「何が人生を豊かにするか」という抽象的な問いを精密な数学モデルに落とし込む能力はAIエンジニアの核心スキルです。",
