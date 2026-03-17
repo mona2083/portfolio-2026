@@ -3,13 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Manami Oyama — AI & Optimization Strategy</title>
+  <title>Manami Oyama — AI Engineer & Optimization Strategy</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&family=Noto+Serif+JP:wght@300;400&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet" />
 
   <style>
-    /* ── Variables ─────────────────────────────── */
     :root {
       --bg:        #f7f5f0;
       --surface:   #ffffff;
@@ -25,7 +24,6 @@
       --transition: 0.3s ease;
     }
 
-    /* ── Reset ──────────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body {
@@ -38,303 +36,60 @@
     }
     a { color: inherit; text-decoration: none; }
 
-    /* ── Layout ─────────────────────────────────── */
-    .container {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 0 24px;
-    }
+    .container { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+    section { padding: 100px 0; border-top: 1px solid var(--border); }
+    #hero { border-top: none; padding-top: 160px; padding-bottom: 120px; }
 
-    section {
-      padding: 80px 0;
-    }
-
-    section + section {
-      border-top: 1px solid var(--border);
-    }
-
-    /* ── Nav ────────────────────────────────────── */
     nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 100;
-      background: rgba(247, 245, 240, 0.92);
-      backdrop-filter: blur(10px);
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(247, 245, 240, 0.92); backdrop-filter: blur(10px);
       border-bottom: 1px solid var(--border);
     }
-
     .nav-inner {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 0 24px;
-      height: 60px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      max-width: 900px; margin: 0 auto; padding: 0 24px; height: 60px;
+      display: flex; align-items: center; justify-content: space-between;
     }
+    .nav-logo { font-family: var(--serif); font-size: 1.1rem; }
+    .nav-links { display: flex; align-items: center; gap: 32px; }
+    .nav-links a { font-size: 0.85rem; font-weight: 400; color: var(--muted); }
+    .lang-toggle { display: flex; background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 2px; }
+    .lang-btn { font-size: 0.7rem; font-weight: 600; padding: 4px 10px; border-radius: 16px; border: none; background: transparent; color: var(--muted); cursor: pointer; }
+    .lang-btn.active { background: var(--accent); color: #fff; }
 
-    .nav-logo {
-      font-family: var(--serif);
-      font-size: 1.1rem;
-    }
+    .hero-eyebrow { font-size: 0.8rem; font-weight: 600; text-transform: uppercase; color: var(--accent); margin-bottom: 20px; letter-spacing: 0.1em; }
+    .hero-name { font-family: var(--serif); font-size: clamp(2.8rem, 7vw, 4.5rem); line-height: 1.1; margin-bottom: 24px; }
+    .hero-name em { font-style: italic; color: var(--accent); }
+    .hero-tagline { font-size: 1.3rem; color: var(--ink); max-width: 680px; margin-bottom: 48px; font-weight: 400; line-height: 1.5; }
 
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 32px;
-    }
+    .btn { display: inline-flex; align-items: center; padding: 12px 28px; border-radius: 6px; font-size: 0.9rem; font-weight: 500; transition: all var(--transition); cursor: pointer; }
+    .btn-primary { background: var(--accent); color: #fff; border: none; }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(45, 106, 79, 0.2); }
+    .btn-outline { background: transparent; border: 1px solid var(--border); }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
 
-    .nav-links a {
-      font-size: 0.85rem;
-      font-weight: 400;
-      color: var(--muted);
-      transition: color var(--transition);
-    }
-
-    .nav-links a:hover { color: var(--ink); }
-
-    .lang-toggle {
-      display: flex;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 2px;
-    }
-
-    .lang-btn {
-      font-size: 0.7rem;
-      font-weight: 600;
-      padding: 4px 10px;
-      border-radius: 16px;
-      border: none;
-      background: transparent;
-      color: var(--muted);
-      cursor: pointer;
-      font-family: var(--sans);
-    }
-
-    .lang-btn.active {
-      background: var(--accent);
-      color: #fff;
-    }
-
-    /* ── Hero ───────────────────────────────────── */
-    #hero {
-      padding-top: 160px;
-      padding-bottom: 100px;
-    }
-
-    .hero-eyebrow {
-      font-size: 0.8rem;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 20px;
-    }
-
-    .hero-name {
-      font-family: var(--serif);
-      font-size: clamp(2.5rem, 6vw, 4.2rem);
-      line-height: 1.1;
-      margin-bottom: 24px;
-    }
-
-    .hero-name em {
-      font-style: italic;
-      color: var(--accent);
-    }
-
-    .hero-tagline {
-      font-size: 1.25rem;
-      color: var(--ink);
-      max-width: 640px;
-      margin-bottom: 40px;
-      line-height: 1.5;
-      font-weight: 400;
-    }
-
-    .hero-meta {
-      display: flex;
-      gap: 24px;
-      flex-wrap: wrap;
-    }
-
-    .hero-meta-item {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 0.85rem;
-      color: var(--muted);
-    }
-
-    .hero-meta-item span.dot {
-      width: 6px;
-      height: 6px;
-      background: var(--accent2);
-      border-radius: 50%;
-    }
-
-    .hero-cta {
-      margin-top: 48px;
-      display: flex;
-      gap: 16px;
-    }
-
-    /* ── Components ─────────────────────────────── */
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      padding: 12px 28px;
-      border-radius: 6px;
-      font-size: 0.9rem;
-      font-weight: 500;
-      transition: all var(--transition);
-      cursor: pointer;
-    }
-
-    .btn-primary {
-      background: var(--accent);
-      color: #fff;
-      border: none;
-    }
-
-    .btn-primary:hover { background: #1e4d38; transform: translateY(-2px); }
-
-    .btn-outline {
-      background: transparent;
-      color: var(--ink);
-      border: 1px solid var(--border);
-    }
-
-    .btn-outline:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
-
-    .section-label {
-      font-size: 0.75rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--accent);
-      margin-bottom: 12px;
-    }
-
-    .section-title {
-      font-family: var(--serif);
-      font-size: clamp(1.8rem, 4vw, 2.8rem);
-      line-height: 1.2;
-      margin-bottom: 40px;
-    }
-
-    /* ── About ──────────────────────────────────── */
-    .about-grid {
-      display: grid;
-      grid-template-columns: 1.2fr 0.8fr;
-      gap: 64px;
-    }
-
-    .about-text p {
-      margin-bottom: 24px;
-      color: var(--muted);
-    }
-
-    .stat-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      padding: 32px;
-      border-radius: var(--radius);
-      margin-bottom: 16px;
-    }
-
-    .stat-number {
-      font-family: var(--serif);
-      font-size: 2.5rem;
-      color: var(--accent);
-      line-height: 1;
-    }
-
-    .stat-label {
-      font-size: 0.8rem;
-      color: var(--muted);
-      margin-top: 8px;
-    }
-
-    /* ── Projects ───────────────────────────────── */
     .project-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 48px;
-      margin-bottom: 32px;
-      transition: all var(--transition);
+      background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 48px; margin-bottom: 40px; transition: all var(--transition);
     }
+    .project-card:hover { border-color: var(--accent2); box-shadow: 0 12px 30px rgba(0,0,0,0.04); }
+    .project-title { font-family: var(--serif); font-size: 2rem; margin-bottom: 12px; }
+    .project-subtitle { color: var(--accent); font-weight: 600; font-size: 0.85rem; text-transform: uppercase; margin-bottom: 20px; letter-spacing: 0.05em; }
+    .project-desc { color: var(--muted); margin-bottom: 32px; font-size: 0.95rem; }
+    .project-links { display: flex; flex-wrap: wrap; gap: 12px; }
+    .link-item { font-size: 0.85rem; font-weight: 500; display: flex; align-items: center; gap: 6px; padding: 8px 16px; background: var(--bg); border-radius: 6px; transition: 0.2s; }
+    .link-item:hover { background: var(--accent3); color: var(--accent); }
 
-    .project-card:hover {
-      box-shadow: 0 20px 40px rgba(0,0,0,0.05);
-      border-color: var(--accent2);
-    }
-
-    .project-title {
-      font-family: var(--serif);
-      font-size: 1.8rem;
-      margin-bottom: 8px;
-    }
-
-    .project-subtitle {
-      font-size: 0.9rem;
-      color: var(--accent);
-      font-weight: 600;
-      margin-bottom: 24px;
-      text-transform: uppercase;
-    }
-
-    .project-desc {
-      color: var(--muted);
-      margin-bottom: 24px;
-    }
-
-    .project-desc b { color: var(--ink); }
-
-    .tag {
-      display: inline-block;
-      padding: 4px 12px;
-      background: var(--tag-bg);
-      color: var(--accent);
-      border-radius: 20px;
-      font-size: 0.75rem;
-      font-weight: 500;
-      margin-right: 8px;
-      margin-bottom: 8px;
-    }
-
-    /* ── Timeline ───────────────────────────────── */
-    .timeline-item {
-      display: grid;
-      grid-template-columns: 140px 1fr;
-      padding: 32px 0;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .timeline-year { font-size: 0.9rem; color: var(--muted); }
-    .timeline-role { font-family: var(--serif); font-size: 1.2rem; margin-bottom: 4px; }
-    .timeline-detail { font-size: 0.9rem; color: var(--muted); }
-
-    /* ── Contact ────────────────────────────────── */
-    #contact { text-align: center; background: #fff; }
     .offer-box {
-      background: var(--tag-bg);
-      padding: 40px;
-      border-radius: var(--radius);
-      max-width: 700px;
-      margin: 0 auto 48px;
-      border: 1px solid var(--accent2);
+      background: var(--tag-bg); padding: 48px; border-radius: var(--radius);
+      border: 1px solid var(--accent2); text-align: center; max-width: 800px; margin: 0 auto;
     }
 
-    /* ── Responsive ─────────────────────────────── */
+    .timeline-item { display: grid; grid-template-columns: 140px 1fr; padding: 32px 0; border-bottom: 1px solid var(--border); }
+    .timeline-year { color: var(--muted); font-size: 0.9rem; }
+    .timeline-role { font-family: var(--serif); font-size: 1.2rem; margin-bottom: 4px; }
+
     @media (max-width: 768px) {
-      .about-grid { grid-template-columns: 1fr; }
-      .nav-links a:not(.lang-toggle) { display: none; }
+      .project-card { padding: 32px 24px; }
       .timeline-item { grid-template-columns: 1fr; gap: 8px; }
     }
   </style>
@@ -361,35 +116,34 @@
       <p class="hero-eyebrow" data-i18n="hero_eyebrow">Sr. Data Scientist & PM</p>
       <h1 class="hero-name">Manami<br><em>Oyama</em></h1>
       <p class="hero-tagline" data-i18n="hero_tagline">Transforming Operational Complexity into Profit through Mathematical Optimization & AI.</p>
-      <div class="hero-meta">
-        <div class="hero-meta-item"><span class="dot"></span><span data-i18n="hero_location">Honolulu, Hawaii</span></div>
-        <div class="hero-meta-item"><span class="dot"></span><span data-i18n="hero_school">KCC · CPT Eligible</span></div>
-        <div class="hero-meta-item"><span class="dot"></span><span data-i18n="hero_exp">15+ Years Experience</span></div>
+      <div style="display: flex; gap: 24px; flex-wrap: wrap; color: var(--muted); font-size: 0.85rem; margin-bottom: 48px;">
+        <span>● Honolulu, Hawaii</span>
+        <span>● KCC · CPT Eligible</span>
+        <span>● 15+ Years Business Experience</span>
       </div>
-      <div class="hero-cta">
+      <div style="display: flex; gap: 16px;">
         <a href="#projects" class="btn btn-primary" data-i18n="hero_cta1">View Optimization Projects</a>
-        <a href="#contact" class="btn btn-outline" data-i18n="hero_cta2">Request a Business Audit</a>
+        <a href="#contact" class="btn btn-outline" data-i18n="hero_cta2">Request a Conversation</a>
       </div>
     </div>
   </section>
 
   <section id="about">
     <div class="container">
-      <p class="section-label" data-i18n="about_label">About</p>
-      <h2 class="section-title" data-i18n="about_title">Strategic Data Science<br>meets Engineering</h2>
-      <div class="about-grid">
-        <div class="about-text">
-          <p data-i18n="about_p1">Based in Honolulu, I bridge the gap between complex data and real-world profitability. I specialize in building end-to-end AI applications that don't just predict the future, but optimize it.</p>
-          <p data-i18n="about_p2">With 15 years of business background in Japan and Canada, I bring a senior perspective to technical problems. I don't just build models; I design solutions that reduce costs and maximize ROI.</p>
+      <h2 style="font-family: var(--serif); font-size: 2.5rem; margin-bottom: 40px;" data-i18n="about_title">Bridging Data & Real-world Profit</h2>
+      <div style="display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 60px;">
+        <div>
+          <p style="margin-bottom: 24px; color: var(--muted);" data-i18n="about_p1">I specialize in building end-to-end AI applications that don't just predict the future, but optimize it. Based in Honolulu, I help businesses navigate operational complexity using data-driven logic.</p>
+          <p style="color: var(--muted);" data-i18n="about_p2">With 15 years of business background in Japan and Canada, I design solutions that reduce costs and maximize ROI by understanding the human and economic constraints of every problem.</p>
         </div>
-        <div class="about-stats">
-          <div class="stat-card">
-            <div class="stat-number">15+</div>
-            <div class="stat-label" data-i18n="stat_biz">Years of Business<br>Management</div>
+        <div>
+          <div style="border-left: 2px solid var(--accent); padding-left: 24px; margin-bottom: 32px;">
+            <div style="font-family: var(--serif); font-size: 2rem; color: var(--accent);">15+</div>
+            <div style="font-size: 0.8rem; color: var(--muted);" data-i18n="stat_biz">Years Business<br>Management</div>
           </div>
-          <div class="stat-card">
-            <div class="stat-number">4.5</div>
-            <div class="stat-label" data-i18n="stat_ds">Years as<br>Data Scientist</div>
+          <div style="border-left: 2px solid var(--accent); padding-left: 24px;">
+            <div style="font-family: var(--serif); font-size: 2rem; color: var(--accent);">4.5</div>
+            <div style="font-size: 0.8rem; color: var(--muted);" data-i18n="stat_ds">Years Data Science<br>Experience</div>
           </div>
         </div>
       </div>
@@ -399,23 +153,27 @@
   <section id="projects">
     <div class="container">
       <p class="section-label" data-i18n="proj_label">Optimization Showcase</p>
-      <h2 class="section-title" data-i18n="proj_title">Turning Data into<br>Actionable Decisions</h2>
+      <h2 style="font-family: var(--serif); font-size: 2.5rem; margin-bottom: 48px;" data-i18n="proj_title">Turning Data into<br>Actionable Decisions</h2>
 
       <div class="project-card">
-        <h3 class="project-title">The Life-Value Optimizer</h3>
         <p class="project-subtitle" data-i18n="p1_sub">AI × Mathematical Optimization</p>
-        <p class="project-desc" data-i18n="p1_desc">A full-stack optimizer solving the "knapsack problem" for lifestyle investments. <b>[Business Application]:</b> This logic is directly transferable to Logistics Route Optimization, Inventory Allocation, and Staff Scheduling.</p>
-        <div class="project-tags">
-          <span class="tag">Python</span><span class="tag">OR-Tools</span><span class="tag">CP-SAT Solver</span><span class="tag">Streamlit</span><span class="tag">LLM Integration</span>
+        <h3 class="project-title">The Life-Value Optimizer</h3>
+        <p class="project-desc" data-i18n="p1_desc">A full-stack optimizer solving the "knapsack problem" for lifestyle investments. This logic is directly transferable to Logistics Route Optimization, Inventory Allocation, and Staff Scheduling.</p>
+        <div class="project-links">
+          <a href="https://life-value-optimizer-mh.streamlit.app/" target="_blank" class="link-item">↗ Live App</a>
+          <a href="how-it-works-life-value-optimizer.html" class="link-item">ⓘ How It Works</a>
+          <a href="https://github.com/your-username/life-value-optimizer" target="_blank" class="link-item">GitHub</a>
         </div>
       </div>
 
       <div class="project-card">
-        <h3 class="project-title">AI Prompt Builder</h3>
         <p class="project-subtitle" data-i18n="p2_sub">Structured AI Strategy Tool</p>
-        <p class="project-desc" data-i18n="p2_desc">A pro-grade tool for generating high-fidelity, role-aware prompts. Designed to standardize AI output quality across business units, from marketing to technical strategy.</p>
-        <div class="project-tags">
-          <span class="tag">GenAI</span><span class="tag">Prompt Engineering</span><span class="tag">Flask</span><span class="tag">Docker</span>
+        <h3 class="project-title">AI Prompt Builder</h3>
+        <p class="project-desc" data-i18n="p2_desc">A pro-grade tool for generating high-fidelity, role-aware prompts. Standardizes AI output quality across business units, from marketing to technical strategy.</p>
+        <div class="project-links">
+          <a href="https://prompt-builder-x051.onrender.com/" target="_blank" class="link-item">↗ Live App</a>
+          <a href="how-it-works-prompt-builder.html" class="link-item">ⓘ How It Works</a>
+          <a href="https://github.com/your-username/ai-prompt-builder" target="_blank" class="link-item">GitHub</a>
         </div>
       </div>
     </div>
@@ -429,41 +187,41 @@
           <div class="timeline-year">2023 – Pres.</div>
           <div>
             <div class="timeline-role" data-i18n="exp1_role">Freelance AI Engineer & PM</div>
-            <div class="timeline-detail" data-i18n="exp1_detail">Focusing on mathematical optimization and LLM solutions for operational efficiency.</div>
+            <div style="font-size: 0.9rem; color: var(--muted);" data-i18n="exp1_detail">Focusing on mathematical optimization and LLM solutions for operational efficiency.</div>
           </div>
         </div>
         <div class="timeline-item">
           <div class="timeline-year">2019 – 2023</div>
           <div>
             <div class="timeline-role" data-i18n="exp2_role">Data Scientist (eCommerce & IoT)</div>
-            <div class="timeline-detail" data-i18n="exp2_detail">Implemented Uplift Modeling and Survival Analysis to drive marketing ROI.</div>
+            <div style="font-size: 0.9rem; color: var(--muted);" data-i18n="exp2_detail">Implemented Uplift Modeling and Survival Analysis to drive marketing ROI.</div>
           </div>
         </div>
         <div class="timeline-item">
           <div class="timeline-year">2016 – 2019</div>
           <div>
             <div class="timeline-role" data-i18n="exp3_role">Web Developer & Office Manager</div>
-            <div class="timeline-detail" data-i18n="exp3_detail">Achieved full profitability within 3 years (2 years ahead of plan) through data-driven management.</div>
+            <div style="font-size: 0.9rem; color: var(--muted);" data-i18n="exp3_detail">Achieved full profitability within 3 years (2 years ahead of plan) through data-driven management.</div>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <section id="contact">
+  <section id="contact" style="background: #fff; border-bottom: none;">
     <div class="container">
       <div class="offer-box">
-        <h3 style="font-family: var(--serif); font-size: 1.5rem; margin-bottom: 16px;" data-i18n="offer_title">Free Business Optimization Audit</h3>
-        <p style="font-size: 0.95rem; color: var(--muted);" data-i18n="offer_desc">Currently seeking CPT part-time roles. I offer a complimentary 1-hour audit to identify how your data can reduce operational costs. Let’s talk about your business challenges.</p>
-      </div>
-      <div style="display: flex; justify-content: center; gap: 20px;">
-        <a href="mailto:your@email.com" class="btn btn-primary" data-i18n="contact_btn">Email Me</a>
-        <a href="#" class="btn btn-outline">LinkedIn</a>
+        <h3 style="font-family: var(--serif); font-size: 1.8rem; margin-bottom: 20px;" data-i18n="offer_title">Open for CPT Collaboration</h3>
+        <p style="color: var(--muted); margin-bottom: 32px; line-height: 1.6;" data-i18n="offer_desc">Currently seeking CPT part-time opportunities. I look for project-based collaboration to demonstrate how data science can solve your specific business challenges. Let’s start with an informational conversation about your current operations.</p>
+        <div style="display: flex; justify-content: center; gap: 16px;">
+          <a href="mailto:your@email.com" class="btn btn-primary" data-i18n="contact_btn">Email Me</a>
+          <a href="https://linkedin.com/in/your-profile" target="_blank" class="btn btn-outline">LinkedIn</a>
+        </div>
       </div>
     </div>
   </section>
 
-  <footer style="padding: 40px 0; border-top: 1px solid var(--border); text-align: center; font-size: 0.8rem; color: var(--muted);">
+  <footer style="padding: 40px 0; text-align: center; font-size: 0.8rem; color: var(--muted);">
     <p>© 2026 Manami Oyama · Honolulu, HI</p>
   </footer>
 
@@ -473,46 +231,44 @@
         nav_about: "About", nav_projects: "Projects", nav_contact: "Contact",
         hero_eyebrow: "Sr. Data Scientist & PM",
         hero_tagline: "Transforming Operational Complexity into Profit through Mathematical Optimization & AI.",
-        hero_location: "Honolulu, Hawaii", hero_school: "KCC · CPT Eligible", hero_exp: "15+ Years Experience",
-        hero_cta1: "View Optimization Projects", hero_cta2: "Request a Business Audit",
-        about_label: "About", about_title: "Strategic Data Science<br>meets Engineering",
-        about_p1: "Based in Honolulu, I bridge the gap between complex data and real-world profitability. I specialize in building end-to-end AI applications that don't just predict the future, but optimize it.",
-        about_p2: "With 15 years of business background in Japan and Canada, I bring a senior perspective to technical problems. I don't just build models; I design solutions that reduce costs and maximize ROI.",
-        stat_biz: "Years of Business<br>Management", stat_ds: "Years as<br>Data Scientist",
+        hero_cta1: "View Optimization Projects", hero_cta2: "Request a Conversation",
+        about_title: "Bridging Data & Real-world Profit",
+        about_p1: "I specialize in building end-to-end AI applications that don't just predict the future, but optimize it. Based in Honolulu, I help businesses navigate operational complexity using data-driven logic.",
+        about_p2: "With 15 years of business background in Japan and Canada, I design solutions that reduce costs and maximize ROI by understanding the human and economic constraints of every problem.",
+        stat_biz: "Years Business<br>Management", stat_ds: "Years Data Science<br>Experience",
         proj_label: "Optimization Showcase", proj_title: "Turning Data into<br>Actionable Decisions",
         p1_sub: "AI × Mathematical Optimization",
-        p1_desc: "A full-stack optimizer solving the 'knapsack problem' for lifestyle investments. <b>[Business Application]:</b> This logic is directly transferable to Logistics Route Optimization, Inventory Allocation, and Staff Scheduling.",
+        p1_desc: "A full-stack optimizer solving the 'knapsack problem' for lifestyle investments. This logic is directly transferable to Logistics Route Optimization, Inventory Allocation, and Staff Scheduling.",
         p2_sub: "Structured AI Strategy Tool",
-        p2_desc: "A pro-grade tool for generating high-fidelity, role-aware prompts. Designed to standardize AI output quality across business units, from marketing to technical strategy.",
+        p2_desc: "A pro-grade tool for generating high-fidelity, role-aware prompts. Standardizes AI output quality across business units, from marketing to technical strategy.",
         exp_label: "Experience",
         exp1_role: "Freelance AI Engineer & PM", exp1_detail: "Focusing on mathematical optimization and LLM solutions for operational efficiency.",
         exp2_role: "Data Scientist (eCommerce & IoT)", exp2_detail: "Implemented Uplift Modeling and Survival Analysis to drive marketing ROI.",
         exp3_role: "Web Developer & Office Manager", exp3_detail: "Achieved full profitability within 3 years (2 years ahead of plan) through data-driven management.",
-        offer_title: "Free Business Optimization Audit",
-        offer_desc: "Currently seeking CPT part-time roles. I offer a complimentary 1-hour audit to identify how your data can reduce operational costs. Let’s talk about your business challenges.",
+        offer_title: "Open for CPT Collaboration",
+        offer_desc: "Currently seeking CPT part-time opportunities. I look for project-based collaboration to demonstrate how data science can solve your specific business challenges. Let’s start with an informational conversation about your current operations.",
         contact_btn: "Email Me"
       },
       ja: {
         nav_about: "紹介", nav_projects: "実績", nav_contact: "連絡先",
         hero_eyebrow: "シニアデータサイエンティスト & PM",
         hero_tagline: "数理最適化とAIで、業務の複雑さを「利益」に変える。",
-        hero_location: "ホノルル、ハワイ", hero_school: "KCC在籍 · CPT対象", hero_exp: "15年以上の実務経験",
-        hero_cta1: "数理最適化の実績を見る", hero_cta2: "無料ビジネス診断を依頼",
-        about_label: "About", about_title: "戦略的データサイエンスと<br>エンジニアリングの融合",
-        about_p1: "ホノルルを拠点に、複雑なデータと現場の利益を繋ぎます。単に未来を予測するだけでなく、未来を「最適化」するエンドツーエンドのAIアプリ構築を専門としています。",
-        about_p2: "日本とカナダでの15年のビジネス経験を活かし、技術的課題にシニアな視点をもたらします。モデルを作るだけでなく、コストを削減しROIを最大化する解決策を設計します。",
-        stat_biz: "ビジネス・マネジメント<br>経験年数", stat_ds: "データサイエンティスト<br>経験年数",
+        hero_cta1: "数理最適化の実績を見る", hero_cta2: "情報交換を依頼",
+        about_title: "データと現場の利益を繋ぐ",
+        about_p1: "単に未来を予測するだけでなく、未来を「最適化」するエンドツーエンドのAIアプリ構築を専門としています。ホノルルを拠点に、データ駆動型の論理で複雑な業務課題の解決を支援します。",
+        about_p2: "日本とカナダでの15年のビジネス経験を活かし、人間心理と経済的制約の両面を理解した上で、コスト削減とROI最大化を実現する解決策を設計します。",
+        stat_biz: "ビジネス・マネジメント<br>経験年数", stat_ds: "データサイエンス<br>経験年数",
         proj_label: "数理最適化の実績", proj_title: "データを「意思決定」に<br>変える力",
         p1_sub: "AI × 数理最適化 Webアプリ",
-        p1_desc: "ライフスタイル投資の「ナップサック問題」を解くフルスタック最適化ツール。<b>【ビジネス応用】:</b> このロジックは配送ルート最適化、在庫配分、シフト作成にそのまま転用可能です。",
+        p1_desc: "ライフスタイル投資の「ナップサック問題」を解くフルスタック最適化ツール。このロジックは配送ルート最適化、在庫配分、シフト作成にそのまま転用可能です。",
         p2_sub: "構造化AI戦略ツール",
-        p2_desc: "高品質な役割認識プロンプトを生成するプロ向けツール。マーケティングから技術戦略まで、組織全体のAI出力品質を標準化するために設計。",
+        p2_desc: "高品質な役割認識プロンプトを生成するプロ向けツール。マーケティングから技術戦略まで、組織全体のAI出力品質を標準化します。",
         exp_label: "経歴",
         exp1_role: "AIエンジニア / PM（フリーランス）", exp1_detail: "数理最適化とLLMを活用し、業務効率化ソリューションに注力。",
         exp2_role: "データサイエンティスト（EC & IoT）", exp2_detail: "Uplift Modelingや生存時間分析を実装し、マーケティングROIを向上。",
         exp3_role: "Web開発 & オフィスマネージャー", exp3_detail: "データ駆動型経営により、3年での黒字化（計画より2年早期）を達成。",
-        offer_title: "無料ビジネス最適化診断",
-        offer_desc: "現在、CPTパートタイム職を探しています。貴社のデータがどのように運用コストを削減できるか特定する「1時間無料診断」を実施中。ビジネスの課題をお聞かせください。",
+        offer_title: "CPTでのプロジェクト協力",
+        offer_desc: "現在、CPT（学外就労許可）を活用したパートタイムの機会を探しています。まずは特定の課題に基づいたプロジェクトベースの協力から始め、私の専門性が貴社の実業務にどのように貢献できるか判断いただければ幸いです。まずは情報交換から始めさせてください。",
         contact_btn: "メールを送る"
       }
     };
@@ -523,6 +279,7 @@
         const key = el.getAttribute('data-i18n');
         if (t[key]) el.innerHTML = t[key];
       });
+      document.documentElement.lang = lang;
       document.body.style.fontFamily = lang === 'ja' ? "'DM Sans', 'Noto Sans JP', sans-serif" : "'DM Sans', sans-serif";
     }
 
