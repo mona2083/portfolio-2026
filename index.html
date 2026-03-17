@@ -41,7 +41,7 @@
 
     /* ── Layout ─────────────────────────────────── */
     .container {
-      max-width: 960px; /* 2カラム用に少し広げました */
+      max-width: 960px;
       margin: 0 auto;
       padding: 0 24px;
     }
@@ -228,35 +228,13 @@
     .stat-label { font-size: 0.8rem; color: var(--muted); line-height: 1.4; }
 
     /* ── Projects (2x2 Grid) ────────────────────── */
-    .projects-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr); /* 2カラム指定 */
-      gap: 24px;
-    }
-
-    .project-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 36px;
-      display: flex;
-      flex-direction: column; /* カード内を縦並びに */
-      transition: all var(--transition);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .project-card::before {
-      content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--accent); transform: scaleY(0); transition: transform var(--transition);
-    }
-
-    .project-card:hover {
-      border-color: var(--accent2); transform: translateY(-2px); box-shadow: 0 8px 32px rgba(45, 106, 79, 0.08);
-    }
+    .projects-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+    .project-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 36px; display: flex; flex-direction: column; transition: all var(--transition); position: relative; overflow: hidden; }
+    .project-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--accent); transform: scaleY(0); transition: transform var(--transition); }
+    .project-card:hover { border-color: var(--accent2); transform: translateY(-2px); box-shadow: 0 8px 32px rgba(45, 106, 79, 0.08); }
     .project-card:hover::before { transform: scaleY(1); }
 
-    .project-content-main { flex: 1; } /* バッジを下に寄せるための設定 */
-
+    .project-content-main { flex: 1; }
     .project-number { font-family: var(--serif); font-size: 0.8rem; color: var(--accent); letter-spacing: 0.08em; margin-bottom: 12px; }
     .project-title { font-family: var(--serif); font-size: 1.5rem; margin-bottom: 8px; line-height: 1.2; }
     .project-subtitle { font-size: 0.85rem; color: var(--accent); font-weight: 500; margin-bottom: 16px; }
@@ -269,17 +247,7 @@
     .project-link { font-size: 0.82rem; font-weight: 500; color: var(--accent); display: flex; align-items: center; gap: 6px; transition: opacity var(--transition); }
     .project-link:hover { opacity: 0.7; }
 
-    .project-badge {
-      background: var(--tag-bg);
-      border: 1px solid var(--accent2);
-      border-radius: var(--radius);
-      padding: 12px 20px;
-      display: inline-flex;
-      align-items: center;
-      gap: 16px;
-      width: fit-content;
-      margin-top: auto; /* 一番下に寄せる */
-    }
+    .project-badge { background: var(--tag-bg); border: 1px solid var(--accent2); border-radius: var(--radius); padding: 12px 20px; display: inline-flex; align-items: center; gap: 16px; width: fit-content; margin-top: auto; }
     .badge-icon { font-size: 1.6rem; }
     .badge-label { font-size: 0.75rem; color: var(--muted); line-height: 1.4; }
 
@@ -300,16 +268,13 @@
     .timeline-role { font-family: var(--serif); font-size: 1.1rem; margin-bottom: 4px; }
     .timeline-detail { font-size: 0.85rem; color: var(--muted); }
 
-    /* ── Contact ────────────────────────────────── */
-    #contact { text-align: center; }
-    #contact .section-desc { margin: 0 auto 40px; }
-    .contact-links { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
+    /* ── Contact (Offer Box) ────────────────────── */
+    .offer-box { background: var(--tag-bg); padding: 48px; border-radius: var(--radius); border: 1px solid var(--accent2); text-align: center; max-width: 800px; margin: 0 auto; }
+    .contact-links { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; margin-top: 24px; }
     footer { border-top: 1px solid var(--border); padding: 32px 0; text-align: center; font-size: 0.8rem; color: var(--muted); }
 
     /* ── Responsive ─────────────────────────────── */
-    @media (max-width: 860px) {
-      .projects-grid  { grid-template-columns: 1fr; } /* タブレット以下は1カラムに戻す */
-    }
+    @media (max-width: 860px) { .projects-grid  { grid-template-columns: 1fr; } }
     @media (max-width: 700px) {
       .about-grid     { grid-template-columns: 1fr; }
       .skills-grid    { grid-template-columns: 1fr 1fr; }
@@ -357,6 +322,7 @@
       <div class="hero-cta">
         <a href="#projects" class="btn btn-primary" data-i18n="hero_cta1">View Projects</a>
         <a href="#contact"  class="btn btn-outline"  data-i18n="hero_cta2">Get in Touch</a>
+        <a href="#" class="btn btn-outline" data-i18n="hero_resume">📄 Resume (PDF)</a>
       </div>
     </div>
   </section>
@@ -402,7 +368,6 @@
       </p>
 
       <div class="projects-grid">
-
         <div class="project-card">
           <div class="project-content-main">
             <p class="project-number">01</p>
@@ -416,9 +381,7 @@
               <span class="tag">Gemini API</span><span class="tag">Utility Theory</span>
             </div>
             <div class="project-links">
-              <a href="https://life-value-optimizer-mh.streamlit.app/" target="_blank" class="project-link">
-                ↗ <span data-i18n="link_demo">Live Demo</span>
-              </a>
+              <a href="https://life-value-optimizer-mh.streamlit.app/" target="_blank" class="project-link">↗ <span data-i18n="link_demo">Live Demo</span></a>
               <a href="how-it-works-life-value-optimizer.html" class="project-link">ⓘ How It Works</a>
               <a href="https://github.com/your-username/life-value-optimizer" target="_blank" class="project-link">↗ GitHub</a>
             </div>
@@ -435,16 +398,14 @@
             <h3 class="project-title">AI Prompt Builder</h3>
             <p class="project-subtitle" data-i18n="p2_sub">Structured Prompt Engineering Tool</p>
             <p class="project-desc" data-i18n="p2_desc">
-              A personal AI assistant that generates structured, role-aware prompts across 10 domains — from AI/PM strategy to recipe creation. Injects user profile context, assigns expert personas to the AI, and supports both Gemini and OpenAI models interchangeably.
+              A personal AI assistant that generates structured, role-aware prompts across 10 domains. Injects user profile context, assigns expert personas to the AI, and supports both Gemini and OpenAI models interchangeably.
             </p>
             <div class="project-tags">
               <span class="tag">Python</span><span class="tag">Flask</span><span class="tag">Gemini / OpenAI</span>
               <span class="tag">Prompt Engineering</span>
             </div>
             <div class="project-links">
-              <a href="https://prompt-builder-x051.onrender.com/" target="_blank" class="project-link">
-                ↗ <span data-i18n="link_demo">Live Demo</span>
-              </a>
+              <a href="https://prompt-builder-x051.onrender.com/" target="_blank" class="project-link">↗ <span data-i18n="link_demo">Live Demo</span></a>
               <a href="how-it-works-prompt-builder.html" class="project-link">ⓘ How It Works</a>
               <a href="https://github.com/your-username/ai-prompt-builder" target="_blank" class="project-link">↗ GitHub</a>
             </div>
@@ -468,9 +429,7 @@
               <span class="tag">Constraint Programming</span><span class="tag">Plotly</span>
             </div>
             <div class="project-links">
-              <a href="https://shift-optimizer-3mw2yb9vwve4iva6b4rpbu.streamlit.app/" target="_blank" class="project-link">
-                ↗ <span data-i18n="link_demo">Live Demo</span>
-              </a>
+              <a href="https://shift-optimizer-3mw2yb9vwve4iva6b4rpbu.streamlit.app/" target="_blank" class="project-link">↗ <span data-i18n="link_demo">Live Demo</span></a>
               <a href="how-it-works-shift-optimizer.html" class="project-link">ⓘ How It Works</a>
             </div>
           </div>
@@ -486,7 +445,7 @@
             <h3 class="project-title">Promo ROI Predictor</h3>
             <p class="project-subtitle" data-i18n="p4_sub">Uplift Modeling Dashboard / Coming Soon</p>
             <p class="project-desc" data-i18n="p4_desc">
-              A dashboard demonstrating Uplift Modeling on retail customer data (e.g. Starbucks promotion data). It segments customers to identify the "Persuadables"—proving how targeted promotions can halve marketing costs while maintaining the same revenue.
+              A dashboard demonstrating Uplift Modeling on retail customer data. It segments customers into 4 quadrants to identify the 'Persuadables'—proving how targeted promotions can halve marketing costs while maintaining the same revenue.
             </p>
             <div class="project-tags">
               <span class="tag">Python</span><span class="tag">scikit-uplift</span><span class="tag">Causal Inference</span>
@@ -574,17 +533,19 @@
     </div>
   </section>
 
-  <section id="contact">
+  <section id="contact" style="background: #fff; border-bottom: none;">
     <div class="container">
-      <p class="section-label" data-i18n="contact_label">Contact</p>
-      <h2 class="section-title" data-i18n="contact_title">Let's Work Together</h2>
-      <p class="section-desc" data-i18n="contact_desc">
-        Currently seeking CPT part-time positions in Data Science or AI Engineering. Open to collaborations and conversations.
-      </p>
-      <div class="contact-links">
-        <a href="mailto:your@email.com" class="btn btn-primary">✉ <span data-i18n="contact_email">Email Me</span></a>
-        <a href="https://linkedin.com/in/your-profile" target="_blank" class="btn btn-outline">↗ LinkedIn</a>
-        <a href="https://github.com/your-username" target="_blank" class="btn btn-outline">↗ GitHub</a>
+      <div class="offer-box">
+        <h3 style="font-family: var(--serif); font-size: 1.8rem; margin-bottom: 20px;" data-i18n="offer_title">Open for CPT Collaboration</h3>
+        <p style="color: var(--muted); margin-bottom: 32px; line-height: 1.6;" data-i18n="offer_desc">
+          Currently seeking CPT part-time opportunities.<br><br><b>(Note: CPT requires no visa sponsorship and involves zero complex paperwork for the employer.)</b><br><br>I look for project-based collaboration to demonstrate how data science can solve your specific business challenges. Let’s start with an informational conversation about your current operations.
+        </p>
+        <div class="contact-links">
+          <a href="mailto:your@email.com" class="btn btn-primary">✉ <span data-i18n="contact_email">Email Me</span></a>
+          <a href="https://linkedin.com/in/your-profile" target="_blank" class="btn btn-outline">↗ LinkedIn</a>
+          <a href="https://github.com/your-username" target="_blank" class="btn btn-outline">↗ GitHub</a>
+          <a href="#" class="btn btn-outline" data-i18n="hero_resume">📄 Resume (PDF)</a>
+        </div>
       </div>
     </div>
   </section>
@@ -602,7 +563,7 @@
         hero_eyebrow: "AI Engineer · Data Scientist · PM",
         hero_tagline: "Building intelligent systems at the intersection of optimization, machine learning, and product thinking — from Honolulu, Hawaii.",
         hero_location:"Honolulu, Hawaii", hero_school:  "KCC · CPT Eligible", hero_exp:     "9+ Years Experience",
-        hero_cta1:    "View Projects", hero_cta2:    "Get in Touch",
+        hero_cta1:    "View Projects", hero_cta2:    "Get in Touch", hero_resume:  "📄 Resume (PDF)",
         about_label:  "About", about_title:  "Data Scientist\nturned AI Engineer",
         about_p1:     "I'm an AI Engineer and Data Scientist based in Honolulu, Hawaii, currently studying at Kapiolani Community College while working as a freelancer. I specialize in building AI-powered applications that solve real-world problems.",
         about_p2:     "My background spans data science, AI engineering, and web development — giving me the ability to take a project from model design to deployed product. I'm passionate about mathematical optimization, LLM integration, and product thinking.",
@@ -614,7 +575,7 @@
         p1_desc:      "A full-stack web application that finds the optimal combination of lifestyle spending within a real budget. Treats purchases as investment decisions — gym memberships, travel funds, and subscriptions compete directly against savings goals using utility theory and OR-Tools' CP-SAT solver.",
         p1_badge:     "CP-SAT\nOptimization",
         p2_sub:       "Structured Prompt Engineering Tool",
-        p2_desc:      "A personal AI assistant that generates structured, role-aware prompts across 10 domains — from AI/PM strategy to recipe creation. Injects user profile context, assigns expert personas to the AI, and supports both Gemini and OpenAI models interchangeably.",
+        p2_desc:      "A personal AI assistant that generates structured, role-aware prompts across 10 domains. Injects user profile context, assigns expert personas to the AI, and supports both Gemini and OpenAI models interchangeably.",
         p2_badge:     "Multi-LLM\nIntegration",
         p3_sub:       "Constraint Programming / Workforce Scheduling",
         p3_desc:      "An AI-powered scheduling system that replaces manual spreadsheets. It uses Google's OR-Tools (CP-SAT) to mathematically prove the optimal schedule for 30+ employees, guaranteeing hard rules (like minimum staff and labor laws) while minimizing employee dissatisfaction (soft preferences).",
@@ -630,8 +591,8 @@
         exp1_year:    "2023 –", exp1_role:    "AI Engineer / PM · Freelance", exp1_detail:  "Full-stack AI application development, LLM integration, mathematical optimization",
         exp2_year:    "2019 – 2023", exp2_role:    "Data Scientist · 4 years", exp2_detail:  "Statistical modeling, data pipeline engineering, business intelligence",
         exp3_year:    "2016 – 2019", exp3_role:    "Web Developer · 3 years", exp3_detail:  "Full-stack web development, backend APIs, frontend implementation",
-        contact_label:"Contact", contact_title:"Let's Work Together",
-        contact_desc: "Currently seeking CPT part-time positions in Data Science or AI Engineering. Open to collaborations and conversations.",
+        offer_title:  "Open for CPT Collaboration",
+        offer_desc:   "Currently seeking CPT part-time opportunities.<br><br><b>(Note: CPT requires no visa sponsorship and involves zero complex paperwork for the employer.)</b><br><br>I look for project-based collaboration to demonstrate how data science can solve your specific business challenges. Let’s start with an informational conversation about your current operations.",
         contact_email:"Email Me", footer: "© 2026 Manami Oyama · Built with HTML, CSS & JavaScript",
       },
       ja: {
@@ -639,7 +600,7 @@
         hero_eyebrow: "AIエンジニア · データサイエンティスト · PM",
         hero_tagline: "数理最適化・機械学習・プロダクト思考の交差点でインテリジェントなシステムを構築しています。ハワイ・ホノルル在住。",
         hero_location:"ホノルル、ハワイ", hero_school:  "KCC在籍 · CPT対象", hero_exp:     "9年以上の経験",
-        hero_cta1:    "プロジェクトを見る", hero_cta2:    "お問い合わせ",
+        hero_cta1:    "プロジェクトを見る", hero_cta2:    "お問い合わせ", hero_resume:  "📄 レジュメ (PDF)",
         about_label:  "About", about_title:  "データサイエンティストから\nAIエンジニアへ",
         about_p1:     "ハワイ・ホノルルを拠点に活動するAIエンジニア兼データサイエンティストです。現在Kapiolani Community Collegeに在籍しながら、フリーランスとして活動しています。現実の課題を解決するAIアプリケーションの構築を専門としています。",
         about_p2:     "データサイエンス・AIエンジニアリング・Web開発という幅広いバックグラウンドにより、モデル設計からデプロイまで一貫して対応できます。数理最適化・LLM連携・プロダクト思考に情熱を持っています。",
@@ -667,8 +628,8 @@
         exp1_year:    "2023年〜", exp1_role:    "AIエンジニア / PM · フリーランス", exp1_detail:  "フルスタックAIアプリ開発、LLM連携、数理最適化",
         exp2_year:    "2019〜2023年", exp2_role:    "データサイエンティスト · 4年", exp2_detail:  "統計モデリング、データパイプライン構築、ビジネスインテリジェンス",
         exp3_year:    "2016〜2019年", exp3_role:    "Webデベロッパー · 3年", exp3_detail:  "フルスタックWeb開発、バックエンドAPI、フロントエンド実装",
-        contact_label:"Contact", contact_title:"一緒に働きましょう",
-        contact_desc: "データサイエンス・AIエンジニアリング分野でのCPTパートタイムポジションを探しています。コラボレーションや情報交換もお気軽にどうぞ。",
+        offer_title:  "CPTでのプロジェクト協力",
+        offer_desc:   "現在、CPT（学外就労許可）を活用したパートタイムの機会を探しています。<br><br><b>（※CPTは企業側でのビザスポンサーや複雑な手続きは一切不要です）</b><br><br>まずは特定の課題に基づいたプロジェクトベースの協力から始め、私の専門性が貴社の実業務にどのように貢献できるか判断いただければ幸いです。まずは情報交換から始めさせてください。",
         contact_email:"メールを送る", footer: "© 2026 Manami Oyama · HTML、CSS、JavaScriptで構築",
       }
     };
