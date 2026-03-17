@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Manami Oyama — AI Engineer & Data Scientist</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&family=Noto+Serif+JP:wght@300;400&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ── Variables ─────────────────────────────── */
+    :root {
+      --bg:        #f7f5f0;
+      --surface:   #ffffff;
+      --ink:       #1a1a1a;
+      --muted:     #6b6b6b;
+      --accent:    #2d6a4f;
+      --accent2:   #b7d5c8;
+      --border:    #e2ddd6;
+      --tag-bg:    #eaf2ee;
+      --serif:     'DM Serif Display', 'Noto Serif JP', Georgia, serif;
+      --sans:      'DM Sans', 'Noto Sans JP', sans-serif;
+      --radius:    12px;
+      --transition: 0.3s ease;
+    }
+
+    /* ── Reset ──────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--ink);
+      font-size: 16px;
+      line-height: 1.7;
+      font-weight: 300;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+
+    /* ── Layout ─────────────────────────────────── */
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    section {
+      padding: 80px 0;
+    }
+
+    section + section {
+      border-top: 1px solid var(--border);
+    }
+
+    /* ── Nav ────────────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      background: rgba(247, 245, 240, 0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 24px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-logo {
+      font-family: var(--serif);
+      font-size: 1.1rem;
+      letter-spacing: 0.01em;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
+
+    .nav-links a {
+      font-size: 0.85rem;
+      font-weight: 400;
+      color: var(--muted);
+      letter-spacing: 0.03em;
+      transition: color var(--transition);
+    }
+
+    .nav-links a:hover { color: var(--ink); }
+
+    .lang-toggle {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 4px 6px;
+      cursor: pointer;
+    }
+
+    .lang-btn {
+      font-size: 0.75rem;
+      font-weight: 500;
+      padding: 3px 10px;
+      border-radius: 16px;
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all var(--transition);
+      font-family: var(--sans);
+    }
+
+    .lang-btn.active {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    /* ── Hero ───────────────────────────────────── */
+    #hero {
+      padding-top: 140px;
+      padding-bottom: 100px;
+      border-top: none;
+    }
+
+    .hero-eyebrow {
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 20px;
+    }
+
+    .hero-name {
+      font-family: var(--serif);
+      font-size: clamp(2.8rem, 6vw, 4.5rem);
+      line-height: 1.1;
+      letter-spacing: -0.01em;
+      margin-bottom: 16px;
+    }
+
+    .hero-name em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .hero-tagline {
+      font-size: 1.1rem;
+      color: var(--muted);
+      max-width: 540px;
+      margin-bottom: 40px;
+      line-height: 1.6;
+    }
+
+    .hero-meta {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .hero-meta-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    .hero-meta-item span.dot {
+      width: 6px;
+      height: 6px;
+      background: var(--accent);
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .hero-cta {
+      margin-top: 40px;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 11px 24px;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      font-family: var(--sans);
+      border: none;
+      cursor: pointer;
+      transition: all var(--transition);
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      background: #1e4d38;
+      transform: translateY(-1px);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--ink);
+      border: 1px solid var(--border);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      transform: translateY(-1px);
+    }
+
+    /* ── Section Headers ───────────────────────── */
+    .section-label {
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: var(--serif);
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
+      line-height: 1.15;
+      margin-bottom: 16px;
+    }
+
+    .section-desc {
+      color: var(--muted);
+      max-width: 520px;
+      margin-bottom: 48px;
+    }
+
+    /* ── About ──────────────────────────────────── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: start;
+    }
+
+    .about-text p {
+      color: var(--muted);
+      margin-bottom: 16px;
+    }
+
+    .about-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      transition: border-color var(--transition);
+    }
+
+    .stat-card:hover {
+      border-color: var(--accent2);
+    }
+
+    .stat-number {
+      font-family: var(--serif);
+      font-size: 2.2rem;
+      color: var(--accent);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .stat-label {
+      font-size: 0.8rem;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+
+    /* ── Projects ───────────────────────────────── */
+    .projects-grid {
+      display: grid;
+      gap: 24px;
+    }
+
+    .project-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 40px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 24px;
+      align-items: start;
+      transition: all var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .project-card::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: var(--accent);
+      transform: scaleY(0);
+      transition: transform var(--transition);
+    }
+
+    .project-card:hover {
+      border-color: var(--accent2);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(45, 106, 79, 0.08);
+    }
+
+    .project-card:hover::before {
+      transform: scaleY(1);
+    }
+
+    .project-number {
+      font-family: var(--serif);
+      font-size: 0.8rem;
+      color: var(--accent);
+      letter-spacing: 0.08em;
+      margin-bottom: 12px;
+    }
+
+    .project-title {
+      font-family: var(--serif);
+      font-size: 1.5rem;
+      margin-bottom: 8px;
+      line-height: 1.2;
+    }
+
+    .project-subtitle {
+      font-size: 0.85rem;
+      color: var(--accent);
+      font-weight: 500;
+      margin-bottom: 16px;
+    }
+
+    .project-desc {
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin-bottom: 20px;
+      line-height: 1.7;
+    }
+
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 24px;
+    }
+
+    .tag {
+      font-size: 0.75rem;
+      font-weight: 500;
+      padding: 4px 12px;
+      background: var(--tag-bg);
+      color: var(--accent);
+      border-radius: 20px;
+      letter-spacing: 0.02em;
+    }
+
+    .project-links {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .project-link {
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: opacity var(--transition);
+    }
+
+    .project-link:hover { opacity: 0.7; }
+
+    .project-badge {
+      background: var(--tag-bg);
+      border: 1px solid var(--accent2);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      min-width: 180px;
+      text-align: center;
+    }
+
+    .badge-icon {
+      font-size: 2rem;
+      margin-bottom: 8px;
+    }
+
+    .badge-label {
+      font-size: 0.75rem;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+
+    /* ── Skills ─────────────────────────────────── */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .skill-group {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      transition: border-color var(--transition);
+    }
+
+    .skill-group:hover {
+      border-color: var(--accent2);
+    }
+
+    .skill-group-icon {
+      font-size: 1.4rem;
+      margin-bottom: 12px;
+    }
+
+    .skill-group-title {
+      font-family: var(--serif);
+      font-size: 1rem;
+      margin-bottom: 16px;
+    }
+
+    .skill-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .skill-list li {
+      font-size: 0.85rem;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .skill-list li::before {
+      content: '';
+      width: 4px;
+      height: 4px;
+      background: var(--accent);
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    /* ── Experience Timeline ────────────────────── */
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .timeline-item {
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      gap: 24px;
+      padding: 28px 0;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+    }
+
+    .timeline-item:last-child {
+      border-bottom: none;
+    }
+
+    .timeline-year {
+      font-size: 0.8rem;
+      color: var(--muted);
+      font-weight: 400;
+      padding-top: 3px;
+    }
+
+    .timeline-role {
+      font-family: var(--serif);
+      font-size: 1.1rem;
+      margin-bottom: 4px;
+    }
+
+    .timeline-detail {
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    /* ── Contact ────────────────────────────────── */
+    #contact {
+      text-align: center;
+    }
+
+    #contact .section-desc {
+      margin: 0 auto 40px;
+    }
+
+    .contact-links {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    /* ── Footer ─────────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 0;
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    /* ── Animations ─────────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .fade-up {
+      opacity: 0;
+      animation: fadeUp 0.7s ease forwards;
+    }
+
+    .fade-up:nth-child(1) { animation-delay: 0.1s; }
+    .fade-up:nth-child(2) { animation-delay: 0.2s; }
+    .fade-up:nth-child(3) { animation-delay: 0.3s; }
+    .fade-up:nth-child(4) { animation-delay: 0.4s; }
+    .fade-up:nth-child(5) { animation-delay: 0.5s; }
+
+    /* ── Responsive ─────────────────────────────── */
+    @media (max-width: 700px) {
+      .about-grid     { grid-template-columns: 1fr; }
+      .skills-grid    { grid-template-columns: 1fr 1fr; }
+      .project-card   { grid-template-columns: 1fr; }
+      .project-badge  { min-width: auto; text-align: left; display: flex; align-items: center; gap: 16px; }
+      .timeline-item  { grid-template-columns: 80px 1fr; gap: 16px; }
+      .nav-links a    { display: none; }
+    }
+
+    @media (max-width: 480px) {
+      .skills-grid { grid-template-columns: 1fr; }
+      .about-stats { grid-template-columns: 1fr 1fr; }
+    }
+
+    /* ── Lang hidden ────────────────────────────── */
+    [data-lang] { transition: opacity 0.2s; }
+  </style>
+</head>
+<body>
+
+  <!-- ── Nav ──────────────────────────────────────── -->
+  <nav>
+    <div class="nav-inner">
+      <div class="nav-logo">Manami Oyama</div>
+      <div class="nav-links">
+        <a href="#about"    data-i18n="nav_about">About</a>
+        <a href="#projects" data-i18n="nav_projects">Projects</a>
+        <a href="#skills"   data-i18n="nav_skills">Skills</a>
+        <a href="#contact"  data-i18n="nav_contact">Contact</a>
+        <div class="lang-toggle">
+          <button class="lang-btn active" data-lang-btn="en">EN</button>
+          <button class="lang-btn"        data-lang-btn="ja">JA</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ── Hero ─────────────────────────────────────── -->
+  <section id="hero">
+    <div class="container">
+      <p class="hero-eyebrow fade-up" data-i18n="hero_eyebrow">AI Engineer · Data Scientist · PM</p>
+      <h1 class="hero-name fade-up">
+        Manami<br><em>Oyama</em>
+      </h1>
+      <p class="hero-tagline fade-up" data-i18n="hero_tagline">
+        Building intelligent systems at the intersection of optimization, machine learning, and product thinking — from Honolulu, Hawaii.
+      </p>
+      <div class="hero-meta fade-up">
+        <div class="hero-meta-item">
+          <span class="dot"></span>
+          <span data-i18n="hero_location">Honolulu, Hawaii</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="dot"></span>
+          <span data-i18n="hero_school">KCC · CPT Eligible</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="dot"></span>
+          <span data-i18n="hero_exp">9+ Years Experience</span>
+        </div>
+      </div>
+      <div class="hero-cta fade-up">
+        <a href="#projects" class="btn btn-primary" data-i18n="hero_cta1">View Projects</a>
+        <a href="#contact"  class="btn btn-outline"  data-i18n="hero_cta2">Get in Touch</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── About ─────────────────────────────────────── -->
+  <section id="about">
+    <div class="container">
+      <p class="section-label" data-i18n="about_label">About</p>
+      <h2 class="section-title" data-i18n="about_title">Data Scientist<br>turned AI Engineer</h2>
+      <div class="about-grid">
+        <div class="about-text">
+          <p data-i18n="about_p1">
+            I'm an AI Engineer and Data Scientist based in Honolulu, Hawaii, currently studying at Kapiolani Community College while working as a freelancer. I specialize in building AI-powered applications that solve real-world problems.
+          </p>
+          <p data-i18n="about_p2">
+            My background spans data science, AI engineering, and web development — giving me the ability to take a project from model design to deployed product. I'm passionate about mathematical optimization, LLM integration, and product thinking.
+          </p>
+          <p data-i18n="about_p3">
+            Currently seeking CPT part-time positions in Data Science or AI Engineering roles.
+          </p>
+        </div>
+        <div class="about-stats">
+          <div class="stat-card">
+            <div class="stat-number">4</div>
+            <div class="stat-label" data-i18n="stat1">Years as<br>Data Scientist</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">2</div>
+            <div class="stat-label" data-i18n="stat2">Years as<br>AI Engineer</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">3</div>
+            <div class="stat-label" data-i18n="stat3">Years as<br>Web Developer</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">2</div>
+            <div class="stat-label" data-i18n="stat4">Portfolio<br>Projects</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Projects ──────────────────────────────────── -->
+  <section id="projects">
+    <div class="container">
+      <p class="section-label" data-i18n="proj_label">Projects</p>
+      <h2 class="section-title" data-i18n="proj_title">Featured Work</h2>
+      <p class="section-desc" data-i18n="proj_desc">
+        AI-powered applications that demonstrate end-to-end product and engineering capabilities.
+      </p>
+
+      <div class="projects-grid">
+
+        <!-- Project 1 -->
+        <div class="project-card">
+          <div>
+            <p class="project-number">01</p>
+            <h3 class="project-title">The Life-Value Optimizer</h3>
+            <p class="project-subtitle" data-i18n="p1_sub">AI × Mathematical Optimization Web App</p>
+            <p class="project-desc" data-i18n="p1_desc">
+              A full-stack web application that finds the optimal combination of lifestyle spending within a real budget. Treats purchases as investment decisions — gym memberships, travel funds, and subscriptions compete directly against savings goals using utility theory and OR-Tools' CP-SAT solver.
+            </p>
+            <div class="project-tags">
+              <span class="tag">Python</span>
+              <span class="tag">Streamlit</span>
+              <span class="tag">OR-Tools</span>
+              <span class="tag">Gemini API</span>
+              <span class="tag">Plotly</span>
+              <span class="tag">Utility Theory</span>
+            </div>
+            <div class="project-links">
+              <a href="https://life-value-optimizer-mh.streamlit.app/" target="_blank" class="project-link">
+                ↗ <span data-i18n="link_demo">Live Demo</span>
+              </a>
+              <a href="https://github.com/your-username/life-value-optimizer" target="_blank" class="project-link">
+                ↗ GitHub
+              </a>
+            </div>
+          </div>
+          <div class="project-badge">
+            <div class="badge-icon">💰</div>
+            <div class="badge-label" data-i18n="p1_badge">CP-SAT<br>Optimization</div>
+          </div>
+        </div>
+
+        <!-- Project 2 -->
+        <div class="project-card">
+          <div>
+            <p class="project-number">02</p>
+            <h3 class="project-title">AI Prompt Builder</h3>
+            <p class="project-subtitle" data-i18n="p2_sub">Structured Prompt Engineering Tool</p>
+            <p class="project-desc" data-i18n="p2_desc">
+              A personal AI assistant that generates structured, role-aware prompts across 10 domains — from AI/PM strategy to recipe creation. Injects user profile context, assigns expert personas to the AI, and supports both Gemini and OpenAI models interchangeably.
+            </p>
+            <div class="project-tags">
+              <span class="tag">Python</span>
+              <span class="tag">Flask</span>
+              <span class="tag">Gemini API</span>
+              <span class="tag">OpenAI API</span>
+              <span class="tag">Docker</span>
+              <span class="tag">Prompt Engineering</span>
+            </div>
+            <div class="project-links">
+              <a href="https://github.com/your-username/ai-prompt-builder" target="_blank" class="project-link">
+                ↗ GitHub
+              </a>
+            </div>
+          </div>
+          <div class="project-badge">
+            <div class="badge-icon">🤖</div>
+            <div class="badge-label" data-i18n="p2_badge">Multi-LLM<br>Integration</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Skills ────────────────────────────────────── -->
+  <section id="skills">
+    <div class="container">
+      <p class="section-label" data-i18n="skills_label">Skills</p>
+      <h2 class="section-title" data-i18n="skills_title">Technical Expertise</h2>
+
+      <div class="skills-grid">
+        <div class="skill-group">
+          <div class="skill-group-icon">🧠</div>
+          <h3 class="skill-group-title" data-i18n="skill_ai">AI & Machine Learning</h3>
+          <ul class="skill-list">
+            <li>Mathematical Optimization</li>
+            <li>OR-Tools / CP-SAT</li>
+            <li>LLM Integration</li>
+            <li>Prompt Engineering</li>
+            <li>Model Development</li>
+          </ul>
+        </div>
+        <div class="skill-group">
+          <div class="skill-group-icon">📊</div>
+          <h3 class="skill-group-title" data-i18n="skill_ds">Data Science</h3>
+          <ul class="skill-list">
+            <li>Python (Primary)</li>
+            <li>Data Engineering</li>
+            <li>Statistical Analysis</li>
+            <li>Visualization (Plotly)</li>
+            <li>pandas / numpy</li>
+          </ul>
+        </div>
+        <div class="skill-group">
+          <div class="skill-group-icon">🌐</div>
+          <h3 class="skill-group-title" data-i18n="skill_web">Web Development</h3>
+          <ul class="skill-list">
+            <li>Flask / Streamlit</li>
+            <li>REST API Design</li>
+            <li>HTML / CSS / JS</li>
+            <li>Docker</li>
+            <li>GitHub</li>
+          </ul>
+        </div>
+        <div class="skill-group">
+          <div class="skill-group-icon">🔧</div>
+          <h3 class="skill-group-title" data-i18n="skill_tools">Tools & Environment</h3>
+          <ul class="skill-list">
+            <li>VS Code / Cursor</li>
+            <li>macOS (M-series)</li>
+            <li>Git / GitHub</li>
+            <li>Docker</li>
+            <li>Streamlit Cloud</li>
+          </ul>
+        </div>
+        <div class="skill-group">
+          <div class="skill-group-icon">📋</div>
+          <h3 class="skill-group-title" data-i18n="skill_pm">Product Management</h3>
+          <ul class="skill-list">
+            <li>Requirements Definition</li>
+            <li>UX Design</li>
+            <li>Technical Roadmapping</li>
+            <li>Stakeholder Management</li>
+            <li>Agile / Iterative Dev</li>
+          </ul>
+        </div>
+        <div class="skill-group">
+          <div class="skill-group-icon">🌏</div>
+          <h3 class="skill-group-title" data-i18n="skill_lang">Languages</h3>
+          <ul class="skill-list">
+            <li data-i18n="lang_ja">Japanese (Native)</li>
+            <li data-i18n="lang_en">English (Fluent)</li>
+            <li data-i18n="lang_es">Spanish (Beginner)</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Experience Timeline -->
+      <div style="margin-top: 60px;">
+        <p class="section-label" data-i18n="exp_label">Experience</p>
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-year" data-i18n="exp1_year">2023 –</div>
+            <div>
+              <div class="timeline-role" data-i18n="exp1_role">AI Engineer / PM · Freelance</div>
+              <div class="timeline-detail" data-i18n="exp1_detail">Full-stack AI application development, LLM integration, mathematical optimization</div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-year" data-i18n="exp2_year">2019 – 2023</div>
+            <div>
+              <div class="timeline-role" data-i18n="exp2_role">Data Scientist · 4 years</div>
+              <div class="timeline-detail" data-i18n="exp2_detail">Statistical modeling, data pipeline engineering, business intelligence</div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-year" data-i18n="exp3_year">2016 – 2019</div>
+            <div>
+              <div class="timeline-role" data-i18n="exp3_role">Web Developer · 3 years</div>
+              <div class="timeline-detail" data-i18n="exp3_detail">Full-stack web development, backend APIs, frontend implementation</div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-year" data-i18n="exp4_year">2022 –</div>
+            <div>
+              <div class="timeline-role" data-i18n="exp4_role">Student · Kapiolani Community College</div>
+              <div class="timeline-detail" data-i18n="exp4_detail">Honolulu, Hawaii · CPT eligible</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Contact ───────────────────────────────────── -->
+  <section id="contact">
+    <div class="container">
+      <p class="section-label" data-i18n="contact_label">Contact</p>
+      <h2 class="section-title" data-i18n="contact_title">Let's Work Together</h2>
+      <p class="section-desc" data-i18n="contact_desc">
+        Currently seeking CPT part-time positions in Data Science or AI Engineering. Open to collaborations and conversations.
+      </p>
+      <div class="contact-links">
+        <a href="mailto:your@email.com" class="btn btn-primary">
+          ✉ <span data-i18n="contact_email">Email Me</span>
+        </a>
+        <a href="https://linkedin.com/in/your-profile" target="_blank" class="btn btn-outline">
+          ↗ LinkedIn
+        </a>
+        <a href="https://github.com/your-username" target="_blank" class="btn btn-outline">
+          ↗ GitHub
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Footer ───────────────────────────────────── -->
+  <footer>
+    <div class="container">
+      <p data-i18n="footer">© 2026 Manami Oyama · Built with HTML, CSS & JavaScript</p>
+    </div>
+  </footer>
+
+  <!-- ── i18n ─────────────────────────────────────── -->
+  <script>
+    const TRANSLATIONS = {
+      en: {
+        nav_about:    "About",
+        nav_projects: "Projects",
+        nav_skills:   "Skills",
+        nav_contact:  "Contact",
+        hero_eyebrow: "AI Engineer · Data Scientist · PM",
+        hero_tagline: "Building intelligent systems at the intersection of optimization, machine learning, and product thinking — from Honolulu, Hawaii.",
+        hero_location:"Honolulu, Hawaii",
+        hero_school:  "KCC · CPT Eligible",
+        hero_exp:     "9+ Years Experience",
+        hero_cta1:    "View Projects",
+        hero_cta2:    "Get in Touch",
+        about_label:  "About",
+        about_title:  "Data Scientist\nturned AI Engineer",
+        about_p1:     "I'm an AI Engineer and Data Scientist based in Honolulu, Hawaii, currently studying at Kapiolani Community College while working as a freelancer. I specialize in building AI-powered applications that solve real-world problems.",
+        about_p2:     "My background spans data science, AI engineering, and web development — giving me the ability to take a project from model design to deployed product. I'm passionate about mathematical optimization, LLM integration, and product thinking.",
+        about_p3:     "Currently seeking CPT part-time positions in Data Science or AI Engineering roles.",
+        stat1:        "Years as\nData Scientist",
+        stat2:        "Years as\nAI Engineer",
+        stat3:        "Years as\nWeb Developer",
+        stat4:        "Portfolio\nProjects",
+        proj_label:   "Projects",
+        proj_title:   "Featured Work",
+        proj_desc:    "AI-powered applications that demonstrate end-to-end product and engineering capabilities.",
+        p1_sub:       "AI × Mathematical Optimization Web App",
+        p1_desc:      "A full-stack web application that finds the optimal combination of lifestyle spending within a real budget. Treats purchases as investment decisions — gym memberships, travel funds, and subscriptions compete directly against savings goals using utility theory and OR-Tools' CP-SAT solver.",
+        p1_badge:     "CP-SAT\nOptimization",
+        p2_sub:       "Structured Prompt Engineering Tool",
+        p2_desc:      "A personal AI assistant that generates structured, role-aware prompts across 10 domains — from AI/PM strategy to recipe creation. Injects user profile context, assigns expert personas to the AI, and supports both Gemini and OpenAI models interchangeably.",
+        p2_badge:     "Multi-LLM\nIntegration",
+        link_demo:    "Live Demo",
+        skills_label: "Skills",
+        skills_title: "Technical Expertise",
+        skill_ai:     "AI & Machine Learning",
+        skill_ds:     "Data Science",
+        skill_web:    "Web Development",
+        skill_tools:  "Tools & Environment",
+        skill_pm:     "Product Management",
+        skill_lang:   "Languages",
+        lang_ja:      "Japanese (Native)",
+        lang_en:      "English (Fluent)",
+        lang_es:      "Spanish (Beginner)",
+        exp_label:    "Experience",
+        exp1_year:    "2023 –",
+        exp1_role:    "AI Engineer / PM · Freelance",
+        exp1_detail:  "Full-stack AI application development, LLM integration, mathematical optimization",
+        exp2_year:    "2019 – 2023",
+        exp2_role:    "Data Scientist · 4 years",
+        exp2_detail:  "Statistical modeling, data pipeline engineering, business intelligence",
+        exp3_year:    "2016 – 2019",
+        exp3_role:    "Web Developer · 3 years",
+        exp3_detail:  "Full-stack web development, backend APIs, frontend implementation",
+        exp4_year:    "2022 –",
+        exp4_role:    "Student · Kapiolani Community College",
+        exp4_detail:  "Honolulu, Hawaii · CPT eligible",
+        contact_label:"Contact",
+        contact_title:"Let's Work Together",
+        contact_desc: "Currently seeking CPT part-time positions in Data Science or AI Engineering. Open to collaborations and conversations.",
+        contact_email:"Email Me",
+        footer:       "© 2026 Manami Oyama · Built with HTML, CSS & JavaScript",
+      },
+      ja: {
+        nav_about:    "About",
+        nav_projects: "Projects",
+        nav_skills:   "Skills",
+        nav_contact:  "Contact",
+        hero_eyebrow: "AIエンジニア · データサイエンティスト · PM",
+        hero_tagline: "数理最適化・機械学習・プロダクト思考の交差点でインテリジェントなシステムを構築しています。ハワイ・ホノルル在住。",
+        hero_location:"ホノルル、ハワイ",
+        hero_school:  "KCC在籍 · CPT対象",
+        hero_exp:     "9年以上の経験",
+        hero_cta1:    "プロジェクトを見る",
+        hero_cta2:    "お問い合わせ",
+        about_label:  "About",
+        about_title:  "データサイエンティストから\nAIエンジニアへ",
+        about_p1:     "ハワイ・ホノルルを拠点に活動するAIエンジニア兼データサイエンティストです。現在Kapiolani Community Collegeに在籍しながら、フリーランスとして活動しています。現実の課題を解決するAIアプリケーションの構築を専門としています。",
+        about_p2:     "データサイエンス・AIエンジニアリング・Web開発という幅広いバックグラウンドにより、モデル設計からデプロイまで一貫して対応できます。数理最適化・LLM連携・プロダクト思考に情熱を持っています。",
+        about_p3:     "現在、データサイエンス・AIエンジニアリング分野でのCPTパートタイムポジションを探しています。",
+        stat1:        "データサイエンティスト\n経験年数",
+        stat2:        "AIエンジニア\n経験年数",
+        stat3:        "Webデベロッパー\n経験年数",
+        stat4:        "ポートフォリオ\nプロジェクト数",
+        proj_label:   "Projects",
+        proj_title:   "制作実績",
+        proj_desc:    "エンドツーエンドのプロダクト・エンジニアリング能力を示すAIアプリケーションです。",
+        p1_sub:       "AI × 数理最適化 Webアプリ",
+        p1_desc:      "限られた月次予算の中で、ライフスタイル支出の最適な組み合わせを見つけるフルスタックWebアプリ。ジム・旅行積立・サブスクが貯蓄目標と直接競合する効用理論ベースの設計。OR-ToolsのCP-SATソルバーを活用。",
+        p1_badge:     "CP-SAT\n最適化",
+        p2_sub:       "構造化プロンプトエンジニアリングツール",
+        p2_desc:      "AI/PM戦略からレシピ作成まで10カテゴリにわたる構造化・役割認識プロンプトを生成するパーソナルAIアシスタント。ユーザープロフィールのコンテキスト注入、専門家ペルソナ割り当て、Gemini・OpenAI両対応。",
+        p2_badge:     "マルチLLM\n統合",
+        link_demo:    "ライブデモ",
+        skills_label: "Skills",
+        skills_title: "技術スキル",
+        skill_ai:     "AI・機械学習",
+        skill_ds:     "データサイエンス",
+        skill_web:    "Web開発",
+        skill_tools:  "ツール・環境",
+        skill_pm:     "プロダクトマネジメント",
+        skill_lang:   "言語",
+        lang_ja:      "日本語（ネイティブ）",
+        lang_en:      "英語（流暢）",
+        lang_es:      "スペイン語（初級）",
+        exp_label:    "経験",
+        exp1_year:    "2023年〜",
+        exp1_role:    "AIエンジニア / PM · フリーランス",
+        exp1_detail:  "フルスタックAIアプリ開発、LLM連携、数理最適化",
+        exp2_year:    "2019〜2023年",
+        exp2_role:    "データサイエンティスト · 4年",
+        exp2_detail:  "統計モデリング、データパイプライン構築、ビジネスインテリジェンス",
+        exp3_year:    "2016〜2019年",
+        exp3_role:    "Webデベロッパー · 3年",
+        exp3_detail:  "フルスタックWeb開発、バックエンドAPI、フロントエンド実装",
+        exp4_year:    "2022年〜",
+        exp4_role:    "学生 · Kapiolani Community College",
+        exp4_detail:  "ホノルル、ハワイ · CPT対象",
+        contact_label:"Contact",
+        contact_title:"一緒に働きましょう",
+        contact_desc: "データサイエンス・AIエンジニアリング分野でのCPTパートタイムポジションを探しています。コラボレーションや情報交換もお気軽にどうぞ。",
+        contact_email:"メールを送る",
+        footer:       "© 2026 Manami Oyama · HTML、CSS、JavaScriptで構築",
+      }
+    };
+
+    let currentLang = 'en';
+
+    function applyLang(lang) {
+      currentLang = lang;
+      const t = TRANSLATIONS[lang];
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (t[key] !== undefined) {
+          // section-title の改行対応
+          el.innerHTML = t[key].replace(/\n/g, '<br>');
+        }
+      });
+      // html lang attribute
+      document.documentElement.lang = lang;
+      // nav font switch
+      document.body.style.fontFamily = lang === 'ja'
+        ? "'DM Sans', 'Noto Sans JP', sans-serif"
+        : "'DM Sans', sans-serif";
+    }
+
+    // Lang toggle
+    document.querySelectorAll('[data-lang-btn]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const lang = btn.getAttribute('data-lang-btn');
+        document.querySelectorAll('[data-lang-btn]').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        applyLang(lang);
+      });
+    });
+
+    // Init
+    applyLang('en');
+
+    // Scroll reveal
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.project-card, .skill-group, .stat-card, .timeline-item').forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(16px)';
+      el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+      observer.observe(el);
+    });
+  </script>
+</body>
+</html>
