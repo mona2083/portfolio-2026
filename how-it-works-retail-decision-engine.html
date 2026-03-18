@@ -131,6 +131,10 @@
       <div class="one-liner">
         <p data-i18n="one_liner">Most retailers make pricing and ordering decisions based on gut feeling. This app replaces intuition with <em>three connected AI models</em> that optimize every decision simultaneously.</p>
       </div>
+      <div class="btn-group fade-up" style="margin-bottom: 20px;">
+        <a href="https://retail-decision-engine-4h8ohlz3u2zz5tvzkubhh2.streamlit.app/" target="_blank" class="btn btn-primary" data-i18n="hero_btn">↗ Open Live App</a>
+        <a href="https://github.com/mona2083/retail-decision-engine" target="_blank" class="btn btn-outline">↗ GitHub</a>
+      </div>
     </div>
   </div>
 
@@ -469,7 +473,7 @@
         flow_desc:"3つのモデルは独立していません——それぞれが次のモデルの入力を生成し、統合された推奨を生み出します。",
         f1_title:"過去の売上 → Holt-Wintersが季節パターンを学習",
         f1_desc:"104週の週次売上データをトレンド＋季節成分に分解します。商品ごとに季節パターンが異なるため（牛乳は冬にピーク、オレンジジュースは夏にピーク）、モデルは商品ごとに個別に学習されます。",
-        f2_title:"価格弾力性 → ScipyがGが利益を最大化する価格を発見",
+        f2_title:"価格弾力性 → Scipyが利益を最大化する価格を発見",
         f2_desc:"需要関数D(価格) = 基準需要 × (価格/基準価格)^弾力性を利益式と組み合わせて連続的な利益カーブを作成します。ScipyがこのカーブのピークをMillisecond以下で探索します。",
         f3_title:"需要予測 → OR-Toolsが8週間の発注スケジュールを計画",
         f3_desc:"モジュール1の8週間需要予測が在庫オプティマイザーの入力として直接渡されます。ソルバーは計画期間中ずっと安全在庫を維持しながら総コストを最小化する発注数量とタイミングの組み合わせを決定します。",
