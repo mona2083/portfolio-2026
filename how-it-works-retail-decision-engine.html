@@ -377,12 +377,14 @@
   <footer><div class="container"><p>© 2026 Manami Oyama</p></div></footer>
 
   <script>
-    const T = {
+    // Use the shared language persistence logic in `js/main.js`.
+    // It reads `preferredLang` from localStorage and applies translations on load.
+    const PAGE_TRANSLATIONS = {
       en: {
         nav_back:"← Portfolio",hero_eyebrow:"Technical Deep Dive",
-        hero_title:"How the Retail Decision Engine works",
+        hero_title:'How the <em>Retail Decision Engine</em> works',
         hero_desc:"Three AI models — demand forecasting, dynamic pricing, and inventory optimization — working together to tell a retailer exactly what to do this week.",
-        one_liner:"Most retailers make pricing and ordering decisions based on gut feeling. This app replaces intuition with three connected AI models that optimize every decision simultaneously.",
+        one_liner:'Most retailers make pricing and ordering decisions based on gut feeling. This app replaces intuition with <em>three connected AI models</em> that optimize every decision simultaneously.',
         overview_label:"The System",overview_title:"3 AI models, 1 integrated decision",
         overview_desc:"Each module solves a different business problem. The Summary Dashboard combines all three into one actionable recommendation per product, per week.",
         m1_title:"Demand Forecasting",m1_desc:"Holt-Winters time series model learns seasonal patterns and predicts future demand with confidence intervals.",
@@ -507,31 +509,7 @@
         cta_btn1:"↗ ライブアプリを開く",cta_btn2:"← ポートフォリオに戻る",
       }
     };
-
-    function applyLang(l) {
-      const t = T[l];
-      document.querySelectorAll('[data-i18n]').forEach(el => {
-        const k = el.getAttribute('data-i18n');
-        if (t[k] !== undefined) el.textContent = t[k];
-      });
-      document.documentElement.lang = l;
-    }
-
-    document.querySelectorAll('[data-lang-btn]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('[data-lang-btn]').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        applyLang(btn.getAttribute('data-lang-btn'));
-      });
-    });
-
-    applyLang('en');
-
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-    }, { threshold: 0.08 });
-
-    document.querySelectorAll('.tech-card,.flow-step,.biz-card,.why-card').forEach(el => observer.observe(el));
   </script>
+  <script src="js/main.js"></script>
 </body>
 </html>
