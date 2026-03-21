@@ -30,11 +30,11 @@
       <h1 class="hero-title" data-i18n="hero_title">How <em>Uplift Modeling</em> works</h1>
       <p class="hero-desc" data-i18n="hero_desc">A plain-English explanation of Uplift Modeling and why it changes how smart companies spend their promotional budgets — written for business leaders, not just engineers.</p>
       <div class="one-liner">
-        <p data-i18n="one_liner">Sending coupons to <em>everyone</em> is wasteful. This app uses AI to find the exact customers where a promotion will actually change their behavior — and ignores everyone else.</p>
+        <p data-i18n="one_liner">Sending coupons to everyone is wasteful. This app uses AI to find the exact customers where a promotion will actually change their behavior — and ignores everyone else.</p>
       </div>
       <div class="btn-group fade-up" style="margin-bottom: 20px;">
         <a href="https://uplift-demo-2hybmyogzljzqureo9qvru.streamlit.app/" target="_blank" class="btn btn-primary" data-i18n="hero_btn">↗ Open Live App</a>
-        <a href="https://github.com/mona2083/uplift-demo" target="_blank" class="btn btn-outline">↗ GitHub</a>
+        <a href="https://github.com/mona2083/promo-roi-predictor" target="_blank" class="btn btn-outline">↗ GitHub</a>
       </div>
     </div>
   </div>
@@ -137,6 +137,15 @@
             <span class="tech-pill" data-i18n="t3_pill">Adjustable thresholds for real-world tuning</span>
           </div>
         </div>
+        <div class="tech-card">
+          <div class="tech-icon">🔍</div>
+          <div>
+            <p class="tech-label">Step 4 (NEW)</p>
+            <h3 class="tech-title" data-i18n="t4_title">Explainable AI (XAI) & Personas</h3>
+            <p class="tech-desc" data-i18n="t4_desc">To prevent the AI from becoming a "black box," the app uses a One-vs-Rest Random Forest to calculate Feature Importance. It reveals exactly which customer traits (e.g., past spend, visit frequency) drove the classification. The app then translates these mathematical weights into actionable customer personas for marketers.</p>
+            <span class="tech-pill" data-i18n="t4_pill">Transparent decision-making</span>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -229,7 +238,7 @@
       <p class="section-desc" style="margin:0 auto 28px;" data-i18n="cta_desc">Run the model on 10,000 demo customers and see the 4-quadrant breakdown in seconds. No setup required.</p>
       <div class="btn-group">
         <a href="https://uplift-demo-2hybmyogzljzqureo9qvru.streamlit.app/" target="_blank" class="btn btn-primary" data-i18n="cta_btn1">↗ Open Live App</a>
-        <a href="https://github.com/mona2083/uplift-demo" target="_blank" class="btn btn-outline">↗ GitHub</a>
+        <a href="https://github.com/mona2083/promo-roi-predictor" target="_blank" class="btn btn-outline">↗ GitHub</a>
         <a href="index.html" class="btn btn-outline" data-i18n="cta_btn2">← Back to Portfolio</a>
       </div>
     </div>
@@ -281,126 +290,4 @@
         t1_desc:"Model T is trained only on customers who received a coupon. Model C is trained only on customers who did not. Both models predict purchase probability for any given customer profile. By separating the training data, each model learns behavior in its own world — with or without the promotion. This is the key engineering insight that makes causal estimation possible from observational data.",
         t1_pill:"Gradient Boosting × 2 — one per treatment group",
         t2_title:"Uplift Score = Model T − Model C",
-        t2_desc:"For each customer, both models are applied and the results subtracted: Uplift = P(buy|coupon) − P(buy|no coupon). A score of +0.25 means the coupon increases purchase probability by 25 percentage points. A score of −0.15 means the coupon makes them 15% less likely to buy — identifying Sleeping Dogs. This individual-level score enables precise targeting.",
-        t2_pill:"Individual-level causal effect estimation",
-        t3_title:"Classify into 4 quadrants → Calculate ROI",
-        t3_desc:"With uplift score and base purchase probability for each customer, the app places them in the 4-quadrant chart and calculates the ROI difference: send to everyone vs. only Persuadables. Adjustable threshold sliders let you tune the classification to match your business reality.",
-        t3_pill:"Adjustable thresholds for real-world tuning",
-        biz_label:"Business Applications",biz_title:"6 ways this changes your business",
-        biz_desc:"Uplift Modeling is not a theoretical concept. Here are six concrete scenarios where this approach transforms marketing economics — with real expected outcomes.",
-        b1_ind:"Grocery / Supermarket",b1_title:"Loyalty Program Member Coupon Optimization",
-        b1_desc:"Major Grocery Chain currently sends weekly coupon emails to all loyalty program members regardless of their purchasing behavior. Uplift Modeling on purchase history, visit frequency, and recency can identify the ~25% of members who are genuine Persuadables. The remaining 75% are either Sure Things (loyal regulars who shop anyway) or Sleeping Dogs (frequent buyers who resent promotional noise). Targeting only Persuadables cuts coupon distribution by 75% while maintaining or improving incremental revenue.",
-        b1_result:"Expected: 60–75% coupon cost reduction, same incremental revenue",
-        b2_ind:"Discount Retail / Major Discount Retailer",b2_title:"Flash Sale Audience Selection",
-        b2_desc:"A major discount retailer's app sends flash sale notifications to all users, resulting in low CTR and high unsubscribe rates. Uplift Modeling on app session frequency, browsing patterns, and price sensitivity identifies which users convert on flash sales (Persuadables) vs. which open promotions but don't buy (Lost Causes) vs. which power users unsubscribe when over-messaged (Sleeping Dogs).",
-        b2_result:"Expected: 3–5x CTR improvement, reduced VIP churn",
-        b3_ind:"Apparel / Fashion Retail",b3_title:"End-of-Season Clearance Targeting",
-        b3_desc:"Apparel brands face a dilemma at season-end: deep discounts move inventory but train customers to wait for sales, eroding full-price margins. Uplift Modeling identifies customers who genuinely need a discount to purchase clearance (Persuadables) vs. full-price buyers who would purchase clearance regardless (Sure Things). This protects pricing power while clearing inventory efficiently.",
-        b3_result:"Expected: Inventory cleared at 15–20% higher average price",
-        b4_ind:"Subscription / SaaS",b4_title:"Churn Prevention Intervention",
-        b4_desc:"Subscription businesses often send retention discounts to all churning users. But some churned users were leaving regardless of price (Lost Causes), and some will return on their own (Sure Things). Uplift Modeling on usage patterns and engagement trends identifies the narrow Persuadable window: customers who left for price reasons and would return with a targeted offer.",
-        b4_result:"Expected: 40–50% reduction in unnecessary win-back discounts",
-        b5_ind:"Real Estate / Home Services",b5_title:"Lead Nurturing Budget Allocation",
-        b5_desc:"Uplift Modeling on lead behavior separates Persuadables (leads who need one more touchpoint) from Lost Causes (no purchase intent) and Sure Things (motivated buyers who will close without nurturing). Concentrating outreach on Persuadables improves agent productivity and reduces ad spend waste.",
-        b5_result:"Expected: 2–3x improvement in lead-to-close conversion per dollar",
-        b6_ind:"Travel / Hospitality",b6_title:"Loyalty Program Upgrade Offers",
-        b6_desc:"Airlines and hotels send status upgrade promotions to their entire member base. Uplift Modeling segments: Persuadables (travelers on the edge of qualifying who need a nudge), Sure Things (business travelers who will upgrade regardless), and Sleeping Dogs (leisure travelers who resent being sold to). Precision targeting dramatically improves conversion while protecting member satisfaction.",
-        b6_result:"Expected: 50–70% higher upgrade conversion at same or lower offer cost",
-        why_label:"Why It Matters",why_title:"What this demonstrates",
-        why1_title:"Causal Inference, Not Just Prediction",
-        why1_desc:"Most ML models predict outcomes. Uplift Modeling estimates causal effects — what would change because of a specific action. This requires understanding of counterfactual reasoning, experimental design, and treatment effect estimation.",
-        why2_title:"Business Framing First",
-        why2_desc:"The 4-quadrant framework translates a complex statistical model into a clear business decision tool. Quantifying ROI difference between \"target all\" vs. \"target Persuadables\" gives executives a financial justification, not just an accuracy metric.",
-        why3_title:"End-to-End Data Product",
-        why3_desc:"From synthetic data generation to model training, scoring, visualization, and downloadable results — a complete data product in Python. Handles both demo and real CSV data, immediately deployable in an actual business context.",
-        why4_title:"Hawaii Retail Domain Knowledge",
-        why4_desc:"Understanding that Hawaii's retail market over-indexes on broad-blast promotions, and knowing which businesses would benefit most from precision targeting — domain knowledge layered on top of technical skill. That combination is what makes data science genuinely valuable.",
-        cta_label:"Try It",cta_title:"See it in action",
-        cta_desc:"Run the model on 10,000 demo customers and see the 4-quadrant breakdown in seconds. No setup required.",
-        cta_btn1:"↗ Open Live App",cta_btn2:"← Back to Portfolio",
-      },
-      ja: {
-        nav_back:"← ポートフォリオ",hero_eyebrow:"技術解説",
-        hero_btn:"↗ ライブアプリを開く",
-        hero_title:"アップリフトモデリングの仕組み",
-        hero_desc:"アップリフトモデリングとは何か、そしてなぜスマートな企業が販促予算の使い方を根本から変えているのかを、ビジネスリーダー向けにわかりやすく説明します。",
-        one_liner:"全員にクーポンを配るのは無駄です。このアプリはAIを使って「クーポンが実際に行動を変える」顧客だけを特定し、それ以外は無視します。",
-        what_label:"アップリフトモデリングとは？",
-        what_title:"従来のマーケティングは間違った問いを立てている",
-        what_desc:"従来のモデルは「この顧客は買うか？」を予測します。アップリフトモデリングはまったく別の問いを立てます：「この販促は、買うかどうかの判断を変えるか？」",
-        trad_title:"❌ 従来のアプローチ",
-        trad1:"会員全員（10万人）に20%OFFメールを送る",
-        trad2:"購買力の高い顧客はどうせ買う（割引の無駄）",
-        trad3:"ロイヤル顧客は鬱陶しがって退会する",
-        trad4:"予算の80%が「背中を押す必要がない人」に使われる",
-        up_title:"✅ アップリフトモデリングのアプローチ",
-        up1:"行動が変わる約20%の顧客を特定する",
-        up2:"「説得可能層」にのみクーポンを配布する",
-        up3:"ロイヤル顧客はスキップ（どうせ買う）",
-        up4:"同じ売上で、販促費を60〜80%削減",
-        quad_label:"4つの顧客セグメント",
-        quad_title:"すべての顧客はこの4象限のどこかに属する",
-        q1_name:"Sure Things（鉄板層）",q1_ja:"鉄板層",
-        q1_desc:"購入確率が高く、クーポンの追加効果は小さい。クーポンがなくても買う。",
-        q1_action:"→ ここにクーポンを使わない",
-        q2_name:"Persuadables（説得可能層）⭐",q2_ja:"説得可能層",
-        q2_desc:"ベースの購入確率は低いが、クーポンで購入判断が変わる。販促投資が最も効くのはここ。",
-        q2_action:"→ 全予算をここに集中",
-        q3_name:"Sleeping Dogs（あまのじゃく層）",q3_ja:"あまのじゃく層",
-        q3_desc:"購入確率は高いが、販促を送ると鬱陶しがって離脱する。あなたの優良顧客。",
-        q3_action:"→ 絶対に販促を送らない",
-        q4_name:"Lost Causes（無関心層）",q4_ja:"無関心層",
-        q4_desc:"何をしても購入確率が低い。どれだけ割引しても効果がない。",
-        q4_action:"→ 予算を節約する",
-        axis_y:"高 ↑ クーポンなし購入確率 ↓ 低",
-        axis_left:"← 逆効果（クーポンが裏目に）",
-        axis_right:"効果あり（クーポンが後押し）→",
-        tech_label:"使用技術",tech_title:"モデルの仕組み",
-        tech_desc:"このアプリはT-Learner（2モデルアプローチ）を使用します。2つの別々のAIモデルを学習させ、その予測の差を比較することで各顧客へのクーポンの真の効果を測定します。",
-        t1_title:"T-Learner：2つのモデルを別々に学習",
-        t1_desc:"モデルTはクーポンを受け取った顧客のみで学習。モデルCはクーポンを受け取らなかった顧客のみで学習。両モデルは任意の顧客プロフィールに対して購入確率を予測します。学習データを分離することで、各モデルが「クーポンあり」「クーポンなし」の世界の行動をそれぞれ学習します。これが観測データから因果推定を可能にする核心的なアイデアです。",
-        t1_pill:"Gradient Boosting × 2 — トリートメント群ごとに1つ",
-        t2_title:"アップリフトスコア = モデルT − モデルC",
-        t2_desc:"各顧客に対して両モデルを適用し差し引きます：アップリフト = P(買う|クーポンあり) − P(買う|クーポンなし)。スコア+0.25は「クーポンで購入確率が25%ポイント上昇」を意味します。−0.15は「クーポンで購入確率が15%低下」を意味し、これがSleeping Dogsを特定します。",
-        t2_pill:"個人レベルの因果効果推定",
-        t3_title:"4象限に分類 → ROIを計算",
-        t3_desc:"各顧客のアップリフトスコアとベース購入確率を使って4象限チャートに配置し、「全員配布」vs「説得可能層のみ」のROI差を計算します。閾値スライダーでビジネスの実情に合わせて調整できます。",
-        t3_pill:"実際のビジネスに合わせた調整可能な閾値",
-        biz_label:"ビジネスへの応用",biz_title:"この技術をビジネスに活かす6つの方法",
-        biz_desc:"アップリフトモデリングは理論的な概念ではありません。マーケティングの経済性を変革する6つの具体的なシナリオを、期待される成果とともに示します。",
-        b1_ind:"食料品 / スーパーマーケット",b1_title:"ロイヤルティ会員クーポン最適化",
-        b1_desc:"Major Grocery Chainは現在、購買行動に関わらずすべてのロイヤルティ会員に週次クーポンメールを送っています。購買履歴・来店頻度・直近来店日のアップリフトモデリングにより、本当の説得可能層（約25%）を特定できます。残りの75%は鉄板層（どうせ買う常連）かあまのじゃく層（販促ノイズを嫌う優良顧客）です。説得可能層のみをターゲットにすることでクーポン配布を75%削減しながら、増分売上を維持または改善できます。",
-        b1_result:"期待効果：クーポンコスト60〜75%削減、増分売上は同等",
-        b2_ind:"ディスカウントリテール / 大手ディスカウントリテーラー",b2_title:"フラッシュセールのオーディエンス選定",
-        b2_desc:"大手ディスカウントリテーラーのアプリは全ユーザーにフラッシュセール通知を送り、低いCTRと高い退会率を招いています。アップリフトモデリングにより、実際にフラッシュセールで購入するユーザー（説得可能層）・開封しても買わないユーザー（無関心層）・過度な販促で退会するパワーユーザー（あまのじゃく層）を識別できます。",
-        b2_result:"期待効果：CTR 3〜5倍向上、VIP顧客の離脱率低下",
-        b3_ind:"アパレル / ファッションリテール",b3_title:"シーズン末クリアランスのターゲティング",
-        b3_desc:"アパレルブランドはシーズン末に板挟みになります：大幅割引は在庫を動かしますが、顧客を「セール待ち」に訓練し正規価格の利益率を侵食します。アップリフトモデリングにより、クリアランスに値引きが必要な顧客（説得可能層）と値引きなしでも買う顧客（鉄板層）を区別し、ブランドの価格力を守りながら効率的に在庫を消化できます。",
-        b3_result:"期待効果：平均15〜20%高い価格で在庫消化",
-        b4_ind:"サブスクリプション / SaaS",b4_title:"解約防止インターベンション",
-        b4_desc:"サブスクリプション企業は解約ユーザー全員に割引オファーを送りがちです。しかし一部のユーザーは価格に関係なく去っていきます（無関心層）し、自然に戻ってくるユーザーもいます（鉄板層）。アップリフトモデリングにより、価格が原因で離脱しオファーで戻ってくる層（説得可能層）を特定し、正規価格で更新するユーザーへの不必要な値引きを避けられます。",
-        b4_result:"期待効果：不必要なウィンバック割引を40〜50%削減",
-        b5_ind:"不動産 / ホームサービス",b5_title:"リードナーチャリングの予算配分",
-        b5_desc:"アップリフトモデリングにより、あと一度の接触で成約する見込み客（説得可能層）・購入意図のない閲覧者（無関心層）・ナーチャリングなしで成約する高意欲客（鉄板層）を分離できます。説得可能層への営業活動集中により、担当者の生産性が向上し広告費の無駄が劇的に減ります。",
-        b5_result:"期待効果：1ドルあたりの成約率 2〜3倍向上",
-        b6_ind:"旅行 / ホスピタリティ",b6_title:"ロイヤルティプログラムのアップグレードオファー",
-        b6_desc:"航空会社やホテルはステータスアップグレードのプロモーションを会員全体に送ります。アップリフトモデリングにより説得可能層（資格取得間近でひと押し必要な旅行者）・鉄板層（特典目的で必ずアップグレードするビジネス客）・あまのじゃく層（売り込みを嫌い退会するかもしれないレジャー客）を識別できます。精密なターゲティングで成約率を大幅改善しながら会員満足度を守れます。",
-        b6_result:"期待効果：同等または低いオファーコストで成約率50〜70%向上",
-        why_label:"なぜ重要か",why_title:"このプロジェクトが示すもの",
-        why1_title:"予測ではなく因果推論",
-        why1_desc:"多くのMLモデルは結果を予測します。アップリフトモデリングは因果効果を推定します——ある行動によって何が変わるかを。これは反実仮想推論・実験デザイン・処置効果推定の理解を必要とする、本質的に難しくより価値の高い問題です。",
-        why2_title:"ビジネスの枠組みを最優先に",
-        why2_desc:"4象限フレームワークは複雑な統計モデルを明確なビジネス意思決定ツールに変換します。「全員配布」vs「説得可能層のみ」のROI差を数値化することで、精度指標ではなく財務的な根拠を経営陣に提示します。",
-        why3_title:"エンドツーエンドのデータプロダクト",
-        why3_desc:"合成データ生成からモデル学習・スコアリング・可視化・ダウンロードまで——Pythonで構築された完全なデータプロダクト。デモデータと実際のCSVデータの両方に対応し、最小限の修正で実際のビジネスにすぐ展開可能です。",
-        why4_title:"ハワイ小売業界のドメイン知識",
-        why4_desc:"ハワイの小売市場が一斉送信型の販促に過度に依存していること、そしてどの企業（Major Grocery Chain・大手ディスカウントリテーラー）がターゲティング精度向上から最も恩恵を受けるかを知っていること——これは技術スキルに重ねられたドメイン知識です。その組み合わせこそがデータサイエンスをビジネスに真に価値あるものにします。",
-        cta_label:"試してみる",cta_title:"実際に動かしてみる",
-        cta_desc:"1万人のデモ顧客でモデルを実行し、4象限の分類を数秒で確認できます。セットアップ不要。",
-        cta_btn1:"↗ ライブアプリを開く",cta_btn2:"← ポートフォリオに戻る",
-      }
-    };
-  </script>
-  <script src="js/main.js"></script>
-</body>
-</html>
+        t2_desc:"For each customer, both models are applied and the
