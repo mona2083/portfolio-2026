@@ -39,7 +39,7 @@
       <h1 class="hero-title fade-up" data-i18n="hero_title">How the <em>Optimizer</em> works</h1>
       <p class="hero-desc fade-up" data-i18n="hero_desc">A plain-English explanation of the AI scheduling system behind Shift Optimizer — written for hiring managers, not just engineers.</p>
       <div class="one-liner fade-up">
-        <p data-i18n="one_liner">Instead of manually juggling spreadsheets, this app <em>mathematically proves</em> the best possible schedule — satisfying every hard rule while maximizing employee happiness.</p>
+        <p data-i18n="one_liner">Instead of manually juggling spreadsheets, this app <em>mathematically proves</em> the best possible schedule — handling impossible constraints gracefully while maximizing employee happiness.</p>
       </div>
       <div class="btn-group fade-up" style="margin-bottom: 20px;">
         <a href="https://shift-optimizer-3mw2yb9vwve4iva6b4rpbu.streamlit.app/" target="_blank" class="btn btn-primary" data-i18n="hero_btn">↗ Open Live App</a>
@@ -51,15 +51,15 @@
   <section>
     <div class="container">
       <p class="section-label" data-i18n="tech_label">The Technology</p>
-      <h2 class="section-title" data-i18n="tech_title">2 AI layers working together</h2>
-      <p class="section-desc" data-i18n="tech_desc">One layer guarantees every rule is satisfied. The other maximizes how happy employees are with the result.</p>
+      <h2 class="section-title" data-i18n="tech_title">3 AI layers working together</h2>
+      <p class="section-desc" data-i18n="tech_desc">One guarantees rules, one maximizes happiness, and the newest layer ensures the system never crashes even when the math is "impossible".</p>
       <div class="tech-cards">
         <div class="tech-card">
           <div class="tech-icon">&#129518;</div>
           <div>
             <p class="tech-label">Layer 1</p>
             <h3 class="tech-title" data-i18n="t1_title">Constraint Programming — OR-Tools CP-SAT</h3>
-            <p class="tech-desc" data-i18n="t1_desc">Google's CP-SAT solver assigns shifts across 30 employees, 3 departments, and 7 days simultaneously. It doesn't try schedules one by one — it reasons over all possibilities at once using constraint propagation and branch-and-bound search. The result is a mathematically proven optimal schedule, not a heuristic guess. The same solver powers Google's own workforce scheduling, logistics routing, and production planning systems.</p>
+            <p class="tech-desc" data-i18n="t1_desc">Google's CP-SAT solver assigns shifts across 30 employees, 3 departments, and 7 days simultaneously. It doesn't try schedules one by one — it reasons over all possibilities at once using constraint propagation and branch-and-bound search. The result is a mathematically proven optimal schedule, not a heuristic guess.</p>
             <span class="tech-pill" data-i18n="t1_pill">Provably optimal — not trial and error</span>
           </div>
         </div>
@@ -68,8 +68,17 @@
           <div>
             <p class="tech-label">Layer 2</p>
             <h3 class="tech-title" data-i18n="t2_title">Soft Constraint Optimization — Penalty Minimization</h3>
-            <p class="tech-desc" data-i18n="t2_desc">Beyond just satisfying rules, the optimizer minimizes a penalty score representing employee dissatisfaction. "Must-off" days are hard constraints (never violated). "Prefer-off" days and shift preference mismatches carry numerical penalties. The solver finds the schedule that satisfies all hard rules AND minimizes total employee unhappiness — a multi-objective optimization problem solved in a single pass.</p>
+            <p class="tech-desc" data-i18n="t2_desc">Beyond just satisfying rules, the optimizer minimizes a penalty score representing employee dissatisfaction. "Must-off" days are hard constraints (never violated). "Prefer-off" days and shift preference mismatches carry numerical penalties. The solver finds the schedule that minimizes total employee unhappiness.</p>
             <span class="tech-pill" data-i18n="t2_pill">Hard rules guaranteed + soft preferences maximized</span>
+          </div>
+        </div>
+        <div class="tech-card">
+          <div class="tech-icon">&#128737;</div>
+          <div>
+            <p class="tech-label">Layer 3 (New)</p>
+            <h3 class="tech-title" data-i18n="t3_title">Heuristics & Slack Variables — Edge-Case Handling</h3>
+            <p class="tech-desc" data-i18n="t3_desc">Traditional solvers crash or return "No Solution" when constraints are too tight (like having too few staff). This engine intercepts impossible scenarios with a heuristic pre-check. If needed, a "Best Effort Mode" converts hard minimum-staffing rules into soft constraints using slack variables with massive penalties. It mathematically guarantees the best possible schedule even when short-staffed, flagging the gaps for the manager.</p>
+            <span class="tech-pill" data-i18n="t3_pill">Heuristic Pre-check · Slack Variables · Feasibility</span>
           </div>
         </div>
       </div>
@@ -90,7 +99,7 @@
         <div class="constraint-card">
           <div class="constraint-type hard" data-i18n="hard_label">Hard Constraint — Always enforced</div>
           <div class="constraint-title" data-i18n="h2_title">Department staffing minimums</div>
-          <div class="constraint-desc" data-i18n="h2_desc">Each shift must have at least the required number of staff. If this can't be satisfied, the solver reports "no solution" rather than producing an invalid schedule.</div>
+          <div class="constraint-desc" data-i18n="h2_desc">Each shift must have at least the required number of staff. (Can be relaxed into a soft constraint via Best Effort Mode if mathematically impossible).</div>
         </div>
         <div class="constraint-card">
           <div class="constraint-type hard" data-i18n="hard_label">Hard Constraint — Always enforced</div>
@@ -141,15 +150,17 @@
         <div class="flow-step">
           <div class="flow-num">2</div>
           <div>
-            <h3 class="flow-title" data-i18n="f2_title">Hard constraints are added to the model</h3>
-            <p class="flow-desc" data-i18n="f2_desc">Each business rule becomes a mathematical constraint. "At most one shift per day" becomes a linear inequality. "Must-off day" sets a variable to 0. "Max consecutive days" adds a sliding window constraint. The solver will never produce a schedule that violates any of these.</p>
+            <h3 class="flow-title" data-i18n="f2_title">Hard constraints are added (or relaxed via Slack Variables)</h3>
+            <p class="flow-desc" data-i18n="f2_desc">Each business rule becomes a mathematical constraint. However, if "Best Effort Mode" is enabled, minimum staffing requirements are relaxed using *slack variables* so the solver doesn't fail when understaffed.</p>
             <div class="flow-code">
-              <span class="cm"># At most 1 shift per day</span><br>
-              model.Add(sum(x[e, d, s] for s in range(<span class="nu">3</span>)) &lt;= <span class="nu">1</span>)<br><br>
-              <span class="cm"># Must-off day: force variable to 0</span><br>
-              model.Add(x[e, d, s] == <span class="nu">0</span>)<br><br>
-              <span class="cm"># Min staff per shift</span><br>
-              model.Add(sum(x[e, d, s] for e in dept_emps) >= min_staff)
+              <span class="cm"># Best Effort Mode: Slack Variables</span><br>
+              if allow_understaffing:<br>
+              &nbsp;&nbsp;shortage = model.NewIntVar(<span class="nu">0</span>, min_req, <span class="kw">"short"</span>)<br>
+              &nbsp;&nbsp;model.Add(sum(x) + shortage >= min_req)<br>
+              &nbsp;&nbsp;penalties += shortage * <span class="nu">10000</span><br>
+              else:<br>
+              &nbsp;&nbsp;<span class="cm"># Strict hard constraint</span><br>
+              &nbsp;&nbsp;model.Add(sum(x) >= min_req)
             </div>
           </div>
         </div>
@@ -173,14 +184,6 @@
           <div>
             <h3 class="flow-title" data-i18n="f4_title">CP-SAT solves and returns the optimal assignment</h3>
             <p class="flow-desc" data-i18n="f4_desc">The solver explores the solution space using constraint propagation (eliminating impossible assignments early) and branch-and-bound search (proving no better solution exists). It returns the schedule with minimum penalty score within the time limit, along with a satisfaction score for each employee.</p>
-            <div class="flow-code">
-              <span class="cm"># Solve with 15 second time limit</span><br>
-              solver.parameters.max_time_in_seconds = <span class="nu">15</span><br>
-              status = solver.Solve(model)<br><br>
-              <span class="cm"># OPTIMAL = proven best, FEASIBLE = best found</span><br>
-              if status in (OPTIMAL, FEASIBLE):<br>
-              &nbsp;&nbsp;schedule = extract_assignments(solver, x)
-            </div>
           </div>
         </div>
       </div>
@@ -196,7 +199,7 @@
         <div class="biz-card">
           <div class="biz-icon">&#9203;</div>
           <h3 class="biz-title" data-i18n="biz1_title">Hours of Manager Time Saved</h3>
-          <p class="biz-desc" data-i18n="biz1_desc">Manually building schedules for 30+ staff across multiple departments typically takes hours each week. The optimizer produces a valid, optimized schedule in under 15 seconds — freeing managers to focus on higher-value work.</p>
+          <p class="biz-desc" data-i18n="biz1_desc">Manually building schedules for 30+ staff typically takes hours each week. The optimizer produces a valid, optimized schedule in under 15 seconds. If understaffed, it flags exactly where the gaps are, allowing managers to make targeted human decisions rather than starting from scratch.</p>
         </div>
         <div class="biz-card">
           <div class="biz-icon">&#9878;</div>
@@ -220,7 +223,7 @@
         <div class="why-card">
           <div class="why-icon">&#129518;</div>
           <h3 class="why-title" data-i18n="why1_title">Operations Research Applied</h3>
-          <p class="why-desc" data-i18n="why1_desc">Shift scheduling is a classic OR problem. Formulating it correctly — choosing which constraints are hard vs. soft, how to weight penalty terms — requires deep understanding of both the business problem and the solver's capabilities.</p>
+          <p class="why-desc" data-i18n="why1_desc">Shift scheduling is a classic OR problem. Formulating it correctly — choosing which constraints are hard vs. soft, using slack variables to prevent crashes, and weighting penalty terms — requires deep understanding of both the business problem and the solver's capabilities.</p>
         </div>
         <div class="why-card">
           <div class="why-icon">&#127775;</div>
@@ -257,7 +260,120 @@
   <footer><div class="container"><p>&#169; 2026 Manami Oyama</p></div></footer>
 
   <script>
-    const PAGE_TRANSLATIONS={en:{nav_back:"← Portfolio",hero_btn:"↗ Open Live App",hero_eyebrow:"Technical Deep Dive",hero_title:"How the Optimizer works",hero_desc:"A plain-English explanation of the AI scheduling system behind Shift Optimizer — written for hiring managers, not just engineers.",one_liner:"Instead of manually juggling spreadsheets, this app mathematically proves the best possible schedule — satisfying every hard rule while maximizing employee happiness.",tech_label:"The Technology",tech_title:"2 AI layers working together",tech_desc:"One layer guarantees every rule is satisfied. The other maximizes how happy employees are with the result.",t1_title:"Constraint Programming — OR-Tools CP-SAT",t1_desc:"Google's CP-SAT solver assigns shifts across 30 employees, 3 departments, and 7 days simultaneously. It doesn't try schedules one by one — it reasons over all possibilities at once. The result is a mathematically proven optimal schedule. The same solver powers Google's workforce scheduling, logistics routing, and production planning systems.",t1_pill:"Provably optimal — not trial and error",t2_title:"Soft Constraint Optimization — Penalty Minimization",t2_desc:"Beyond satisfying rules, the optimizer minimizes a penalty score representing employee dissatisfaction. 'Must-off' days are hard constraints (never violated). 'Prefer-off' days and shift preference mismatches carry numerical penalties. The solver finds the schedule that satisfies all hard rules AND minimizes total employee unhappiness.",t2_pill:"Hard rules guaranteed + soft preferences maximized",con_label:"Constraint Design",con_title:"Hard rules vs. soft preferences",con_desc:"The key engineering decision: which rules must never be broken, and which are best-effort goals the optimizer tries to satisfy?",hard_label:"Hard Constraint — Always enforced",soft_label:"Soft Constraint — Best effort",h1_title:"Must-off days",h1_desc:"Absolute unavailability. The solver will never assign a shift on these days — no exceptions.",h2_title:"Department staffing minimums",h2_desc:"Each shift must have at least the required number of staff. If unsatisfiable, the solver reports 'no solution' rather than producing an invalid schedule.",h3_title:"Manager & certified staff coverage",h3_desc:"At least one manager/assistant manager per day, and (for Grocery) one certified staff per shift. Guaranteed by the model structure.",h4_title:"Max consecutive working days",h4_desc:"No employee works more than the configured consecutive days. Prevents burnout and complies with labor regulations.",s1_title:"Prefer-off days (penalty: 100)",s1_desc:"The optimizer tries to respect these, but may assign shifts if no valid schedule exists otherwise. Each violation adds 100 to the penalty score.",s2_title:"Shift time preference (penalty: 50)",s2_desc:"Employees who prefer morning shifts get penalized 50 points for each afternoon or night shift assigned. The optimizer minimizes the total across all employees.",flow_label:"The Process",flow_title:"From preferences to optimal schedule",flow_desc:"Here's exactly what happens when you click \"Optimize Shifts.\"",f1_title:"Decision variables are created (one per slot)",f1_desc:"For every combination of employee × day × shift, a binary variable is created: 1 = assigned, 0 = not assigned. With 30 employees × 7 days × 3 shifts, that's 630 variables the solver must assign simultaneously.",f2_title:"Hard constraints are added to the model",f2_desc:"Each business rule becomes a mathematical constraint. 'At most one shift per day' becomes a linear inequality. 'Must-off day' sets a variable to 0. 'Max consecutive days' adds a sliding window constraint.",f3_title:"Soft constraints become a penalty objective",f3_desc:"Prefer-off days and shift preferences are converted into penalty terms. The solver's objective is to minimize the total penalty score — trying its hardest to honor soft preferences without breaking hard rules.",f4_title:"CP-SAT solves and returns the optimal assignment",f4_desc:"The solver explores the solution space using constraint propagation and branch-and-bound search. It returns the schedule with minimum penalty score within the time limit, along with a satisfaction score for each employee.",biz_label:"Business Applications",biz_title:"How this translates to your business",biz_desc:"Mathematical optimization transforms shift scheduling from a painful weekly chore into a solved, scalable, and auditable process.",biz1_title:"Hours of Manager Time Saved",biz1_desc:"Manually building schedules for 30+ staff typically takes hours each week. The optimizer produces a valid, optimized schedule in under 15 seconds — freeing managers to focus on higher-value work.",biz2_title:"Zero Compliance Violations",biz2_desc:"Labor rules (max consecutive days, minimum certified coverage, mandatory manager presence) are guaranteed by the model — not enforced by human memory. Every schedule is provably compliant with every configured rule.",biz3_title:"Higher Employee Satisfaction",biz3_desc:"The optimizer explicitly quantifies and minimizes employee dissatisfaction. Rather than ignoring preferences when scheduling gets complex, it mathematically balances fairness across the entire team.",why_label:"Why It Matters",why_title:"What this demonstrates",why1_title:"Operations Research Applied",why1_desc:"Shift scheduling is a classic OR problem. Formulating it correctly — choosing which constraints are hard vs. soft, how to weight penalty terms — requires deep understanding of both the business problem and the solver's capabilities.",why2_title:"Production-Grade Solver",why2_desc:"OR-Tools CP-SAT is the same solver used internally at Google. Using it in a portfolio project demonstrates familiarity with enterprise-grade optimization tools, not just academic toy problems.",why3_title:"Full-Stack Data Product",why3_desc:"The app goes from user input to deployed web product: Streamlit UI, Python optimization engine, Plotly visualizations, bilingual i18n, and Streamlit Cloud deployment. End-to-end data product thinking.",why4_title:"Explainable Results",why4_desc:"The satisfaction score and per-employee breakdown make optimization results auditable — not a black box. Managers can see exactly why each schedule was chosen and where trade-offs were made.",cta_label:"Try It",cta_title:"See it in action",cta_desc:"The app is live. Randomize preferences and constraints, then click Optimize.",cta_btn1:"↗ Open Live App",cta_btn2:"← Back to Portfolio"},ja:{nav_back:"← ポートフォリオ",hero_btn:"↗ ライブアプリを開く",hero_eyebrow:"技術解説",hero_title:"オプティマイザーの仕組み",hero_desc:"シフトオプティマイザーのAIスケジューリングシステムを、エンジニア以外にも伝わる言葉で説明します。採用担当者向けに書いています。",one_liner:"スプレッドシートを手作業で管理する代わりに、このアプリがあらゆるルールを満たしながら従業員の満足度を最大化するシフトを数学的に証明します。",tech_label:"使用技術",tech_title:"2つのAI技術が連携",tech_desc:"一方はすべてのルールを保証し、もう一方は従業員の満足度を最大化します。",t1_title:"制約プログラミング — OR-Tools CP-SAT",t1_desc:"GoogleのCP-SATソルバーが30名の従業員・3デパートメント・7日間のシフトを同時に割り当てます。1つずつ試すのではなく、すべての可能性を一度に推論します。返される結果は数学的に証明された最適スケジュールです。同じソルバーがGoogleの社内シフト管理・物流ルーティング・生産計画に使われています。",t1_pill:"証明可能な最適解 — 試行錯誤ではない",t2_title:"ソフト制約最適化 — ペナルティ最小化",t2_desc:"ルールを満たすだけでなく、従業員の不満足度を表すペナルティスコアを最小化します。「絶対NG」はハード制約（絶対に違反しない）。「できればNG」とシフト希望の不一致には数値ペナルティが付きます。すべてのハードルールを満たしながら総不満足度を最小化するスケジュールを見つけます。",t2_pill:"ハードルール保証 ＋ ソフト希望の最大限の尊重",con_label:"制約設計",con_title:"ハード制約 vs. ソフト制約",con_desc:"どのルールを絶対に守り、どれをベストエフォートにするか——これが重要なエンジニアリング上の意思決定です。",hard_label:"ハード制約 — 必ず守る",soft_label:"ソフト制約 — ベストエフォート",h1_title:"絶対NGの日",h1_desc:"絶対に出勤できない日。ソルバーはこの日にシフトを絶対に割り当てません。例外なし。",h2_title:"デパートメントの最低人数",h2_desc:"各シフトには最低必要人数が必要です。満たせない場合、ソルバーは無効なスケジュールを返すのではなく「解なし」を報告します。",h3_title:"マネージャー・資格保持者のカバレッジ",h3_desc:"1日に最低1名のMGR/AsMGR、食料品デパートでは各シフトに資格保持者1名が必要。モデル構造で保証されます。",h4_title:"最大連続勤務日数",h4_desc:"設定された連続日数を超えて働く従業員は0人。燃え尽き防止と労働規制への準拠を保証します。",s1_title:"できればNGの日（ペナルティ：100）",s1_desc:"オプティマイザーはこれを守ろうとしますが、有効なスケジュールが存在しない場合はシフトを割り当てることがあります。違反1件につきペナルティ100が加算されます。",s2_title:"希望シフト帯（ペナルティ：50）",s2_desc:"朝希望の従業員が昼・夜シフトに割り当てられるたびにペナルティ50が加算されます。オプティマイザーは全従業員の合計を最小化します。",flow_label:"処理の流れ",flow_title:"希望入力から最適スケジュールまで",flow_desc:"「シフトを最適化する」をクリックしたとき内部で何が起きているかを説明します。",f1_title:"決定変数の作成（スロットごとに1つ）",f1_desc:"従業員×日×シフトのすべての組み合わせに対して2値変数が作成されます：1=割り当て、0=非割り当て。30名×7日×3シフトで630個の変数をソルバーが同時に割り当てます。",f2_title:"ハード制約をモデルに追加",f2_desc:"各ビジネスルールが数学的制約になります。「1日最大1シフト」は線形不等式に。「絶対NG日」は変数を0に固定。「最大連続日数」はスライディングウィンドウ制約になります。",f3_title:"ソフト制約をペナルティ目的関数に変換",f3_desc:"できればNGの日とシフト希望がペナルティ項に変換されます。ソルバーの目的はペナルティ合計を最小化すること——ハードルールを破らない範囲でソフト希望を最大限尊重します。",f4_title:"CP-SATが最適割り当てを返す",f4_desc:"制約伝播（不可能な割り当ての早期除去）とブランチアンドバウンド探索を使って解空間を探索します。時間制限内で最小ペナルティのスケジュールと各従業員の満足度スコアを返します。",biz_label:"ビジネスへの応用",biz_title:"この技術を貴社のビジネスにどう活かすか",biz_desc:"数理最適化はシフト作成を「毎週の苦痛な手作業」から「解決済みで拡張可能な自動プロセス」へと変革します。",biz1_title:"マネージャーの工数を大幅削減",biz1_desc:"30名以上のスタッフのシフトを手作業で作成すると毎週数時間かかります。このオプティマイザーは15秒以内に有効な最適スケジュールを生成し、マネージャーがより価値の高い業務に集中できるようにします。",biz2_title:"コンプライアンス違反ゼロ",biz2_desc:"労働規制（最大連続勤務日数・資格保持者の最低配置・マネージャー必須）はモデルによって保証されます——人間の記憶に依存しません。生成されるすべてのスケジュールは設定されたすべてのルールに準拠していることが証明されています。",biz3_title:"従業員満足度の向上",biz3_desc:"オプティマイザーは従業員の不満足度を明示的に数値化し最小化します。スケジューリングが複雑になっても希望を無視するのではなく、チーム全体の公平性を数学的にバランスさせることで離職につながるシフト紛争を減らします。",why_label:"なぜ重要か",why_title:"このプロジェクトが示すもの",why1_title:"応用オペレーションズリサーチ",why1_desc:"シフトスケジューリングは典型的なOR問題です。どの制約をハード・ソフトにするか、ペナルティをどう重み付けするかの定式化には、ビジネス問題とソルバーの両方への深い理解が必要です。",why2_title:"本番グレードのソルバー",why2_desc:"OR-Tools CP-SATはGoogle社内でも使われているソルバーです。ポートフォリオプロジェクトで使用することで、学術的なおもちゃの問題だけでなく、エンタープライズグレードの最適化ツールへの習熟を示しています。",why3_title:"フルスタックデータプロダクト",why3_desc:"ユーザー入力からデプロイされたWebプロダクトまで：Streamlit UI・Python最適化エンジン・Plotly可視化・バイリンガルi18n・Streamlit Cloudデプロイ。エンドツーエンドのデータプロダクト思考です。",why4_title:"説明可能な結果",why4_desc:"満足度スコアと従業員ごとの内訳により、最適化結果が監査可能になります——ブラックボックスではありません。マネージャーは各スケジュールがなぜ選ばれたか、どこでトレードオフが行われたかを正確に確認できます。",cta_label:"試してみる",cta_title:"実際に動かしてみる",cta_desc:"アプリは稼働中です。希望と制約をランダム設定して最適化を実行してみてください。",cta_btn1:"↗ ライブアプリを開く",cta_btn2:"← ポートフォリオに戻る"}};
+    const PAGE_TRANSLATIONS={
+      en:{
+        nav_back:"← Portfolio",hero_btn:"↗ Open Live App",hero_eyebrow:"Technical Deep Dive",
+        hero_title:"How the Optimizer works",
+        hero_desc:"A plain-English explanation of the AI scheduling system behind Shift Optimizer — written for hiring managers, not just engineers.",
+        one_liner:"Instead of manually juggling spreadsheets, this app mathematically proves the best possible schedule — handling impossible constraints gracefully while maximizing employee happiness.",
+        tech_label:"The Technology",tech_title:"3 AI layers working together",
+        tech_desc:"One guarantees rules, one maximizes happiness, and the newest layer ensures the system never crashes even when the math is 'impossible'.",
+        t1_title:"Constraint Programming — OR-Tools CP-SAT",
+        t1_desc:"Google's CP-SAT solver assigns shifts across 30 employees, 3 departments, and 7 days simultaneously. It doesn't try schedules one by one — it reasons over all possibilities at once. The result is a mathematically proven optimal schedule. The same solver powers Google's workforce scheduling, logistics routing, and production planning systems.",
+        t1_pill:"Provably optimal — not trial and error",
+        t2_title:"Soft Constraint Optimization — Penalty Minimization",
+        t2_desc:"Beyond satisfying rules, the optimizer minimizes a penalty score representing employee dissatisfaction. 'Must-off' days are hard constraints (never violated). 'Prefer-off' days and shift preference mismatches carry numerical penalties. The solver finds the schedule that satisfies all hard rules AND minimizes total employee unhappiness.",
+        t2_pill:"Hard rules guaranteed + soft preferences maximized",
+        t3_title:"Heuristics & Slack Variables — Edge-Case Handling",
+        t3_desc:"Traditional solvers crash or return 'No Solution' when constraints are too tight (like having too few staff). This engine intercepts impossible scenarios with a heuristic pre-check. If needed, a 'Best Effort Mode' converts hard minimum-staffing rules into soft constraints using slack variables with massive penalties. It mathematically guarantees the best possible schedule even when short-staffed, flagging the gaps for the manager.",
+        t3_pill:"Heuristic Pre-check · Slack Variables · Feasibility",
+        con_label:"Constraint Design",con_title:"Hard rules vs. soft preferences",
+        con_desc:"The key engineering decision: which rules must never be broken, and which are best-effort goals the optimizer tries to satisfy?",
+        hard_label:"Hard Constraint — Always enforced",soft_label:"Soft Constraint — Best effort",
+        h1_title:"Must-off days",h1_desc:"Absolute unavailability. The solver will never assign a shift on these days — no exceptions.",
+        h2_title:"Department staffing minimums",h2_desc:"Each shift must have at least the required number of staff. (Can be relaxed into a soft constraint via Best Effort Mode if mathematically impossible).",
+        h3_title:"Manager & certified staff coverage",h3_desc:"At least one manager/assistant manager per day, and (for Grocery) one certified staff per shift. Guaranteed by the model structure.",
+        h4_title:"Max consecutive working days",h4_desc:"No employee works more than the configured consecutive days. Prevents burnout and complies with labor regulations.",
+        s1_title:"Prefer-off days (penalty: 100)",s1_desc:"The optimizer tries to respect these, but may assign shifts if no valid schedule exists otherwise. Each violation adds 100 to the penalty score.",
+        s2_title:"Shift time preference (penalty: 50)",s2_desc:"Employees who prefer morning shifts get penalized 50 points for each afternoon or night shift assigned. The optimizer minimizes the total across all employees.",
+        flow_label:"The Process",flow_title:"From preferences to optimal schedule",
+        flow_desc:"Here's exactly what happens when you click \"Optimize Shifts.\"",
+        f1_title:"Decision variables are created (one per slot)",
+        f1_desc:"For every combination of employee × day × shift, a binary variable is created: 1 = assigned, 0 = not assigned. With 30 employees × 7 days × 3 shifts, that's 630 variables the solver must assign simultaneously.",
+        f2_title:"Hard constraints are added (or relaxed via Slack Variables)",
+        f2_desc:"Each business rule becomes a mathematical constraint. However, if 'Best Effort Mode' is enabled, minimum staffing requirements are relaxed using *slack variables* so the solver doesn't fail when understaffed.",
+        f3_title:"Soft constraints become a penalty objective",
+        f3_desc:"Prefer-off days and shift preferences are converted into penalty terms. The solver's objective is to minimize the total penalty score — trying its hardest to honor soft preferences without breaking hard rules.",
+        f4_title:"CP-SAT solves and returns the optimal assignment",
+        f4_desc:"The solver explores the solution space using constraint propagation and branch-and-bound search. It returns the schedule with minimum penalty score within the time limit, along with a satisfaction score for each employee.",
+        biz_label:"Business Applications",biz_title:"How this translates to your business",
+        biz_desc:"Mathematical optimization transforms shift scheduling from a painful weekly chore into a solved, scalable, and auditable process.",
+        biz1_title:"Hours of Manager Time Saved",
+        biz1_desc:"Manually building schedules for 30+ staff typically takes hours each week. The optimizer produces a valid, optimized schedule in under 15 seconds. If understaffed, it flags exactly where the gaps are, allowing managers to make targeted human decisions rather than starting from scratch.",
+        biz2_title:"Zero Compliance Violations",
+        biz2_desc:"Labor rules (max consecutive days, minimum certified coverage, mandatory manager presence) are guaranteed by the model — not enforced by human memory. Every schedule is provably compliant with every configured rule.",
+        biz3_title:"Higher Employee Satisfaction",
+        biz3_desc:"The optimizer explicitly quantifies and minimizes employee dissatisfaction. Rather than ignoring preferences when scheduling gets complex, it mathematically balances fairness across the entire team.",
+        why_label:"Why It Matters",why_title:"What this demonstrates",
+        why1_title:"Operations Research Applied",
+        why1_desc:"Shift scheduling is a classic OR problem. Formulating it correctly — choosing which constraints are hard vs. soft, using slack variables to prevent crashes, and weighting penalty terms — requires deep understanding of both the business problem and the solver's capabilities.",
+        why2_title:"Production-Grade Solver",
+        why2_desc:"OR-Tools CP-SAT is the same solver used internally at Google. Using it in a portfolio project demonstrates familiarity with enterprise-grade optimization tools, not just academic toy problems.",
+        why3_title:"Full-Stack Data Product",
+        why3_desc:"The app goes from user input to deployed web product: Streamlit UI, Python optimization engine, Plotly visualizations, bilingual i18n, and Streamlit Cloud deployment. End-to-end data product thinking.",
+        why4_title:"Explainable Results",
+        why4_desc:"The satisfaction score and per-employee breakdown make optimization results auditable — not a black box. Managers can see exactly why each schedule was chosen and where trade-offs were made.",
+        cta_label:"Try It",cta_title:"See it in action",
+        cta_desc:"The app is live. Randomize preferences and constraints, then click Optimize.",
+        cta_btn1:"↗ Open Live App",cta_btn2:"← Back to Portfolio"
+      },
+      ja:{
+        nav_back:"← ポートフォリオ",hero_btn:"↗ ライブアプリを開く",hero_eyebrow:"技術解説",
+        hero_title:"オプティマイザーの仕組み",
+        hero_desc:"シフトオプティマイザーのAIスケジューリングシステムを、エンジニア以外にも伝わる言葉で説明します。採用担当者向けに書いています。",
+        one_liner:"スプレッドシートを手作業で管理する代わりに、このアプリは不可能な制約にも柔軟に対応しながら、従業員の満足度を最大化するシフトを数学的に証明します。",
+        tech_label:"使用技術",tech_title:"3つのAI層が連携",
+        tech_desc:"ルールを保証する層、満足度を最大化する層、そして数学的に「不可能」な場合でもシステムを決してクラッシュさせない新しい層があります。",
+        t1_title:"制約プログラミング — OR-Tools CP-SAT",
+        t1_desc:"GoogleのCP-SATソルバーが30名の従業員・3デパートメント・7日間のシフトを同時に割り当てます。1つずつ試すのではなく、すべての可能性を一度に推論します。返される結果は数学的に証明された最適スケジュールです。同じソルバーがGoogleの社内シフト管理・物流ルーティング・生産計画に使われています。",
+        t1_pill:"証明可能な最適解 — 試行錯誤ではない",
+        t2_title:"ソフト制約最適化 — ペナルティ最小化",
+        t2_desc:"ルールを満たすだけでなく、従業員の不満足度を表すペナルティスコアを最小化します。「絶対NG」はハード制約（絶対に違反しない）。「できればNG」とシフト希望の不一致には数値ペナルティが付きます。すべてのハードルールを満たしながら総不満足度を最小化するスケジュールを見つけます。",
+        t2_pill:"ハードルール保証 ＋ ソフト希望の最大限の尊重",
+        t3_title:"ヒューリスティクスとスラック変数 — エッジケース処理",
+        t3_desc:"従来のソルバーは条件が厳しすぎる（人が足りない等）とクラッシュするか「解なし」を返します。このエンジンはヒューリスティックな事前チェックで不可能を検知します。必要に応じて「ベストエフォートモード」が、スラック変数と巨大なペナルティを用いて最低人数のハード制約をソフト制約に変換します。数学的に「不可能」な状況でも最適なスケジュールを保証し、人手不足のシフトを警告します。",
+        t3_pill:"事前チェック · スラック変数 · フェイルセーフ",
+        con_label:"制約設計",con_title:"ハード制約 vs. ソフト制約",
+        con_desc:"どのルールを絶対に守り、どれをベストエフォートにするか——これが重要なエンジニアリング上の意思決定です。",
+        hard_label:"ハード制約 — 必ず守る",soft_label:"ソフト制約 — ベストエフォート",
+        h1_title:"絶対NGの日",h1_desc:"絶対に出勤できない日。ソルバーはこの日にシフトを絶対に割り当てません。例外なし。",
+        h2_title:"デパートメントの最低人数",h2_desc:"各シフトには最低必要人数が必要です。（ベストエフォートモードをオンにすれば、人が足りない場合にソフト制約へと緩和できます）。",
+        h3_title:"マネージャー・資格保持者のカバレッジ",h3_desc:"1日に最低1名のMGR/AsMGR、食料品デパートでは各シフトに資格保持者1名が必要。モデル構造で保証されます。",
+        h4_title:"最大連続勤務日数",h4_desc:"設定された連続日数を超えて働く従業員は0人。燃え尽き防止と労働規制への準拠を保証します。",
+        s1_title:"できればNGの日（ペナルティ：100）",s1_desc:"オプティマイザーはこれを守ろうとしますが、有効なスケジュールが存在しない場合はシフトを割り当てることがあります。違反1件につきペナルティ100が加算されます。",
+        s2_title:"希望シフト帯（ペナルティ：50）",s2_desc:"朝希望の従業員が昼・夜シフトに割り当てられるたびにペナルティ50が加算されます。オプティマイザーは全従業員の合計を最小化します。",
+        flow_label:"処理の流れ",flow_title:"希望入力から最適スケジュールまで",
+        flow_desc:"「シフトを最適化する」をクリックしたとき内部で何が起きているかを説明します。",
+        f1_title:"決定変数の作成（スロットごとに1つ）",
+        f1_desc:"従業員×日×シフトのすべての組み合わせに対して2値変数が作成されます：1=割り当て、0=非割り当て。30名×7日×3シフトで630個の変数をソルバーが同時に割り当てます。",
+        f2_title:"ハード制約の追加（スラック変数による緩和を含む）",
+        f2_desc:"各ビジネスルールが数学的制約になります。ただし「ベストエフォートモード」が有効な場合、最低人数の要件はスラック変数を使って緩和され、人手不足でもソルバーが破綻しないようになります。",
+        f3_title:"ソフト制約をペナルティ目的関数に変換",
+        f3_desc:"できればNGの日とシフト希望がペナルティ項に変換されます。ソルバーの目的はペナルティ合計を最小化すること——ハードルールを破らない範囲でソフト希望を最大限尊重します。",
+        f4_title:"CP-SATが最適割り当てを返す",
+        f4_desc:"制約伝播（不可能な割り当ての早期除去）とブランチアンドバウンド探索を使って解空間を探索します。時間制限内で最小ペナルティのスケジュールと各従業員の満足度スコアを返します。",
+        biz_label:"ビジネスへの応用",biz_title:"この技術を貴社のビジネスにどう活かすか",
+        biz_desc:"数理最適化はシフト作成を「毎週の苦痛な手作業」から「解決済みで拡張可能な自動プロセス」へと変革します。",
+        biz1_title:"マネージャーの工数を大幅削減",
+        biz1_desc:"30名以上のシフトを手作業で作成すると毎週数時間かかります。オプティマイザーは15秒以内に最適スケジュールを生成し、人が足りない場合は「どこが足りないか」を正確に警告するため、マネージャーはゼロから作り直すことなく的確なフォロー対応を行えます。",
+        biz2_title:"コンプライアンス違反ゼロ",
+        biz2_desc:"労働規制（最大連続勤務日数・資格保持者の最低配置・マネージャー必須）はモデルによって保証されます——人間の記憶に依存しません。生成されるすべてのスケジュールは設定されたすべてのルールに準拠していることが証明されています。",
+        biz3_title:"従業員満足度の向上",
+        biz3_desc:"オプティマイザーは従業員の不満足度を明示的に数値化し最小化します。スケジューリングが複雑になっても希望を無視するのではなく、チーム全体の公平性を数学的にバランスさせることで離職につながるシフト紛争を減らします。",
+        why_label:"なぜ重要か",why_title:"このプロジェクトが示すもの",
+        why1_title:"応用オペレーションズリサーチ",
+        why1_desc:"シフトスケジューリングは典型的なOR問題です。どの制約をハード・ソフトにするか、スラック変数を使ってクラッシュを防ぐ設計、ペナルティの重み付けなど、ビジネス問題とソルバーの両方への深い理解が必要です。",
+        why2_title:"本番グレードのソルバー",
+        why2_desc:"OR-Tools CP-SATはGoogle社内でも使われているソルバーです。ポートフォリオプロジェクトで使用することで、学術的なおもちゃの問題だけでなく、エンタープライズグレードの最適化ツールへの習熟を示しています。",
+        why3_title:"フルスタックデータプロダクト",
+        why3_desc:"ユーザー入力からデプロイされたWebプロダクトまで：Streamlit UI・Python最適化エンジン・Plotly可視化・バイリンガルi18n・Streamlit Cloudデプロイ。エンドツーエンドのデータプロダクト思考です。",
+        why4_title:"説明可能な結果",
+        why4_desc:"満足度スコアと従業員ごとの内訳により、最適化結果が監査可能になります——ブラックボックスではありません。マネージャーは各スケジュールがなぜ選ばれたか、どこでトレードオフが行われたかを正確に確認できます。",
+        cta_label:"試してみる",cta_title:"実際に動かしてみる",
+        cta_desc:"アプリは稼働中です。希望と制約をランダム設定して最適化を実行してみてください。",
+        cta_btn1:"↗ ライブアプリを開く",cta_btn2:"← ポートフォリオに戻る"
+      }
+    };
   </script>
   <script src="js/main.js"></script>
 </body>
