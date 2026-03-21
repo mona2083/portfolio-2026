@@ -127,9 +127,9 @@
     <div class="container">
       <p class="hero-eyebrow" data-i18n="hero_eyebrow">Technical Deep Dive</p>
       <h1 class="hero-title" data-i18n="hero_title">How the <em>Retail Decision Engine</em> works</h1>
-      <p class="hero-desc" data-i18n="hero_desc">Three AI models — demand forecasting, dynamic pricing, and inventory optimization — working together to tell a retailer exactly what to do this week.</p>
+      <p class="hero-desc" data-i18n="hero_desc">Three models — Deep Learning forecasting, dynamic pricing, and inventory optimization — working together to tell a retailer exactly what to do this week.</p>
       <div class="one-liner">
-        <p data-i18n="one_liner">Most retailers make pricing and ordering decisions based on gut feeling. This app replaces intuition with <em>three connected AI models</em> that optimize every decision simultaneously.</p>
+        <p data-i18n="one_liner">Most retailers make pricing and ordering decisions based on gut feeling. This app replaces intuition with an <em>integrated AI pipeline</em> that optimizes every decision simultaneously.</p>
       </div>
       <div class="btn-group fade-up" style="margin-bottom: 20px;">
         <a href="https://retail-decision-engine-4h8ohlz3u2zz5tvzkubhh2.streamlit.app/" target="_blank" class="btn btn-primary" data-i18n="hero_btn">↗ Open Live App</a>
@@ -138,7 +138,6 @@
     </div>
   </div>
 
-  <!-- 3モジュール概要 -->
   <section>
     <div class="container">
       <p class="section-label" data-i18n="overview_label">The System</p>
@@ -149,26 +148,25 @@
         <div class="module">
           <div class="module-num">1</div>
           <div class="module-icon">📈</div>
-          <div class="module-title" data-i18n="m1_title">Demand Forecasting</div>
-          <div class="module-desc" data-i18n="m1_desc">Holt-Winters time series model learns seasonal patterns and predicts future demand with confidence intervals.</div>
+          <div class="module-title" data-i18n="m1_title">Demand Forecasting (AI)</div>
+          <div class="module-desc" data-i18n="m1_desc">Temporal Fusion Transformer (TFT) learns complex seasonal patterns and predicts future demand based on price scenarios.</div>
         </div>
         <div class="module">
           <div class="module-num">2</div>
           <div class="module-icon">💰</div>
           <div class="module-title" data-i18n="m2_title">Dynamic Pricing</div>
-          <div class="module-desc" data-i18n="m2_desc">Price elasticity model finds the exact price point that maximizes weekly profit using SciPy optimization.</div>
+          <div class="module-desc" data-i18n="m2_desc">Live slider feeds price inputs directly into the AI, while SciPy calculates the theoretical optimum benchmark.</div>
         </div>
         <div class="module">
           <div class="module-num">3</div>
           <div class="module-icon">📦</div>
           <div class="module-title" data-i18n="m3_title">Inventory Optimization</div>
-          <div class="module-desc" data-i18n="m3_desc">OR-Tools CP-SAT solver calculates the optimal order quantity and timing for the next 8 weeks.</div>
+          <div class="module-desc" data-i18n="m3_desc">OR-Tools CP-SAT solver calculates the optimal order schedule using the AI's dynamically predicted demand.</div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 各AIモデルの詳細 -->
   <section>
     <div class="container">
       <p class="section-label" data-i18n="tech_label">The Technology</p>
@@ -181,9 +179,9 @@
           <div class="tech-icon">📈</div>
           <div>
             <p class="tech-label">Module 1</p>
-            <h3 class="tech-title" data-i18n="t1_title">Holt-Winters Exponential Smoothing — Demand Forecasting</h3>
-            <p class="tech-desc" data-i18n="t1_desc">Holt-Winters is a classical time series model that decomposes sales history into three components: level (the baseline), trend (is demand growing or shrinking?), and seasonality (how much does demand fluctuate by week or month?). Unlike black-box deep learning models, every component is interpretable — you can see exactly why the model predicts higher demand in December vs. July. It's trained on 104 weeks of historical sales data per product and outputs a point forecast plus a 95% confidence interval for each future week. The confidence interval is critical for inventory planning: ordering to the upper bound protects against stockouts; ordering to the lower bound minimizes holding costs.</p>
-            <span class="tech-pill" data-i18n="t1_pill">statsmodels · Additive seasonality · 52-week seasonal period</span>
+            <h3 class="tech-title" data-i18n="t1_title">Temporal Fusion Transformer — Demand Forecasting</h3>
+            <p class="tech-desc" data-i18n="t1_desc">Powered by PyTorch, the Temporal Fusion Transformer (TFT) is a state-of-the-art deep learning model for time series. Unlike traditional models, it can simultaneously ingest static metadata (product categories), known future inputs (planned price changes), and historical sales. Trained on 3 years of daily data per product, it captures the highly non-linear relationship between pricing strategies, seasonality, and consumer demand.</p>
+            <span class="tech-pill" data-i18n="t1_pill">PyTorch · pytorch-forecasting · Deep Learning</span>
           </div>
         </div>
 
@@ -191,9 +189,9 @@
           <div class="tech-icon">💰</div>
           <div>
             <p class="tech-label">Module 2</p>
-            <h3 class="tech-title" data-i18n="t2_title">Price Elasticity + SciPy Optimization — Dynamic Pricing</h3>
-            <p class="tech-desc" data-i18n="t2_desc">Price elasticity measures how sensitive customers are to price changes. A product with elasticity of −1.8 means: raise the price 10% and demand drops 18%. The elasticity is estimated from historical price and sales data. Once known, the profit function — (price − cost) × demand(price) — becomes a continuous curve with a single peak. SciPy's bounded scalar minimizer finds this peak mathematically in milliseconds. The key insight: this is not a lookup table or a heuristic — it's a mathematical proof that no other price generates more weekly profit given the estimated elasticity. The live price slider lets users see in real time how far their current price is from the optimum.</p>
-            <span class="tech-pill" data-i18n="t2_pill">scipy.optimize · Price elasticity model · Real-time profit curve</span>
+            <h3 class="tech-title" data-i18n="t2_title">SciPy Optimization + TFT Inference — Dynamic Pricing</h3>
+            <p class="tech-desc" data-i18n="t2_desc">This module uses a hybrid approach. SciPy's bounded scalar minimizer mathematically finds the theoretical profit-maximizing price in milliseconds, plotting a continuous baseline curve. Concurrently, the live price slider feeds user input directly into the cached TFT model to infer a highly accurate 1-point prediction. By visualizing both the AI's prediction and the theoretical benchmark together, users gain trust through transparency.</p>
+            <span class="tech-pill" data-i18n="t2_pill">scipy.optimize · Hybrid Rendering · Real-time Inference</span>
           </div>
         </div>
 
@@ -202,8 +200,8 @@
           <div>
             <p class="tech-label">Module 3</p>
             <h3 class="tech-title" data-i18n="t3_title">OR-Tools CP-SAT Solver — Inventory Optimization</h3>
-            <p class="tech-desc" data-i18n="t3_desc">The inventory problem is fundamentally different from pricing — it's a discrete, multi-period decision with hard constraints. For each of the next 8 weeks, the solver must decide: order or not order, and if so, how many units? The constraints include: stock must never fall below the minimum safety level, stock cannot exceed warehouse capacity, and there is a lead time between ordering and receiving. CP-SAT models this as a mixed-integer optimization problem — 630 binary and integer variables — and finds the combination that minimizes total cost (order fixed cost + per-unit cost + holding cost + shortage penalty). It also calculates the EOQ (Economic Order Quantity) as a reference benchmark from classical inventory theory.</p>
-            <span class="tech-pill" data-i18n="t3_pill">OR-Tools CP-SAT · Multi-period planning · EOQ benchmark</span>
+            <p class="tech-desc" data-i18n="t3_desc">The inventory problem is a discrete, multi-period decision with hard constraints. For the next 8 weeks, the solver decides: order or not, and how many? Constraints include: stock must never fall below the safety level, and there is a lead time between ordering and receiving. CP-SAT models this as a mixed-integer optimization problem. Crucially, it takes the AI-predicted demand directly from the pricing module to find the order combination that minimizes total cost.</p>
+            <span class="tech-pill" data-i18n="t3_pill">OR-Tools CP-SAT · Multi-period planning · Integrated Data Pipeline</span>
           </div>
         </div>
 
@@ -211,25 +209,25 @@
     </div>
   </section>
 
-  <!-- 統合の仕組み -->
   <section>
     <div class="container">
       <p class="section-label" data-i18n="flow_label">How They Connect</p>
       <h2 class="section-title" data-i18n="flow_title">From data to decision in 4 steps</h2>
-      <p class="section-desc" data-i18n="flow_desc">The three models are not independent — they feed into each other to produce a single integrated recommendation.</p>
+      <p class="section-desc" data-i18n="flow_desc">The three models form a fully integrated pipeline — a change in price dynamically ripples through to the inventory plan.</p>
       <div class="flow">
 
         <div class="flow-step">
           <div class="flow-num">1</div>
           <div>
-            <h3 class="flow-title" data-i18n="f1_title">Historical sales → Holt-Winters fits seasonal pattern</h3>
-            <p class="flow-desc" data-i18n="f1_desc">104 weeks of weekly sales data is decomposed into trend + seasonal components. The model is fit separately for each product because each has a different seasonal pattern — milk peaks in winter, orange juice peaks in summer.</p>
+            <h3 class="flow-title" data-i18n="f1_title">Planned Price → TFT predicts 8-week demand</h3>
+            <p class="flow-desc" data-i18n="f1_desc">When a user adjusts the price slider, the planned price is fed into the loaded Temporal Fusion Transformer (.ckpt) to dynamically infer the demand for the next 8 weeks based on historical context.</p>
             <div class="flow-code">
-              model = ExponentialSmoothing(<br>
-              &nbsp;&nbsp;weekly_sales, trend=<span class="kw">"add"</span>, seasonal=<span class="kw">"add"</span>,<br>
-              &nbsp;&nbsp;seasonal_periods=<span class="nu">52</span><br>
-              )<br>
-              forecast = model.fit().forecast(<span class="nu">8</span>)&nbsp;&nbsp;<span class="cm"># next 8 weeks</span>
+              <span class="cm"># Predict demand based on user-selected price</span><br>
+              weekly_forecast = predict_dynamic_demand(<br>
+              &nbsp;&nbsp;model=tft_model,<br>
+              &nbsp;&nbsp;daily_df=session_data,<br>
+              &nbsp;&nbsp;planned_price=slider_price<br>
+              )
             </div>
           </div>
         </div>
@@ -237,14 +235,13 @@
         <div class="flow-step">
           <div class="flow-num">2</div>
           <div>
-            <h3 class="flow-title" data-i18n="f2_title">Price elasticity → SciPy finds the profit-maximizing price</h3>
-            <p class="flow-desc" data-i18n="f2_desc">The demand function D(price) = base_demand × (price/base_price)^elasticity is combined with the profit formula to create a continuous profit curve. SciPy searches this curve for its peak — the optimal price — in under 1 millisecond.</p>
+            <h3 class="flow-title" data-i18n="f2_title">Price elasticity → SciPy calculates optimal benchmark</h3>
+            <p class="flow-desc" data-i18n="f2_desc">Simultaneously, a mathematical profit curve is generated to find the theoretical optimal price. This serves as a continuous benchmark against the AI's specific point prediction.</p>
             <div class="flow-code">
-              <span class="cm"># Profit = (price - cost) × demand(price)</span><br>
-              def profit(p):<br>
-              &nbsp;&nbsp;d = base_demand × (p/base_price) ** elasticity<br>
-              &nbsp;&nbsp;return -(p - unit_cost) × d<br><br>
-              result = minimize_scalar(profit, bounds=(min_p, max_p))
+              <span class="cm"># Mathematical profit maximization benchmark</span><br>
+              def neg_profit(p):<br>
+              &nbsp;&nbsp;return -profit_at_price(p, base_price, elasticity)<br><br>
+              result = minimize_scalar(neg_profit, bounds=(min_p, max_p))
             </div>
           </div>
         </div>
@@ -252,14 +249,14 @@
         <div class="flow-step">
           <div class="flow-num">3</div>
           <div>
-            <h3 class="flow-title" data-i18n="f3_title">Forecast demand → OR-Tools plans 8-week order schedule</h3>
-            <p class="flow-desc" data-i18n="f3_desc">The 8-week demand forecast from Module 1 is passed directly into the inventory optimizer as the demand input. The solver then determines the cheapest combination of order quantities and timing that keeps stock within safe levels throughout the planning horizon.</p>
+            <h3 class="flow-title" data-i18n="f3_title">Predicted demand → OR-Tools plans order schedule</h3>
+            <p class="flow-desc" data-i18n="f3_desc">The dynamic 8-week demand forecast generated by the TFT model is passed directly into the inventory optimizer. The solver determines the cheapest order schedule that keeps stock within safe levels.</p>
             <div class="flow-code">
-              <span class="cm"># Minimize: order costs + holding costs</span><br>
-              model.Minimize(<br>
-              &nbsp;&nbsp;Σ(order_flag[t] × order_cost)<br>
-              &nbsp;&nbsp;+ Σ(order_qty[t] × unit_cost)<br>
-              &nbsp;&nbsp;+ Σ(stock[t] × holding_cost)<br>
+              <span class="cm"># Feed AI forecast directly to CP-SAT solver</span><br>
+              forecast_8w = weekly_forecast[<span class="kw">"forecast_sales"</span>].tolist()<br><br>
+              inv_result = run_inventory_optimization(<br>
+              &nbsp;&nbsp;forecast_demand=forecast_8w,<br>
+              &nbsp;&nbsp;current_stock=current_stock<br>
               )
             </div>
           </div>
@@ -269,7 +266,7 @@
           <div class="flow-num">4</div>
           <div>
             <h3 class="flow-title" data-i18n="f4_title">Summary Dashboard integrates all 3 into one action</h3>
-            <p class="flow-desc" data-i18n="f4_desc">The Summary Dashboard combines outputs from all three modules for every product and presents them side-by-side: this week's demand forecast vs. last week, the recommended price adjustment and its profit impact, and whether to place an order this week and how many units. One page, three products, complete picture.</p>
+            <p class="flow-desc" data-i18n="f4_desc">The Summary Dashboard fetches the user's selected price state for every product and processes the end-to-end pipeline in real time. It presents actionable insights: the demand forecast vs. last week, the recommended pricing strategy based on gap analysis, and the exact order quantity to place today.</p>
           </div>
         </div>
 
@@ -277,7 +274,6 @@
     </div>
   </section>
 
-  <!-- ビジネス応用 -->
   <section>
     <div class="container">
       <p class="section-label" data-i18n="biz_label">Business Applications</p>
@@ -290,7 +286,7 @@
           <div class="biz-icon">🥛</div>
           <div class="biz-industry" data-i18n="b1_ind">Grocery / Perishables</div>
           <h3 class="biz-title" data-i18n="b1_title">Perishable Waste Reduction</h3>
-          <p class="biz-desc" data-i18n="b1_desc">Perishable products like milk, bread, and fresh produce have a shelf life of days. Overordering leads to waste and markdowns; underordering leads to empty shelves and lost sales. The demand forecast tells a store manager exactly how much to order each week, accounting for seasonal patterns (milk sells more in winter, juice in summer) and day-of-week peaks (Saturday sells 40% more than Tuesday). The inventory optimizer then calculates the precise order quantity that minimizes waste while avoiding stockouts — a calculation that would take a manager hours to do manually for every SKU.</p>
+          <p class="biz-desc" data-i18n="b1_desc">Perishable products like milk, bread, and fresh produce have a shelf life of days. Overordering leads to waste and markdowns; underordering leads to empty shelves and lost sales. The AI demand forecast tells a store manager exactly how much to order each week, accounting for complex seasonal patterns and price changes. The inventory optimizer then calculates the precise order quantity that minimizes waste while avoiding stockouts.</p>
           <div class="biz-result" data-i18n="b1_result">Expected: 15–25% reduction in perishable waste</div>
         </div>
 
@@ -298,7 +294,7 @@
           <div class="biz-icon">🏷️</div>
           <div class="biz-industry" data-i18n="b2_ind">Grocery / Pricing</div>
           <h3 class="biz-title" data-i18n="b2_title">Weekly Price Optimization</h3>
-          <p class="biz-desc" data-i18n="b2_desc">Most small and mid-size grocery chains set prices once a quarter based on competitor surveys and gut feeling. The dynamic pricing module shows that even a $0.20 price adjustment on a high-velocity item like milk can shift weekly profit by hundreds of dollars. By calculating the optimal price for each product each week — factoring in cost, demand sensitivity, and competitive positioning — the engine enables data-driven weekly price reviews that take minutes instead of days.</p>
+          <p class="biz-desc" data-i18n="b2_desc">Most small and mid-size grocery chains set prices once a quarter based on competitor surveys and gut feeling. The dynamic pricing module shows that even a $0.20 price adjustment on a high-velocity item like milk can shift weekly profit by hundreds of dollars. By simulating demand against a deep learning model in real time, the engine enables data-driven weekly price reviews that take minutes instead of days.</p>
           <div class="biz-result" data-i18n="b2_result">Expected: 8–15% improvement in gross margin per SKU</div>
         </div>
 
@@ -306,7 +302,7 @@
           <div class="biz-icon">📅</div>
           <div class="biz-industry" data-i18n="b3_ind">Grocery / Operations</div>
           <h3 class="biz-title" data-i18n="b3_title">Seasonal Inventory Planning</h3>
-          <p class="biz-desc" data-i18n="b3_desc">Orange juice demand spikes in December and January; bread demand rises in November. Without forecasting, buyers either overstock at peak (wasting capital on inventory) or understock (missing the seasonal opportunity). The 8-week planning horizon in the inventory optimizer gives buyers enough lead time to build up stock before the seasonal peak and run it down cleanly afterward — matching inventory investment precisely to expected demand rather than to last year's intuition.</p>
+          <p class="biz-desc" data-i18n="b3_desc">Orange juice demand spikes in December and January; bread demand rises in November. Without forecasting, buyers either overstock at peak (wasting capital on inventory) or understock (missing the seasonal opportunity). The 8-week planning horizon in the inventory optimizer gives buyers enough lead time to build up stock before the seasonal peak and run it down cleanly afterward.</p>
           <div class="biz-result" data-i18n="b3_result">Expected: 20–30% reduction in peak-season overstock</div>
         </div>
 
@@ -314,7 +310,7 @@
           <div class="biz-icon">🏪</div>
           <div class="biz-industry" data-i18n="b4_ind">Convenience Stores</div>
           <h3 class="biz-title" data-i18n="b4_title">Multi-SKU Category Management</h3>
-          <p class="biz-desc" data-i18n="b4_desc">A convenience store manager typically oversees hundreds of SKUs with limited time for analysis. The product-by-product tab structure of the Retail Decision Engine mirrors how a category manager thinks — one product at a time, with all the relevant data in one view. Scaling this system to cover 50 or 100 products would give a category manager a complete weekly decision brief: which prices to adjust, which products to order, and which categories are trending up or down — all without opening a spreadsheet.</p>
+          <p class="biz-desc" data-i18n="b4_desc">A convenience store manager typically oversees hundreds of SKUs with limited time for analysis. The product-by-product tab structure of the Retail Decision Engine mirrors how a category manager thinks — one product at a time, with all the relevant data in one view. Scaling this system to cover 100 products would give a category manager a complete weekly decision brief without opening a spreadsheet.</p>
           <div class="biz-result" data-i18n="b4_result">Expected: 3–4 hours saved per buyer per week</div>
         </div>
 
@@ -322,7 +318,7 @@
           <div class="biz-icon">🚚</div>
           <div class="biz-industry" data-i18n="b5_ind">Wholesale / Distribution</div>
           <h3 class="biz-title" data-i18n="b5_title">Supplier Order Consolidation</h3>
-          <p class="biz-desc" data-i18n="b5_desc">Wholesalers and distributors place orders from multiple suppliers with different lead times and minimum order quantities. The inventory optimizer's 8-week planning horizon makes it possible to consolidate orders across products supplied by the same vendor — reducing the number of individual purchase orders, qualifying for volume discounts, and smoothing delivery schedules. The EOQ benchmark provides a principled starting point for negotiating minimum order quantities with suppliers.</p>
+          <p class="biz-desc" data-i18n="b5_desc">Wholesalers and distributors place orders from multiple suppliers with different lead times and minimum order quantities. The inventory optimizer's 8-week planning horizon makes it possible to consolidate orders across products supplied by the same vendor — reducing the number of individual purchase orders, qualifying for volume discounts, and smoothing delivery schedules.</p>
           <div class="biz-result" data-i18n="b5_result">Expected: 10–20% reduction in order processing costs</div>
         </div>
 
@@ -330,7 +326,7 @@
           <div class="biz-icon">📊</div>
           <div class="biz-industry" data-i18n="b6_ind">Retail Analytics / Consulting</div>
           <h3 class="biz-title" data-i18n="b6_title">Data-Driven Buyer Training</h3>
-          <p class="biz-desc" data-i18n="b6_desc">The real-time price slider and live profit curve make the relationship between price, demand, and profit viscerally clear — even to non-technical buyers. Many retail organizations struggle to get buyers to adopt data-driven pricing because the models feel like black boxes. The Retail Decision Engine's interactive visualizations make the logic transparent: move the price slider and watch the profit curve update in real time. This transparency builds trust in the model and accelerates adoption across the buying team.</p>
+          <p class="biz-desc" data-i18n="b6_desc">The real-time price slider and live profit curve make the relationship between price, demand, and profit viscerally clear — even to non-technical buyers. Many retail organizations struggle to get buyers to adopt AI because the models feel like black boxes. The Engine's interactive visualizations make the logic transparent, building trust and accelerating adoption across the buying team.</p>
           <div class="biz-result" data-i18n="b6_result">Expected: Faster adoption of analytical decision-making across teams</div>
         </div>
 
@@ -338,7 +334,6 @@
     </div>
   </section>
 
-  <!-- Why It Matters -->
   <section>
     <div class="container">
       <p class="section-label" data-i18n="why_label">Why It Matters</p>
@@ -347,22 +342,22 @@
         <div class="why-card">
           <div class="why-icon">🔗</div>
           <h3 class="why-title" data-i18n="why1_title">Systems Thinking</h3>
-          <p class="why-desc" data-i18n="why1_desc">Connecting three different AI models — time series, continuous optimization, and combinatorial optimization — into a single coherent product requires understanding how each model's output becomes another model's input. This end-to-end design thinking is what separates a data scientist from a data product builder.</p>
+          <p class="why-desc" data-i18n="why1_desc">Connecting three different AI models into a single coherent product requires understanding how each model's output becomes another model's input. Building this fully integrated pipeline is what separates a data scientist from a data product builder.</p>
         </div>
         <div class="why-card">
           <div class="why-icon">🧰</div>
           <h3 class="why-title" data-i18n="why2_title">Right Tool for Each Problem</h3>
-          <p class="why-desc" data-i18n="why2_desc">Holt-Winters for time series (interpretable, fast, proven), SciPy for continuous optimization (mathematically exact), OR-Tools for discrete scheduling (provably optimal). Using the right tool for each problem — rather than forcing one tool to do everything — is a hallmark of experienced engineering.</p>
+          <p class="why-desc" data-i18n="why2_desc">Deep Learning (TFT) for complex non-linear time series forecasting, SciPy for continuous optimization, and OR-Tools for discrete scheduling. Using the right tool for each problem — rather than forcing one tool to do everything — is a hallmark of experienced engineering.</p>
         </div>
         <div class="why-card">
           <div class="why-icon">🎨</div>
           <h3 class="why-title" data-i18n="why3_title">UX for Non-Technical Users</h3>
-          <p class="why-desc" data-i18n="why3_desc">The live price slider, color-coded charts, and plain-language Summary Dashboard are designed for a store manager, not a data scientist. Making complex AI outputs immediately actionable for non-technical decision-makers is a product management skill as much as an engineering one.</p>
+          <p class="why-desc" data-i18n="why3_desc">The live price slider, hybrid charts, and plain-language Summary Dashboard are designed for a store manager, not a data scientist. Making complex AI outputs immediately actionable for non-technical decision-makers is a product management skill as much as an engineering one.</p>
         </div>
         <div class="why-card">
           <div class="why-icon">🌺</div>
           <h3 class="why-title" data-i18n="why4_title">Directly Applicable to Hawaii Retail</h3>
-          <p class="why-desc" data-i18n="why4_desc">Hawaii's grocery and convenience retail market operates with thin margins, high transportation costs, and unique seasonal patterns (tourist peaks, local festivals). The combination of demand forecasting, optimal pricing, and inventory minimization addresses exactly the pressures that Hawaii retailers face — making this not just a portfolio demo but a deployable tool.</p>
+          <p class="why-desc" data-i18n="why4_desc">Hawaii's grocery and convenience retail market operates with thin margins, high transportation costs, and unique seasonal patterns. The combination of dynamic demand forecasting and inventory minimization addresses exactly the pressures that Hawaii retailers face.</p>
         </div>
       </div>
     </div>
@@ -381,69 +376,66 @@
   <footer><div class="container"><p>© 2026 Manami Oyama</p></div></footer>
 
   <script>
-    // Use the shared language persistence logic in `js/main.js`.
-    // It reads `preferredLang` from localStorage and applies translations on load.
     const PAGE_TRANSLATIONS = {
       en: {
         nav_back:"← Portfolio",hero_eyebrow:"Technical Deep Dive",
         hero_title:'How the <em>Retail Decision Engine</em> works',
-        hero_desc:"Three AI models — demand forecasting, dynamic pricing, and inventory optimization — working together to tell a retailer exactly what to do this week.",
-        one_liner:'Most retailers make pricing and ordering decisions based on gut feeling. This app replaces intuition with <em>three connected AI models</em> that optimize every decision simultaneously.',
+        hero_desc:"Three models — Deep Learning forecasting, dynamic pricing, and inventory optimization — working together to tell a retailer exactly what to do this week.",
+        one_liner:'Most retailers make pricing and ordering decisions based on gut feeling. This app replaces intuition with an <em>integrated AI pipeline</em> that optimizes every decision simultaneously.',
         overview_label:"The System",overview_title:"3 AI models, 1 integrated decision",
         overview_desc:"Each module solves a different business problem. The Summary Dashboard combines all three into one actionable recommendation per product, per week.",
-        m1_title:"Demand Forecasting",m1_desc:"Holt-Winters time series model learns seasonal patterns and predicts future demand with confidence intervals.",
-        m2_title:"Dynamic Pricing",m2_desc:"Price elasticity model finds the exact price point that maximizes weekly profit using SciPy optimization.",
-        m3_title:"Inventory Optimization",m3_desc:"OR-Tools CP-SAT solver calculates the optimal order quantity and timing for the next 8 weeks.",
+        m1_title:"Demand Forecasting (AI)",m1_desc:"Temporal Fusion Transformer (TFT) learns complex seasonal patterns and predicts future demand based on price scenarios.",
+        m2_title:"Dynamic Pricing",m2_desc:"Live slider feeds price inputs directly into the AI, while SciPy calculates the theoretical optimum benchmark.",
+        m3_title:"Inventory Optimization",m3_desc:"OR-Tools CP-SAT solver calculates the optimal order schedule using the AI's dynamically predicted demand.",
         tech_label:"The Technology",tech_title:"How each AI model works",
         tech_desc:"Each model is chosen for a specific reason — not just because it's popular, but because it's the right tool for the problem.",
-        t1_title:"Holt-Winters Exponential Smoothing — Demand Forecasting",
-        t1_desc:"Holt-Winters decomposes sales history into three components: level (the baseline), trend (is demand growing?), and seasonality (how much does demand vary by week or month?). Unlike black-box deep learning models, every component is interpretable. It's trained on 104 weeks of historical data per product and outputs a point forecast plus a 95% confidence interval. The confidence interval is critical for inventory planning: ordering to the upper bound protects against stockouts; ordering to the lower bound minimizes holding costs.",
-        t1_pill:"statsmodels · Additive seasonality · 52-week seasonal period",
-        t2_title:"Price Elasticity + SciPy Optimization — Dynamic Pricing",
-        t2_desc:"Price elasticity measures how sensitive customers are to price changes. Elasticity of −1.8 means: raise price 10% and demand drops 18%. Once known, the profit function — (price − cost) × demand(price) — becomes a continuous curve with a single peak. SciPy's bounded scalar minimizer finds this peak mathematically in milliseconds. The live price slider lets users see in real time how far their current price is from the optimum.",
-        t2_pill:"scipy.optimize · Price elasticity model · Real-time profit curve",
+        t1_title:"Temporal Fusion Transformer — Demand Forecasting",
+        t1_desc:"Powered by PyTorch, the Temporal Fusion Transformer (TFT) is a state-of-the-art deep learning model for time series. Unlike traditional models, it can simultaneously ingest static metadata (product categories), known future inputs (planned price changes), and historical sales. Trained on 3 years of daily data per product, it captures the highly non-linear relationship between pricing strategies, seasonality, and consumer demand.",
+        t1_pill:"PyTorch · pytorch-forecasting · Deep Learning",
+        t2_title:"SciPy Optimization + TFT Inference — Dynamic Pricing",
+        t2_desc:"This module uses a hybrid approach. SciPy's bounded scalar minimizer mathematically finds the theoretical profit-maximizing price in milliseconds, plotting a continuous baseline curve. Concurrently, the live price slider feeds user input directly into the cached TFT model to infer a highly accurate 1-point prediction. By visualizing both the AI's prediction and the theoretical benchmark together, users gain trust through transparency.",
+        t2_pill:"scipy.optimize · Hybrid Rendering · Real-time Inference",
         t3_title:"OR-Tools CP-SAT Solver — Inventory Optimization",
-        t3_desc:"The inventory problem is a discrete, multi-period decision with hard constraints. For each of the next 8 weeks, the solver decides: order or not, and how many? Constraints include: stock must never fall below the safety level, stock cannot exceed warehouse capacity, and there is a lead time between ordering and receiving. CP-SAT models this as a mixed-integer optimization problem and finds the combination that minimizes total cost. It also calculates EOQ (Economic Order Quantity) as a classical benchmark.",
-        t3_pill:"OR-Tools CP-SAT · Multi-period planning · EOQ benchmark",
+        t3_desc:"The inventory problem is a discrete, multi-period decision. For the next 8 weeks, the solver decides: order or not, and how many? Hard constraints include maximum warehouse capacity and lead times. To handle real-world edge cases (like unavoidable initial shortages), minimum safety stock and stockouts are modeled as soft constraints using slack variables and penalty costs. CP-SAT takes the AI-predicted demand directly to find the order schedule that minimizes total cost.",        t3_pill:"OR-Tools CP-SAT · Multi-period planning · Integrated Data Pipeline",
         flow_label:"How They Connect",flow_title:"From data to decision in 4 steps",
-        flow_desc:"The three models are not independent — they feed into each other to produce a single integrated recommendation.",
-        f1_title:"Historical sales → Holt-Winters fits seasonal pattern",
-        f1_desc:"104 weeks of weekly sales data is decomposed into trend + seasonal components. The model is fit separately for each product because each has a different seasonal pattern — milk peaks in winter, orange juice in summer.",
-        f2_title:"Price elasticity → SciPy finds the profit-maximizing price",
-        f2_desc:"The demand function D(price) = base_demand × (price/base_price)^elasticity is combined with the profit formula to create a continuous profit curve. SciPy searches this curve for its peak in under 1 millisecond.",
-        f3_title:"Forecast demand → OR-Tools plans 8-week order schedule",
-        f3_desc:"The 8-week demand forecast from Module 1 is passed directly into the inventory optimizer. The solver determines the cheapest combination of order quantities and timing that keeps stock within safe levels throughout the planning horizon.",
+        flow_desc:"The three models form a fully integrated pipeline — a change in price dynamically ripples through to the inventory plan.",
+        f1_title:"Planned Price → TFT predicts 8-week demand",
+        f1_desc:"When a user adjusts the price slider, the planned price is fed into the loaded Temporal Fusion Transformer (.ckpt) to dynamically infer the demand for the next 8 weeks based on historical context.",
+        f2_title:"Price elasticity → SciPy calculates optimal benchmark",
+        f2_desc:"Simultaneously, a mathematical profit curve is generated to find the theoretical optimal price. This serves as a continuous benchmark against the AI's specific point prediction.",
+        f3_title:"Predicted demand → OR-Tools plans order schedule",
+        f3_desc:"The dynamic 8-week demand forecast generated by the TFT model is passed directly into the inventory optimizer. The solver determines the cheapest order schedule that keeps stock within safe levels.",
         f4_title:"Summary Dashboard integrates all 3 into one action",
-        f4_desc:"The Summary Dashboard combines outputs from all three modules for every product: this week's demand forecast vs. last week, the recommended price adjustment and its profit impact, and whether to place an order this week and how many units.",
+        f4_desc:"The Summary Dashboard fetches the user's selected price state for every product and processes the end-to-end pipeline in real time. It presents actionable insights: the demand forecast vs. last week, the recommended pricing strategy based on gap analysis, and the exact order quantity to place today.",
         biz_label:"Business Applications",biz_title:"How retailers can use this today",
         biz_desc:"Every decision this system makes replaces a manual process that currently takes hours — or doesn't happen at all.",
         b1_ind:"Grocery / Perishables",b1_title:"Perishable Waste Reduction",
-        b1_desc:"Perishable products have a shelf life of days. Overordering leads to waste; underordering leads to empty shelves. The demand forecast tells a store manager exactly how much to order each week, accounting for seasonal patterns and day-of-week peaks. The inventory optimizer calculates the precise order quantity that minimizes waste while avoiding stockouts.",
+        b1_desc:"Perishable products have a shelf life of days. Overordering leads to waste; underordering leads to empty shelves. The AI demand forecast tells a store manager exactly how much to order each week, accounting for complex seasonal patterns and price changes. The inventory optimizer calculates the precise order quantity that minimizes waste while avoiding stockouts.",
         b1_result:"Expected: 15–25% reduction in perishable waste",
         b2_ind:"Grocery / Pricing",b2_title:"Weekly Price Optimization",
-        b2_desc:"Most small grocery chains set prices quarterly based on competitor surveys and gut feeling. Even a $0.20 price adjustment on a high-velocity item like milk can shift weekly profit by hundreds of dollars. The dynamic pricing module calculates the optimal price for each product each week — enabling data-driven weekly price reviews that take minutes instead of days.",
+        b2_desc:"Most small grocery chains set prices quarterly based on competitor surveys and gut feeling. The dynamic pricing module shows that even a $0.20 price adjustment on a high-velocity item like milk can shift weekly profit by hundreds of dollars. By simulating demand against a deep learning model in real time, the engine enables data-driven weekly price reviews that take minutes instead of days.",
         b2_result:"Expected: 8–15% improvement in gross margin per SKU",
         b3_ind:"Grocery / Operations",b3_title:"Seasonal Inventory Planning",
         b3_desc:"Orange juice demand spikes in December; bread demand rises in November. Without forecasting, buyers either overstock at peak or understock and miss the seasonal opportunity. The 8-week planning horizon gives buyers enough lead time to build stock before the seasonal peak and run it down cleanly afterward.",
         b3_result:"Expected: 20–30% reduction in peak-season overstock",
         b4_ind:"Convenience Stores",b4_title:"Multi-SKU Category Management",
-        b4_desc:"A convenience store manager oversees hundreds of SKUs with limited time for analysis. The product-by-product tab structure mirrors how a category manager thinks. Scaling this system to 100 products would give a buyer a complete weekly decision brief — which prices to adjust, which products to order, which categories are trending — without opening a spreadsheet.",
+        b4_desc:"A convenience store manager oversees hundreds of SKUs with limited time for analysis. The product-by-product tab structure mirrors how a category manager thinks. Scaling this system to 100 products would give a buyer a complete weekly decision brief without opening a spreadsheet.",
         b4_result:"Expected: 3–4 hours saved per buyer per week",
         b5_ind:"Wholesale / Distribution",b5_title:"Supplier Order Consolidation",
-        b5_desc:"Wholesalers place orders from multiple suppliers with different lead times. The 8-week planning horizon makes it possible to consolidate orders across products from the same vendor — reducing purchase orders, qualifying for volume discounts, and smoothing delivery schedules. The EOQ provides a principled starting point for negotiating minimum order quantities.",
+        b5_desc:"Wholesalers place orders from multiple suppliers with different lead times. The 8-week planning horizon makes it possible to consolidate orders across products from the same vendor — reducing purchase orders, qualifying for volume discounts, and smoothing delivery schedules.",
         b5_result:"Expected: 10–20% reduction in order processing costs",
         b6_ind:"Retail Analytics / Consulting",b6_title:"Data-Driven Buyer Training",
-        b6_desc:"The real-time price slider and live profit curve make the relationship between price, demand, and profit viscerally clear — even to non-technical buyers. Moving the slider and watching the profit curve update in real time builds trust in the model and accelerates adoption of analytical decision-making across the buying team.",
+        b6_desc:"The real-time price slider and live profit curve make the relationship between price, demand, and profit viscerally clear. Many retail organizations struggle to get buyers to adopt AI because the models feel like black boxes. The Engine's interactive visualizations make the logic transparent, building trust and accelerating adoption.",
         b6_result:"Expected: Faster adoption of analytical decision-making across teams",
         why_label:"Why It Matters",why_title:"What this demonstrates",
         why1_title:"Systems Thinking",
-        why1_desc:"Connecting three different AI models into a single coherent product requires understanding how each model's output becomes another model's input. This end-to-end design thinking is what separates a data scientist from a data product builder.",
+        why1_desc:"Connecting three different AI models into a single coherent product requires understanding how each model's output becomes another model's input. Building this fully integrated pipeline is what separates a data scientist from a data product builder.",
         why2_title:"Right Tool for Each Problem",
-        why2_desc:"Holt-Winters for time series, SciPy for continuous optimization, OR-Tools for discrete scheduling. Using the right tool for each problem — rather than forcing one tool to do everything — is a hallmark of experienced engineering.",
+        why2_desc:"Deep Learning (TFT) for complex non-linear time series forecasting, SciPy for continuous optimization, and OR-Tools for discrete scheduling. Using the right tool for each problem — rather than forcing one tool to do everything — is a hallmark of experienced engineering.",
         why3_title:"UX for Non-Technical Users",
-        why3_desc:"The live price slider, color-coded charts, and plain-language Summary Dashboard are designed for a store manager, not a data scientist. Making complex AI outputs immediately actionable for non-technical users is a product management skill as much as an engineering one.",
+        why3_desc:"The live price slider, hybrid charts, and plain-language Summary Dashboard are designed for a store manager, not a data scientist. Making complex AI outputs immediately actionable for non-technical users is a product management skill as much as an engineering one.",
         why4_title:"Directly Applicable to Hawaii Retail",
-        why4_desc:"Hawaii's grocery market operates with thin margins, high transportation costs, and unique seasonal patterns. The combination of demand forecasting, optimal pricing, and inventory minimization addresses exactly the pressures that Hawaii retailers face — making this a deployable tool, not just a portfolio demo.",
+        why4_desc:"Hawaii's grocery market operates with thin margins, high transportation costs, and unique seasonal patterns. The combination of dynamic demand forecasting and inventory minimization addresses exactly the pressures that Hawaii retailers face.",
         cta_label:"Try It",cta_title:"See all three models in action",
         cta_desc:"Generate demo data, move the price slider, run the inventory optimizer — then check the Summary Dashboard for the integrated recommendation.",
         cta_btn1:"↗ Open Live App",cta_btn2:"← Back to Portfolio",
@@ -451,63 +443,62 @@
       ja: {
         nav_back:"← ポートフォリオ",hero_eyebrow:"技術解説",
         hero_title:"Retail Decision Engineの仕組み",
-        hero_desc:"需要予測・ダイナミックプライシング・発注最適化の3つのAIモデルが連携し、小売業者に「今週何をすべきか」を正確に伝えます。",
-        one_liner:"ほとんどの小売業者は価格設定と発注を直感で行っています。このアプリは直感を3つの連携したAIモデルに置き換え、すべての意思決定を同時に最適化します。",
+        hero_desc:"深層学習による需要予測・ダイナミックプライシング・発注最適化の3つのモデルが連携し、小売業者に「今週何をすべきか」を正確に伝えます。",
+        one_liner:"ほとんどの小売業者は価格設定と発注を直感で行っています。このアプリは直感を、すべての意思決定を同時に最適化する『統合されたAIパイプライン』に置き換えます。",
         overview_label:"システム全体像",overview_title:"3つのAIモデル、1つの統合判断",
         overview_desc:"各モジュールが異なるビジネス問題を解きます。総合ダッシュボードが3つを統合し、商品ごとに週次の推奨アクションを提供します。",
-        m1_title:"需要予測",m1_desc:"Holt-Wintersの時系列モデルが季節パターンを学習し、信頼区間付きで将来の需要を予測します。",
-        m2_title:"ダイナミックプライシング",m2_desc:"価格弾力性モデルがSciPy最適化を使って週次利益を最大化する価格を数学的に特定します。",
-        m3_title:"発注最適化",m3_desc:"OR-Tools CP-SATソルバーが今後8週間の最適な発注数量とタイミングを計算します。",
+        m1_title:"需要予測 (AI)",m1_desc:"Temporal Fusion Transformer (TFT)が複雑な季節パターンを学習し、価格シナリオに基づいた将来需要を予測します。",
+        m2_title:"ダイナミックプライシング",m2_desc:"価格スライダーがAIに直接入力を送り、SciPyが同時に理論的な最適ベンチマークを計算します。",
+        m3_title:"発注最適化",m3_desc:"OR-Tools CP-SATソルバーが、AIの動的な需要予測を使用して最適な発注スケジュールを計算します。",
         tech_label:"使用技術",tech_title:"各AIモデルの仕組み",
         tech_desc:"各モデルは人気があるからではなく、その問題に最適なツールだから選ばれています。",
-        t1_title:"Holt-Winters指数平滑化 — 需要予測",
-        t1_desc:"Holt-Wintersは売上履歴を3つの成分に分解します：レベル（基準値）・トレンド（需要は成長しているか？）・季節性（週または月ごとにどれだけ変動するか？）。ブラックボックスの深層学習とは異なり、すべての成分が解釈可能です。商品ごとに104週の週次データで学習し、予測値と95%信頼区間を出力します。信頼区間は在庫計画に重要です：上限に合わせた発注は欠品を防ぎ、下限に合わせた発注は保管コストを最小化します。",
-        t1_pill:"statsmodels · 加法的季節性 · 52週の季節周期",
-        t2_title:"価格弾力性 + SciPy最適化 — ダイナミックプライシング",
-        t2_desc:"価格弾力性は顧客が価格変化にどれだけ敏感かを測ります。弾力性−1.8は「価格を10%上げると需要が18%下がる」ことを意味します。これが分かると、利益関数（価格−コスト）×需要（価格）は単一のピークを持つ連続カーブになります。ScipyのBounded Scalar Minimizerがこのピークをミリ秒で数学的に特定します。リアルタイムの価格スライダーで現在の価格が最適値からどれだけ離れているかを即座に確認できます。",
-        t2_pill:"scipy.optimize · 価格弾力性モデル · リアルタイム利益カーブ",
+        t1_title:"Temporal Fusion Transformer — 需要予測",
+        t1_desc:"PyTorchベースのTemporal Fusion Transformer（TFT）は、時系列のための最先端の深層学習モデルです。従来のモデルとは異なり、静的メタデータ（商品カテゴリ）、将来の既知入力（計画された価格変更）、および過去の売上を同時に処理できます。商品ごとに3年分の日次データで学習し、価格戦略、季節性、消費者の需要の間の高度な非線形関係を捉えます。",
+        t1_pill:"PyTorch · pytorch-forecasting · 深層学習",
+        t2_title:"SciPy最適化 + TFT推論 — ダイナミックプライシング",
+        t2_desc:"このモジュールはハイブリッド・アプローチを採用しています。SciPyのBounded Scalar Minimizerがミリ秒単位で理論的な利益最大化価格を数学的に見つけ、連続的なベースラインカーブを描画します。同時に、ライブ価格スライダーがユーザーの入力をキャッシュされたTFTモデルに直接送り、高精度な1点の予測を推論します。AIの予測と理論的ベンチマークの両方を視覚化することで、透明性による信頼を構築します。",
+        t2_pill:"scipy.optimize · ハイブリッドレンダリング · リアルタイム推論",
         t3_title:"OR-Tools CP-SATソルバー — 発注最適化",
-        t3_desc:"在庫問題は離散的・複数期間の意思決定でハード制約があります。今後8週間の各週について「発注するかどうか、するなら何個？」を決める必要があります。制約は「在庫が最低安全水準を下回らないこと」「倉庫容量を超えないこと」「リードタイムがあること」です。CP-SATはこれを混合整数最適化問題としてモデル化し、総コスト（発注固定費＋単価＋保管費＋欠品ペナルティ）を最小化する組み合わせを見つけます。",
-        t3_pill:"OR-Tools CP-SAT · 複数期間計画 · EOQベンチマーク",
+        t3_desc:"在庫問題は離散的・複数期間の意思決定です。今後8週間の各週について「発注するかどうか、するなら何個？」を決定します。倉庫容量やリードタイムは絶対の「ハード制約」として扱い、欠品や最低安全水準の割れはスラック変数を用いたペナルティ（ソフト制約）としてモデル化することで、不可避な初期欠品などでのシステム破綻を防ぎます。AIが予測した需要を直接受け取り、これらペナルティを含む総コストを最小化する組み合わせを見つけます。",        t3_pill:"OR-Tools CP-SAT · 複数期間計画 · 統合データパイプライン",
         flow_label:"モデルの連携",flow_title:"データから意思決定まで4ステップ",
-        flow_desc:"3つのモデルは独立していません——それぞれが次のモデルの入力を生成し、統合された推奨を生み出します。",
-        f1_title:"過去の売上 → Holt-Wintersが季節パターンを学習",
-        f1_desc:"104週の週次売上データをトレンド＋季節成分に分解します。商品ごとに季節パターンが異なるため（牛乳は冬にピーク、オレンジジュースは夏にピーク）、モデルは商品ごとに個別に学習されます。",
-        f2_title:"価格弾力性 → Scipyが利益を最大化する価格を発見",
-        f2_desc:"需要関数D(価格) = 基準需要 × (価格/基準価格)^弾力性を利益式と組み合わせて連続的な利益カーブを作成します。ScipyがこのカーブのピークをMillisecond以下で探索します。",
-        f3_title:"需要予測 → OR-Toolsが8週間の発注スケジュールを計画",
-        f3_desc:"モジュール1の8週間需要予測が在庫オプティマイザーの入力として直接渡されます。ソルバーは計画期間中ずっと安全在庫を維持しながら総コストを最小化する発注数量とタイミングの組み合わせを決定します。",
+        flow_desc:"3つのモデルは完全に統合されたパイプラインを形成し、価格の変化が動的に発注計画へと波及します。",
+        f1_title:"計画価格 → TFTが8週間の需要を予測",
+        f1_desc:"ユーザーが価格スライダーを調整すると、その計画価格がロード済みのTemporal Fusion Transformer（.ckpt）に渡され、過去のコンテキストに基づいて今後8週間の需要が動的に推論されます。",
+        f2_title:"価格弾力性 → SciPyが最適ベンチマークを計算",
+        f2_desc:"同時に数学的な利益カーブが生成され、理論上の最適価格が見つけ出されます。これはAIの具体的な点予測に対する連続的なベンチマークとして機能します。",
+        f3_title:"需要予測 → OR-Toolsが発注スケジュールを計画",
+        f3_desc:"TFTモデルによって生成された動的な8週間需要予測は、在庫オプティマイザーに直接渡されます。ソルバーは在庫を安全なレベルに保つ最も安価な発注スケジュールを決定します。",
         f4_title:"総合ダッシュボードが3つを1つのアクションに統合",
-        f4_desc:"総合ダッシュボードは全商品について3つのモジュールの出力を統合して表示します：先週比の需要予測、価格調整の推奨とその利益インパクト、今週発注すべきかどうかと数量。",
-        biz_label:"ビジネスへの応用",biz_title:"小売業者が今日から活用できる6つの方法",
+        f4_desc:"総合ダッシュボードは全商品についてユーザーが選択した価格状態を取得し、エンドツーエンドのパイプラインをリアルタイムで処理します。先週比の需要予測、ギャップ分析に基づいた価格戦略の推奨、今日発注すべき正確な数量などの実行可能なインサイトを提示します。",
+        biz_label:"ビジネスへの応用",biz_title:"小売業者が今日から活用できる方法",
         biz_desc:"このシステムが行うすべての意思決定は、現在数時間かかる手作業のプロセスを置き換えます。",
         b1_ind:"食料品 / 生鮮食品",b1_title:"生鮮食品の廃棄ロス削減",
-        b1_desc:"牛乳・パン・生鮮食品の賞味期限は数日です。過剰発注は廃棄とマークダウンにつながり、過小発注は欠品と売上損失を招きます。需要予測は季節パターンと曜日別ピーク（土曜日は火曜日の40%増）を考慮して毎週の最適発注量を正確に提示します。",
+        b1_desc:"牛乳・パン・生鮮食品の賞味期限は数日です。過剰発注は廃棄とマークダウンにつながり、過小発注は欠品と売上損失を招きます。AIの需要予測は複雑な季節パターンと価格変化を考慮して毎週の最適発注量を正確に提示し、在庫ソルバーが廃棄を最小限に抑える発注量を計算します。",
         b1_result:"期待効果：生鮮廃棄ロス 15〜25%削減",
         b2_ind:"食料品 / 価格設定",b2_title:"週次価格最適化",
-        b2_desc:"多くの中小スーパーは競合調査と直感で四半期ごとに価格を設定します。牛乳のような高回転商品で0.20ドルの価格調整だけで週次利益が数百ドル変わります。ダイナミックプライシングモジュールは商品ごとに週次で最適価格を計算し、数日かかっていたデータ基準の価格見直しを数分で完了させます。",
+        b2_desc:"多くの中小スーパーは競合調査と直感で四半期ごとに価格を設定します。牛乳のような高回転商品で0.20ドルの価格調整だけで週次利益が数百ドル変わります。深層学習モデルに対してリアルタイムに需要をシミュレーションすることで、数日かかっていたデータ基準の価格見直しを数分で完了させます。",
         b2_result:"期待効果：SKUごとの粗利率 8〜15%改善",
         b3_ind:"食料品 / オペレーション",b3_title:"季節性在庫計画",
         b3_desc:"オレンジジュースの需要は12月にスパイクし、パンの需要は11月に上昇します。予測なしでは、バイヤーはピーク時に過剰在庫（資本の無駄）を抱えるかピーク商機を逃します。8週間の計画ホライゾンにより、季節ピーク前に在庫を積み上げてピーク後にきれいに消化するリードタイムが確保できます。",
         b3_result:"期待効果：ピーク季節の過剰在庫 20〜30%削減",
         b4_ind:"コンビニエンスストア",b4_title:"複数SKUのカテゴリ管理",
-        b4_desc:"コンビニのマネージャーは分析時間が限られた中で数百のSKUを管理します。商品ごとのタブ構造はカテゴリマネージャーの思考に沿っています。100商品に拡張すれば、スプレッドシートを開かずに「どの価格を調整すべきか・どの商品を発注すべきか・どのカテゴリがトレンドか」を週次で把握できます。",
+        b4_desc:"コンビニのマネージャーは分析時間が限られた中で数百のSKUを管理します。商品ごとのタブ構造はカテゴリマネージャーの思考に沿っています。100商品に拡張すれば、スプレッドシートを開かずに完全な週次の意思決定ブリーフを得ることができます。",
         b4_result:"期待効果：バイヤー1人あたり週3〜4時間の削減",
         b5_ind:"卸売 / 流通",b5_title:"仕入先への発注統合",
-        b5_desc:"卸業者は異なるリードタイムと最低発注数量を持つ複数の仕入先に発注します。8週間の計画ホライゾンにより同一仕入先からの複数商品の発注を統合し、発注書の削減・ボリュームディスカウントの獲得・配送スケジュールの平準化が可能になります。",
+        b5_desc:"卸業者は異なるリードタイムを持つ複数の仕入先に発注します。8週間の計画ホライゾンにより同一仕入先からの複数商品の発注を統合し、発注書の削減・ボリュームディスカウントの獲得・配送スケジュールの平準化が可能になります。",
         b5_result:"期待効果：発注処理コスト 10〜20%削減",
         b6_ind:"小売分析 / コンサルティング",b6_title:"データドリブンなバイヤー研修",
-        b6_desc:"リアルタイムの価格スライダーとライブ利益カーブは、価格・需要・利益の関係を非技術系のバイヤーにも直感的に理解させます。スライダーを動かして利益カーブがリアルタイムに更新されるのを見ることでモデルへの信頼が生まれ、分析的意思決定の組織内導入が加速します。",
+        b6_desc:"リアルタイムの価格スライダーとライブ利益カーブは、価格・需要・利益の関係を直感的に理解させます。多くの小売組織ではAIがブラックボックスに感じるため導入に苦労しますが、このエンジンの対話的な視覚化は論理を透明にし、信頼を築き、導入を加速させます。",
         b6_result:"期待効果：チーム全体での分析的意思決定の採用加速",
         why_label:"なぜ重要か",why_title:"このプロジェクトが示すもの",
         why1_title:"システム思考",
-        why1_desc:"3つの異なるAIモデルを1つの一貫したプロダクトに繋げるには、各モデルの出力が次のモデルの入力になる仕組みを理解する必要があります。このエンドツーエンドの設計思考がデータサイエンティストとデータプロダクトビルダーを区別します。",
+        why1_desc:"3つの異なるAIモデルを1つの一貫したプロダクトに繋げるには、各モデルの出力が次のモデルの入力になる仕組みを理解する必要があります。この完全に統合されたパイプラインを構築することが、データサイエンティストとデータプロダクトビルダーを区別します。",
         why2_title:"問題に最適なツールを選ぶ",
-        why2_desc:"時系列にはHolt-Winters、連続最適化にはSciPy、離散スケジューリングにはOR-Tools。すべてを一つのツールで無理やり解決するのではなく問題ごとに最適なツールを選ぶのは、経験豊富なエンジニアの特徴です。",
+        why2_desc:"複雑な非線形時系列予測には深層学習（TFT）、連続最適化にはSciPy、離散スケジューリングにはOR-Tools。すべてを一つのツールで無理やり解決するのではなく問題ごとに最適なツールを選ぶのは、経験豊富なエンジニアの特徴です。",
         why3_title:"非技術ユーザー向けUX",
-        why3_desc:"ライブ価格スライダー・色分けされたチャート・平易な言語の総合ダッシュボードは、データサイエンティストではなく店舗マネージャーのために設計されています。複雑なAI出力を非技術的な意思決定者がすぐに行動に移せるようにするのはエンジニアリングと同様にプロダクトマネジメントのスキルです。",
+        why3_desc:"ライブ価格スライダー・ハイブリッドチャート・平易な言語の総合ダッシュボードは、店舗マネージャーのために設計されています。複雑なAI出力を非技術的な意思決定者がすぐに行動に移せるようにするのはエンジニアリングと同様にプロダクトマネジメントのスキルです。",
         why4_title:"ハワイ小売業への直接的な適用可能性",
-        why4_desc:"ハワイの食料品市場は薄い利益率・高い輸送コスト・独自の季節パターンで運営されています。需要予測・最適価格設定・在庫最小化の組み合わせは、ハワイの小売業者が直面する課題に正確に対応しており、ポートフォリオのデモだけでなく実際に展開可能なツールです。",
+        why4_desc:"ハワイの食料品市場は薄い利益率・高い輸送コスト・独自の季節パターンで運営されています。動的な需要予測と在庫最小化の組み合わせは、ハワイの小売業者が直面する課題に正確に対応しています。",
         cta_label:"試してみる",cta_title:"3つのモデルを動かしてみる",
         cta_desc:"デモデータを生成して価格スライダーを動かし、発注最適化を実行してから総合ダッシュボードで統合された推奨を確認してください。",
         cta_btn1:"↗ ライブアプリを開く",cta_btn2:"← ポートフォリオに戻る",
