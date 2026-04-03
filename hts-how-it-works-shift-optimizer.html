@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>How It Works — Shift Optimizer v2</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&family=Noto+Serif+JP:wght@300;400&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/style.css"/>
+  <style>
+    :root{--bg:#f4f6f3;--accent:#1a4a7a;--accent2:#b7cde8;--accent3:#eaf0f8;--border:#dde8f0;}
+    .phase-badge{display:inline-block;background:var(--accent);color:#fff;font-size:11px;font-weight:600;letter-spacing:.08em;padding:3px 10px;border-radius:20px;margin-bottom:10px;}
+    .constraint-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:20px;}
+    @media(max-width:700px){.constraint-grid{grid-template-columns:1fr;}}
+    .constraint-card{border:1px solid var(--border);border-radius:10px;padding:16px 18px;background:white;}
+    .badge{font-size:10px;font-weight:700;letter-spacing:.08em;padding:2px 8px;border-radius:12px;display:inline-block;margin-bottom:8px;}
+    .hard-badge{background:#fdecea;color:#c0392b;} .soft-badge{background:#fff8e0;color:#b87a00;}
+    .ojt-badge{background:#eaf0f8;color:#1a4a7a;}
+    .formula-box{background:#1a1a1a;color:#b7d5c8;border-radius:8px;padding:16px 20px;font-family:'Courier New',monospace;font-size:13px;line-height:1.7;margin:16px 0;}
+    .skill-table{width:100%;border-collapse:collapse;font-size:13px;margin:16px 0;}
+    .skill-table th{background:var(--accent3);padding:8px 12px;text-align:left;border:1px solid var(--border);font-weight:600;}
+    .skill-table td{padding:8px 12px;border:1px solid var(--border);vertical-align:top;}
+    .skill-table tr:nth-child(even) td{background:#fafaf8;}
+    .flow-steps{counter-reset:steps;list-style:none;padding:0;margin:24px 0 0;}
+    .flow-step{counter-increment:steps;display:flex;gap:18px;margin-bottom:20px;align-items:flex-start;}
+    .flow-step::before{content:counter(steps);min-width:32px;height:32px;border-radius:50%;background:var(--accent);color:white;font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;}
+    .flow-step h4{margin:0 0 4px;font-size:15px;} .flow-step p{margin:0;font-size:13px;color:#555;line-height:1.6;}
+    .result-section{border-left:3px solid var(--accent);padding:10px 16px;margin:10px 0;background:white;border-radius:0 8px 8px 0;}
+    .result-section h4{margin:0 0 4px;font-size:14px;} .result-section p{margin:0;font-size:13px;color:#555;}
+    .stress-row{display:flex;gap:12px;margin:12px 0;flex-wrap:wrap;}
+    .stress-card{flex:1;min-width:160px;background:white;border:1px solid var(--border);border-radius:8px;padding:12px 14px;}
+    .stress-card .s-label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:4px;}
+    .stress-card .s-title{font-size:13px;font-weight:600;margin-bottom:4px;}
+    .stress-card .s-desc{font-size:12px;color:#666;line-height:1.5;}
+  </style>
+</head>
+<body>
+<nav>
+  <div class="nav-inner">
+    <div class="nav-logo">Shift Optimizer v2</div>
+    <div class="nav-links">
+      <a href="hr-tech-suite-index.html" class="btn-back" data-i18n="nav_back">← Suite Overview</a>
+      <div class="lang-toggle">
+        <button class="lang-btn active" data-lang-btn="en">EN</button>
+        <button class="lang-btn" data-lang-btn="ja">JA</button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="container">
+    <p class="hero-eyebrow fade-up" data-i18n="hero_eyebrow">Technical Deep Dive</p>
+    <h1 class="hero-title fade-up" data-i18n="hero_title">How the <em>Optimizer</em> works</h1>
+    <p class="hero-desc fade-up" data-i18n="hero_desc">A plain-English explanation of the AI scheduling system — now with OJT integration and shift stress analysis.</p>
+    <div class="one-liner fade-up"><p data-i18n="one_liner">Instead of juggling spreadsheets, this app <em>mathematically proves</em> the best possible schedule — satisfying every hard rule, embedding training pairs as constraints, computing per-employee stress, and minimizing labor cost simultaneously.</p></div>
+    <div class="btn-group fade-up" style="margin-bottom:20px">
+      <a href="#" target="_blank" class="btn btn-primary" data-i18n="hero_btn">↗ Open Live App</a>
+      <a href="https://github.com/mona2083/shift-optimizer" target="_blank" class="btn btn-outline">↗ GitHub</a>
+      <a href="hr-tech-suite-index.html" class="btn btn-outline" data-i18n="nav_back">← Suite Overview</a>
+    </div>
+  </div>
+</div>
+
+<section>
+  <div class="container">
+    <p class="section-label" data-i18n="overview_label">Overview</p>
+    <h2 class="section-title" data-i18n="overview_title">What it optimizes</h2>
+    <p class="section-desc" data-i18n="overview_desc">31 employees. 3 shifts a day. 7 days a week. Training plans embedded. One click.</p>
+    <table class="skill-table">
+      <thead><tr><th data-i18n="ov_col1">Setting</th><th data-i18n="ov_col2">Detail</th></tr></thead>
+      <tbody>
+        <tr><td data-i18n="ov_r1a">Staff</td><td data-i18n="ov_r1b">31 employees — Store Manager ×1, Asst. Manager ×2, Section Lead ×6, Staff ×12, Part-time ×10</td></tr>
+        <tr><td data-i18n="ov_r2a">Shifts</td><td data-i18n="ov_r2b">Morning 6–14 / Midday 11–19 / Evening 14–22 (8h each)</td></tr>
+        <tr><td data-i18n="ov_r3a">Skills</td><td data-i18n="ov_r3b">Cashier / Food / Deli — each rated None / Basic / Advanced</td></tr>
+        <tr><td data-i18n="ov_r4a">Variables</td><td data-i18n="ov_r4b">651 binary variables (31 × 7 × 3) solved simultaneously</td></tr>
+        <tr><td data-i18n="ov_r5a">Day types</td><td data-i18n="ov_r5b">Normal / Sale / Holiday — demand targets and safety thresholds differ</td></tr>
+        <tr><td data-i18n="ov_r6a">OJT mode</td><td data-i18n="ov_r6b">Training plan from Training Planner embedded — Trainee off-strength, Trainer skill adjusted, same-shift soft constraint</td></tr>
+        <tr><td data-i18n="ov_r7a">Solve time</td><td data-i18n="ov_r7b">≤ 15 seconds (CP-SAT with 15s time limit)</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section style="background:var(--accent3)">
+  <div class="container">
+    <p class="section-label" data-i18n="tech_label">The Technology</p>
+    <h2 class="section-title" data-i18n="tech_title">2 layers working together</h2>
+    <div class="tech-cards">
+      <div class="tech-card">
+        <div class="tech-pill" data-i18n="t1_pill">Provably optimal — not trial and error</div>
+        <h3 class="tech-title" data-i18n="t1_title">Constraint Programming — OR-Tools CP-SAT</h3>
+        <p class="tech-desc" data-i18n="t1_desc">Google's CP-SAT solver assigns 651 binary variables simultaneously using constraint propagation and branch-and-bound search. The result is a mathematically proven optimal schedule — not a heuristic approximation. The same solver powers Google's workforce scheduling and vehicle routing.</p>
+      </div>
+      <div class="tech-card">
+        <div class="tech-pill" data-i18n="t2_pill">Hard rules guaranteed + soft preferences maximized</div>
+        <h3 class="tech-title" data-i18n="t2_title">2-Stage Objective — Penalty + Wage</h3>
+        <p class="tech-desc" data-i18n="t2_desc">Minimize: Penalty × 10,000 + Weekly wage. A single constraint violation (10,000 pts) outweighs the maximum possible wage difference (~$200) by 50×. Compliance always comes first. Within equal penalty levels, the cheapest valid schedule wins.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <p class="section-label" data-i18n="con_label">Constraint Design</p>
+    <h2 class="section-title" data-i18n="con_title">Hard rules vs. soft preferences</h2>
+    <p class="section-desc" data-i18n="con_desc">Which rules must never be broken, and which are best-effort goals?</p>
+    <h3 style="margin:24px 0 8px;color:var(--accent)" data-i18n="phase1_label">Phase 1 — Core Constraints</h3>
+    <div class="constraint-grid">
+      <div class="constraint-card"><span class="badge hard-badge" data-i18n="hard_badge">HARD</span><h4 data-i18n="h1_title">Must-off days</h4><p data-i18n="h1_desc">Absolute unavailability — solver never assigns a shift on these days.</p></div>
+      <div class="constraint-card"><span class="badge hard-badge" data-i18n="hard_badge">HARD</span><h4 data-i18n="h2_title">Demand staffing minimums</h4><p data-i18n="h2_desc">Each shift must meet minimum headcount per day type (Normal/Sale/Holiday). Returns infeasible if impossible.</p></div>
+      <div class="constraint-card"><span class="badge hard-badge" data-i18n="hard_badge">HARD</span><h4 data-i18n="h3_title">Leader per shift</h4><p data-i18n="h3_desc">Every shift needs ≥1 leader (Manager or SL). At least 1 Manager must appear somewhere each day.</p></div>
+      <div class="constraint-card"><span class="badge hard-badge" data-i18n="hard_badge">HARD</span><h4 data-i18n="h4_title">Skill coverage</h4><p data-i18n="h4_desc">Each shift: Cashier Basic ×N (default 2), Food Advanced ×1, Deli Advanced ×1, Food Basic ×1.</p></div>
+      <div class="constraint-card"><span class="badge hard-badge" data-i18n="hard_badge">HARD</span><h4 data-i18n="h5_title">Max consecutive days</h4><p data-i18n="h5_desc">No employee works more than N consecutive days (default 5). Sliding-window constraint.</p></div>
+      <div class="constraint-card"><span class="badge soft-badge" data-i18n="soft_badge">SOFT</span><h4 data-i18n="s1_title">Prefer-off days</h4><p data-i18n="s1_desc">Penalty: 100 × role weight (PT=2.0, Manager=0.3). PT preferences are naturally protected more strongly.</p></div>
+      <div class="constraint-card"><span class="badge soft-badge" data-i18n="soft_badge">SOFT</span><h4 data-i18n="s2_title">Shift time preference</h4><p data-i18n="s2_desc">Penalty: 50 × role weight per mismatch. Mismatched cells are highlighted ⚠️ in the dashboard.</p></div>
+      <div class="constraint-card"><span class="badge soft-badge" data-i18n="soft_badge">SOFT</span><h4 data-i18n="s3_title">Senior coverage</h4><p data-i18n="s3_desc">Penalty: 150 per shift without a senior employee. Preferred but not mandatory.</p></div>
+    </div>
+    <h3 style="margin:28px 0 8px;color:#2d6a4f" data-i18n="phase2_label">Phase 2 — Fairness &amp; Compliance</h3>
+    <div class="constraint-grid">
+      <div class="constraint-card"><span class="badge hard-badge" data-i18n="hard_badge">HARD</span><h4 data-i18n="h6_title">Evening→Morning interval</h4><p data-i18n="h6_desc">x[e,d,evening] + x[e,d+1,morning] ≤ 1. Prevents 8h turnarounds.</p></div>
+      <div class="constraint-card"><span class="badge hard-badge" data-i18n="hard_badge">HARD</span><h4 data-i18n="h7_title">No consecutive evening shifts</h4><p data-i18n="h7_desc">No employee works 2+ evenings in a row. Prevents late-night fatigue accumulation.</p></div>
+      <div class="constraint-card"><span class="badge hard-badge" data-i18n="hard_badge">HARD</span><h4 data-i18n="h8_title">Weekly hours cap</h4><p data-i18n="h8_desc">FT ≤ 40h (5 shifts), PT ≤ 20h (2–4 shifts per employee setting).</p></div>
+      <div class="constraint-card"><span class="badge soft-badge" data-i18n="soft_badge">SOFT</span><h4 data-i18n="s4_title">Evening shift equalization</h4><p data-i18n="s4_desc">Penalty: 80 × (max−min evening count). Prevents evening shifts concentrating on the same people.</p></div>
+      <div class="constraint-card"><span class="badge soft-badge" data-i18n="soft_badge">SOFT</span><h4 data-i18n="s5_title">Weekend shift equalization</h4><p data-i18n="s5_desc">Penalty: 80 × (max−min weekend count). Sat/Sun distributed as evenly as possible.</p></div>
+      <div class="constraint-card"><span class="badge soft-badge" data-i18n="soft_badge">SOFT</span><h4 data-i18n="s6_title">Safety score threshold</h4><p data-i18n="s6_desc">Penalty: 800/skill/shift below threshold. Normal ≥40 / Holiday ≥50 / Sale ≥55.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- OJT INTEGRATION (v2 NEW) -->
+<section>
+  <div class="container">
+    <p class="section-label" data-i18n="ojt_label">v2 Feature</p>
+    <h2 class="section-title" data-i18n="ojt_title">Training Plan Integration</h2>
+    <p class="section-desc" data-i18n="ojt_desc">When a Training Plan exists (from Training Planner), the optimizer automatically embeds OJT pairs as additional constraints — no manual configuration needed.</p>
+    <div class="constraint-grid">
+      <div class="constraint-card"><span class="badge ojt-badge" data-i18n="ojt_badge">OJT — Trainee</span><h4 data-i18n="ojt_te_title">Trainee = Off-strength (🟡)</h4><p data-i18n="ojt_te_desc">During the training period, the Trainee's skill level is set to "none" for skill coverage calculations. They are present on the shift but do not contribute to Advanced/Basic coverage counts. Demand must still be met by the remaining staff.</p></div>
+      <div class="constraint-card"><span class="badge ojt-badge" data-i18n="ojt_badge">OJT — Trainer</span><h4 data-i18n="ojt_tr_title">Trainer = Skill downgraded (⭐)</h4><p data-i18n="ojt_tr_desc">For Advanced training, the Trainer's skill is temporarily treated as "basic" (they are occupied teaching). For Basic training Phase 2, the Trainer skill is unchanged. This accurately models the reduced operational contribution during active OJT.</p></div>
+      <div class="constraint-card"><span class="badge ojt-badge" data-i18n="ojt_badge">OJT — Pairing</span><h4 data-i18n="ojt_pair_title">Same-shift soft constraint (weight 5000)</h4><p data-i18n="ojt_pair_desc">The optimizer tries to assign Trainer and Trainee to the same shift each working day. Weight 5000 makes this effectively a near-hard constraint while still allowing separation if doing so would cause an infeasibility.</p></div>
+      <div class="constraint-card"><span class="badge soft-badge" data-i18n="soft_badge">SOFT</span><h4 data-i18n="ojt_best_title">Best-effort mode available</h4><p data-i18n="ojt_best_desc">If "Best Effort" is toggled ON, minimum headcount constraints are relaxed to allow understaffed solutions. Useful for weeks when OJT pairs are unavoidable but demand drops. The dashboard shows clearly where demand is unmet (⚠️).</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- SHIFT STRESS ANALYSIS (v2 NEW) -->
+<section style="background:var(--accent3)">
+  <div class="container">
+    <p class="section-label" data-i18n="stress_label">v2 Feature</p>
+    <h2 class="section-title" data-i18n="stress_title">Shift Stress Analysis</h2>
+    <p class="section-desc" data-i18n="stress_desc">After optimization, a composite stress score is computed per employee and stored in session_state — feeding into the HR Manager and Ops dashboards.</p>
+    <div class="stress-row">
+      <div class="stress-card">
+        <div class="s-label">Component 1</div>
+        <div class="s-title" data-i18n="st1_title">Shortage Stress (×0.5)</div>
+        <div class="s-desc" data-i18n="st1_desc">Headcount shortage ratio × role burden factor × day type factor × rare skill factor. MG/ASM=1.8×, SL=1.5×, Staff=1.2×, PT=0.8×. Sale days=1.4×, holidays=1.3×.</div>
+      </div>
+      <div class="stress-card">
+        <div class="s-label">Component 2</div>
+        <div class="s-title" data-i18n="st2_title">Preference Stress (×0.2)</div>
+        <div class="s-desc" data-i18n="st2_desc">Shift preference mismatch rate. For "Any" preference employees, shift band variance is used as a proxy (max 0.3). Keeps the score meaningful for all staff types.</div>
+      </div>
+      <div class="stress-card">
+        <div class="s-label">Component 3</div>
+        <div class="s-title" data-i18n="st3_title">Overtime Risk (×0.3)</div>
+        <div class="s-desc" data-i18n="st3_desc">MG / ASM / SL only. Shortage ratio × 0.6 + tenure factor × 0.2 + engagement factor × 0.2. Short tenure = 0.9 (can't refuse), long tenure = 0.3 (can push back). Also estimates overtime hours.</div>
+      </div>
+    </div>
+    <div class="formula-box">
+total_stress = shortage_stress × 0.5 + preference_stress × 0.2 + overtime_risk × 0.3<br><br>
+🟢 Low  : score &lt; 0.3<br>
+🟡 Mid  : 0.3 ≤ score &lt; 0.6<br>
+🔴 High : score ≥ 0.6
+    </div>
+    <p style="font-size:13px;color:#555;margin-top:8px" data-i18n="stress_note">This stress data feeds the HR Manager dashboard (weekly stress summary + Early Warning) and the Retention Optimizer (overtime features for churn prediction).</p>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <p class="section-label" data-i18n="safety_label">Safety Score</p>
+    <h2 class="section-title" data-i18n="safety_title">Measuring skill quality per shift</h2>
+    <div class="formula-box">Safety = (Advanced × 2 + Basic × 1) ÷ (Target headcount × 2) × 100</div>
+    <p data-i18n="safety_explain">Using target headcount (not actual headcount) as denominator is intentional — a shift with 2 Advanced staff still scores lower than a fully staffed shift, because 2 people cannot safely cover a 6-person slot. Understaffing risk is built into the score.</p>
+    <table class="skill-table">
+      <thead><tr><th data-i18n="safety_col1">Day Type</th><th data-i18n="safety_col2">🟢 Safe</th><th data-i18n="safety_col3">🟡 Caution</th><th data-i18n="safety_col4">Reason</th></tr></thead>
+      <tbody>
+        <tr><td data-i18n="normal_day">Normal</td><td>≥ 40</td><td>≥ 25</td><td data-i18n="safety_normal_reason">Standard staffing</td></tr>
+        <tr><td data-i18n="holiday_day">Holiday</td><td>≥ 50</td><td>≥ 35</td><td data-i18n="safety_holiday_reason">Higher footfall</td></tr>
+        <tr><td data-i18n="sale_day">Sale Day</td><td>≥ 55</td><td>≥ 40</td><td data-i18n="safety_sale_reason">Peak demand</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section style="background:var(--accent3)">
+  <div class="container">
+    <p class="section-label" data-i18n="results_label">Results</p>
+    <h2 class="section-title" data-i18n="results_title">What the dashboard shows</h2>
+    <div class="result-section"><h4 data-i18n="res1_title">① Overall Metrics</h4><p data-i18n="res1_desc">Total shifts, Penalty Score (0 = perfect), Total Hours, Weekly Wage, Evening gap, Weekend gap.</p></div>
+    <div class="result-section"><h4 data-i18n="res2_title">② Employee Satisfaction</h4><p data-i18n="res2_desc">Score 0–100: 100 − (penalty / 450 × 100). Role weights affect violation allocation, not scoring.</p></div>
+    <div class="result-section"><h4 data-i18n="res3_title">③ Position Tabs</h4><p data-i18n="res3_desc">Separate views per role group. Mismatched cells flagged ⚠️ red. Trainee=🟡, Trainer=⭐ icons in shift table.</p></div>
+    <div class="result-section"><h4 data-i18n="res4_title">④ Headcount Summary</h4><p data-i18n="res4_desc">Staff per shift per day. Cells below demand flagged ⚠️.</p></div>
+    <div class="result-section"><h4 data-i18n="res5_title">⑤ Safety Score Heatmap</h4><p data-i18n="res5_desc">Skill × (day × shift) colored by safety score, with 🟢🟡🔴 relative to day-type threshold.</p></div>
+    <div class="result-section"><h4 data-i18n="res6_title">⑥ 😰 Shift Stress Analysis (v2 new)</h4><p data-i18n="res6_desc">Stacked bar chart: shortage (red) + preference mismatch (orange) + overtime risk (purple) per employee, sorted highest to lowest. OT risk warning for MG/ASM/SL ≥ 0.5.</p></div>
+    <div class="result-section"><h4 data-i18n="res7_title">⑦ 📚 OJT × Shift Results (v2 new)</h4><p data-i18n="res7_desc">When training plan active: Trainer/Trainee pair table + day-by-day shift assignment for each pair. Shows whether same-shift constraint was honored each day.</p></div>
+    <div class="result-section"><h4 data-i18n="res8_title">⑧ Substitute Suggestion</h4><p data-i18n="res8_desc">Select absent employee and shift — instant ranked replacement list filtered by hard constraints, ranked by skill match → hours slack → wage.</p></div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <p class="section-label" data-i18n="why_label">Why It Matters</p>
+    <h2 class="section-title" data-i18n="why_title">What this demonstrates</h2>
+    <div class="why-grid">
+      <div class="why-card fade-up"><div class="why-icon">⚙️</div><div class="why-title" data-i18n="w1_title">Production-Grade Solver</div><p class="why-desc" data-i18n="w1_desc">OR-Tools CP-SAT is used internally at Google. Applying it to retail scheduling demonstrates enterprise-level optimization — not academic toy problems.</p></div>
+      <div class="why-card fade-up"><div class="why-icon">🔗</div><div class="why-title" data-i18n="w2_title">Cross-App Integration</div><p class="why-desc" data-i18n="w2_desc">Embedding Training Planner output as optimizer constraints — and passing stress results to RO — demonstrates architecture thinking beyond single-app solutions.</p></div>
+      <div class="why-card fade-up"><div class="why-icon">🏢</div><div class="why-title" data-i18n="w3_title">Domain Knowledge Embedded</div><p class="why-desc" data-i18n="w3_desc">Evening intervals, skill depth requirements, role-weighted fairness, OJT off-strength modelling — real operational knowledge encoded as mathematical constraints.</p></div>
+      <div class="why-card fade-up"><div class="why-icon">📊</div><div class="why-title" data-i18n="w4_title">Explainable & Auditable</div><p class="why-desc" data-i18n="w4_desc">Every metric is mathematically defined. Managers can trace exactly why each schedule was generated and where trade-offs occurred.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section" style="background:#fff;">
+  <div class="container">
+    <div class="offer-box">
+      <p class="section-label" data-i18n="cta_label">Try It</p>
+      <h3 style="font-family:var(--serif);font-size:1.8rem;margin-bottom:16px;" data-i18n="cta_title">See it optimize a real schedule</h3>
+      <p style="color:var(--muted);margin-bottom:32px;" data-i18n="cta_desc">Enable training plan mode, set day types, adjust safety thresholds, and click Optimize. Watch the stress analysis update automatically after each run.</p>
+      <div class="btn-group">
+        <a href="#" target="_blank" class="btn btn-primary" data-i18n="cta_btn1">↗ Open Live App</a>
+        <a href="hr-tech-suite-index.html" class="btn btn-outline" data-i18n="cta_btn2">← Suite Overview</a>
+      </div>
+    </div>
+  </div>
+</section>
+<footer><div class="container"><p data-i18n="footer">© 2026 Manami Oyama · Built with HTML, CSS & JavaScript</p></div></footer>
+<script>
+const PAGE_TRANSLATIONS = {
+  en:{
+    nav_back:"← Suite Overview",
+    hero_eyebrow:"Technical Deep Dive", hero_title:"How the Optimizer works",
+    hero_desc:"A plain-English explanation of the AI scheduling system — now with OJT integration and shift stress analysis.",
+    hero_btn:"↗ Open Live App",
+    one_liner:"Instead of juggling spreadsheets, this app mathematically proves the best possible schedule — satisfying every hard rule, embedding training pairs as constraints, computing per-employee stress, and minimizing labor cost simultaneously.",
+    overview_label:"Overview", overview_title:"What it optimizes",
+    overview_desc:"31 employees. 3 shifts a day. 7 days a week. Training plans embedded. One click.",
+    ov_col1:"Setting", ov_col2:"Detail",
+    ov_r1a:"Staff", ov_r1b:"31 employees — Store Manager ×1, Asst. Manager ×2, Section Lead ×6, Staff ×12, Part-time ×10",
+    ov_r2a:"Shifts", ov_r2b:"Morning 6–14 / Midday 11–19 / Evening 14–22 (8h each)",
+    ov_r3a:"Skills", ov_r3b:"Cashier / Food / Deli — each rated None / Basic / Advanced",
+    ov_r4a:"Variables", ov_r4b:"651 binary variables (31 × 7 × 3) solved simultaneously",
+    ov_r5a:"Day types", ov_r5b:"Normal / Sale / Holiday — demand targets and safety thresholds differ",
+    ov_r6a:"OJT mode", ov_r6b:"Training plan embedded — Trainee off-strength, Trainer skill adjusted, same-shift soft constraint",
+    ov_r7a:"Solve time", ov_r7b:"≤ 15 seconds (CP-SAT with 15s time limit)",
+    tech_label:"The Technology", tech_title:"2 layers working together",
+    t1_pill:"Provably optimal — not trial and error", t1_title:"Constraint Programming — OR-Tools CP-SAT",
+    t1_desc:"Google's CP-SAT solver assigns 651 binary variables simultaneously using constraint propagation and branch-and-bound search. Returns a mathematically proven optimal schedule — not a heuristic approximation.",
+    t2_pill:"Hard rules guaranteed + soft preferences maximized", t2_title:"2-Stage Objective — Penalty + Wage",
+    t2_desc:"Minimize: Penalty × 10,000 + Weekly wage. A single constraint violation (10,000 pts) outweighs the maximum wage difference (~$200) by 50×. Compliance always comes first.",
+    con_label:"Constraint Design", con_title:"Hard rules vs. soft preferences",
+    con_desc:"Which rules must never be broken, and which are best-effort goals?",
+    phase1_label:"Phase 1 — Core Constraints", phase2_label:"Phase 2 — Fairness & Compliance",
+    hard_badge:"HARD — Always enforced", soft_badge:"SOFT — Penalized if violated",
+    h1_title:"Must-off days", h1_desc:"Absolute unavailability — solver never assigns a shift on these days.",
+    h2_title:"Demand staffing minimums", h2_desc:"Each shift must meet minimum headcount per day type. Returns infeasible if impossible.",
+    h3_title:"Leader per shift", h3_desc:"Every shift needs ≥1 leader (Manager or SL). At least 1 Manager must appear each day.",
+    h4_title:"Skill coverage", h4_desc:"Each shift: Cashier Basic ×N (default 2), Food Advanced ×1, Deli Advanced ×1, Food Basic ×1.",
+    h5_title:"Max consecutive days", h5_desc:"No employee works more than N consecutive days (default 5). Sliding-window constraint.",
+    s1_title:"Prefer-off days", s1_desc:"Penalty: 100 × role weight (PT=2.0, Manager=0.3). PT preferences naturally protected more strongly.",
+    s2_title:"Shift time preference", s2_desc:"Penalty: 50 × role weight per mismatch. Mismatched cells highlighted ⚠️ in dashboard.",
+    s3_title:"Senior coverage", s3_desc:"Penalty: 150 per shift without a senior employee. Preferred but not mandatory.",
+    h6_title:"Evening→Morning interval", h6_desc:"x[e,d,evening]+x[e,d+1,morning]≤1. Prevents 8h turnarounds.",
+    h7_title:"No consecutive evening shifts", h7_desc:"No employee works 2+ evenings in a row. Prevents fatigue accumulation.",
+    h8_title:"Weekly hours cap", h8_desc:"FT ≤ 40h (5 shifts), PT ≤ 20h (2–4 shifts per employee setting).",
+    s4_title:"Evening shift equalization", s4_desc:"Penalty: 80 × (max−min evening count). Prevents concentration on same people.",
+    s5_title:"Weekend shift equalization", s5_desc:"Penalty: 80 × (max−min weekend count). Sat/Sun distributed evenly.",
+    s6_title:"Safety score threshold", s6_desc:"Penalty: 800/skill/shift below threshold. Normal ≥40 / Holiday ≥50 / Sale ≥55.",
+    ojt_label:"v2 Feature", ojt_title:"Training Plan Integration",
+    ojt_desc:"When a Training Plan exists, the optimizer automatically embeds OJT pairs as additional constraints.",
+    ojt_badge:"OJT",
+    ojt_te_title:"Trainee = Off-strength (🟡)", ojt_te_desc:"Trainee's skill set to 'none' for coverage calculations during training. Demand must still be met by remaining staff.",
+    ojt_tr_title:"Trainer = Skill downgraded (⭐)", ojt_tr_desc:"For Advanced training, Trainer's skill treated as 'basic' (occupied teaching). Accurately models reduced operational contribution.",
+    ojt_pair_title:"Same-shift soft constraint (weight 5000)", ojt_pair_desc:"Optimizer tries to assign Trainer and Trainee to the same shift each day. Weight 5000 makes this near-mandatory while avoiding infeasibility.",
+    ojt_best_title:"Best-effort mode available", ojt_best_desc:"Demand constraints can be relaxed when OJT pairs make full coverage impossible. Dashboard shows clearly where demand is unmet.",
+    stress_label:"v2 Feature", stress_title:"Shift Stress Analysis",
+    stress_desc:"After optimization, a composite stress score is computed per employee — feeding into HR Manager and Ops dashboards.",
+    st1_title:"Shortage Stress (×0.5)", st1_desc:"Shortage ratio × role burden × day type × rare skill factor. MG/ASM=1.8×, SL=1.5×, Staff=1.2×, PT=0.8×.",
+    st2_title:"Preference Stress (×0.2)", st2_desc:"Shift preference mismatch rate. 'Any' preference employees use shift variance as proxy (max 0.3).",
+    st3_title:"Overtime Risk (×0.3)", st3_desc:"MG/ASM/SL only. Shortage × 0.6 + tenure factor × 0.2 + engagement factor × 0.2. Estimates overtime hours.",
+    stress_note:"This stress data feeds the HR Manager dashboard (weekly stress summary) and the Retention Optimizer (overtime features for churn prediction).",
+    safety_label:"Safety Score", safety_title:"Measuring skill quality per shift",
+    safety_explain:"Using target headcount (not actual) as denominator — a shift with 2 Advanced staff scores lower than a fully staffed shift because 2 people cannot safely cover a 6-person slot.",
+    safety_col1:"Day Type", safety_col2:"🟢 Safe", safety_col3:"🟡 Caution", safety_col4:"Reason",
+    normal_day:"Normal", holiday_day:"Holiday", sale_day:"Sale Day",
+    safety_normal_reason:"Standard staffing", safety_holiday_reason:"Higher footfall", safety_sale_reason:"Peak demand",
+    results_label:"Results", results_title:"What the dashboard shows",
+    res1_title:"① Overall Metrics", res1_desc:"Total shifts, Penalty Score (0=perfect), Total Hours, Weekly Wage, Evening gap, Weekend gap.",
+    res2_title:"② Employee Satisfaction", res2_desc:"Score 0–100: 100 − (penalty/450×100). Role weights affect allocation, not scoring.",
+    res3_title:"③ Position Tabs", res3_desc:"Role-group views. Mismatched cells ⚠️. Trainee=🟡, Trainer=⭐ icons in shift table.",
+    res4_title:"④ Headcount Summary", res4_desc:"Staff per shift per day. Cells below demand flagged ⚠️.",
+    res5_title:"⑤ Safety Score Heatmap", res5_desc:"Skill × (day×shift) colored by safety score with 🟢🟡🔴 threshold indicators.",
+    res6_title:"⑥ 😰 Shift Stress Analysis (v2)", res6_desc:"Stacked bar: shortage (red) + preference (orange) + OT risk (purple) per employee. OT warning for MG/ASM/SL ≥ 0.5.",
+    res7_title:"⑦ 📚 OJT × Shift Results (v2)", res7_desc:"Trainer/Trainee pair table + day-by-day shift assignments. Shows same-shift constraint adherence each day.",
+    res8_title:"⑧ Substitute Suggestion", res8_desc:"Instant ranked replacement list filtered by hard constraints, ranked by skill match → hours slack → wage.",
+    why_label:"Why It Matters", why_title:"What this demonstrates",
+    w1_title:"Production-Grade Solver", w1_desc:"OR-Tools CP-SAT is used internally at Google. Applying it to retail scheduling demonstrates enterprise-level optimization.",
+    w2_title:"Cross-App Integration", w2_desc:"Embedding Training Planner output as optimizer constraints — and passing stress results to RO — demonstrates multi-app architecture thinking.",
+    w3_title:"Domain Knowledge Embedded", w3_desc:"Evening intervals, skill depth, role-weighted fairness, OJT off-strength modelling — real operational knowledge as mathematical constraints.",
+    w4_title:"Explainable & Auditable", w4_desc:"Every metric is mathematically defined. Managers can trace exactly why each schedule was generated.",
+    cta_label:"Try It", cta_title:"See it optimize a real schedule",
+    cta_desc:"Enable training plan mode, set day types, adjust safety thresholds, and click Optimize. Watch the stress analysis update automatically.",
+    cta_btn1:"↗ Open Live App", cta_btn2:"← Suite Overview",
+    footer:"© 2026 Manami Oyama · Built with HTML, CSS & JavaScript"
+  },
+  ja:{
+    nav_back:"← スイート概要",
+    hero_eyebrow:"技術解説", hero_title:"オプティマイザーの仕組み",
+    hero_desc:"AIスケジューリングシステムの解説 — OJT統合とシフトストレス分析の新機能を含む。",
+    hero_btn:"↗ ライブアプリを開く",
+    one_liner:"スプレッドシートを手作業で管理する代わりに、このアプリがあらゆるルールを満たしながら育成ペアを制約として組み込み、従業員別ストレスを算出し、公平性と人件費を同時に最適化するシフトを数学的に証明します。",
+    overview_label:"概要", overview_title:"何を最適化するか",
+    overview_desc:"31名の従業員。1日3シフト。週7日。育成プラン組み込み済み。ワンクリック。",
+    ov_col1:"設定", ov_col2:"詳細",
+    ov_r1a:"従業員", ov_r1b:"31名 — 店長×1、副店長×2、SL×6、スタッフ×12、パートタイム×10",
+    ov_r2a:"シフト", ov_r2b:"朝 6–14 / 昼 11–19 / 夕 14–22（各8時間）",
+    ov_r3a:"スキル", ov_r3b:"レジ / 食品 / 惣菜 — それぞれなし / 基礎 / 上級で評価",
+    ov_r4a:"決定変数", ov_r4b:"651個のバイナリ変数（31名×7日×3シフト）を同時最適化",
+    ov_r5a:"日種別", ov_r5b:"通常日 / セール日 / 祝日 — 需要目標と安心度閾値が異なる",
+    ov_r6a:"OJTモード", ov_r6b:"育成プランを制約として組み込み — Trainee戦力外・Trainerスキル調整・同シフトソフト制約",
+    ov_r7a:"求解時間", ov_r7b:"15秒以内（CP-SAT、タイムリミット15秒）",
+    tech_label:"使用技術", tech_title:"2つの技術が連携",
+    t1_pill:"証明可能な最適解 — 試行錯誤ではない", t1_title:"制約プログラミング — OR-Tools CP-SAT",
+    t1_desc:"GoogleのCP-SATソルバーが651個のバイナリ変数を制約伝播とブランチアンドバウンドで同時に解決。ヒューリスティックではなく数学的に証明された最適解を返します。",
+    t2_pill:"ハードルール保証 ＋ ソフト希望の最大尊重", t2_title:"2段階目的関数 — ペナルティ ＋ 人件費",
+    t2_desc:"最小化：ペナルティ×10,000 ＋ 週人件費。違反1件（10,000点）は人件費差の最大値（約$200）の50倍以上。コンプライアンスが常に優先。",
+    con_label:"制約設計", con_title:"ハード制約 vs ソフト制約",
+    con_desc:"どのルールを絶対に守り、どれをベストエフォートにするか——最重要な設計上の意思決定です。",
+    phase1_label:"Phase 1 — 基本制約", phase2_label:"Phase 2 — 公平性・労働法対応",
+    hard_badge:"ハード — 必ず守る", soft_badge:"ソフト — 違反時ペナルティ",
+    h1_title:"絶対NGの日", h1_desc:"ソルバーはこの日に絶対にシフトを割り当てません。",
+    h2_title:"需要人数の最低基準", h2_desc:"各シフトは日種別ごとの最低人数を満たす必要があります。不可能な場合は「解なし」を返します。",
+    h3_title:"各シフトにリーダー必須", h3_desc:"全シフトにリーダー（MG/SL）が最低1名。1日に管理職が最低1名。",
+    h4_title:"スキルカバレッジ", h4_desc:"各シフト：レジ基礎×N（デフォルト2）、食品上級×1、惣菜上級×1、食品基礎×1。",
+    h5_title:"最大連続勤務日数", h5_desc:"N日（デフォルト5日）を超えての連続勤務は不可。スライディングウィンドウ制約。",
+    s1_title:"できればNGの日", s1_desc:"ペナルティ：100×役職重み（PT=2.0、MG=0.3）。PTの希望が自然に優先されます。",
+    s2_title:"シフト帯希望", s2_desc:"ペナルティ：50×役職重み/不一致。不一致セルはダッシュボードで⚠️表示。",
+    s3_title:"シニア配置", s3_desc:"ペナルティ：150/シフト。各シフトにシニア1名以上が望ましい。",
+    h6_title:"夕勤→翌朝インターバル", h6_desc:"x[e,d,夕]+x[e,d+1,朝]≤1。8時間未満の折り返しを防止。",
+    h7_title:"連続夕勤NG", h7_desc:"2日以上連続して夕勤は不可。深夜疲労の蓄積を防ぎます。",
+    h8_title:"週間労働時間上限", h8_desc:"フルタイム≤40時間（5シフト）、パートタイム≤20時間（2〜4シフト）。",
+    s4_title:"夕勤回数の平準化", s4_desc:"ペナルティ：80×(最大-最小夕勤回数)。夕勤が特定の人に偏らないようにします。",
+    s5_title:"週末出勤の平準化", s5_desc:"ペナルティ：80×(最大-最小週末回数)。土・日を全員に公平に分配。",
+    s6_title:"安心度スコア閾値", s6_desc:"ペナルティ：800/スキル/シフト。通常≥40/祝日≥50/セール≥55。",
+    ojt_label:"v2 新機能", ojt_title:"育成プランの組み込み",
+    ojt_desc:"育成プランが存在する場合、オプティマイザーが自動でOJTペアを制約として追加します。",
+    ojt_badge:"OJT",
+    ojt_te_title:"Trainee＝戦力外（🟡）", ojt_te_desc:"育成期間中、TraineeのスキルレベルはカバレッジでほNone扱い。充足は残りのスタッフで確保する必要があります。",
+    ojt_tr_title:"Trainer＝スキル格下げ（⭐）", ojt_tr_desc:"Advanced育成ではTrainerのスキルを「basic」扱い（指導に従事中）。実際の業務貢献の減少を正確にモデル化。",
+    ojt_pair_title:"同シフトソフト制約（重み5000）", ojt_pair_desc:"Trainer・Traineeを同じシフト帯に配置しようとします。重み5000により事実上ハードに近い扱いです。",
+    ojt_best_title:"ベストエフォートモード", ojt_best_desc:"OJTにより充足が難しい場合、最低人数制約を緩和できます。不足シフトはダッシュボードで⚠️表示。",
+    stress_label:"v2 新機能", stress_title:"シフトストレス分析",
+    stress_desc:"最適化後、従業員別の複合ストレススコアを計算。HRマネージャーダッシュボードとROに供給されます。",
+    st1_title:"人手不足ストレス（×0.5）", st1_desc:"不足率×役職負担×日種別×希少スキル係数。MG/ASM=1.8×、SL=1.5×、スタッフ=1.2×、PT=0.8×。",
+    st2_title:"希望不一致ストレス（×0.2）", st2_desc:"シフト帯希望と実配置の不一致率。Any希望者はシフト帯のばらつきを代理指標（最大0.3）。",
+    st3_title:"残業リスク（×0.3）", st3_desc:"MG/ASM/SLのみ。不足率×0.6＋在籍係数×0.2＋エンゲージメント×0.2。残業時間も推定。",
+    stress_note:"このストレスデータはHRマネージャーダッシュボード（週次ストレスサマリー）とROの離職予測特徴量（残業3特徴量）に供給されます。",
+    safety_label:"安心度スコア", safety_title:"シフトのスキル質を数値化する",
+    safety_explain:"分母に実配置人数ではなく目標人数を使うのは意図的。2名全員上級でも6名必要なシフトを安全にカバーできません。人数不足リスクがスコアに組み込まれています。",
+    safety_col1:"日種別", safety_col2:"🟢 安心", safety_col3:"🟡 注意", safety_col4:"理由",
+    normal_day:"通常日", holiday_day:"祝日", sale_day:"セール日",
+    safety_normal_reason:"標準配置", safety_holiday_reason:"客数増加", safety_sale_reason:"ピーク需要",
+    results_label:"結果の解説", results_title:"ダッシュボードが示すもの",
+    res1_title:"① 全体数値", res1_desc:"延べ出勤・ペナルティスコア（0が理想）・総労働時間・週人件費・夕勤gap・週末gap。",
+    res2_title:"② 従業員満足度", res2_desc:"0〜100スコア：100−(ペナルティ/450×100)。役職重みは配分に影響するが採点には影響しない。",
+    res3_title:"③ ポジション別タブ", res3_desc:"役職グループ別に表示。不一致セル⚠️表示。Trainee=🟡、Trainer=⭐アイコン。",
+    res4_title:"④ 配置人数サマリー", res4_desc:"日×シフト帯ごとの配置人数。需要目標を下回るセルに⚠️。",
+    res5_title:"⑤ 安心度ヒートマップ", res5_desc:"スキル×(曜日×シフト帯)を安心度スコアで色分け。🟢🟡🔴表示。",
+    res6_title:"⑥ 😰 シフトストレス分析（v2）", res6_desc:"人手不足（赤）＋希望不一致（オレンジ）＋残業リスク（紫）を積み上げ棒グラフで表示。MG/ASM/SL≥0.5で警告。",
+    res7_title:"⑦ 📚 育成プラン×シフト結果（v2）", res7_desc:"Trainer/Traineeペアテーブル＋日別シフト割り当て。同シフト制約の遵守状況を表示。",
+    res8_title:"⑧ 代替候補サジェスト", res8_desc:"欠勤者とシフトを選択すると即座にランキング表示。ハード制約でフィルタリング後、スキル→余裕→時給の順でソート。",
+    why_label:"なぜ重要か", why_title:"このプロジェクトが示すもの",
+    w1_title:"本番グレードのソルバー", w1_desc:"OR-Tools CP-SATはGoogle社内で使用。小売シフトへの適用はエンタープライズグレードの最適化経験を示します。",
+    w2_title:"クロスアプリ統合", w2_desc:"TPの出力をオプティマイザーの制約として組み込み、ストレス結果をROに渡す——複数アプリ統合の設計力を示します。",
+    w3_title:"ドメイン知識の組み込み", w3_desc:"夕勤インターバル・スキル深度・役職別公平性・OJT戦力外モデリング——実際の業務知識を数学的制約として実装。",
+    w4_title:"説明可能で監査可能な結果", w4_desc:"全メトリクスが数学的に定義されてダッシュボードに表示。シフト生成の理由とトレードオフを正確に追跡可能。",
+    cta_label:"試してみる", cta_title:"実際に動かしてみる",
+    cta_desc:"育成プランモードを有効化し、日種別と安心度閾値を調整してオプティマイズを実行。ストレス分析が自動更新される様子を確認してください。",
+    cta_btn1:"↗ ライブアプリを開く", cta_btn2:"← スイート概要",
+    footer:"© 2026 Manami Oyama · HTML、CSS、JavaScriptで構築"
+  }
+};
+</script>
+<script src="js/main.js"></script>
+</body></html>

@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>How It Works — Workforce Planner</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&family=Noto+Serif+JP:wght@300;400&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/style.css"/>
+  <style>
+    :root{--bg:#f4f6f3;--accent:#1a9850;--accent2:#b7d5c8;--accent3:#eaf2ee;--border:#dde8e2;}
+    .constraint-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:20px;}
+    @media(max-width:700px){.constraint-grid{grid-template-columns:1fr;}}
+    .constraint-card{border:1px solid var(--border);border-radius:10px;padding:16px 18px;background:white;}
+    .badge{font-size:10px;font-weight:700;letter-spacing:.08em;padding:2px 8px;border-radius:12px;display:inline-block;margin-bottom:8px;}
+    .sim-badge{background:var(--accent3);color:var(--accent);}
+    .formula-box{background:#1a1a1a;color:#b7d5c8;border-radius:8px;padding:16px 20px;font-family:'Courier New',monospace;font-size:13px;line-height:1.7;margin:16px 0;}
+    .skill-table{width:100%;border-collapse:collapse;font-size:13px;margin:16px 0;}
+    .skill-table th{background:var(--accent3);padding:8px 12px;text-align:left;border:1px solid var(--border);font-weight:600;}
+    .skill-table td{padding:8px 12px;border:1px solid var(--border);vertical-align:top;}
+    .skill-table tr:nth-child(even) td{background:#fafaf8;}
+    .flow-steps{counter-reset:steps;list-style:none;padding:0;margin:24px 0 0;}
+    .flow-step{counter-increment:steps;display:flex;gap:18px;margin-bottom:20px;align-items:flex-start;}
+    .flow-step::before{content:counter(steps);min-width:32px;height:32px;border-radius:50%;background:var(--accent);color:white;font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;}
+    .flow-step h4{margin:0 0 4px;font-size:15px;} .flow-step p{margin:0;font-size:13px;color:#555;line-height:1.6;}
+    .result-section{border-left:3px solid var(--accent);padding:10px 16px;margin:10px 0;background:white;border-radius:0 8px 8px 0;}
+    .result-section h4{margin:0 0 4px;font-size:14px;} .result-section p{margin:0;font-size:13px;color:#555;}
+    .metric-row{display:flex;gap:12px;margin:16px 0;flex-wrap:wrap;}
+    .metric-pill{background:var(--accent3);border:1px solid var(--accent2);border-radius:8px;padding:10px 14px;flex:1;min-width:130px;}
+    .metric-pill .mp-val{font-family:'DM Serif Display',serif;font-size:1.3rem;color:var(--accent);}
+    .metric-pill .mp-lbl{font-size:11px;color:#666;margin-top:2px;}
+  </style>
+</head>
+<body>
+<nav>
+  <div class="nav-inner">
+    <div class="nav-logo">Workforce Planner</div>
+    <div class="nav-links">
+      <a href="hr-tech-suite-index.html" class="btn-back" data-i18n="nav_back">← Suite Overview</a>
+      <div class="lang-toggle">
+        <button class="lang-btn active" data-lang-btn="en">EN</button>
+        <button class="lang-btn" data-lang-btn="ja">JA</button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="container">
+    <p class="hero-eyebrow fade-up" data-i18n="hero_eyebrow">Technical Deep Dive</p>
+    <h1 class="hero-title fade-up" data-i18n="hero_title">How <em>Workforce Planner</em> works</h1>
+    <p class="hero-desc fade-up" data-i18n="hero_desc">A probabilistic simulation engine that answers: "Can my current team cover next month's demand — and which skill will fail first?"</p>
+    <div class="one-liner fade-up"><p data-i18n="one_liner">Instead of gut-feel staffing decisions, this app runs 10,000 simulated weeks per skill per shift — modelling absence, demand, and skill distribution — to tell you <em>exactly when and where a coverage crisis will hit</em>, months before it arrives.</p></div>
+    <div class="btn-group fade-up" style="margin-bottom:20px">
+      <a href="#" target="_blank" class="btn btn-primary" data-i18n="hero_btn">↗ Open Live App</a>
+      <a href="https://github.com/mona2083" target="_blank" class="btn btn-outline">↗ GitHub</a>
+      <a href="hr-tech-suite-index.html" class="btn btn-outline" data-i18n="nav_back">← Suite Overview</a>
+    </div>
+  </div>
+</div>
+
+<section>
+  <div class="container">
+    <p class="section-label" data-i18n="overview_label">Overview</p>
+    <h2 class="section-title" data-i18n="overview_title">What it simulates</h2>
+    <p class="section-desc" data-i18n="overview_desc">For each skill × shift combination, 10,000 rosters are drawn randomly and tested against demand — producing a probability distribution, not a single estimate.</p>
+    <div class="metric-row">
+      <div class="metric-pill"><div class="mp-val">10,000</div><div class="mp-lbl" data-i18n="m1">Simulations per skill × shift</div></div>
+      <div class="metric-pill"><div class="mp-val">9</div><div class="mp-lbl" data-i18n="m2">Skill × Shift combinations (3 skills × 3 shifts)</div></div>
+      <div class="metric-pill"><div class="mp-val">12mo</div><div class="mp-lbl" data-i18n="m3">Forward coverage forecast</div></div>
+      <div class="metric-pill"><div class="mp-val">15%</div><div class="mp-lbl" data-i18n="m4">Default absence rate (configurable)</div></div>
+    </div>
+    <table class="skill-table">
+      <thead><tr><th data-i18n="ov_col1">Parameter</th><th data-i18n="ov_col2">Detail</th></tr></thead>
+      <tbody>
+        <tr><td data-i18n="ov_r1a">Skills simulated</td><td data-i18n="ov_r1b">Cashier / Food / Deli × Advanced / Basic — 6 skill-level combinations</td></tr>
+        <tr><td data-i18n="ov_r2a">Shift bands</td><td data-i18n="ov_r2b">Morning / Midday / Evening — demand targets per shift per day type</td></tr>
+        <tr><td data-i18n="ov_r3a">Coverage metric</td><td data-i18n="ov_r3b">Hit rate: % of simulations where Advanced/Basic count ≥ target</td></tr>
+        <tr><td data-i18n="ov_r4a">Absence modelling</td><td data-i18n="ov_r4b">Each qualified employee independently absent with probability = absence_rate (default 15%). Stochastic, not deterministic.</td></tr>
+        <tr><td data-i18n="ov_r5a">Seasonal demand</td><td data-i18n="ov_r5b">12-month seasonality coefficients (FMI 2023 retail calendar) scale demand targets per month.</td></tr>
+        <tr><td data-i18n="ov_r6a">Output</td><td data-i18n="ov_r6b">Hit rate heatmaps, adv_avg (expected Advanced count per shift), action plan (hire/train recommendations)</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section style="background:var(--accent3)">
+  <div class="container">
+    <p class="section-label" data-i18n="mc_label">The Algorithm</p>
+    <h2 class="section-title" data-i18n="mc_title">Monte Carlo Roster Simulation</h2>
+    <p class="section-desc" data-i18n="mc_desc">Why Monte Carlo? Because absence is random. Demand is seasonal. Skill distribution is lumpy. A single deterministic calculation would be wrong — MC gives us a probability distribution.</p>
+    <div class="formula-box">
+<span style="color:#6b9c7a"># For each skill × shift combination:</span>
+hit_count = 0
+for _ in range(10_000):
+    present = [e for e in qualified_employees
+               if random() > absence_rate]     <span style="color:#6b9c7a"># stochastic absence</span>
+    adv_count = sum(1 for e in present
+                    if skill_level[e] == "advanced")
+    if adv_count >= target_advanced:
+        hit_count += 1
+
+hit_rate = hit_count / 10_000  <span style="color:#6b9c7a"># → probability of meeting coverage</span>
+    </div>
+    <p data-i18n="mc_note">The result is not "you have 4 Advanced staff" but "there is a 73% probability that enough Advanced staff will be present on any given day." This distinction — point estimate vs. probability — is what makes the forecast actionable.</p>
+    <ol class="flow-steps">
+      <li class="flow-step"><div><h4 data-i18n="f1_title">Employee pool is built per skill × shift</h4><p data-i18n="f1_desc">All employees with Advanced or Basic skill for the target are identified. Shift preference filters which employees are likely to be assigned to each shift band.</p></div></li>
+      <li class="flow-step"><div><h4 data-i18n="f2_title">10,000 absence draws are made</h4><p data-i18n="f2_desc">Each employee independently "shows up" with probability (1 − absence_rate). This produces 10,000 possible roster configurations, modelling the full range of real-world uncertainty.</p></div></li>
+      <li class="flow-step"><div><h4 data-i18n="f3_title">Each roster is tested against demand targets</h4><p data-i18n="f3_desc">For each simulation: does the roster meet the Advanced count target? The Basic count target? Each check is binary — met or not met.</p></div></li>
+      <li class="flow-step"><div><h4 data-i18n="f4_title">Hit rate = proportion of simulations that met target</h4><p data-i18n="f4_desc">hit_rate = hits / 10,000. This is the probability that coverage will be sufficient on any given day. Target: ≥ 90%. Below 70%: critical risk.</p></div></li>
+      <li class="flow-step"><div><h4 data-i18n="f5_title">Seasonal adjustment for 12-month forecast</h4><p data-i18n="f5_desc">Demand targets are scaled by monthly seasonality coefficients (FMI 2023 retail). Holiday months require more Advanced staff, which drops the hit rate — even if headcount is unchanged.</p></div></li>
+      <li class="flow-step"><div><h4 data-i18n="f6_title">Action plan generated from gap analysis</h4><p data-i18n="f6_desc">Skills with hit_rate below threshold trigger hire or train recommendations. Priority is set by severity (gap depth) and urgency (peak month proximity). Output feeds directly into Training Planner.</p></div></li>
+    </ol>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <p class="section-label" data-i18n="outputs_label">Outputs</p>
+    <h2 class="section-title" data-i18n="outputs_title">What the dashboard shows</h2>
+    <div class="result-section"><h4 data-i18n="res1_title">① Coverage Hit Rate Heatmap</h4><p data-i18n="res1_desc">Skill × Shift band matrix colored by hit rate. 🟢 ≥90% (safe), 🟡 70–90% (watch), 🔴 &lt;70% (critical). The worst shift band for each skill is the scheduling bottleneck.</p></div>
+    <div class="result-section"><h4 data-i18n="res2_title">② adv_avg — Expected Advanced Count</h4><p data-i18n="res2_desc">Expected number of Advanced-skilled employees present per shift (accounting for absence). If adv_avg = 1.3 for Deli Evening, the team is operating at a single point of failure most days.</p></div>
+    <div class="result-section"><h4 data-i18n="res3_title">③ 12-Month Seasonal Risk Calendar</h4><p data-i18n="res3_desc">Hit rates projected forward 12 months with seasonal demand scaling. Identifies which months will breach the 90% threshold — giving 3–6 months of lead time to hire or train before the crisis.</p></div>
+    <div class="result-section"><h4 data-i18n="res4_title">④ Individual Resilience Score</h4><p data-i18n="res4_desc">Per-employee score combining replaceability (how many others share their skill) and retention probability (from Retention Optimizer). Plots as the Talent Vulnerability Matrix — the upper-left quadrant is the highest-risk zone.</p></div>
+    <div class="result-section"><h4 data-i18n="res5_title">⑤ Action Plan (Hire / Train recommendations)</h4><p data-i18n="res5_desc">Prioritized list of actions with skill, severity, count, and priority tier. Feeds directly into Training Planner's auto-plan generation. If shortage is so severe that no trainer exists, a hire recommendation is generated first.</p></div>
+  </div>
+</section>
+
+<section style="background:var(--accent3)">
+  <div class="container">
+    <p class="section-label" data-i18n="integration_label">Integration</p>
+    <h2 class="section-title" data-i18n="integration_title">How WP connects to the rest of the suite</h2>
+    <div class="constraint-grid">
+      <div class="constraint-card"><span class="badge sim-badge">→ Training Planner</span><h4 data-i18n="int1_title">Action plan feeds TP auto-generation</h4><p data-i18n="int1_desc">WP's hire/train action plan is consumed by Training Planner's "Auto-generate from WP" button — immediately creating trainer/trainee pairs and scheduling OJT without manual input.</p></div>
+      <div class="constraint-card"><span class="badge sim-badge">→ Shift Optimizer</span><h4 data-i18n="int2_title">MC results shape safety score thresholds</h4><p data-i18n="int2_desc">The hit rates from WP validate whether SO's safety score thresholds are appropriate. If Deli Evening consistently hits 65% in the forecast, the threshold should be adjusted to trigger earlier warnings.</p></div>
+      <div class="constraint-card"><span class="badge sim-badge">→ Retention Optimizer</span><h4 data-i18n="int3_title">Individual resilience feeds churn risk</h4><p data-i18n="int3_desc">Low-resilience employees (low replaceability + high churn risk) appear in the Talent Vulnerability Matrix's red zone — the same data that feeds RO's keyman flag and the HR Manager's flight risk count.</p></div>
+      <div class="constraint-card"><span class="badge sim-badge">→ Dashboard</span><h4 data-i18n="int4_title">mc_result drives all KPIs</h4><p data-i18n="int4_desc">The mc_result session object is the primary data source for OHI, EVP, 30-day operation risk, and the HR Manager's 30-day skill gap probability — all derived from the same simulation run.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <p class="section-label" data-i18n="why_label">Why It Matters</p>
+    <h2 class="section-title" data-i18n="why_title">What this demonstrates</h2>
+    <div class="why-grid">
+      <div class="why-card fade-up"><div class="why-icon">🎲</div><div class="why-title" data-i18n="w1_title">Probabilistic Thinking</div><p class="why-desc" data-i18n="w1_desc">Most HR tools give point estimates ("you need 3 Deli staff"). This gives probability distributions ("there's a 73% chance you'll have enough"). The difference is actionable risk quantification.</p></div>
+      <div class="why-card fade-up"><div class="why-icon">📅</div><div class="why-title" data-i18n="w2_title">Lead Time Creation</div><p class="why-desc" data-i18n="w2_desc">Identifying a November Holiday coverage crisis in August creates 3 months of lead time. The same crisis identified in October creates panic hiring. The simulation converts future problems into current decisions.</p></div>
+      <div class="why-card fade-up"><div class="why-icon">🔗</div><div class="why-title" data-i18n="w3_title">SSOT-Driven Accuracy</div><p class="why-desc" data-i18n="w3_desc">Because WP draws from the same master_employees.csv as SO, the simulated rosters reflect real skill distributions — not theoretical ideals. The forecast is grounded in who actually works there.</p></div>
+      <div class="why-card fade-up"><div class="why-icon">⚡</div><div class="why-title" data-i18n="w4_title">Speed at Scale</div><p class="why-desc" data-i18n="w4_desc">90,000 simulation draws (9 combinations × 10,000) run in seconds using NumPy vectorized operations. This makes interactive "what-if" analysis practical — change absence rate, see the hit rate change instantly.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section" style="background:#fff;">
+  <div class="container">
+    <div class="offer-box">
+      <p class="section-label" data-i18n="cta_label">Try It</p>
+      <h3 style="font-family:var(--serif);font-size:1.8rem;margin-bottom:16px;" data-i18n="cta_title">See your coverage forecast</h3>
+      <p style="color:var(--muted);margin-bottom:32px;" data-i18n="cta_desc">Run the simulation from the Dashboard sidebar, then explore WP's coverage heatmap and 12-month calendar. Adjust the absence rate slider and watch the hit rates update in real time.</p>
+      <div class="btn-group">
+        <a href="#" target="_blank" class="btn btn-primary" data-i18n="cta_btn1">↗ Open Live App</a>
+        <a href="hr-tech-suite-index.html" class="btn btn-outline" data-i18n="cta_btn2">← Suite Overview</a>
+      </div>
+    </div>
+  </div>
+</section>
+<footer><div class="container"><p data-i18n="footer">© 2026 Manami Oyama · Built with HTML, CSS & JavaScript</p></div></footer>
+<script>
+const PAGE_TRANSLATIONS = {
+  en:{
+    nav_back:"← Suite Overview",
+    hero_eyebrow:"Technical Deep Dive", hero_title:"How Workforce Planner works",
+    hero_desc:"A probabilistic simulation engine that answers: 'Can my current team cover next month's demand — and which skill will fail first?'",
+    hero_btn:"↗ Open Live App",
+    one_liner:"Instead of gut-feel staffing decisions, this app runs 10,000 simulated weeks per skill per shift — modelling absence, demand, and skill distribution — to tell you exactly when and where a coverage crisis will hit, months before it arrives.",
+    overview_label:"Overview", overview_title:"What it simulates",
+    overview_desc:"For each skill × shift combination, 10,000 rosters are drawn randomly and tested against demand — producing a probability distribution, not a single estimate.",
+    m1:"Simulations per skill × shift", m2:"Skill × Shift combinations", m3:"Forward coverage forecast", m4:"Default absence rate (configurable)",
+    ov_col1:"Parameter", ov_col2:"Detail",
+    ov_r1a:"Skills simulated", ov_r1b:"Cashier / Food / Deli × Advanced / Basic — 6 skill-level combinations",
+    ov_r2a:"Shift bands", ov_r2b:"Morning / Midday / Evening — demand targets per shift per day type",
+    ov_r3a:"Coverage metric", ov_r3b:"Hit rate: % of simulations where Advanced/Basic count ≥ target",
+    ov_r4a:"Absence modelling", ov_r4b:"Each qualified employee independently absent with probability = absence_rate (default 15%). Stochastic, not deterministic.",
+    ov_r5a:"Seasonal demand", ov_r5b:"12-month seasonality coefficients (FMI 2023 retail calendar) scale demand targets per month.",
+    ov_r6a:"Output", ov_r6b:"Hit rate heatmaps, adv_avg (expected Advanced count per shift), action plan (hire/train recommendations)",
+    mc_label:"The Algorithm", mc_title:"Monte Carlo Roster Simulation",
+    mc_desc:"Why Monte Carlo? Because absence is random. Demand is seasonal. Skill distribution is lumpy. A single deterministic calculation would be wrong — MC gives us a probability distribution.",
+    mc_note:"The result is not 'you have 4 Advanced staff' but 'there is a 73% probability that enough Advanced staff will be present.' This distinction — point estimate vs. probability — is what makes the forecast actionable.",
+    f1_title:"Employee pool built per skill × shift", f1_desc:"All employees with Advanced or Basic skill are identified. Shift preference filters which employees are likely to be assigned to each shift band.",
+    f2_title:"10,000 absence draws are made", f2_desc:"Each employee independently shows up with probability (1 − absence_rate). 10,000 possible roster configurations modelling real-world uncertainty.",
+    f3_title:"Each roster tested against demand targets", f3_desc:"For each simulation: does the roster meet the Advanced count target? The Basic count target? Each check is binary.",
+    f4_title:"Hit rate = proportion of simulations that met target", f4_desc:"hit_rate = hits / 10,000. Probability that coverage will be sufficient on any given day. Target: ≥ 90%. Below 70%: critical.",
+    f5_title:"Seasonal adjustment for 12-month forecast", f5_desc:"Demand targets scaled by monthly seasonality (FMI 2023 retail). Holiday months require more Advanced staff — dropping hit rate even if headcount is unchanged.",
+    f6_title:"Action plan generated from gap analysis", f6_desc:"Skills with hit_rate below threshold trigger hire or train recommendations. Priority set by severity and peak-month proximity. Output feeds Training Planner.",
+    outputs_label:"Outputs", outputs_title:"What the dashboard shows",
+    res1_title:"① Coverage Hit Rate Heatmap", res1_desc:"Skill × Shift matrix colored by hit rate. 🟢 ≥90% (safe), 🟡 70–90% (watch), 🔴 <70% (critical). Worst shift band = scheduling bottleneck.",
+    res2_title:"② adv_avg — Expected Advanced Count", res2_desc:"Expected Advanced-skilled employees present per shift accounting for absence. adv_avg=1.3 for Deli Evening = single point of failure most days.",
+    res3_title:"③ 12-Month Seasonal Risk Calendar", res3_desc:"Hit rates projected 12 months forward with seasonal scaling. Identifies months that will breach 90% — giving 3–6 months lead time before the crisis.",
+    res4_title:"④ Individual Resilience Score", res4_desc:"Per-employee score combining replaceability and retention probability. Plots as Talent Vulnerability Matrix — upper-left is highest-risk zone.",
+    res5_title:"⑤ Action Plan (Hire / Train)", res5_desc:"Prioritized recommendations with skill, severity, count, and priority tier. Feeds Training Planner's auto-generation.",
+    integration_label:"Integration", integration_title:"How WP connects to the rest of the suite",
+    int1_title:"Action plan → Training Planner", int1_desc:"WP's action plan is consumed by TP's 'Auto-generate' — immediately creating trainer/trainee pairs without manual input.",
+    int2_title:"MC results → Shift Optimizer", int2_desc:"Hit rates validate SO's safety score thresholds. Persistent 65% Deli Evening coverage signals threshold adjustment is needed.",
+    int3_title:"Resilience → Retention Optimizer", int3_desc:"Low-resilience employees appear in RO's red zone — same data feeding the HR Manager's flight risk count and keyman flags.",
+    int4_title:"mc_result → All Dashboard KPIs", int4_desc:"OHI, EVP, 30-day operation risk, and HR Manager's skill gap probability are all derived from the same mc_result session object.",
+    why_label:"Why It Matters", why_title:"What this demonstrates",
+    w1_title:"Probabilistic Thinking", w1_desc:"Most HR tools give point estimates. This gives probability distributions — actionable risk quantification, not a false sense of precision.",
+    w2_title:"Lead Time Creation", w2_desc:"Identifying a November crisis in August creates 3 months of lead time. The same crisis found in October creates panic. Simulation converts future problems into current decisions.",
+    w3_title:"SSOT-Driven Accuracy", w3_desc:"WP draws from the same master_employees.csv as SO — simulated rosters reflect real skill distributions, not theoretical ideals.",
+    w4_title:"Speed at Scale", w4_desc:"90,000 simulation draws run in seconds via NumPy vectorization. Interactive 'what-if' analysis is practical — change absence rate, see hit rates update instantly.",
+    cta_label:"Try It", cta_title:"See your coverage forecast",
+    cta_desc:"Run the simulation from the Dashboard sidebar, then explore WP's coverage heatmap and 12-month calendar. Adjust the absence rate slider and watch the hit rates update.",
+    cta_btn1:"↗ Open Live App", cta_btn2:"← Suite Overview",
+    footer:"© 2026 Manami Oyama · Built with HTML, CSS & JavaScript"
+  },
+  ja:{
+    nav_back:"← スイート概要",
+    hero_eyebrow:"技術解説", hero_title:"ワークフォースプランナーの仕組み",
+    hero_desc:"「今のチームで来月の需要をカバーできるか——どのスキルが最初に不足するか」に確率で答えるシミュレーションエンジン。",
+    hero_btn:"↗ ライブアプリを開く",
+    one_liner:"直感的な人員判断の代わりに、このアプリはスキル×シフト帯ごとに10,000回のシミュレーションを実行し——欠勤・需要・スキル分布をモデル化して——充足率危機がいつどこで起きるかを数ヶ月前に正確に告知します。",
+    overview_label:"概要", overview_title:"何をシミュレーションするか",
+    overview_desc:"スキル×シフト帯ごとに、10,000回のロスターをランダムに生成して需要に対してテスト。単一の推定値ではなく確率分布を生成します。",
+    m1:"スキル×シフト帯ごとのシミュレーション数", m2:"スキル×シフト帯の組み合わせ数", m3:"充足率予測の先行期間", m4:"デフォルト欠勤率（変更可）",
+    ov_col1:"パラメータ", ov_col2:"詳細",
+    ov_r1a:"シミュレーション対象スキル", ov_r1b:"レジ / 食品 / 惣菜 × 上級 / 基礎 — 6つのスキルレベル組み合わせ",
+    ov_r2a:"シフト帯", ov_r2b:"朝 / 昼 / 夕 — 日種別ごとに需要目標が異なる",
+    ov_r3a:"充足率指標", ov_r3b:"ヒット率：上級/基礎人数が目標に達したシミュレーションの割合",
+    ov_r4a:"欠勤モデリング", ov_r4b:"各有資格者が欠勤率の確率で独立に欠勤。確定的ではなく確率的。",
+    ov_r5a:"季節需要", ov_r5b:"12ヶ月の季節係数（FMI 2023小売カレンダー）が月ごとに需要目標を調整。",
+    ov_r6a:"出力", ov_r6b:"ヒット率ヒートマップ・adv_avg（期待Advanced人数）・アクションプラン（採用/育成推奨）",
+    mc_label:"アルゴリズム", mc_title:"モンテカルロ ロスターシミュレーション",
+    mc_desc:"なぜモンテカルロか？欠勤は確率的で、需要は季節的で、スキル分布は偏りがあるから。単一の確定計算では誤りになります——MCが確率分布を与えます。",
+    mc_note:"結果は「上級スタッフが4名います」ではなく「上級スタッフが十分に出勤する確率は73%です」。この点推定 vs 確率の違いが、予測を実用的なものにします。",
+    f1_title:"スキル×シフト帯ごとに対象者プールを構築", f1_desc:"対象スキルのAdvanced/Basicを持つ全従業員を特定。シフト帯希望でどのシフトに配置されるかをフィルタリング。",
+    f2_title:"10,000回の欠勤抽選を実施", f2_desc:"各従業員が(1−欠勤率)の確率で独立に出勤。10,000通りのロスター構成で現実の不確かさを再現。",
+    f3_title:"各ロスターを需要目標と照合", f3_desc:"各シミュレーションでAdvanced/Basic人数が目標を達成するかを確認。二値判定（達成/未達）。",
+    f4_title:"ヒット率＝目標達成シミュレーションの割合", f4_desc:"ヒット率＝達成回数/10,000。任意の日に充足率が十分である確率。目標：≥90%。70%未満：危機的。",
+    f5_title:"12ヶ月予測に季節調整を適用", f5_desc:"月別季節係数（FMI 2023）が需要目標を調整。ホリデー月はAdvancedの必要数が増加——人数が変わらなくてもヒット率が低下。",
+    f6_title:"ギャップ分析からアクションプランを自動生成", f6_desc:"ヒット率が閾値を下回るスキルに採用/育成推奨が生成。重大度とピーク月までの期間で優先順位付け。育成プランナーに直接供給。",
+    outputs_label:"出力内容", outputs_title:"ダッシュボードが示すもの",
+    res1_title:"① 充足率ヒット率ヒートマップ", res1_desc:"スキル×シフト帯のマトリクスをヒット率で色分け。🟢≥90%（安全）、🟡70–90%（要注視）、🔴<70%（危機的）。最悪のシフト帯がボトルネック。",
+    res2_title:"② adv_avg — 期待Advanced人数", res2_desc:"欠勤を考慮した各シフトの期待Advanced人数。惣菜夕勤でadv_avg=1.3なら、ほぼ毎日単一障害点で運営している状態。",
+    res3_title:"③ 12ヶ月 季節スタッフィングリスクカレンダー", res3_desc:"季節係数で12ヶ月先のヒット率を予測。90%閾値を割る月を特定——危機の3〜6ヶ月前にリードタイムを確保。",
+    res4_title:"④ 個人レジリエンス スコア", res4_desc:"代替可能性（同スキル保有者数）と定着確率（ROから）を組み合わせたスコア。タレント脆弱性マトリクスとしてプロット——左上が最高リスクゾーン。",
+    res5_title:"⑤ アクションプラン（採用/育成推奨）", res5_desc:"スキル・重大度・人数・優先度ティア付きの優先リスト。育成プランナーの自動生成に直接供給。",
+    integration_label:"連携", integration_title:"WPがスイート全体とどう繋がるか",
+    int1_title:"アクションプラン → 育成プランナー", int1_desc:"WPのアクションプランをTPの「WPから自動生成」が読み込み——手動入力なしにトレーナー/Traineeペアを即生成。",
+    int2_title:"MC結果 → シフトオプティマイザー", int2_desc:"ヒット率でSOの安心度スコア閾値を検証。惣菜夕勤が慢性的に65%なら閾値調整のシグナル。",
+    int3_title:"レジリエンス → リテンションオプティマイザー", int3_desc:"低レジリエンス従業員がROの赤ゾーンに表示——HRマネージャーの高離職リスク数とキーマンフラグに供給。",
+    int4_title:"mc_result → 全ダッシュボードKPI", int4_desc:"OHI・EVP・30日事業継続リスク・HRマネージャーのスキル欠員確率は全て同一のmc_resultセッションから計算。",
+    why_label:"なぜ重要か", why_title:"このプロジェクトが示すもの",
+    w1_title:"確率的思考", w1_desc:"ほとんどのHRツールは点推定を返します。これは確率分布を返す——「精度の錯覚」ではなく実用的なリスク定量化。",
+    w2_title:"リードタイムの創出", w2_desc:"11月の危機を8月に特定すれば3ヶ月のリードタイムができます。10月に気づけばパニック採用。シミュレーションが未来の問題を現在の意思決定に変換します。",
+    w3_title:"SSOTによる精度", w3_desc:"WPはSOと同じmaster_employees.csvから抽出——シミュレーションのロスターが理論値ではなく実際の在籍者のスキル分布を反映。",
+    w4_title:"スケールでの処理速度", w4_desc:"NumPy演算で90,000回のシミュレーションを数秒で実行。インタラクティブな感度分析が実用的——欠勤率を変えるとヒット率がリアルタイムで更新。",
+    cta_label:"試してみる", cta_title:"充足率予測を確認する",
+    cta_desc:"ダッシュボードのサイドバーからシミュレーションを実行し、WPの充足率ヒートマップと12ヶ月カレンダーを確認してください。欠勤率スライダーを調整するとヒット率がリアルタイムで更新されます。",
+    cta_btn1:"↗ ライブアプリを開く", cta_btn2:"← スイート概要",
+    footer:"© 2026 Manami Oyama · HTML、CSS、JavaScriptで構築"
+  }
+};
+</script>
+<script src="js/main.js"></script>
+</body></html>

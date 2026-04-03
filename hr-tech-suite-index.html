@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HR Tech Suite — Manami Oyama</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&family=Noto+Serif+JP:wght@300;400&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    /* ── HR Tech Suite accent palette ── */
+    :root {
+      --suite-blue:   #1a4a7a;
+      --suite-green:  #1a9850;
+      --suite-orange: #e67e22;
+      --suite-purple: #7c3aed;
+    }
+
+    /* ── Hero visual: 4-app grid ── */
+    .suite-hero-visual {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      width: 240px;
+      flex-shrink: 0;
+    }
+    .suite-app-tile {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 12px;
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .suite-app-tile:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.08); }
+    .suite-app-tile .tile-icon { font-size: 1.5rem; margin-bottom: 4px; }
+    .suite-app-tile .tile-label { font-size: 0.65rem; font-weight: 600; color: var(--muted); letter-spacing: 0.05em; line-height: 1.3; }
+    .suite-app-tile.t-so { border-top: 3px solid var(--suite-blue); }
+    .suite-app-tile.t-wp { border-top: 3px solid var(--suite-green); }
+    .suite-app-tile.t-rо { border-top: 3px solid var(--suite-orange); }
+    .suite-app-tile.t-tp { border-top: 3px solid var(--suite-purple); }
+
+    /* ── Problem / Solution two-column ── */
+    .prob-sol-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 40px;
+    }
+    .prob-card {
+      background: #fff8f5;
+      border: 1px solid #f0c9b0;
+      border-left: 4px solid #c0392b;
+      border-radius: 0 var(--radius) var(--radius) 0;
+      padding: 20px 20px 20px 18px;
+    }
+    .prob-card .prob-label {
+      font-size: 0.66rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #c0392b;
+      margin-bottom: 6px;
+    }
+    .prob-card h4 { font-family: var(--serif); font-size: 0.95rem; margin-bottom: 6px; }
+    .prob-card p  { font-size: 0.82rem; color: var(--muted); line-height: 1.6; margin: 0; }
+    .sol-card {
+      background: var(--tag-bg);
+      border: 1px solid var(--accent2);
+      border-left: 4px solid var(--accent);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      padding: 20px 20px 20px 18px;
+    }
+    .sol-card .sol-label {
+      font-size: 0.66rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 6px;
+    }
+    .sol-card h4 { font-family: var(--serif); font-size: 0.95rem; margin-bottom: 6px; }
+    .sol-card p  { font-size: 0.82rem; color: var(--muted); line-height: 1.6; margin: 0; }
+
+    /* ── Architecture flow ── */
+    .arch-wrap {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px;
+      margin-top: 32px;
+    }
+    .arch-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      flex-wrap: wrap;
+    }
+    .arch-box {
+      background: var(--tag-bg);
+      border: 1px solid var(--accent2);
+      border-radius: 10px;
+      padding: 14px 18px;
+      text-align: center;
+      min-width: 110px;
+    }
+    .arch-box .arch-icon { font-size: 1.4rem; margin-bottom: 4px; }
+    .arch-box .arch-name { font-size: 0.72rem; font-weight: 600; color: var(--accent); }
+    .arch-box .arch-tech { font-size: 0.65rem; color: var(--muted); margin-top: 2px; }
+    .arch-arrow {
+      color: var(--accent2);
+      font-size: 1.4rem;
+      padding: 0 6px;
+      flex-shrink: 0;
+    }
+    .arch-ssot {
+      margin-top: 20px;
+      background: #1a1a1a;
+      border-radius: 8px;
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .arch-ssot .ssot-label { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.1em; color: #6b9c7a; text-transform: uppercase; }
+    .arch-ssot .ssot-items { display: flex; gap: 12px; flex-wrap: wrap; }
+    .arch-ssot .ssot-pill { font-size: 0.68rem; background: #2a2a2a; color: #b7d5c8; border-radius: 20px; padding: 3px 10px; font-family: 'Courier New', monospace; }
+
+    /* ── Dashboard tabs preview ── */
+    .dash-tabs {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+    .dash-tab {
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 6px 14px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--muted);
+      white-space: nowrap;
+    }
+    .dash-tab.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+    .dash-preview-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 16px;
+    }
+    .dash-kpi {
+      background: var(--tag-bg);
+      border: 1px solid var(--accent2);
+      border-radius: 8px;
+      padding: 12px 14px;
+      text-align: center;
+    }
+    .dash-kpi .kpi-val { font-family: var(--serif); font-size: 1.4rem; color: var(--accent); }
+    .dash-kpi .kpi-lbl { font-size: 0.68rem; color: var(--muted); margin-top: 2px; }
+
+    /* ── App detail section ── */
+    .apps-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-top: 40px;
+    }
+    .app-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transition: all var(--transition);
+      opacity: 0;
+      transform: translateY(16px);
+      position: relative;
+      overflow: hidden;
+    }
+    .app-card.visible { opacity: 1; transform: translateY(0); }
+    .app-card::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 4px;
+    }
+    .app-card.so::before  { background: var(--suite-blue); }
+    .app-card.wp::before  { background: var(--suite-green); }
+    .app-card.ro::before  { background: var(--suite-orange); }
+    .app-card.tp::before  { background: var(--suite-purple); }
+    .app-card:hover { border-color: var(--accent2); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(0,0,0,0.06); }
+    .app-card-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+    .app-num { font-family: var(--serif); font-size: 0.75rem; color: var(--muted); letter-spacing: 0.06em; margin-bottom: 4px; }
+    .app-title { font-family: var(--serif); font-size: 1.25rem; line-height: 1.2; }
+    .app-icon { font-size: 2rem; flex-shrink: 0; }
+    .app-engine {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .app-engine.so  { color: var(--suite-blue); }
+    .app-engine.wp  { color: var(--suite-green); }
+    .app-engine.ro  { color: var(--suite-orange); }
+    .app-engine.tp  { color: var(--suite-purple); }
+    .app-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.7; flex: 1; }
+    .app-outputs {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .app-output-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+    .app-output-item::before {
+      content: '';
+      width: 4px; height: 4px;
+      background: var(--accent);
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .app-links { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px; }
+
+    /* ── Key metrics bar ── */
+    .metrics-bar {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-top: 40px;
+    }
+    .metric-item {
+      text-align: center;
+      padding: 24px 16px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      transition: border-color var(--transition);
+    }
+    .metric-item:hover { border-color: var(--accent2); }
+    .metric-val {
+      font-family: var(--serif);
+      font-size: 2rem;
+      color: var(--accent);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+    .metric-lbl { font-size: 0.78rem; color: var(--muted); line-height: 1.4; }
+
+    /* ── Tech stack pills ── */
+    .tech-stack-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 20px;
+    }
+    .ts-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 6px 14px;
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--ink);
+      transition: border-color var(--transition);
+    }
+    .ts-pill:hover { border-color: var(--accent2); }
+    .ts-pill .ts-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 860px) {
+      .apps-grid     { grid-template-columns: 1fr; }
+      .metrics-bar   { grid-template-columns: 1fr 1fr; }
+      .prob-sol-grid { grid-template-columns: 1fr; }
+      .dash-preview-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 600px) {
+      .suite-hero-visual { width: 180px; }
+      .suite-app-tile { padding: 10px 8px; }
+      .arch-row { gap: 4px; }
+      .arch-box { min-width: 80px; padding: 10px 12px; }
+      .metrics-bar { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 480px) {
+      .suite-hero-visual { display: none; }
+      .metrics-bar { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Navigation ── -->
+  <nav>
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo" style="text-decoration:none;color:inherit;">Manami Oyama</a>
+      <div class="nav-links">
+        <a href="#overview"     data-i18n="nav_overview">Overview</a>
+        <a href="#dashboard"    data-i18n="nav_dashboard">Dashboard</a>
+        <a href="#apps"         data-i18n="nav_apps">Apps</a>
+        <a href="#tech"         data-i18n="nav_tech">Tech</a>
+        <a href="index.html"    data-i18n="nav_back" class="btn-back">← Portfolio</a>
+        <div class="lang-toggle">
+          <button class="lang-btn active" data-lang-btn="en">EN</button>
+          <button class="lang-btn"        data-lang-btn="ja">JA</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ── Hero ── -->
+  <section id="hero" class="index-hero" style="padding-top:120px;padding-bottom:80px;border-top:none;">
+    <div class="container hero-flex">
+      <div class="hero-content">
+        <p class="hero-eyebrow fade-up" data-i18n="hero_eyebrow">Integrated HR Intelligence Suite</p>
+        <h1 class="hero-name fade-up" style="font-size:clamp(2.2rem,5vw,3.8rem);">HR Tech<br><em>Suite</em></h1>
+        <p class="hero-tagline fade-up" data-i18n="hero_tagline">Four AI engines — shift optimization, workforce planning, talent retention, and training management — unified in a single Control Tower dashboard. Built for retail HR operations.</p>
+        <div class="hero-meta fade-up" style="margin-bottom:32px;">
+          <div class="hero-meta-item"><span class="dot"></span><span data-i18n="meta_apps">4 Integrated Apps</span></div>
+          <div class="hero-meta-item"><span class="dot"></span><span data-i18n="meta_tech">OR-Tools · LightGBM · Monte Carlo</span></div>
+          <div class="hero-meta-item"><span class="dot"></span><span data-i18n="meta_stack">Python · Streamlit · Plotly</span></div>
+        </div>
+        <div class="btn-group fade-up" style="justify-content:flex-start;margin-top:0;">
+          <a href="#" target="_blank" class="btn btn-primary">↗ <span data-i18n="cta_demo">Live Demo</span></a>
+          <a href="#apps"              class="btn btn-outline" data-i18n="cta_apps">Explore Apps</a>
+          <a href="https://github.com/mona2083" target="_blank" class="btn btn-outline">↗ GitHub</a>
+        </div>
+      </div>
+
+      <!-- 4-tile visual -->
+      <div class="suite-hero-visual fade-up">
+        <div class="suite-app-tile t-so">
+          <div class="tile-icon">🗓️</div>
+          <div class="tile-label">Shift<br>Optimizer</div>
+        </div>
+        <div class="suite-app-tile t-wp">
+          <div class="tile-icon">📊</div>
+          <div class="tile-label">Workforce<br>Planner</div>
+        </div>
+        <div class="suite-app-tile t-rо">
+          <div class="tile-icon">⚖️</div>
+          <div class="tile-label">Retention<br>Optimizer</div>
+        </div>
+        <div class="suite-app-tile t-tp">
+          <div class="tile-icon">🎓</div>
+          <div class="tile-label">Training<br>Planner</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── One-liner ── -->
+  <section style="padding:0 0 60px;border-top:none;">
+    <div class="container">
+      <div class="one-liner fade-up">
+        <p data-i18n="one_liner">Four AI engines work in sequence — Monte Carlo simulations surface skill gaps, LightGBM predicts who will quit next, CP-SAT builds the optimal shift, and the training planner closes the gap — all surfaced in a unified Control Tower dashboard.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Problem → Solution ── -->
+  <section id="overview">
+    <div class="container">
+      <p class="section-label" data-i18n="prob_label">Problem → Solution</p>
+      <h2 class="section-title" data-i18n="prob_title">Four retail HR problems.<br><em>One integrated answer.</em></h2>
+      <p class="section-desc" data-i18n="prob_desc">Each application targets a specific pain point in retail workforce management — and they share a single source of truth.</p>
+
+      <div class="prob-sol-grid">
+        <!-- Row 1 -->
+        <div class="prob-card fade-up">
+          <div class="prob-label" data-i18n="p1_label">Problem 01</div>
+          <h4 data-i18n="p1_title">Manual shift creation takes 8+ hours per week</h4>
+          <p data-i18n="p1_desc">Spreadsheet-based scheduling ignores skill depth, fairness, and labor law constraints simultaneously. The result is overpaid over-skilled shifts next to under-covered high-demand slots.</p>
+        </div>
+        <div class="sol-card fade-up">
+          <div class="sol-label" data-i18n="s1_label">Solution — Shift Optimizer</div>
+          <h4 data-i18n="s1_title">OR-Tools CP-SAT proves the optimal schedule in &lt;15 seconds</h4>
+          <p data-i18n="s1_desc">651 binary variables. Hard constraints for labor law and skill coverage. Soft constraints for fairness and preferences. A 2-stage objective ensures compliance before cost. Training pairs are embedded as constraints.</p>
+        </div>
+
+        <!-- Row 2 -->
+        <div class="prob-card fade-up">
+          <div class="prob-label" data-i18n="p2_label">Problem 02</div>
+          <h4 data-i18n="p2_title">Skill gaps are invisible until a holiday crisis hits</h4>
+          <p data-i18n="p2_desc">Managers don't know whether their current team can cover next month's demand until they're already short-staffed. Reactive hiring is slow and expensive.</p>
+        </div>
+        <div class="sol-card fade-up">
+          <div class="sol-label" data-i18n="s2_label">Solution — Workforce Planner</div>
+          <h4 data-i18n="s2_title">Monte Carlo simulation forecasts coverage 12 months out</h4>
+          <p data-i18n="s2_desc">10,000 roster simulations per skill × shift combination, modelling absence rates, seasonal demand, and skill distribution. Hit-rate and coverage metrics guide proactive hire/train decisions before gaps appear.</p>
+        </div>
+
+        <!-- Row 3 -->
+        <div class="prob-card fade-up">
+          <div class="prob-label" data-i18n="p3_label">Problem 03</div>
+          <h4 data-i18n="p3_title">Turnover is noticed only after the resignation letter</h4>
+          <p data-i18n="p3_desc">The average retail turnover cost is $2,500–$7,000 per employee. Most exits are predictable weeks in advance — but the signals are invisible without a model.</p>
+        </div>
+        <div class="sol-card fade-up">
+          <div class="sol-label" data-i18n="s3_label">Solution — Retention Optimizer</div>
+          <h4 data-i18n="s3_title">LightGBM Early Warning System with 10 behavioral features</h4>
+          <p data-i18n="s3_desc">Shortage stress, shift mismatch, overtime accumulation, seasonal churn factors, and engagement trends combine into a per-employee churn probability. Keyman flags trigger instant intervention prompts.</p>
+        </div>
+
+        <!-- Row 4 -->
+        <div class="prob-card fade-up">
+          <div class="prob-label" data-i18n="p4_label">Problem 04</div>
+          <h4 data-i18n="p4_title">Training plans live in someone's head — or a forgotten spreadsheet</h4>
+          <p data-i18n="p4_desc">OJT scheduling is managed informally. Trainers are overloaded, trainees are mis-paired, and no one knows when skill coverage will actually improve.</p>
+        </div>
+        <div class="sol-card fade-up">
+          <div class="sol-label" data-i18n="s4_label">Solution — Training Planner</div>
+          <h4 data-i18n="s4_title">Auto-generated OJT roadmaps with capacity analysis</h4>
+          <p data-i18n="s4_desc">Optimal trainer/trainee pairing, shift-aware scheduling (trainees counted as "off-strength"), capacity analysis that solves the chicken-and-egg dilemma, and export to Shift Optimizer for immediate integration.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Architecture ── -->
+  <section id="architecture">
+    <div class="container">
+      <p class="section-label" data-i18n="arch_label">Architecture</p>
+      <h2 class="section-title" data-i18n="arch_title">How the four engines<br><em>share a single truth</em></h2>
+      <p class="section-desc" data-i18n="arch_desc">A shared SSOT layer (master_employees.csv + model_parameters.json) feeds all four apps. Simulation results flow forward; the dashboard aggregates everything.</p>
+
+      <div class="arch-wrap fade-up">
+        <!-- Top row: Data layer -->
+        <div class="arch-ssot" style="margin-bottom:20px;margin-top:0;">
+          <div class="ssot-label" data-i18n="arch_ssot">SSOT — Shared Data Layer</div>
+          <div class="ssot-items">
+            <span class="ssot-pill">master_employees.csv</span>
+            <span class="ssot-pill">model_parameters.json</span>
+            <span class="ssot-pill">data_client.py</span>
+          </div>
+        </div>
+
+        <!-- App row -->
+        <div class="arch-row">
+          <div class="arch-box" style="border-top:3px solid var(--suite-green);">
+            <div class="arch-icon">📊</div>
+            <div class="arch-name">Workforce Planner</div>
+            <div class="arch-tech">Monte Carlo<br>Simulation</div>
+          </div>
+          <div class="arch-arrow">→</div>
+          <div class="arch-box" style="border-top:3px solid var(--suite-purple);">
+            <div class="arch-icon">🎓</div>
+            <div class="arch-name">Training Planner</div>
+            <div class="arch-tech">OJT Auto-<br>Scheduling</div>
+          </div>
+          <div class="arch-arrow">→</div>
+          <div class="arch-box" style="border-top:3px solid var(--suite-blue);">
+            <div class="arch-icon">🗓️</div>
+            <div class="arch-name">Shift Optimizer</div>
+            <div class="arch-tech">CP-SAT<br>Solver</div>
+          </div>
+          <div class="arch-arrow">↘</div>
+          <div class="arch-box" style="border-top:3px solid var(--suite-orange);">
+            <div class="arch-icon">⚖️</div>
+            <div class="arch-name">Retention Optimizer</div>
+            <div class="arch-tech">LightGBM<br>Churn Model</div>
+          </div>
+        </div>
+
+        <!-- Bottom: Dashboard aggregation -->
+        <div style="display:flex;justify-content:center;margin-top:14px;">
+          <div style="font-size:1.2rem;color:var(--accent2);">↓ ↓ ↓ ↓</div>
+        </div>
+        <div style="display:flex;justify-content:center;margin-top:10px;">
+          <div class="arch-box" style="border:2px solid var(--accent);background:var(--tag-bg);min-width:220px;">
+            <div class="arch-icon">🏢</div>
+            <div class="arch-name" style="font-size:0.85rem;" data-i18n="arch_dashboard">Control Tower Dashboard</div>
+            <div class="arch-tech" data-i18n="arch_tabs">Executive · HR · Ops · ROI · Library</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Dashboard ── -->
+  <section id="dashboard">
+    <div class="container">
+      <p class="section-label" data-i18n="dash_label">Dashboard</p>
+      <h2 class="section-title" data-i18n="dash_title">Six-tab Control Tower<br><em>for every stakeholder</em></h2>
+      <p class="section-desc" data-i18n="dash_desc">A single Streamlit portal routes executives, HR managers, and ops managers to exactly the data they need — from P&L impact to individual churn risk to OJT schedules.</p>
+
+      <!-- Tab pills -->
+      <div class="dash-tabs fade-up">
+        <span class="dash-tab active">🏦 Executive</span>
+        <span class="dash-tab">👥 HR Manager</span>
+        <span class="dash-tab">🏪 Ops Manager</span>
+        <span class="dash-tab">💹 ROI & Sales</span>
+        <span class="dash-tab">🌐 Use Cases</span>
+        <span class="dash-tab">📚 Metric Library</span>
+      </div>
+
+      <!-- Biz cards: one per tab -->
+      <div class="biz-grid" style="margin-top:0;">
+        <div class="biz-card fade-up">
+          <div class="biz-icon">🏦</div>
+          <div class="biz-industry" data-i18n="tab1_audience">C-Suite / Owners</div>
+          <div class="biz-title" data-i18n="tab1_title">Executive Dashboard</div>
+          <p class="biz-desc" data-i18n="tab1_desc">OHI, EVP, labor cost ratio, and 30-day operation risk in four Big Number cards. KPI root-cause chart links coverage and churn to P&L. Auto-generated action items require zero analysis.</p>
+          <span class="biz-result" data-i18n="tab1_result">OHI · EVP · Labor Cost · Op Risk</span>
+        </div>
+
+        <div class="biz-card fade-up">
+          <div class="biz-icon">👥</div>
+          <div class="biz-industry" data-i18n="tab2_audience">HR Managers</div>
+          <div class="biz-title" data-i18n="tab2_title">HR Manager Dashboard</div>
+          <p class="biz-desc" data-i18n="tab2_desc">High flight risk count, 30-day skill gap probability, talent vulnerability matrix, overtime stress trends, seasonal staffing calendar, and AI prescriptive actions — all in one scrollable view.</p>
+          <span class="biz-result" data-i18n="tab2_result">Early Warning · Talent Matrix · AI Actions</span>
+        </div>
+
+        <div class="biz-card fade-up">
+          <div class="biz-icon">🏪</div>
+          <div class="biz-industry" data-i18n="tab3_audience">Operations Managers</div>
+          <div class="biz-title" data-i18n="tab3_title">Ops Manager Dashboard</div>
+          <p class="biz-desc" data-i18n="tab3_desc">This week's shift health, coverage by skill and shift band, staff satisfaction ranking, emergency response panel, hiring/training needs, shift stress analysis, and individual vulnerability matrix.</p>
+          <span class="biz-result" data-i18n="tab3_result">Shift Health · Stress Analysis · Hiring Needs</span>
+        </div>
+
+        <div class="biz-card fade-up">
+          <div class="biz-icon">💹</div>
+          <div class="biz-industry" data-i18n="tab4_audience">Sales / Prospective Clients</div>
+          <div class="biz-title" data-i18n="tab4_title">ROI & Sales Dashboard</div>
+          <p class="biz-desc" data-i18n="tab4_desc">Live ROI calculator with slider inputs for wage, headcount, turnover rate, and revenue. Waterfall chart breaks down savings by app. Cumulative payback curve. Before/after comparison table. Industry benchmark.</p>
+          <span class="biz-result" data-i18n="tab4_result">ROI Calculator · Payback Curve · Benchmarks</span>
+        </div>
+
+        <div class="biz-card fade-up">
+          <div class="biz-icon">🌐</div>
+          <div class="biz-industry" data-i18n="tab5_audience">All Stakeholders</div>
+          <div class="biz-title" data-i18n="tab5_title">Use Cases & Possibilities</div>
+          <p class="biz-desc" data-i18n="tab5_desc">Audience-specific scenario playbooks (Executive / HR / Ops), a 3-phase extension roadmap, industry application scenarios (retail, F&B, healthcare, logistics), and data integration possibilities.</p>
+          <span class="biz-result" data-i18n="tab5_result">Scenarios · Roadmap · Industry Fit</span>
+        </div>
+
+        <div class="biz-card fade-up">
+          <div class="biz-icon">📚</div>
+          <div class="biz-industry" data-i18n="tab6_audience">Data Engineers / Analysts</div>
+          <div class="biz-title" data-i18n="tab6_title">Metric Library</div>
+          <p class="biz-desc" data-i18n="tab6_desc">20+ unused metrics organized by category: Shift, Coverage, Talent, Training, Financial. Each card shows a live mini-chart (real data if simulated, sample otherwise) with the calculation logic explained.</p>
+          <span class="biz-result" data-i18n="tab6_result">20+ Metrics · 5 Categories · Live Preview</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Key Metrics ── -->
+  <section id="metrics">
+    <div class="container">
+      <p class="section-label" data-i18n="metrics_label">By the Numbers</p>
+      <h2 class="section-title" data-i18n="metrics_title">What this suite<br><em>delivers</em></h2>
+      <div class="metrics-bar">
+        <div class="metric-item fade-up">
+          <div class="metric-val">▼94%</div>
+          <div class="metric-lbl" data-i18n="m1">Shift planning<br>time reduction</div>
+        </div>
+        <div class="metric-item fade-up">
+          <div class="metric-val">+7pp</div>
+          <div class="metric-lbl" data-i18n="m2">Avg shift coverage<br>improvement</div>
+        </div>
+        <div class="metric-item fade-up">
+          <div class="metric-val">▼25%</div>
+          <div class="metric-lbl" data-i18n="m3">High-risk turnover<br>reduction</div>
+        </div>
+        <div class="metric-item fade-up">
+          <div class="metric-val">8.4×</div>
+          <div class="metric-lbl" data-i18n="m4">Estimated ROI<br>on system cost</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 4 Apps ── -->
+  <section id="apps">
+    <div class="container">
+      <p class="section-label" data-i18n="apps_label">The Four Engines</p>
+      <h2 class="section-title" data-i18n="apps_title">Each app solves one problem.<br><em>Together they solve the whole.</em></h2>
+
+      <div class="apps-grid">
+
+        <!-- SO -->
+        <div class="app-card so">
+          <div class="app-card-header">
+            <div>
+              <div class="app-num">App 01</div>
+              <div class="app-title">Shift Optimizer</div>
+            </div>
+            <div class="app-icon">🗓️</div>
+          </div>
+          <div class="app-engine so" data-i18n="so_engine">CP-SAT Constraint Programming</div>
+          <p class="app-desc" data-i18n="so_desc">Replaces 8 hours of weekly manual scheduling with a mathematically proven optimal shift in under 15 seconds. Hard constraints guarantee labor law compliance; soft constraints maximize fairness and preference matching. Training plan pairs are embedded as co-scheduling constraints.</p>
+          <div class="app-outputs">
+            <div class="app-output-item" data-i18n="so_o1">651 binary variables solved simultaneously</div>
+            <div class="app-output-item" data-i18n="so_o2">2-stage objective: compliance before cost</div>
+            <div class="app-output-item" data-i18n="so_o3">Shift stress analysis per employee</div>
+            <div class="app-output-item" data-i18n="so_o4">Substitute suggestion for absences</div>
+          </div>
+          <div class="project-tags">
+            <span class="tag">OR-Tools CP-SAT</span>
+            <span class="tag">Python</span>
+            <span class="tag">Streamlit</span>
+            <span class="tag">Plotly</span>
+          </div>
+          <div class="app-links">
+            <a href="#" target="_blank" class="project-link" style="background:var(--suite-blue);color:#fff;border-color:var(--suite-blue);">↗ <span data-i18n="link_demo">Live Demo</span></a>
+            <a href="how-it-works-shift-optimizer-v2.html" class="project-link">ⓘ <span data-i18n="link_how">How It Works</span></a>
+          </div>
+        </div>
+
+        <!-- WP -->
+        <div class="app-card wp">
+          <div class="app-card-header">
+            <div>
+              <div class="app-num">App 02</div>
+              <div class="app-title">Workforce Planner</div>
+            </div>
+            <div class="app-icon">📊</div>
+          </div>
+          <div class="app-engine wp" data-i18n="wp_engine">Monte Carlo Simulation</div>
+          <p class="app-desc" data-i18n="wp_desc">Runs 10,000 roster simulations per skill × shift combination to forecast Advanced and Basic coverage rates 12 months ahead. Absence rates, seasonal demand multipliers, and skill distribution are all modelled probabilistically. Outputs hit-rate heatmaps, skill gap alerts, and hire/train recommendations.</p>
+          <div class="app-outputs">
+            <div class="app-output-item" data-i18n="wp_o1">12-month skill coverage forecast</div>
+            <div class="app-output-item" data-i18n="wp_o2">Seasonal risk calendar</div>
+            <div class="app-output-item" data-i18n="wp_o3">Individual resilience scoring</div>
+            <div class="app-output-item" data-i18n="wp_o4">Auto-generated hire/train action plan</div>
+          </div>
+          <div class="project-tags">
+            <span class="tag">Monte Carlo</span>
+            <span class="tag">NumPy</span>
+            <span class="tag">Python</span>
+            <span class="tag">Plotly</span>
+          </div>
+          <div class="app-links">
+            <a href="#" target="_blank" class="project-link" style="background:var(--suite-green);color:#fff;border-color:var(--suite-green);">↗ <span data-i18n="link_demo">Live Demo</span></a>
+            <a href="how-it-works-workforce-planner.html" class="project-link">ⓘ <span data-i18n="link_how">How It Works</span></a>
+          </div>
+        </div>
+
+        <!-- RO -->
+        <div class="app-card ro">
+          <div class="app-card-header">
+            <div>
+              <div class="app-num">App 03</div>
+              <div class="app-title">Retention Optimizer</div>
+            </div>
+            <div class="app-icon">⚖️</div>
+          </div>
+          <div class="app-engine ro" data-i18n="ro_engine">LightGBM + Rule-Based Ensemble</div>
+          <p class="app-desc" data-i18n="ro_desc">Predicts individual churn probability using 10 behavioral and operational features: shortage stress, shift mismatch trends, overtime accumulation (ratio, stress score, chronic flag), seasonal churn factors, and engagement trajectory. An Early Warning System flags high-risk keymen before they resign.</p>
+          <div class="app-outputs">
+            <div class="app-output-item" data-i18n="ro_o1">Per-employee churn probability (0–1)</div>
+            <div class="app-output-item" data-i18n="ro_o2">10-feature LightGBM model</div>
+            <div class="app-output-item" data-i18n="ro_o3">Hiring cost simulation across scenarios</div>
+            <div class="app-output-item" data-i18n="ro_o4">Cost vs. risk tradeoff analysis</div>
+          </div>
+          <div class="project-tags">
+            <span class="tag">LightGBM</span>
+            <span class="tag">Causal Inference</span>
+            <span class="tag">Python</span>
+            <span class="tag">Plotly</span>
+          </div>
+          <div class="app-links">
+            <a href="#" target="_blank" class="project-link" style="background:var(--suite-orange);color:#fff;border-color:var(--suite-orange);">↗ <span data-i18n="link_demo">Live Demo</span></a>
+            <a href="how-it-works-retention-optimizer.html" class="project-link">ⓘ <span data-i18n="link_how">How It Works</span></a>
+          </div>
+        </div>
+
+        <!-- TP -->
+        <div class="app-card tp">
+          <div class="app-card-header">
+            <div>
+              <div class="app-num">App 04</div>
+              <div class="app-title">Training Planner</div>
+            </div>
+            <div class="app-icon">🎓</div>
+          </div>
+          <div class="app-engine tp" data-i18n="tp_engine">OJT Scheduling + Capacity Analysis</div>
+          <p class="app-desc" data-i18n="tp_desc">Auto-generates OJT roadmaps from WP recommendations. Solves the chicken-and-egg dilemma (not enough trainers to train trainers) with 4-tier capacity analysis. Pairs trainees with optimal trainers, embeds them into the shift optimizer, and exports to JSON for SO integration.</p>
+          <div class="app-outputs">
+            <div class="app-output-item" data-i18n="tp_o1">Auto training plan from WP recommendations</div>
+            <div class="app-output-item" data-i18n="tp_o2">Training capacity heatmap per skill</div>
+            <div class="app-output-item" data-i18n="tp_o3">Trainer/trainee pair optimization</div>
+            <div class="app-output-item" data-i18n="tp_o4">Shift-aware scheduling (off-strength aware)</div>
+          </div>
+          <div class="project-tags">
+            <span class="tag">Operations Research</span>
+            <span class="tag">Python</span>
+            <span class="tag">Streamlit</span>
+            <span class="tag">Plotly</span>
+          </div>
+          <div class="app-links">
+            <a href="#" target="_blank" class="project-link" style="background:var(--suite-purple);color:#fff;border-color:var(--suite-purple);">↗ <span data-i18n="link_demo">Live Demo</span></a>
+            <a href="how-it-works-training-planner.html" class="project-link">ⓘ <span data-i18n="link_how">How It Works</span></a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Tech Stack ── -->
+  <section id="tech">
+    <div class="container">
+      <p class="section-label" data-i18n="tech_label">Technical Stack</p>
+      <h2 class="section-title" data-i18n="tech_title">Production-grade tools,<br><em>not tutorial libraries</em></h2>
+
+      <div class="tech-cards" style="margin-top:32px;">
+        <div class="tech-card fade-up">
+          <div class="tech-icon">⚙️</div>
+          <div>
+            <div class="tech-label" data-i18n="tech1_label">Optimization Engine</div>
+            <div class="tech-title">Google OR-Tools CP-SAT</div>
+            <p class="tech-desc" data-i18n="tech1_desc">Used internally at Google for vehicle routing, scheduling, and bin-packing. Applied here to prove the optimal weekly shift assignment across 31+ employees with competing hard and soft constraints — returning a mathematically certified result, not a heuristic approximation.</p>
+            <span class="tech-pill">Constraint Programming · Branch & Bound · Integer Programming</span>
+          </div>
+        </div>
+
+        <div class="tech-card fade-up">
+          <div class="tech-icon">🎲</div>
+          <div>
+            <div class="tech-label" data-i18n="tech2_label">Probabilistic Simulation</div>
+            <div class="tech-title">Monte Carlo Roster Simulation</div>
+            <p class="tech-desc" data-i18n="tech2_desc">10,000 roster draws per skill × shift band, modelling stochastic absence, seasonal demand, and skill distribution. Outputs hit-rate distributions (not point estimates) that quantify the probability of skill shortfall — enabling decisions under uncertainty.</p>
+            <span class="tech-pill">Stochastic Simulation · NumPy · Confidence Intervals</span>
+          </div>
+        </div>
+
+        <div class="tech-card fade-up">
+          <div class="tech-icon">🧠</div>
+          <div>
+            <div class="tech-label" data-i18n="tech3_label">Machine Learning</div>
+            <div class="tech-title">LightGBM Churn Prediction</div>
+            <p class="tech-desc" data-i18n="tech3_desc">Gradient-boosted decision trees trained on 300-employee synthetic histories with realistic behavioral patterns: overtime accumulation, shift mismatch trends, seasonal churn multipliers, and chronic stress flags. Ensemble with rule-based fallback ensures graceful degradation.</p>
+            <span class="tech-pill">LightGBM · Binary Classification · Feature Engineering</span>
+          </div>
+        </div>
+
+        <div class="tech-card fade-up">
+          <div class="tech-icon">🔗</div>
+          <div>
+            <div class="tech-label" data-i18n="tech4_label">Integration Architecture</div>
+            <div class="tech-title">SSOT-Driven Multi-App Pipeline</div>
+            <p class="tech-desc" data-i18n="tech4_desc">A shared data_client.py module manages a single source of truth for employee master data, model parameters, and simulation results. session_state passes SO schedules into stress calculations, stress into churn features, and training plans back into shift optimization — forming a closed feedback loop.</p>
+            <span class="tech-pill">Streamlit session_state · JSON SSOT · Modular Pipeline</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:40px;">
+        <p class="section-label" data-i18n="stack_label">Full Stack</p>
+        <div class="tech-stack-row">
+          <span class="ts-pill"><span class="ts-dot" style="background:var(--suite-blue)"></span>Python 3.12</span>
+          <span class="ts-pill"><span class="ts-dot" style="background:var(--suite-green)"></span>Streamlit</span>
+          <span class="ts-pill"><span class="ts-dot" style="background:var(--suite-orange)"></span>OR-Tools</span>
+          <span class="ts-pill"><span class="ts-dot" style="background:var(--suite-purple)"></span>LightGBM</span>
+          <span class="ts-pill"><span class="ts-dot" style="background:var(--accent)"></span>NumPy / pandas</span>
+          <span class="ts-pill"><span class="ts-dot" style="background:var(--suite-blue)"></span>Plotly</span>
+          <span class="ts-pill"><span class="ts-dot" style="background:var(--suite-green)"></span>Monte Carlo</span>
+          <span class="ts-pill"><span class="ts-dot" style="background:var(--suite-orange)"></span>scikit-learn</span>
+          <span class="ts-pill"><span class="ts-dot" style="background:var(--suite-purple)"></span>FMI 2023 Benchmarks</span>
+          <span class="ts-pill"><span class="ts-dot" style="background:var(--accent)"></span>JSON / CSV SSOT</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Why section ── -->
+  <section>
+    <div class="container">
+      <p class="section-label" data-i18n="why_label">Why It Matters</p>
+      <h2 class="section-title" data-i18n="why_title">What this project<br><em>demonstrates</em></h2>
+      <div class="why-grid">
+        <div class="why-card fade-up">
+          <div class="why-icon">🏗️</div>
+          <div class="why-title" data-i18n="w1_title">System Design at Scale</div>
+          <p class="why-desc" data-i18n="w1_desc">Four independent applications sharing a single data contract, passing structured results through session_state without tight coupling. Adding a fifth app requires zero changes to existing code.</p>
+        </div>
+        <div class="why-card fade-up">
+          <div class="why-icon">🔬</div>
+          <div class="why-title" data-i18n="w2_title">Applied Operations Research</div>
+          <p class="why-desc" data-i18n="w2_desc">Constraint programming, stochastic simulation, and gradient boosting — each chosen for what it's mathematically optimal at, not for familiarity. This is the selection process of a practitioner, not a tutorial follower.</p>
+        </div>
+        <div class="why-card fade-up">
+          <div class="why-icon">🏢</div>
+          <div class="why-title" data-i18n="w3_title">Domain Knowledge Embedded</div>
+          <p class="why-desc" data-i18n="w3_desc">7+ years of retail management experience encoded as constraints: evening intervals, skill depth requirements, trainer capacity dilemmas, seasonal churn patterns. The models reflect operational reality, not textbook examples.</p>
+        </div>
+        <div class="why-card fade-up">
+          <div class="why-icon">📊</div>
+          <div class="why-title" data-i18n="w4_title">Stakeholder-Driven UX</div>
+          <p class="why-desc" data-i18n="w4_desc">Six dashboard tabs tailored to six audiences — each showing exactly the metrics they care about, at exactly the granularity they can act on. Product thinking applied to data presentation.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CTA ── -->
+  <section class="cta-section" style="background:#fff;">
+    <div class="container">
+      <div class="offer-box">
+        <p class="section-label" data-i18n="cta_label">Try It</p>
+        <h3 style="font-family:var(--serif);font-size:1.8rem;margin-bottom:16px;" data-i18n="cta_title">See all four engines in action</h3>
+        <p style="color:var(--muted);margin-bottom:32px;line-height:1.6;" data-i18n="cta_desc">The full suite is live. Run a global simulation from the sidebar, explore each app, and check the Control Tower dashboard — Executive, HR, Ops, ROI, and Metric Library tabs all update from the same simulation run.</p>
+        <div class="btn-group">
+          <a href="#" target="_blank" class="btn btn-primary">↗ <span data-i18n="cta_btn1">Open Live Suite</span></a>
+          <a href="index.html"        class="btn btn-outline" data-i18n="cta_btn2">← Back to Portfolio</a>
+          <a href="https://github.com/mona2083" target="_blank" class="btn btn-outline">↗ GitHub</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <p data-i18n="footer">© 2026 Manami Oyama · Built with HTML, CSS & JavaScript</p>
+    </div>
+  </footer>
+
+  <script>
+  const PAGE_TRANSLATIONS = {
+    en: {
+      nav_overview:"Overview", nav_dashboard:"Dashboard", nav_apps:"Apps", nav_tech:"Tech", nav_back:"← Portfolio",
+      hero_eyebrow:"Integrated HR Intelligence Suite",
+      hero_tagline:"Four AI engines — shift optimization, workforce planning, talent retention, and training management — unified in a single Control Tower dashboard. Built for retail HR operations.",
+      meta_apps:"4 Integrated Apps", meta_tech:"OR-Tools · LightGBM · Monte Carlo", meta_stack:"Python · Streamlit · Plotly",
+      cta_demo:"Live Demo", cta_apps:"Explore Apps",
+      one_liner:"Four AI engines work in sequence — Monte Carlo simulations surface skill gaps, LightGBM predicts who will quit next, CP-SAT builds the optimal shift, and the training planner closes the gap — all surfaced in a unified Control Tower dashboard.",
+      prob_label:"Problem → Solution", prob_title:"Four retail HR problems. One integrated answer.",
+      prob_desc:"Each application targets a specific pain point in retail workforce management — and they share a single source of truth.",
+      p1_label:"Problem 01", p1_title:"Manual shift creation takes 8+ hours per week",
+      p1_desc:"Spreadsheet-based scheduling ignores skill depth, fairness, and labor law constraints simultaneously. The result is overpaid over-skilled shifts next to under-covered high-demand slots.",
+      s1_label:"Solution — Shift Optimizer", s1_title:"OR-Tools CP-SAT proves the optimal schedule in <15 seconds",
+      s1_desc:"651 binary variables. Hard constraints for labor law and skill coverage. Soft constraints for fairness and preferences. A 2-stage objective ensures compliance before cost. Training pairs are embedded as constraints.",
+      p2_label:"Problem 02", p2_title:"Skill gaps are invisible until a holiday crisis hits",
+      p2_desc:"Managers don't know whether their current team can cover next month's demand until they're already short-staffed. Reactive hiring is slow and expensive.",
+      s2_label:"Solution — Workforce Planner", s2_title:"Monte Carlo simulation forecasts coverage 12 months out",
+      s2_desc:"10,000 roster simulations per skill × shift combination, modelling absence rates, seasonal demand, and skill distribution. Hit-rate and coverage metrics guide proactive hire/train decisions before gaps appear.",
+      p3_label:"Problem 03", p3_title:"Turnover is noticed only after the resignation letter",
+      p3_desc:"The average retail turnover cost is $2,500–$7,000 per employee. Most exits are predictable weeks in advance — but the signals are invisible without a model.",
+      s3_label:"Solution — Retention Optimizer", s3_title:"LightGBM Early Warning System with 10 behavioral features",
+      s3_desc:"Shortage stress, shift mismatch, overtime accumulation, seasonal churn factors, and engagement trends combine into a per-employee churn probability. Keyman flags trigger instant intervention prompts.",
+      p4_label:"Problem 04", p4_title:"Training plans live in someone's head — or a forgotten spreadsheet",
+      p4_desc:"OJT scheduling is managed informally. Trainers are overloaded, trainees are mis-paired, and no one knows when skill coverage will actually improve.",
+      s4_label:"Solution — Training Planner", s4_title:"Auto-generated OJT roadmaps with capacity analysis",
+      s4_desc:"Optimal trainer/trainee pairing, shift-aware scheduling (trainees counted as 'off-strength'), capacity analysis that solves the chicken-and-egg dilemma, and export to Shift Optimizer for immediate integration.",
+      arch_label:"Architecture", arch_title:"How the four engines share a single truth",
+      arch_desc:"A shared SSOT layer (master_employees.csv + model_parameters.json) feeds all four apps. Simulation results flow forward; the dashboard aggregates everything.",
+      arch_ssot:"SSOT — Shared Data Layer", arch_dashboard:"Control Tower Dashboard", arch_tabs:"Executive · HR · Ops · ROI · Library",
+      dash_label:"Dashboard", dash_title:"Six-tab Control Tower for every stakeholder",
+      dash_desc:"A single Streamlit portal routes executives, HR managers, and ops managers to exactly the data they need — from P&L impact to individual churn risk to OJT schedules.",
+      tab1_audience:"C-Suite / Owners", tab1_title:"Executive Dashboard",
+      tab1_desc:"OHI, EVP, labor cost ratio, and 30-day operation risk in four Big Number cards. KPI root-cause chart links coverage and churn to P&L. Auto-generated action items require zero analysis.",
+      tab1_result:"OHI · EVP · Labor Cost · Op Risk",
+      tab2_audience:"HR Managers", tab2_title:"HR Manager Dashboard",
+      tab2_desc:"High flight risk count, 30-day skill gap probability, talent vulnerability matrix, overtime stress trends, seasonal staffing calendar, and AI prescriptive actions — all in one scrollable view.",
+      tab2_result:"Early Warning · Talent Matrix · AI Actions",
+      tab3_audience:"Operations Managers", tab3_title:"Ops Manager Dashboard",
+      tab3_desc:"This week's shift health, coverage by skill and shift band, staff satisfaction ranking, emergency response panel, hiring/training needs, shift stress analysis, and individual vulnerability matrix.",
+      tab3_result:"Shift Health · Stress Analysis · Hiring Needs",
+      tab4_audience:"Sales / Prospective Clients", tab4_title:"ROI & Sales Dashboard",
+      tab4_desc:"Live ROI calculator with slider inputs for wage, headcount, turnover rate, and revenue. Waterfall chart breaks down savings by app. Cumulative payback curve. Before/after comparison table. Industry benchmark.",
+      tab4_result:"ROI Calculator · Payback Curve · Benchmarks",
+      tab5_audience:"All Stakeholders", tab5_title:"Use Cases & Possibilities",
+      tab5_desc:"Audience-specific scenario playbooks (Executive / HR / Ops), a 3-phase extension roadmap, industry application scenarios (retail, F&B, healthcare, logistics), and data integration possibilities.",
+      tab5_result:"Scenarios · Roadmap · Industry Fit",
+      tab6_audience:"Data Engineers / Analysts", tab6_title:"Metric Library",
+      tab6_desc:"20+ unused metrics organized by category: Shift, Coverage, Talent, Training, Financial. Each card shows a live mini-chart (real data if simulated, sample otherwise) with the calculation logic explained.",
+      tab6_result:"20+ Metrics · 5 Categories · Live Preview",
+      metrics_label:"By the Numbers", metrics_title:"What this suite delivers",
+      m1:"Shift planning\ntime reduction", m2:"Avg shift coverage\nimprovement",
+      m3:"High-risk turnover\nreduction", m4:"Estimated ROI\non system cost",
+      apps_label:"The Four Engines", apps_title:"Each app solves one problem. Together they solve the whole.",
+      so_engine:"CP-SAT Constraint Programming",
+      so_desc:"Replaces 8 hours of weekly manual scheduling with a mathematically proven optimal shift in under 15 seconds. Hard constraints guarantee labor law compliance; soft constraints maximize fairness and preference matching. Training plan pairs are embedded as co-scheduling constraints.",
+      so_o1:"651 binary variables solved simultaneously", so_o2:"2-stage objective: compliance before cost",
+      so_o3:"Shift stress analysis per employee", so_o4:"Substitute suggestion for absences",
+      wp_engine:"Monte Carlo Simulation",
+      wp_desc:"Runs 10,000 roster simulations per skill × shift combination to forecast Advanced and Basic coverage rates 12 months ahead. Absence rates, seasonal demand multipliers, and skill distribution are all modelled probabilistically. Outputs hit-rate heatmaps, skill gap alerts, and hire/train recommendations.",
+      wp_o1:"12-month skill coverage forecast", wp_o2:"Seasonal risk calendar",
+      wp_o3:"Individual resilience scoring", wp_o4:"Auto-generated hire/train action plan",
+      ro_engine:"LightGBM + Rule-Based Ensemble",
+      ro_desc:"Predicts individual churn probability using 10 behavioral and operational features: shortage stress, shift mismatch trends, overtime accumulation (ratio, stress score, chronic flag), seasonal churn factors, and engagement trajectory. An Early Warning System flags high-risk keymen before they resign.",
+      ro_o1:"Per-employee churn probability (0–1)", ro_o2:"10-feature LightGBM model",
+      ro_o3:"Hiring cost simulation across scenarios", ro_o4:"Cost vs. risk tradeoff analysis",
+      tp_engine:"OJT Scheduling + Capacity Analysis",
+      tp_desc:"Auto-generates OJT roadmaps from WP recommendations. Solves the chicken-and-egg dilemma (not enough trainers to train trainers) with 4-tier capacity analysis. Pairs trainees with optimal trainers, embeds them into the shift optimizer, and exports to JSON for SO integration.",
+      tp_o1:"Auto training plan from WP recommendations", tp_o2:"Training capacity heatmap per skill",
+      tp_o3:"Trainer/trainee pair optimization", tp_o4:"Shift-aware scheduling (off-strength aware)",
+      tech_label:"Technical Stack", tech_title:"Production-grade tools, not tutorial libraries",
+      tech1_label:"Optimization Engine", tech1_desc:"Used internally at Google for vehicle routing, scheduling, and bin-packing. Applied here to prove the optimal weekly shift assignment across 31+ employees with competing hard and soft constraints — returning a mathematically certified result, not a heuristic approximation.",
+      tech2_label:"Probabilistic Simulation", tech2_desc:"10,000 roster draws per skill × shift band, modelling stochastic absence, seasonal demand, and skill distribution. Outputs hit-rate distributions (not point estimates) that quantify the probability of skill shortfall — enabling decisions under uncertainty.",
+      tech3_label:"Machine Learning", tech3_desc:"Gradient-boosted decision trees trained on 300-employee synthetic histories with realistic behavioral patterns: overtime accumulation, shift mismatch trends, seasonal churn multipliers, and chronic stress flags. Ensemble with rule-based fallback ensures graceful degradation.",
+      tech4_label:"Integration Architecture", tech4_desc:"A shared data_client.py module manages a single source of truth for employee master data, model parameters, and simulation results. session_state passes SO schedules into stress calculations, stress into churn features, and training plans back into shift optimization — forming a closed feedback loop.",
+      stack_label:"Full Stack",
+      why_label:"Why It Matters", why_title:"What this project demonstrates",
+      w1_title:"System Design at Scale", w1_desc:"Four independent applications sharing a single data contract, passing structured results through session_state without tight coupling. Adding a fifth app requires zero changes to existing code.",
+      w2_title:"Applied Operations Research", w2_desc:"Constraint programming, stochastic simulation, and gradient boosting — each chosen for what it's mathematically optimal at, not for familiarity. This is the selection process of a practitioner, not a tutorial follower.",
+      w3_title:"Domain Knowledge Embedded", w3_desc:"7+ years of retail management experience encoded as constraints: evening intervals, skill depth requirements, trainer capacity dilemmas, seasonal churn patterns. The models reflect operational reality, not textbook examples.",
+      w4_title:"Stakeholder-Driven UX", w4_desc:"Six dashboard tabs tailored to six audiences — each showing exactly the metrics they care about, at exactly the granularity they can act on. Product thinking applied to data presentation.",
+      cta_label:"Try It", cta_title:"See all four engines in action",
+      cta_desc:"The full suite is live. Run a global simulation from the sidebar, explore each app, and check the Control Tower dashboard — Executive, HR, Ops, ROI, and Metric Library tabs all update from the same simulation run.",
+      cta_btn1:"Open Live Suite", cta_btn2:"← Back to Portfolio",
+      link_demo:"Live Demo", link_how:"How It Works",
+      footer:"© 2026 Manami Oyama · Built with HTML, CSS & JavaScript",
+    },
+    ja: {
+      nav_overview:"概要", nav_dashboard:"ダッシュボード", nav_apps:"アプリ", nav_tech:"技術", nav_back:"← ポートフォリオ",
+      hero_eyebrow:"統合HR インテリジェンス スイート",
+      hero_tagline:"シフト最適化・人員計画・人材定着・育成管理の4つのAIエンジンを、単一のControl Towerダッシュボードに統合。小売業のHR業務向けに設計。",
+      meta_apps:"4つの統合アプリ", meta_tech:"OR-Tools · LightGBM · モンテカルロ", meta_stack:"Python · Streamlit · Plotly",
+      cta_demo:"ライブデモ", cta_apps:"アプリを見る",
+      one_liner:"4つのAIエンジンが連携して動作します。モンテカルロシミュレーションがスキルギャップを検出し、LightGBMが次の退職者を予測し、CP-SATが最適シフトを証明し、育成プランナーがギャップを埋める。その全てをControl Towerダッシュボードで一元管理。",
+      prob_label:"課題 → 解決策", prob_title:"4つの小売HR課題に対する、ひとつの統合的な答え。",
+      prob_desc:"各アプリは小売業の人員管理における特定の課題を解決し、単一の情報源（SSOT）を共有します。",
+      p1_label:"課題 01", p1_title:"手作業のシフト作成に週8時間以上かかる",
+      p1_desc:"スプレッドシートによるスケジューリングは、スキル深度・公平性・労働法規の制約を同時に考慮できません。結果として、過剰な高スキル配置と需要の高い時間帯の人員不足が並存します。",
+      s1_label:"解決策 — シフトオプティマイザー", s1_title:"OR-Tools CP-SATが15秒以内に最適シフトを数学的証明",
+      s1_desc:"651個のバイナリ変数を同時に最適化。ハード制約が労働法と人員要件を保証し、ソフト制約が公平性と希望を最大化。2段階目的関数により遵守がコスト削減より常に優先。育成ペアがシフト制約として組み込まれます。",
+      p2_label:"課題 02", p2_title:"スキルギャップはホリデー危機が来るまで見えない",
+      p2_desc:"マネージャーは人員不足が現実になるまで、翌月の需要をカバーできるかどうかわかりません。事後対応型の採用は遅くてコストがかかります。",
+      s2_label:"解決策 — ワークフォースプランナー", s2_title:"モンテカルロシミュレーションで12ヶ月先の充足率を予測",
+      s2_desc:"スキル×シフト帯ごとに10,000回のロスターシミュレーションを実行。欠勤率・季節需要・スキル分布を確率的にモデル化。ヒット率と充足率の指標が、ギャップが生じる前のプロアクティブな採用・育成判断を導きます。",
+      p3_label:"課題 03", p3_title:"退職は辞表が出て初めて気づく",
+      p3_desc:"小売業従業員1名の離職コストは平均$2,500〜$7,000。ほとんどの退職は数週間前から予測可能ですが、モデルなしにはそのシグナルは見えません。",
+      s3_label:"解決策 — リテンションオプティマイザー", s3_title:"10の行動特徴量を持つLightGBM Early Warning System",
+      s3_desc:"人手不足ストレス・シフト不一致トレンド・残業累積（比率・ストレススコア・慢性フラグ）・季節離職係数・エンゲージメントの推移が組み合わさり、従業員ごとの離職確率を計算。キーマンフラグが即座に介入アクションを促します。",
+      p4_label:"課題 04", p4_title:"育成計画は誰かの頭の中か、忘れられたスプレッドシートにある",
+      p4_desc:"OJTスケジューリングは非公式に管理されています。トレーナーは過負荷で、Traineeは不適切なペアリングで、スキル充足率がいつ改善されるか誰もわかりません。",
+      s4_label:"解決策 — トレーニングプランナー", s4_title:"キャパシティ分析付きのOJTロードマップ自動生成",
+      s4_desc:"最適なトレーナー/Traineeペアリング、シフト連携スケジューリング（Traineeは「戦力外」として計上）、鶏と卵のジレンマを解消する4段階キャパシティ分析、シフトオプティマイザーへのJSON出力。",
+      arch_label:"アーキテクチャ", arch_title:"4つのエンジンが単一の情報源を共有する仕組み",
+      arch_desc:"共有SSOTレイヤー（master_employees.csv + model_parameters.json）が全4アプリに供給。シミュレーション結果が前方に流れ、ダッシュボードが全てを集約します。",
+      arch_ssot:"SSOT — 共有データレイヤー", arch_dashboard:"Control Tower ダッシュボード", arch_tabs:"経営陣 · HR · Ops · ROI · ライブラリ",
+      dash_label:"ダッシュボード", dash_title:"あらゆるステークホルダーのための6タブ Control Tower",
+      dash_desc:"単一のStreamlitポータルが、経営陣・HRマネージャー・現場マネージャーを必要なデータへ誘導。P&L影響から個人離職リスク、OJTスケジュールまでを一元管理。",
+      tab1_audience:"経営陣 / オーナー", tab1_title:"経営陣向けダッシュボード",
+      tab1_desc:"OHI・EVP・人件費率・30日事業継続リスクを4つのBig Numberカードで表示。KPI因果分析グラフが充足率と離職率をP&Lに連結。経営判断アクションはゼロ分析で即確認。",
+      tab1_result:"OHI · EVP · 人件費率 · 翌月リスク",
+      tab2_audience:"HRマネージャー", tab2_title:"HRマネージャー向けダッシュボード",
+      tab2_desc:"高離職リスク者数・30日重要スキル欠員確率・タレント脆弱性マトリクス・残業ストレストレンド・季節スタッフィングカレンダー・AI処方アクションをスクロール一覧で表示。",
+      tab2_result:"Early Warning · タレントマトリクス · AIアクション",
+      tab3_audience:"現場マネージャー", tab3_title:"現場マネージャー向けダッシュボード",
+      tab3_desc:"今週のシフト健全性・スキル×シフト帯別充足率・スタッフ満足度ランキング・緊急対応パネル・採用/育成ニーズ・シフトストレス分析・個人脆弱性マトリクスを統合表示。",
+      tab3_result:"シフト健全性 · ストレス分析 · 採用ニーズ",
+      tab4_audience:"営業 / 見込み顧客", tab4_title:"ROI & セールスダッシュボード",
+      tab4_desc:"時給・従業員数・離職率・売上を入力するライブROI計算機。アプリ別節約額のウォーターフォールチャート。累積投資回収カーブ。導入前後比較テーブル。業界ベンチマーク。",
+      tab4_result:"ROI計算機 · 回収カーブ · ベンチマーク",
+      tab5_audience:"全ステークホルダー", tab5_title:"活用事例 & 可能性",
+      tab5_desc:"対象者別シナリオプレイブック（経営陣/HR/Ops）、3フェーズ拡張ロードマップ、業界別適用シナリオ（小売・飲食・医療・物流）、データ連携可能性を掲載。",
+      tab5_result:"シナリオ · ロードマップ · 業界別適用",
+      tab6_audience:"データエンジニア / アナリスト", tab6_title:"指標ライブラリ",
+      tab6_desc:"シフト・充足率・タレント・育成・財務の5カテゴリで整理された20以上の未使用指標。シミュレーション実行済みなら実データ、未実行ならサンプルデータでミニチャートを表示。計算ロジックも解説。",
+      tab6_result:"20以上の指標 · 5カテゴリ · ライブプレビュー",
+      metrics_label:"数字で見る", metrics_title:"このSuiteが実現すること",
+      m1:"シフト作成工数\n削減率", m2:"シフト充足率\n平均改善幅",
+      m3:"高リスク者の\n離職削減率", m4:"システムコストに対する\n推定ROI",
+      apps_label:"4つのエンジン", apps_title:"各アプリがひとつの課題を解決する。合わさって全体を解決する。",
+      so_engine:"CP-SAT 制約プログラミング",
+      so_desc:"週8時間以上の手作業シフト作成を、15秒以内の数学的証明による最適シフトに置き換えます。ハード制約が労働法遵守を保証し、ソフト制約が公平性と希望一致を最大化。育成プランのペアがシフト制約として組み込まれます。",
+      so_o1:"651個のバイナリ変数を同時最適化", so_o2:"2段階目的関数：遵守 → コスト最適化",
+      so_o3:"従業員別シフトストレス分析", so_o4:"急な欠勤への代替候補サジェスト",
+      wp_engine:"モンテカルロシミュレーション",
+      wp_desc:"スキル×シフト帯ごとに10,000回のロスターシミュレーションを実行し、12ヶ月先のAdvanced・Basic充足率を予測。欠勤率・季節需要乗数・スキル分布を全て確率的にモデル化。ヒット率ヒートマップ・スキルギャップアラート・採用/育成推奨を出力。",
+      wp_o1:"12ヶ月先のスキル充足率予測", wp_o2:"季節スタッフィングリスクカレンダー",
+      wp_o3:"個人レジリエンス スコアリング", wp_o4:"採用・育成アクションプランの自動生成",
+      ro_engine:"LightGBM + ルールベース アンサンブル",
+      ro_desc:"人手不足ストレス・シフト不一致トレンド・残業累積（比率・ストレススコア・慢性フラグ）・季節離職係数・エンゲージメント推移の10特徴量で個人の離職確率を予測。Early Warning Systemが退職前の高リスクキーマンをフラグ。",
+      ro_o1:"従業員別離職確率（0〜1）", ro_o2:"10特徴量LightGBMモデル",
+      ro_o3:"複数シナリオでの採用コストシミュレーション", ro_o4:"コスト vs. リスクのトレードオフ分析",
+      tp_engine:"OJTスケジューリング + キャパシティ分析",
+      tp_desc:"WP推奨から自動でOJTロードマップを生成。「トレーナーを育てるトレーナーがいない」鶏と卵のジレンマを4段階キャパシティ分析で解消。Traineeを最適Trainerとペアリングし、シフトオプティマイザーに組み込みJSON出力。",
+      tp_o1:"WP推奨からの自動育成プラン生成", tp_o2:"スキル別育成キャパシティヒートマップ",
+      tp_o3:"Trainer/Traineeペア最適化", tp_o4:"シフト連携スケジューリング（戦力外考慮）",
+      tech_label:"技術スタック", tech_title:"チュートリアルライブラリではなく、本番グレードのツール",
+      tech1_label:"最適化エンジン", tech1_desc:"Google社内でも使用されるOR-Tools CP-SAT。31名以上の従業員に対する競合するハード・ソフト制約を持つ週次シフト最適割当を数学的に証明 — ヒューリスティックな近似ではなく、数学的に保証された結果を返します。",
+      tech2_label:"確率シミュレーション", tech2_desc:"スキル×シフト帯ごとに10,000回のロスター抽出。確率的欠勤・季節需要・スキル分布をモデル化。点推定ではなくヒット率分布を出力し、不確実性下での意思決定を可能にします。",
+      tech3_label:"機械学習", tech3_desc:"残業累積・シフト不一致トレンド・季節離職乗数・慢性ストレスフラグなどのリアルな行動パターンを持つ300名分の合成履歴データで学習した勾配ブースティング決定木。ルールベースのフォールバックでグレースフルデグレードを保証。",
+      tech4_label:"統合アーキテクチャ", tech4_desc:"共有data_client.pyモジュールが従業員マスタ・モデルパラメータ・シミュレーション結果の単一情報源を管理。session_stateがSOスケジュールをストレス計算へ、ストレスを離職特徴量へ、育成プランをシフト最適化に戻すことで閉じたフィードバックループを形成。",
+      stack_label:"フルスタック",
+      why_label:"なぜ重要か", why_title:"このプロジェクトが示すもの",
+      w1_title:"スケーラブルなシステム設計", w1_desc:"単一のデータ契約を共有する4つの独立したアプリケーション。session_stateで密結合なしに結果を受け渡し。5つ目のアプリを追加しても既存コードの変更はゼロ。",
+      w2_title:"応用オペレーションズリサーチ", w2_desc:"制約プログラミング・確率シミュレーション・勾配ブースティング——それぞれが数学的に最適な用途のために選択。これは実践者の選択プロセスであり、チュートリアルの踏襲ではありません。",
+      w3_title:"ドメイン知識の埋め込み", w3_desc:"7年以上の小売管理経験を制約として符号化：夕勤インターバル・スキル深度要件・トレーナーキャパシティのジレンマ・季節離職パターン。モデルは教科書の例題ではなく、実際の業務現実を反映しています。",
+      w4_title:"ステークホルダー主導のUX", w4_desc:"6種類のオーディエンス向けに調整された6つのダッシュボードタブ——それぞれが必要なメトリクスを必要な粒度で表示。データプレゼンテーションへのプロダクト思考の適用。",
+      cta_label:"試してみる", cta_title:"4つのエンジンが実際に動く様子を確認する",
+      cta_desc:"スイート全体が稼働中です。サイドバーから一括シミュレーションを実行し、各アプリを探索して、Control Towerダッシュボードを確認してください。経営陣・HR・Ops・ROI・指標ライブラリの全タブが同一のシミュレーション実行から更新されます。",
+      cta_btn1:"ライブスイートを開く", cta_btn2:"← ポートフォリオに戻る",
+      link_demo:"ライブデモ", link_how:"仕組みを見る",
+      footer:"© 2026 Manami Oyama · HTML、CSS、JavaScriptで構築",
+    }
+  };
+  </script>
+  <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>How It Works — Retention Optimizer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&family=Noto+Serif+JP:wght@300;400&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/style.css"/>
+  <style>
+    :root{--bg:#f4f6f3;--accent:#e67e22;--accent2:#f5cba7;--accent3:#fef9f0;--border:#f0d9bc;}
+    .constraint-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:20px;}
+    @media(max-width:700px){.constraint-grid{grid-template-columns:1fr;}}
+    .constraint-card{border:1px solid var(--border);border-radius:10px;padding:16px 18px;background:white;}
+    .badge{font-size:10px;font-weight:700;letter-spacing:.08em;padding:2px 8px;border-radius:12px;display:inline-block;margin-bottom:8px;}
+    .feature-badge{background:var(--accent3);color:var(--accent);}
+    .new-badge{background:#fdecea;color:#c0392b;}
+    .formula-box{background:#1a1a1a;color:#f5cba7;border-radius:8px;padding:16px 20px;font-family:'Courier New',monospace;font-size:13px;line-height:1.7;margin:16px 0;}
+    .skill-table{width:100%;border-collapse:collapse;font-size:13px;margin:16px 0;}
+    .skill-table th{background:var(--accent3);padding:8px 12px;text-align:left;border:1px solid var(--border);font-weight:600;}
+    .skill-table td{padding:8px 12px;border:1px solid var(--border);vertical-align:top;}
+    .skill-table tr:nth-child(even) td{background:#fafaf8;}
+    .flow-steps{counter-reset:steps;list-style:none;padding:0;margin:24px 0 0;}
+    .flow-step{counter-increment:steps;display:flex;gap:18px;margin-bottom:20px;align-items:flex-start;}
+    .flow-step::before{content:counter(steps);min-width:32px;height:32px;border-radius:50%;background:var(--accent);color:white;font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;}
+    .flow-step h4{margin:0 0 4px;font-size:15px;} .flow-step p{margin:0;font-size:13px;color:#555;line-height:1.6;}
+    .result-section{border-left:3px solid var(--accent);padding:10px 16px;margin:10px 0;background:white;border-radius:0 8px 8px 0;}
+    .result-section h4{margin:0 0 4px;font-size:14px;} .result-section p{margin:0;font-size:13px;color:#555;}
+    .feature-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:20px 0;}
+    @media(max-width:700px){.feature-grid{grid-template-columns:1fr 1fr;}}
+    .feature-card{background:white;border:1px solid var(--border);border-radius:8px;padding:12px 14px;}
+    .feature-card .fc-num{font-family:'DM Serif Display',serif;font-size:1.3rem;color:var(--accent);line-height:1;margin-bottom:2px;}
+    .feature-card .fc-name{font-size:12px;font-weight:600;color:#333;margin-bottom:4px;}
+    .feature-card .fc-desc{font-size:11px;color:#777;line-height:1.5;}
+    .feature-card.new-feature{border-color:#f5cba7;background:#fef9f0;}
+  </style>
+</head>
+<body>
+<nav>
+  <div class="nav-inner">
+    <div class="nav-logo">Retention Optimizer</div>
+    <div class="nav-links">
+      <a href="hr-tech-suite-index.html" class="btn-back" data-i18n="nav_back">← Suite Overview</a>
+      <div class="lang-toggle">
+        <button class="lang-btn active" data-lang-btn="en">EN</button>
+        <button class="lang-btn" data-lang-btn="ja">JA</button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="container">
+    <p class="hero-eyebrow fade-up" data-i18n="hero_eyebrow">Technical Deep Dive</p>
+    <h1 class="hero-title fade-up" data-i18n="hero_title">How <em>Retention Optimizer</em> works</h1>
+    <p class="hero-desc fade-up" data-i18n="hero_desc">A churn prediction engine that combines LightGBM machine learning with HR domain rules — flagging high-risk employees weeks before they resign.</p>
+    <div class="one-liner fade-up"><p data-i18n="one_liner">Most HR tools notice turnover after the resignation letter arrives. This app uses 10 behavioral and operational features — including overtime accumulation, shift stress, and seasonal churn patterns — to predict <em>who will quit next</em> and trigger intervention before it's too late.</p></div>
+    <div class="btn-group fade-up" style="margin-bottom:20px">
+      <a href="#" target="_blank" class="btn btn-primary" data-i18n="hero_btn">↗ Open Live App</a>
+      <a href="https://github.com/mona2083" target="_blank" class="btn btn-outline">↗ GitHub</a>
+      <a href="hr-tech-suite-index.html" class="btn btn-outline" data-i18n="nav_back">← Suite Overview</a>
+    </div>
+  </div>
+</div>
+
+<section>
+  <div class="container">
+    <p class="section-label" data-i18n="model_label">The Model</p>
+    <h2 class="section-title" data-i18n="model_title">LightGBM + Rule-Based Ensemble</h2>
+    <p class="section-desc" data-i18n="model_desc">Two prediction paths run in parallel — the ML model for employees with sufficient data history, rule-based prediction as a robust fallback. The ensemble prevents overconfidence in either approach.</p>
+    <div class="tech-cards">
+      <div class="tech-card fade-up">
+        <div class="tech-label" data-i18n="lgb_label">Primary Model</div>
+        <div class="tech-title">LightGBM Gradient Boosting</div>
+        <p class="tech-desc" data-i18n="lgb_desc">Trained on 300-employee synthetic histories (24 weeks each) with realistic behavioral patterns — underworked vs. overworked vs. balanced archetypes, recent deterioration patterns, seasonal variation. Returns a probability between 0 and 1. Model is retrained on each simulation run to reflect the current team's characteristics.</p>
+      </div>
+      <div class="tech-card fade-up">
+        <div class="tech-label" data-i18n="rule_label">Fallback Model</div>
+        <div class="tech-title" data-i18n="rule_title">HR Domain Rule-Based Prediction</div>
+        <p class="tech-desc" data-i18n="rule_desc">Encodes 7+ years of retail management experience as explicit weights: shortage ratio × 0.8, surplus ratio × 1.0, mismatch rate × 1.5, seasonal factor × multiplier. Adjustable via custom weight sliders. Acts as both a fallback and an interpretability layer — managers can see exactly why the model gave a score.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="background:var(--accent3)">
+  <div class="container">
+    <p class="section-label" data-i18n="features_label">10 Predictive Features</p>
+    <h2 class="section-title" data-i18n="features_title">What drives churn prediction</h2>
+    <p class="section-desc" data-i18n="features_desc">7 original features + 3 new overtime features added by integrating Shift Optimizer stress analysis.</p>
+    <div class="feature-grid">
+      <div class="feature-card"><div class="fc-num">F1</div><div class="fc-name" data-i18n="f1_name">avg_shortage_ratio</div><div class="fc-desc" data-i18n="f1_desc">Average ratio of scheduled hours below requested hours. Underworked employees disengage.</div></div>
+      <div class="feature-card"><div class="fc-num">F2</div><div class="fc-name" data-i18n="f2_name">avg_surplus_ratio</div><div class="fc-desc" data-i18n="f2_desc">Average ratio of hours above requested. Chronic overwork drives burnout and exit.</div></div>
+      <div class="feature-card"><div class="fc-num">F3</div><div class="fc-name" data-i18n="f3_name">mismatch_rate</div><div class="fc-desc" data-i18n="f3_desc">Rate of weeks where shift preferences were not honored. FMI data: mismatch is a top-3 exit reason.</div></div>
+      <div class="feature-card"><div class="fc-num">F4</div><div class="fc-name" data-i18n="f4_name">trend_shortage</div><div class="fc-desc" data-i18n="f4_desc">Recent 4-week shortage ratio minus past 20-week average. Rising trend = accelerating disengagement.</div></div>
+      <div class="feature-card"><div class="fc-num">F5</div><div class="fc-name" data-i18n="f5_name">trend_surplus</div><div class="fc-desc" data-i18n="f5_desc">Recent vs. historical surplus ratio. Sudden overwork increase = burnout signal.</div></div>
+      <div class="feature-card"><div class="fc-num">F6</div><div class="fc-name" data-i18n="f6_name">trend_mismatch</div><div class="fc-desc" data-i18n="f6_desc">Recent vs. historical mismatch rate. Worsening shift alignment = rising exit intent.</div></div>
+      <div class="feature-card"><div class="fc-num">F7</div><div class="fc-name" data-i18n="f7_name">seasonal_churn_factor</div><div class="fc-desc" data-i18n="f7_desc">Employee-type × month coefficient. Students: 2.0× in May (graduation). Part-time housewives: 1.8× in July. Retail calendar-aware.</div></div>
+      <div class="feature-card new-feature"><div class="fc-num">F8</div><div class="fc-name" data-i18n="f8_name">overtime_ratio <span style="font-size:9px;color:#c0392b">NEW</span></div><div class="fc-desc" data-i18n="f8_desc">Overtime hours / total scheduled hours. FMI 2023: OT ratio &gt;10% = 1.4× churn risk. Sourced from SO stress analysis.</div></div>
+      <div class="feature-card new-feature"><div class="fc-num">F9</div><div class="fc-name" data-i18n="f9_name">overtime_stress_score <span style="font-size:9px;color:#c0392b">NEW</span></div><div class="fc-desc" data-i18n="f9_desc">Composite: OT ratio × 1.5 + surplus ratio × 0.8 + low engagement amplifier. 0–1 scale. Updated from SO's real schedule if available.</div></div>
+      <div class="feature-card new-feature"><div class="fc-num">F10</div><div class="fc-name" data-i18n="f10_name">chronic_ot_flag <span style="font-size:9px;color:#c0392b">NEW</span></div><div class="fc-desc" data-i18n="f10_desc">Binary: 1 if OT hours ≥ 20/month AND surplus_ratio &gt; 5%. Chronic overwork doubles exit probability within 6 months (FMI).</div></div>
+    </div>
+    <div class="formula-box">
+<span style="color:#d4a06e"># Rule-based prediction (interpretable layer):</span>
+chronic = (shortage_ratio × 0.8) + (surplus_ratio × 1.0) + (mismatch_rate × 1.5)
+acute   = (trend_shortage × 0.8 + trend_surplus × 1.0 + trend_mismatch × 1.5) × 2.0
+ot_risk = (overtime_ratio × 0.6) + (ot_stress × 0.3) + (chronic_ot × 0.1)
+<span style="color:#d4a06e"># Role multiplier: MG/ASM × 1.3, SL × 1.1</span>
+score   = 0.02 + (chronic + acute + ot_risk) × seasonal_factor
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <p class="section-label" data-i18n="stress_label">Overtime Integration</p>
+    <h2 class="section-title" data-i18n="stress_title">How Shift Optimizer feeds Retention</h2>
+    <p class="section-desc" data-i18n="stress_desc">The three overtime features (F8–F10) are calculated from two sources — the employee CSV baseline, and the live Shift Optimizer stress result when available.</p>
+    <ol class="flow-steps">
+      <li class="flow-step"><div><h4 data-i18n="st1_title">SO runs and calculates shift stress</h4><p data-i18n="st1_desc">calc_shift_stress() produces per-employee shortage_stress, preference_stress, and overtime_risk from the actual optimized schedule. This is stored in session_state['shift_stress_result'].</p></div></li>
+      <li class="flow-step"><div><h4 data-i18n="st2_title">RO reads the stress result</h4><p data-i18n="st2_desc">When get_retention_features() runs, it first calculates baseline OT metrics from the employee CSV (overtime_hours_last_month, engagement_score). Then it checks if a shift_stress_result exists.</p></div></li>
+      <li class="flow-step"><div><h4 data-i18n="st3_title">Live stress overwrites baseline where available</h4><p data-i18n="st3_desc">If the SO stress result contains a non-zero overtime_risk for an employee, it overwrites the baseline overtime_stress_score with the real value. This means RO reflects the actual schedule's impact — not just historical estimates.</p></div></li>
+      <li class="flow-step"><div><h4 data-i18n="st4_title">10-feature vector feeds LightGBM</h4><p data-i18n="st4_desc">The complete feature vector (F1–F10) is passed to the trained LightGBM model, returning a churn probability per employee. The rule-based model runs in parallel as both validation and fallback.</p></div></li>
+    </ol>
+  </div>
+</section>
+
+<section style="background:var(--accent3)">
+  <div class="container">
+    <p class="section-label" data-i18n="outputs_label">Outputs</p>
+    <h2 class="section-title" data-i18n="outputs_title">What the dashboard shows</h2>
+    <div class="result-section"><h4 data-i18n="res1_title">① Individual Churn Probability</h4><p data-i18n="res1_desc">Per-employee churn probability (0–1) ranked from highest to lowest. Color-coded: 🔴 ≥ 0.5 (high risk), 🟡 0.3–0.5 (medium), 🟢 &lt;0.3 (low). Keyman flag (⭐) applied where replaceability is low.</p></div>
+    <div class="result-section"><h4 data-i18n="res2_title">② Cost vs. Risk Tradeoff</h4><p data-i18n="res2_desc">Stacked bar chart: Hiring Cost + Turnover Cost + Uncovered Hours Penalty + Headcount Risk, for each possible number of new hires (0–N). Blue vertical line = AI-optimal hiring count. Red dotted = currently selected.</p></div>
+    <div class="result-section"><h4 data-i18n="res3_title">③ Custom Weight Sliders</h4><p data-i18n="res3_desc">Adjust shortage, surplus, mismatch weights and trend multiplier in real time. The rule-based score recalculates instantly — showing how different management philosophies change the risk ranking.</p></div>
+    <div class="result-section"><h4 data-i18n="res4_title">④ Talent Vulnerability Matrix (from WP)</h4><p data-i18n="res4_desc">Replaceability × Retention probability scatter plot. Upper-left = Danger Zone (low replaceability + low retention). Shows which employees are both irreplaceable and likely to leave — the highest-priority intervention targets.</p></div>
+    <div class="result-section"><h4 data-i18n="res5_title">⑤ → HR Manager Dashboard: AI Prescriptive Actions</h4><p data-i18n="res5_desc">High-churn + high-stress employees automatically generate 1-on-1 recommendations with specific causal factors (mismatch, OT overload, understaffing burden). Actionable at the individual level.</p></div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <p class="section-label" data-i18n="why_label">Why It Matters</p>
+    <h2 class="section-title" data-i18n="why_title">What this demonstrates</h2>
+    <div class="why-grid">
+      <div class="why-card fade-up"><div class="why-icon">🧠</div><div class="why-title" data-i18n="w1_title">ML for HR, Not Just Finance</div><p class="why-desc" data-i18n="w1_desc">LightGBM is typically applied to fraud detection or credit scoring. Applying gradient boosting to churn prediction with behavioral HR features demonstrates breadth of ML application thinking.</p></div>
+      <div class="why-card fade-up"><div class="why-icon">🔗</div><div class="why-title" data-i18n="w2_title">Real-Time Feature Engineering</div><p class="why-desc" data-i18n="w2_desc">F8–F10 are calculated from SO's live schedule output — not static CSV values. This cross-app feature injection demonstrates pipeline thinking: each app's output becomes another app's input.</p></div>
+      <div class="why-card fade-up"><div class="why-icon">🏢</div><div class="why-title" data-i18n="w3_title">Interpretable + Accurate</div><p class="why-desc" data-i18n="w3_desc">The rule-based fallback model makes every prediction explainable: "your score is 0.62 because surplus_ratio × 1.0 + mismatch × 1.5 = chronic risk of 0.48." This is what a manager can actually act on.</p></div>
+      <div class="why-card fade-up"><div class="why-icon">📊</div><div class="why-title" data-i18n="w4_title">FMI 2023 Benchmarks Embedded</div><p class="why-desc" data-i18n="w4_desc">Seasonal churn coefficients, overtime risk thresholds, and turnover cost estimates are sourced from FMI 2023 Food Retail industry data — not invented. The model is calibrated against real industry baselines.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section" style="background:#fff;">
+  <div class="container">
+    <div class="offer-box">
+      <p class="section-label" data-i18n="cta_label">Try It</p>
+      <h3 style="font-family:var(--serif);font-size:1.8rem;margin-bottom:16px;" data-i18n="cta_title">See who's at risk on your team</h3>
+      <p style="color:var(--muted);margin-bottom:32px;" data-i18n="cta_desc">Run the global simulation, then open Retention Optimizer. Try adjusting the custom weight sliders and watch how the risk ranking changes. Then check the HR Manager dashboard's AI Prescriptive Actions for specific intervention recommendations.</p>
+      <div class="btn-group">
+        <a href="#" target="_blank" class="btn btn-primary" data-i18n="cta_btn1">↗ Open Live App</a>
+        <a href="hr-tech-suite-index.html" class="btn btn-outline" data-i18n="cta_btn2">← Suite Overview</a>
+      </div>
+    </div>
+  </div>
+</section>
+<footer><div class="container"><p data-i18n="footer">© 2026 Manami Oyama · Built with HTML, CSS & JavaScript</p></div></footer>
+<script>
+const PAGE_TRANSLATIONS = {
+  en:{
+    nav_back:"← Suite Overview",
+    hero_eyebrow:"Technical Deep Dive", hero_title:"How Retention Optimizer works",
+    hero_desc:"A churn prediction engine combining LightGBM machine learning with HR domain rules — flagging high-risk employees weeks before they resign.",
+    hero_btn:"↗ Open Live App",
+    one_liner:"Most HR tools notice turnover after the resignation letter arrives. This app uses 10 behavioral and operational features — including overtime accumulation, shift stress, and seasonal churn patterns — to predict who will quit next and trigger intervention before it's too late.",
+    model_label:"The Model", model_title:"LightGBM + Rule-Based Ensemble",
+    model_desc:"Two prediction paths run in parallel — ML model for employees with sufficient history, rule-based as a robust fallback.",
+    lgb_label:"Primary Model", lgb_desc:"Trained on 300-employee synthetic histories (24 weeks) with realistic patterns — underworked/overworked/balanced archetypes, recent deterioration, seasonal variation. Retrained each simulation run.",
+    rule_label:"Fallback Model", rule_title:"HR Domain Rule-Based Prediction",
+    rule_desc:"Encodes 7+ years of retail management experience as explicit weights: shortage × 0.8, surplus × 1.0, mismatch × 1.5, seasonal multiplier. Adjustable via sliders. Acts as both fallback and interpretability layer.",
+    features_label:"10 Predictive Features", features_title:"What drives churn prediction",
+    features_desc:"7 original features + 3 new overtime features added by integrating Shift Optimizer stress analysis.",
+    f1_name:"avg_shortage_ratio", f1_desc:"Average ratio of scheduled hours below requested. Underworked employees disengage.",
+    f2_name:"avg_surplus_ratio", f2_desc:"Average ratio of hours above requested. Chronic overwork drives burnout and exit.",
+    f3_name:"mismatch_rate", f3_desc:"Rate of weeks where shift preferences were not honored. FMI: mismatch is a top-3 exit reason.",
+    f4_name:"trend_shortage", f4_desc:"Recent 4-week shortage minus past 20-week average. Rising trend = accelerating disengagement.",
+    f5_name:"trend_surplus", f5_desc:"Recent vs. historical surplus. Sudden overwork increase = burnout signal.",
+    f6_name:"trend_mismatch", f6_desc:"Recent vs. historical mismatch. Worsening alignment = rising exit intent.",
+    f7_name:"seasonal_churn_factor", f7_desc:"Employee-type × month coefficient. Students: 2.0× in May. Part-time housewives: 1.8× in July. Retail calendar-aware.",
+    f8_name:"overtime_ratio (NEW)", f8_desc:"Overtime hours / total scheduled hours. FMI 2023: OT ratio >10% = 1.4× churn risk. Sourced from SO stress analysis.",
+    f9_name:"overtime_stress_score (NEW)", f9_desc:"Composite: OT ratio × 1.5 + surplus × 0.8 + low-engagement amplifier. Updated from SO's live stress result.",
+    f10_name:"chronic_ot_flag (NEW)", f10_desc:"Binary: 1 if OT hours ≥ 20/month AND surplus_ratio > 5%. Chronic overwork doubles exit probability (FMI).",
+    stress_label:"Overtime Integration", stress_title:"How Shift Optimizer feeds Retention",
+    stress_desc:"F8–F10 are calculated from two sources — the employee CSV baseline, and the live SO stress result when available.",
+    st1_title:"SO runs and calculates shift stress", st1_desc:"calc_shift_stress() produces per-employee shortage_stress, preference_stress, and overtime_risk. Stored in session_state['shift_stress_result'].",
+    st2_title:"RO reads the stress result", st2_desc:"get_retention_features() calculates baseline OT metrics from CSV first, then checks if shift_stress_result exists in session.",
+    st3_title:"Live stress overwrites baseline", st3_desc:"If SO stress result has non-zero overtime_risk for an employee, it overwrites the baseline overtime_stress_score. RO reflects the actual schedule's impact.",
+    st4_title:"10-feature vector feeds LightGBM", st4_desc:"Complete feature vector (F1–F10) passed to trained LightGBM, returning churn probability. Rule-based runs in parallel as validation and fallback.",
+    outputs_label:"Outputs", outputs_title:"What the dashboard shows",
+    res1_title:"① Individual Churn Probability", res1_desc:"Per-employee probability (0–1), ranked highest to lowest. 🔴 ≥0.5, 🟡 0.3–0.5, 🟢 <0.3. Keyman flag ⭐ where replaceability is low.",
+    res2_title:"② Cost vs. Risk Tradeoff", res2_desc:"Stacked bar for each possible hiring count (0–N): Hiring Cost + Turnover Cost + Uncovered Penalty + Headcount Risk. Blue line = AI-optimal hiring count.",
+    res3_title:"③ Custom Weight Sliders", res3_desc:"Adjust shortage, surplus, mismatch weights and trend multiplier. Rule-based score recalculates instantly — showing how management philosophies change risk ranking.",
+    res4_title:"④ Talent Vulnerability Matrix", res4_desc:"Replaceability × Retention probability scatter. Upper-left Danger Zone = irreplaceable AND likely to leave = highest intervention priority.",
+    res5_title:"⑤ → HR Manager: AI Prescriptive Actions", res5_desc:"High-churn + high-stress employees auto-generate 1-on-1 recommendations with specific causal factors. Actionable at the individual level.",
+    why_label:"Why It Matters", why_title:"What this demonstrates",
+    w1_title:"ML for HR, Not Just Finance", w1_desc:"LightGBM is typically applied to fraud detection or credit scoring. Applying it to HR churn prediction demonstrates breadth of ML application thinking.",
+    w2_title:"Real-Time Feature Engineering", w2_desc:"F8–F10 are calculated from SO's live schedule output — not static CSV. Cross-app feature injection demonstrates pipeline thinking.",
+    w3_title:"Interpretable + Accurate", w3_desc:"The rule-based fallback makes every prediction explainable: 'your score is 0.62 because surplus × 1.0 + mismatch × 1.5 = chronic 0.48.' Actionable for managers.",
+    w4_title:"FMI 2023 Benchmarks Embedded", w4_desc:"Seasonal churn coefficients, OT risk thresholds, and turnover cost estimates sourced from FMI 2023 Food Retail data. Calibrated against real industry baselines.",
+    cta_label:"Try It", cta_title:"See who's at risk on your team",
+    cta_desc:"Run the global simulation, open Retention Optimizer. Adjust custom weight sliders and watch risk ranking change. Check HR Manager's AI Prescriptive Actions for specific recommendations.",
+    cta_btn1:"↗ Open Live App", cta_btn2:"← Suite Overview",
+    footer:"© 2026 Manami Oyama · Built with HTML, CSS & JavaScript"
+  },
+  ja:{
+    nav_back:"← スイート概要",
+    hero_eyebrow:"技術解説", hero_title:"リテンションオプティマイザーの仕組み",
+    hero_desc:"LightGBM機械学習とHRドメインルールを組み合わせた離職予測エンジン——退職の数週間前に高リスク従業員を特定します。",
+    hero_btn:"↗ ライブアプリを開く",
+    one_liner:"ほとんどのHRツールは辞表が届いて初めて離職を認識します。このアプリは残業累積・シフトストレス・季節離職パターンを含む10の行動・運営特徴量を使い——誰が次に辞めるかを予測し、手遅れになる前に介入を促します。",
+    model_label:"モデル構成", model_title:"LightGBM＋ルールベース アンサンブル",
+    model_desc:"2つの予測経路が並行稼働——MLモデルが十分なデータ履歴を持つ従業員に、ルールベースが堅牢なフォールバックとして機能。",
+    lgb_label:"プライマリモデル", lgb_desc:"過不足・不一致の3タイプのアーキタイプ、最近の悪化パターン、季節変動を含む300名分の合成履歴（各24週）で学習。シミュレーション実行ごとに再学習。",
+    rule_label:"フォールバックモデル", rule_title:"HRドメイン ルールベース予測",
+    rule_desc:"7年以上の小売管理経験を明示的な重みとして符号化：不足率×0.8、余剰率×1.0、不一致率×1.5、季節係数×乗数。スライダーで調整可能。フォールバックと解釈可能性レイヤーの両方として機能。",
+    features_label:"10の予測特徴量", features_title:"何が離職予測を駆動するか",
+    features_desc:"7つの元特徴量＋シフトオプティマイザーのストレス分析統合による3つの新残業特徴量。",
+    f1_name:"avg_shortage_ratio", f1_desc:"希望時間を下回ったシフト時間の平均比率。不足状態の従業員はエンゲージメントが低下。",
+    f2_name:"avg_surplus_ratio", f2_desc:"希望時間を超過したシフト時間の平均比率。慢性的な超過勤務がバーンアウトを誘発。",
+    f3_name:"mismatch_rate", f3_desc:"シフト帯希望が守られなかった週の比率。FMIデータ：希望不一致は退職理由Top3。",
+    f4_name:"trend_shortage", f4_desc:"直近4週の不足率と過去20週の平均の差。上昇トレンド＝エンゲージメント低下の加速。",
+    f5_name:"trend_surplus", f5_desc:"直近vs過去の余剰率。急激な超過勤務増加＝バーンアウトシグナル。",
+    f6_name:"trend_mismatch", f6_desc:"直近vs過去の不一致率。シフト一致率の悪化＝退職意向の上昇。",
+    f7_name:"seasonal_churn_factor", f7_desc:"従業員タイプ×月の係数。学生：5月に2.0×（卒業）。主婦パート：7月に1.8×。小売カレンダー対応。",
+    f8_name:"overtime_ratio（新機能）", f8_desc:"残業時間/総予定勤務時間。FMI 2023：OT比率10%超＝離職リスク1.4倍。SOストレス分析から取得。",
+    f9_name:"overtime_stress_score（新機能）", f9_desc:"複合スコア：OT比率×1.5＋余剰率×0.8＋低エンゲージメント増幅。SOのリアルタイム結果で更新。",
+    f10_name:"chronic_ot_flag（新機能）", f10_desc:"バイナリ：月20時間以上OT かつ surplus_ratio>5%なら1。慢性残業は6ヶ月以内の退職確率を倍増（FMI）。",
+    stress_label:"残業統合", stress_title:"シフトオプティマイザーがROに供給する仕組み",
+    stress_desc:"F8〜F10は2つのソースから計算——従業員CSVのベースラインと、利用可能な場合はSOのリアルタイムストレス結果。",
+    st1_title:"SOがシフトストレスを計算・保存", st1_desc:"calc_shift_stress()が従業員別のshortage_stress・preference_stress・overtime_riskを生成。session_state['shift_stress_result']に保存。",
+    st2_title:"ROがストレス結果を読み込む", st2_desc:"get_retention_features()がまずCSVからベースラインOT指標を計算し、その後session内にshift_stress_resultが存在するか確認。",
+    st3_title:"リアルタイムストレスがベースラインを上書き", st3_desc:"SOのストレス結果に0以上のovertime_riskがあれば、ベースラインのovertime_stress_scoreを上書き。ROが実際のスケジュール影響を反映。",
+    st4_title:"10次元特徴ベクトルがLightGBMに入力", st4_desc:"完全な特徴ベクトル（F1〜F10）を学習済みLightGBMに渡し、離職確率を取得。ルールベースモデルが並行実行で検証とフォールバックを担当。",
+    outputs_label:"出力内容", outputs_title:"ダッシュボードが示すもの",
+    res1_title:"① 個人別離職確率", res1_desc:"従業員別の離職確率（0〜1）を高い順に表示。🔴≥0.5（高リスク）、🟡0.3〜0.5（中）、🟢<0.3（低）。代替困難者にキーマンフラグ⭐。",
+    res2_title:"② コスト vs リスク トレードオフ", res2_desc:"採用人数（0〜N）別の積み上げ棒：採用コスト＋離職コスト＋未充足ペナルティ＋頭数不足リスク。青ライン＝AI最適採用数。",
+    res3_title:"③ カスタム重みスライダー", res3_desc:"不足・余剰・不一致の重みとトレンド乗数をリアルタイム調整。ルールベーススコアが即座に再計算——経営哲学の違いがリスクランキングにどう影響するかを可視化。",
+    res4_title:"④ タレント脆弱性マトリクス（WPから）", res4_desc:"代替可能性×定着確率の散布図。左上Danger Zone＝代替困難かつ高離職リスク——最優先介入対象。",
+    res5_title:"⑤ → HRマネージャー：AI処方アクション", res5_desc:"高離職リスク＋高ストレスの従業員が自動的に1on1推奨を生成。原因要因（不一致・残業超過・人手不足しわ寄せ）を明示して個人レベルで行動可能。",
+    why_label:"なぜ重要か", why_title:"このプロジェクトが示すもの",
+    w1_title:"HRへのML応用", w1_desc:"LightGBMは通常、不正検出や信用スコアリングに使われます。HRの離職予測に適用することでML応用の幅広さを示します。",
+    w2_title:"リアルタイム特徴量エンジニアリング", w2_desc:"F8〜F10はSOのリアルタイムスケジュール出力から計算——静的なCSVではない。クロスアプリの特徴量注入がパイプライン設計思考を示します。",
+    w3_title:"解釈可能かつ正確", w3_desc:"ルールベースのフォールバックが全予測を説明可能に：「スコアが0.62な理由は余剰率×1.0＋不一致率×1.5＝慢性リスク0.48だから」。マネージャーが実際に行動できる粒度。",
+    w4_title:"FMI 2023ベンチマークの組み込み", w4_desc:"季節離職係数・残業リスク閾値・離職コスト推定値はFMI 2023小売データから取得——発明ではなく実業界のベースラインに準拠。",
+    cta_label:"試してみる", cta_title:"チームの高リスク者を特定する",
+    cta_desc:"一括シミュレーションを実行し、リテンションオプティマイザーを開いてください。カスタム重みスライダーを調整してリスクランキングの変化を確認し、HRマネージャーダッシュボードのAI処方アクションで具体的な推奨を確認してください。",
+    cta_btn1:"↗ ライブアプリを開く", cta_btn2:"← スイート概要",
+    footer:"© 2026 Manami Oyama · HTML、CSS、JavaScriptで構築"
+  }
+};
+</script>
+<script src="js/main.js"></script>
+</body></html>

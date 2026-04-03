@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>How It Works — Training Planner</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&family=Noto+Serif+JP:wght@300;400&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    :root { --accent:#7c3aed; --accent2:#c4b5fd; --accent3:#f5f3ff; --border:#ddd6fe; }
+    .skill-table { width:100%; border-collapse:collapse; font-size:13px; margin:16px 0; }
+    .skill-table th { background:var(--accent3); padding:8px 12px; text-align:left; border:1px solid var(--border); font-weight:600; }
+    .skill-table td { padding:8px 12px; border:1px solid var(--border); vertical-align:top; }
+    .skill-table tr:nth-child(even) td { background:#fdfcff; }
+    .formula-box { background:#1a1a1a; color:#c4b5fd; border-radius:8px; padding:16px 20px; font-family:'Courier New',monospace; font-size:13px; line-height:1.7; margin:16px 0; }
+    .flow-steps { counter-reset:steps; list-style:none; padding:0; margin:24px 0 0; }
+    .flow-step { counter-increment:steps; display:flex; gap:18px; margin-bottom:20px; align-items:flex-start; }
+    .flow-step::before { content:counter(steps); min-width:32px; height:32px; border-radius:50%; background:var(--accent); color:white; font-size:14px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:2px; }
+    .flow-step h4 { margin:0 0 4px; font-size:15px; }
+    .flow-step p  { margin:0; font-size:13px; color:#555; line-height:1.6; }
+    .result-section { border-left:3px solid var(--accent); padding:10px 16px; margin:10px 0; background:white; border-radius:0 8px 8px 0; }
+    .result-section h4 { margin:0 0 4px; font-size:14px; }
+    .result-section p  { margin:0; font-size:13px; color:#555; }
+    .cap-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-top:16px; }
+    @media(max-width:700px){ .cap-grid{grid-template-columns:1fr 1fr;} }
+    .cap-card { background:white; border:1px solid var(--border); border-radius:10px; padding:14px; text-align:center; }
+    .cap-card .cap-icon { font-size:1.4rem; margin-bottom:4px; }
+    .cap-card .cap-label { font-size:0.65rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; margin-bottom:6px; }
+    .cap-card h4 { font-family:'DM Serif Display',serif; font-size:0.85rem; margin-bottom:4px; }
+    .cap-card p  { font-size:0.72rem; color:#555; line-height:1.5; margin:0; }
+    .cap-critical { border-top:3px solid #c0392b; } .cap-critical .cap-label { color:#c0392b; }
+    .cap-deficit  { border-top:3px solid #e67e22; } .cap-deficit .cap-label { color:#e67e22; }
+    .cap-marginal { border-top:3px solid #f39c12; } .cap-marginal .cap-label { color:#f39c12; }
+    .cap-ok       { border-top:3px solid #1a9850; } .cap-ok .cap-label { color:#1a9850; }
+    .phase-row { display:grid; grid-template-columns:120px 1fr 1fr; gap:16px; margin-bottom:12px; align-items:start; border-bottom:1px solid var(--border); padding-bottom:12px; }
+    .phase-row:last-child { border-bottom:none; }
+    .phase-label { font-size:0.7rem; font-weight:600; color:var(--accent); text-transform:uppercase; letter-spacing:.06em; }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="nav-inner">
+      <a href="how-it-works-hr-tech-suite.html" class="nav-logo" style="text-decoration:none;color:inherit;">Training Planner</a>
+      <div class="nav-links">
+        <a href="how-it-works-hr-tech-suite.html" class="btn-back" data-i18n="nav_suite">← HR Tech Suite</a>
+        <a href="index.html" class="btn-back" data-i18n="nav_back">← Portfolio</a>
+        <div class="lang-toggle">
+          <button class="lang-btn active" data-lang-btn="en">EN</button>
+          <button class="lang-btn" data-lang-btn="ja">JA</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="hero">
+    <div class="container">
+      <p class="hero-eyebrow fade-up" data-i18n="hero_eyebrow">Technical Deep Dive — App 04 / 04</p>
+      <h1 class="hero-title fade-up">How the <em>Training Planner</em> works</h1>
+      <p class="hero-desc fade-up" data-i18n="hero_desc">OJT scheduling with automatic roadmap generation, capacity analysis that solves the trainer-shortage dilemma, and seamless export to the Shift Optimizer.</p>
+      <div class="one-liner fade-up">
+        <p data-i18n="one_liner">Instead of tracking training in a spreadsheet no one updates, this app automatically generates OJT roadmaps from Workforce Planner recommendations, <em>solves the "no trainer to train trainers" dilemma</em>, and exports directly into the shift schedule.</p>
+      </div>
+      <div class="btn-group fade-up" style="margin-bottom:20px">
+        <a href="#" target="_blank" class="btn btn-primary" data-i18n="hero_btn">↗ Open Live App</a>
+        <a href="how-it-works-hr-tech-suite.html" class="btn btn-outline" data-i18n="nav_suite">← HR Tech Suite</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- OVERVIEW -->
+  <section>
+    <div class="container">
+      <p class="section-label" data-i18n="overview_label">Overview</p>
+      <h2 class="section-title" data-i18n="overview_title">What it schedules</h2>
+      <p class="section-desc" data-i18n="overview_desc">A 5-tab application that converts skill gap analysis into actionable OJT plans — with automatic pairing, capacity constraints, and shift integration.</p>
+      <table class="skill-table">
+        <thead><tr><th data-i18n="ov_col1">Aspect</th><th data-i18n="ov_col2">Detail</th></tr></thead>
+        <tbody>
+          <tr><td data-i18n="ov_r1a">Training types</td><td data-i18n="ov_r1b">Basic (none → basic, ~5 weeks) and Advanced (basic → advanced, ~20 weeks)</td></tr>
+          <tr><td data-i18n="ov_r2a">OJT phases</td><td data-i18n="ov_r2b">Basic: Phase 1 (2 weeks, both none-skill) → Phase 2 (both available). Advanced: Trainer=basic, Trainee=none throughout.</td></tr>
+          <tr><td data-i18n="ov_r3a">Pairing logic</td><td data-i18n="ov_r3b">Trainee: FT/PT priority (not MG/ASM). Trainer: Advanced holder — FT preferred for Basic training, SL preferred for Advanced.</td></tr>
+          <tr><td data-i18n="ov_r4a">Capacity check</td><td data-i18n="ov_r4b">4-tier analysis: Critical / Deficit / Marginal / OK — determines max simultaneous pairs safely</td></tr>
+          <tr><td data-i18n="ov_r5a">SO integration</td><td data-i18n="ov_r5b">JSON export consumed by Shift Optimizer — training pairs embedded as shift constraints</td></tr>
+          <tr><td data-i18n="ov_r6a">Schedule horizon</td><td data-i18n="ov_r6b">Up to 60 weeks. Auto-extends when WP generates a long-horizon plan.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- OJT PHASES -->
+  <section style="background:var(--accent3)">
+    <div class="container">
+      <p class="section-label" data-i18n="phase_label">OJT Phase Design</p>
+      <h2 class="section-title" data-i18n="phase_title">How training phases work</h2>
+      <p class="section-desc" data-i18n="phase_desc">Each training type has distinct phases that affect how the Trainer and Trainee count in shift coverage calculations. This is what makes the SO integration non-trivial.</p>
+
+      <div style="margin-top:20px;">
+        <div class="phase-row" style="border-bottom:2px solid var(--border);margin-bottom:16px;padding-bottom:16px;">
+          <div style="font-size:0.7rem;font-weight:600;color:#555;text-transform:uppercase;letter-spacing:.06em;">Training Type</div>
+          <div style="font-size:0.7rem;font-weight:600;color:#555;text-transform:uppercase;letter-spacing:.06em;">Trainer effective skill</div>
+          <div style="font-size:0.7rem;font-weight:600;color:#555;text-transform:uppercase;letter-spacing:.06em;">Trainee effective skill</div>
+        </div>
+        <div class="phase-row">
+          <div class="phase-label" data-i18n="pt_basic1">Basic — Phase 1 (2 weeks)</div>
+          <div style="font-size:0.82rem;color:#555;" data-i18n="pt_b1_trainer">none (full attention on teaching fundamentals)</div>
+          <div style="font-size:0.82rem;color:#555;" data-i18n="pt_b1_trainee">none (learning, not yet operational)</div>
+        </div>
+        <div class="phase-row">
+          <div class="phase-label" data-i18n="pt_basic2">Basic — Phase 2 (remaining weeks)</div>
+          <div style="font-size:0.82rem;color:#555;" data-i18n="pt_b2_trainer">basic (supervising while operational)</div>
+          <div style="font-size:0.82rem;color:#555;" data-i18n="pt_b2_trainee">none (still under supervision)</div>
+        </div>
+        <div class="phase-row">
+          <div class="phase-label" data-i18n="pt_adv">Advanced (all weeks)</div>
+          <div style="font-size:0.82rem;color:#555;" data-i18n="pt_a_trainer">basic (coaching while partially operational)</div>
+          <div style="font-size:0.82rem;color:#555;" data-i18n="pt_a_trainee">none (developing advanced skill)</div>
+        </div>
+      </div>
+      <div class="formula-box" style="margin-top:20px;">
+        Impact on shift coverage per active OJT pair:<br>
+        Basic Phase 1:  Trainer loses Basic skill (-1 effective)  | Trainee = none<br>
+        Basic Phase 2:  Trainer stays Basic                        | Trainee = none<br>
+        Advanced:       Trainer drops Advanced → Basic (-1 tier)   | Trainee = none<br><br>
+        → Each pair effectively reduces Advanced coverage count by 0.5–2 people
+      </div>
+    </div>
+  </section>
+
+  <!-- CAPACITY ANALYSIS -->
+  <section>
+    <div class="container">
+      <p class="section-label" data-i18n="cap_label">Capacity Analysis</p>
+      <h2 class="section-title" data-i18n="cap_title">Solving the trainer-shortage dilemma</h2>
+      <p class="section-desc" data-i18n="cap_desc">The classic chicken-and-egg problem: "we need more Advanced staff, but we don't have enough Advanced staff to train them." A 4-tier analysis resolves this by separating "safe to train" from "train + hire simultaneously."</p>
+      <div class="cap-grid">
+        <div class="cap-card cap-critical">
+          <div class="cap-icon">🔴</div>
+          <div class="cap-label" data-i18n="cap1_label">Critical</div>
+          <h4 data-i18n="cap1_title">Coverage &lt; 70%</h4>
+          <p data-i18n="cap1_desc">Hiring only. Starting any training now would push coverage into dangerous territory. The team is already too thin.</p>
+        </div>
+        <div class="cap-card cap-deficit">
+          <div class="cap-icon">🟠</div>
+          <div class="cap-label" data-i18n="cap2_label">Deficit</div>
+          <h4 data-i18n="cap2_title">Coverage 70–90%</h4>
+          <p data-i18n="cap2_desc">1 pair training + hire simultaneously. The chicken-and-egg resolution: start 1 pair to build future capacity while hiring to stabilize the present.</p>
+        </div>
+        <div class="cap-card cap-marginal">
+          <div class="cap-icon">🟡</div>
+          <div class="cap-label" data-i18n="cap3_label">Marginal</div>
+          <h4 data-i18n="cap3_title">Coverage 90–93%</h4>
+          <p data-i18n="cap3_desc">1 pair maximum. Just above the safety threshold. Training is feasible but the buffer is thin — a single absence could push coverage below target.</p>
+        </div>
+        <div class="cap-card cap-ok">
+          <div class="cap-icon">🟢</div>
+          <div class="cap-label" data-i18n="cap4_label">OK</div>
+          <h4 data-i18n="cap4_title">Coverage ≥ 93%</h4>
+          <p data-i18n="cap4_desc">N pairs simultaneous. Calculated as: floor(buffer / impact_per_pair). The team has enough slack to absorb the training overhead.</p>
+        </div>
+      </div>
+      <div class="formula-box" style="margin-top:20px;">
+        buffer = current_hit_rate − (target_coverage + safety_margin)  [default: 90% + 3%]<br>
+        impact_per_pair = attend_rate × (hit_rate / adv_avg) × advanced_reduction_per_pair<br>
+        max_pairs = floor(buffer / impact_per_pair)  [min 0, overridden by tier logic]
+      </div>
+    </div>
+  </section>
+
+  <!-- AUTO PLAN -->
+  <section style="background:var(--accent3)">
+    <div class="container">
+      <p class="section-label" data-i18n="auto_label">Auto Plan Generation</p>
+      <h2 class="section-title" data-i18n="auto_title">From WP recommendation to OJT roadmap</h2>
+      <p class="section-desc" data-i18n="auto_desc">One click generates the full training plan from Workforce Planner action items — no manual input required.</p>
+      <ol class="flow-steps">
+        <li class="flow-step"><div><h4 data-i18n="a1_title">Read WP action plan</h4><p data-i18n="a1_desc">The planner reads wp_export_raw from session_state. "Train" actions identify which skills need development. "Hire" actions create placeholder entries for new hires (Trainer=TBD).</p></div></li>
+        <li class="flow-step"><div><h4 data-i18n="a2_title">Select Trainee candidates</h4><p data-i18n="a2_desc">Candidates are filtered by: (1) current skill level matches the from-level for the training type, (2) not MG/ASM role (to preserve management capacity). Priority: FT/PT first, then SL.</p></div></li>
+        <li class="flow-step"><div><h4 data-i18n="a3_title">Select Trainer candidates</h4><p data-i18n="a3_desc">For Basic training: FT Advanced holders preferred (not MG/ASM). For Advanced training: SL with Advanced preferred, ASM as backup. Trainer must not be in another active training pair.</p></div></li>
+        <li class="flow-step"><div><h4 data-i18n="a4_title">Schedule sequentially</h4><p data-i18n="a4_desc">Plans are generated in serial — the next plan starts at ready_week + 1 of the previous plan. This prevents over-committing the same Trainer to multiple simultaneous sessions.</p></div></li>
+        <li class="flow-step"><div><h4 data-i18n="a5_title">Export to Shift Optimizer</h4><p data-i18n="a5_desc">The complete training plan is serialized to JSON and passed to the SO via session_state. The SO reads it and applies OJT skill adjustments and pair co-scheduling constraints automatically.</p></div></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- RESULTS -->
+  <section>
+    <div class="container">
+      <p class="section-label" data-i18n="results_label">5-Tab Interface</p>
+      <h2 class="section-title" data-i18n="results_title">What each tab provides</h2>
+      <div class="result-section"><h4 data-i18n="r1_title">① Training Plan Creation</h4><p data-i18n="r1_desc">Manual or auto-generated OJT plans. Each entry: Trainee, Trainer, skill, start week, estimated completion. Gantt chart visualization. Skill distribution table shows current state at a glance.</p></div>
+      <div class="result-section"><h4 data-i18n="r2_title">② Hiring Plan Creation</h4><p data-i18n="r2_desc">New hire entries with role, join week, skills to develop, and assigned OJT Trainer. The hire is counted as "none" in shift coverage until OJT completion week.</p></div>
+      <div class="result-section"><h4 data-i18n="r3_title">③ Progress &amp; Edit</h4><p data-i18n="r3_desc">Live tracking of each training item: remaining hours, completion percentage, current week vs. ready week. Mark items complete, adjust start weeks, or reassign Trainers.</p></div>
+      <div class="result-section"><h4 data-i18n="r4_title">④ Summary &amp; Export</h4><p data-i18n="r4_desc">Readiness calendar showing when each plan completes relative to seasonal peak deadlines (🟢 on time / 🟡 warning / 🔴 too late). JSON export button for Shift Optimizer integration.</p></div>
+      <div class="result-section"><h4 data-i18n="r5_title">⑤ Training Capacity Analysis</h4><p data-i18n="r5_desc">Heatmap: skill × pairs → coverage %. MC precision analysis: run precise simulation for specific skill. Recommended pairs table: Trainee + Trainer + recommended shift band + ✅/⚠️ status per coverage tier.</p></div>
+    </div>
+  </section>
+
+  <!-- WHY -->
+  <section style="background:var(--accent3)">
+    <div class="container">
+      <p class="section-label" data-i18n="why_label">Why It Matters</p>
+      <h2 class="section-title" data-i18n="why_title">What this demonstrates</h2>
+      <div class="why-grid">
+        <div class="why-card fade-up"><div class="why-icon">🐣</div><div class="why-title" data-i18n="w1_title">Solving a Real Dilemma</div><p class="why-desc" data-i18n="w1_desc">The trainer-shortage problem is a real operational challenge in retail. The 4-tier capacity model doesn't avoid it — it names it, quantifies it, and provides a concrete resolution path.</p></div>
+        <div class="why-card fade-up"><div class="why-icon">🔗</div><div class="why-title" data-i18n="w2_title">Bidirectional Integration</div><p class="why-desc" data-i18n="w2_desc">TP consumes WP output (action plan) and produces SO input (training plan JSON). It's both a consumer and a producer in the pipeline — the architectural link between planning and execution.</p></div>
+        <div class="why-card fade-up"><div class="why-icon">📐</div><div class="why-title" data-i18n="w3_title">OR Applied to People</div><p class="why-desc" data-i18n="w3_desc">The capacity analysis uses linear approximation of MC simulation results — applying Operations Research methods to a staffing problem that most managers handle informally and incorrectly.</p></div>
+        <div class="why-card fade-up"><div class="why-icon">📅</div><div class="why-title" data-i18n="w4_title">Time-Aware Scheduling</div><p class="why-desc" data-i18n="w4_desc">Training plans are scheduled relative to seasonal peak deadlines. The readiness calendar answers the real question: "Will we have enough Deli Advanced staff before the Holiday rush?"</p></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="cta-section">
+    <div class="container">
+      <p class="section-label" data-i18n="cta_label">Try It</p>
+      <h2 class="section-title" data-i18n="cta_title">See OJT planning in action</h2>
+      <p class="section-desc" style="margin:0 auto 28px" data-i18n="cta_desc">Run a global simulation, then open the Training Planner. Click "Auto-generate from WP" and watch the roadmap appear. Check the Capacity Analysis tab to see the heatmap.</p>
+      <div class="btn-group">
+        <a href="#" target="_blank" class="btn btn-primary" data-i18n="cta_btn1">↗ Open Live App</a>
+        <a href="how-it-works-hr-tech-suite.html" class="btn btn-outline" data-i18n="cta_btn2">← HR Tech Suite</a>
+      </div>
+    </div>
+  </div>
+  <footer><div class="container"><p>© 2026 Manami Oyama · Built with HTML, CSS & JavaScript</p></div></footer>
+
+  <script>
+  const PAGE_TRANSLATIONS = {
+    en: {
+      nav_suite:"← HR Tech Suite", nav_back:"← Portfolio", hero_btn:"↗ Open Live App",
+      hero_eyebrow:"Technical Deep Dive — App 04 / 04",
+      hero_desc:"OJT scheduling with automatic roadmap generation, capacity analysis that solves the trainer-shortage dilemma, and seamless export to the Shift Optimizer.",
+      one_liner:"Instead of tracking training in a spreadsheet no one updates, this app automatically generates OJT roadmaps from Workforce Planner recommendations, solves the 'no trainer to train trainers' dilemma, and exports directly into the shift schedule.",
+      overview_label:"Overview", overview_title:"What it schedules",
+      overview_desc:"A 5-tab application converting skill gap analysis into actionable OJT plans with automatic pairing, capacity constraints, and shift integration.",
+      ov_col1:"Aspect", ov_col2:"Detail",
+      ov_r1a:"Training types", ov_r1b:"Basic (none → basic, ~5 weeks) and Advanced (basic → advanced, ~20 weeks)",
+      ov_r2a:"OJT phases", ov_r2b:"Basic: Phase 1 (2 weeks, both none) → Phase 2. Advanced: Trainer=basic, Trainee=none throughout.",
+      ov_r3a:"Pairing logic", ov_r3b:"Trainee: FT/PT priority (not MG/ASM). Trainer: Advanced holder — FT for Basic, SL for Advanced.",
+      ov_r4a:"Capacity check", ov_r4b:"4-tier: Critical / Deficit / Marginal / OK — determines max simultaneous pairs",
+      ov_r5a:"SO integration", ov_r5b:"JSON export consumed by Shift Optimizer as training pair constraints",
+      ov_r6a:"Schedule horizon", ov_r6b:"Up to 60 weeks. Auto-extends when WP generates a long-horizon plan.",
+      phase_label:"OJT Phase Design", phase_title:"How training phases work",
+      phase_desc:"Each training type has distinct phases affecting how Trainer and Trainee count in shift coverage — making SO integration non-trivial.",
+      pt_basic1:"Basic — Phase 1 (2 weeks)", pt_b1_trainer:"none (full attention on fundamentals)", pt_b1_trainee:"none (learning, not yet operational)",
+      pt_basic2:"Basic — Phase 2 (remaining)", pt_b2_trainer:"basic (supervising while operational)", pt_b2_trainee:"none (still under supervision)",
+      pt_adv:"Advanced (all weeks)", pt_a_trainer:"basic (coaching while partially operational)", pt_a_trainee:"none (developing advanced skill)",
+      cap_label:"Capacity Analysis", cap_title:"Solving the trainer-shortage dilemma",
+      cap_desc:"The chicken-and-egg problem: 'we need more Advanced staff, but don't have enough to train them.' 4-tier analysis resolves this.",
+      cap1_label:"Critical", cap1_title:"Coverage < 70%", cap1_desc:"Hiring only. Training now would push coverage into dangerous territory. Team is too thin.",
+      cap2_label:"Deficit", cap2_title:"Coverage 70–90%", cap2_desc:"1 pair + hire simultaneously. The dilemma resolution: start 1 pair to build future capacity while hiring to stabilize the present.",
+      cap3_label:"Marginal", cap3_title:"Coverage 90–93%", cap3_desc:"1 pair maximum. Just above safety threshold. Training feasible but buffer is thin.",
+      cap4_label:"OK", cap4_title:"Coverage ≥ 93%", cap4_desc:"N pairs simultaneous: floor(buffer / impact_per_pair). Enough slack to absorb training overhead.",
+      auto_label:"Auto Plan Generation", auto_title:"From WP recommendation to OJT roadmap",
+      auto_desc:"One click generates the full training plan from Workforce Planner action items — no manual input required.",
+      a1_title:"Read WP action plan", a1_desc:"Reads wp_export_raw from session_state. 'Train' actions → OJT entries. 'Hire' actions → placeholder entries with Trainer=TBD.",
+      a2_title:"Select Trainee candidates", a2_desc:"Filter by: skill level matches from-level, not MG/ASM role. Priority: FT/PT first, then SL.",
+      a3_title:"Select Trainer candidates", a3_desc:"Basic: FT Advanced preferred (not MG/ASM). Advanced: SL preferred, ASM backup. Trainer must not be in another active pair.",
+      a4_title:"Schedule sequentially", a4_desc:"Plans generated serially — next starts at previous ready_week + 1. Prevents over-committing same Trainer.",
+      a5_title:"Export to Shift Optimizer", a5_desc:"Training plan serialized to JSON, passed to SO via session_state. SO applies OJT skill adjustments and pair constraints automatically.",
+      results_label:"5-Tab Interface", results_title:"What each tab provides",
+      r1_title:"① Training Plan Creation", r1_desc:"Manual or auto-generated OJT plans. Gantt chart. Skill distribution table.",
+      r2_title:"② Hiring Plan Creation", r2_desc:"New hire entries with role, join week, skills to develop, OJT Trainer assignment.",
+      r3_title:"③ Progress & Edit", r3_desc:"Live tracking: remaining hours, completion %, current week vs. ready week. Edit and reassign.",
+      r4_title:"④ Summary & Export", r4_desc:"Readiness calendar vs. seasonal peak deadlines. 🟢/🟡/🔴 status. JSON export for SO integration.",
+      r5_title:"⑤ Training Capacity Analysis", r5_desc:"Coverage heatmap (skill × pairs). MC precision analysis per skill. Recommended pairs table with ✅/⚠️ status.",
+      why_label:"Why It Matters", why_title:"What this demonstrates",
+      w1_title:"Solving a Real Dilemma", w1_desc:"The trainer-shortage problem is a real retail challenge. The 4-tier model names it, quantifies it, and resolves it with a concrete path.",
+      w2_title:"Bidirectional Integration", w2_desc:"Consumes WP output (action plan) and produces SO input (training JSON). The architectural link between planning and execution.",
+      w3_title:"OR Applied to People", w3_desc:"Linear approximation of MC simulation results applied to a staffing problem most managers handle informally and incorrectly.",
+      w4_title:"Time-Aware Scheduling", w4_desc:"Plans scheduled relative to seasonal peak deadlines. Answers: 'Will we have enough Deli Advanced before the Holiday rush?'",
+      cta_label:"Try It", cta_title:"See OJT planning in action",
+      cta_desc:"Run a global simulation, open Training Planner, click 'Auto-generate from WP', then check the Capacity Analysis tab.",
+      cta_btn1:"↗ Open Live App", cta_btn2:"← HR Tech Suite",
+    },
+    ja: {
+      nav_suite:"← HR Tech Suite", nav_back:"← ポートフォリオ", hero_btn:"↗ ライブアプリを開く",
+      hero_eyebrow:"技術解説 — App 04 / 04",
+      hero_desc:"自動ロードマップ生成・トレーナー不足ジレンマを解決するキャパシティ分析・シフトオプティマイザーへのシームレスな連携を持つOJTスケジューリング。",
+      one_liner:"誰も更新しないスプレッドシートで育成を管理する代わりに、このアプリはWPの推奨から自動でOJTロードマップを生成し、<em>「トレーナーを育てるトレーナーがいない」ジレンマを解決</em>してシフトに直接出力します。",
+      overview_label:"概要", overview_title:"何をスケジューリングするか",
+      overview_desc:"スキルギャップ分析をアクション可能なOJTプランに変換する5タブアプリケーション。",
+      ov_col1:"項目", ov_col2:"詳細",
+      ov_r1a:"育成タイプ", ov_r1b:"基礎（なし→基礎、約5週間）と上級（基礎→上級、約20週間）",
+      ov_r2a:"OJTフェーズ", ov_r2b:"基礎：Phase1（2週間、両者なし）→ Phase2。上級：Trainer=基礎、Trainee=なし。",
+      ov_r3a:"ペアリング", ov_r3b:"Trainee：FT/PT優先（MG/ASM除外）。Trainer：Advanced保有者 — 基礎育成はFT優先、上級はSL優先。",
+      ov_r4a:"キャパシティ確認", ov_r4b:"4段階：危機的 / 不足 / ギリギリ / OK — 同時育成可能ペア数を決定",
+      ov_r5a:"SO連携", ov_r5b:"JSONエクスポートをシフトオプティマイザーがシフト制約として利用",
+      ov_r6a:"スケジュール期間", ov_r6b:"最大60週間。WPが長期プランを生成した場合は自動延長。",
+      phase_label:"OJTフェーズ設計", phase_title:"育成フェーズの仕組み",
+      phase_desc:"各育成タイプに異なるフェーズがあり、TrainerとTraineeのシフト充足率への影響が変わります。これがSO統合を複雑にする理由です。",
+      pt_basic1:"基礎 — Phase1（2週間）", pt_b1_trainer:"なし（基礎指導に完全集中）", pt_b1_trainee:"なし（習得中、まだ戦力外）",
+      pt_basic2:"基礎 — Phase2（残り期間）", pt_b2_trainer:"基礎（監督しながら業務）", pt_b2_trainee:"なし（まだ見習い中）",
+      pt_adv:"上級（全期間）", pt_a_trainer:"基礎（コーチングしながら部分的に業務）", pt_a_trainee:"なし（上級スキル習得中）",
+      cap_label:"キャパシティ分析", cap_title:"トレーナー不足ジレンマを解決する",
+      cap_desc:"鶏と卵の問題：「上級スタッフが必要だが、育てるための上級スタッフが足りない。」4段階分析でこれを解消。",
+      cap1_label:"危機的", cap1_title:"充足率 < 70%", cap1_desc:"採用のみ。今育成を開始すると充足率が危険水準に。チームが既に手薄。",
+      cap2_label:"不足", cap2_title:"充足率 70〜90%", cap2_desc:"1ペア育成 + 採用を並行。ジレンマ解消策：将来の能力確保のため1ペア開始し、現在は採用で安定化。",
+      cap3_label:"ギリギリ", cap3_title:"充足率 90〜93%", cap3_desc:"最大1ペアのみ。安全閾値をわずかに上回るが余裕は薄い。",
+      cap4_label:"OK", cap4_title:"充足率 ≥ 93%", cap4_desc:"Nペア同時育成：floor(バッファ / ペア当たり影響)。トレーニング負荷を吸収できる余裕がある。",
+      auto_label:"自動プラン生成", auto_title:"WP推奨からOJTロードマップへ",
+      auto_desc:"ワークフォースプランナーのアクション項目からワンクリックでフルトレーニングプランを生成。",
+      a1_title:"WPアクションプランを読み込む", a1_desc:"session_stateからwp_export_rawを読み込み。「育成」アクション→OJTエントリ。「採用」アクション→Trainer=TBDのプレースホルダー。",
+      a2_title:"Trainee候補を選定", a2_desc:"スキルレベルのフィルタリング後、MG/ASM除外。FT/PT優先、次点SL。",
+      a3_title:"Trainer候補を選定", a3_desc:"基礎育成：FT Advanced保有者優先（MG/ASM除外）。上級育成：SL優先、ASM次点。他のアクティブペアに入っていないこと。",
+      a4_title:"直列スケジューリング", a4_desc:"前のプランのready_week+1から次のプランを開始。同一Trainerの過負荷を防止。",
+      a5_title:"シフトオプティマイザーへエクスポート", a5_desc:"育成プランをJSONにシリアライズしてSOにsession_state経由で受け渡し。SOが自動でスキル調整とペア制約を適用。",
+      results_label:"5タブ インターフェース", results_title:"各タブの機能",
+      r1_title:"① 育成プラン作成", r1_desc:"手動または自動生成のOJTプラン。ガントチャート。スキル分布テーブル。",
+      r2_title:"② 採用プラン作成", r2_desc:"新規採用エントリ：役職・入社週・習得スキル・OJT Trainerの割り当て。",
+      r3_title:"③ 進捗管理・プラン修正", r3_desc:"リアルタイム追跡：残り時間・完了率・現在週vs完了予定週。編集・Trainer再割り当て。",
+      r4_title:"④ 総集計 & 出力", r4_desc:"季節ピークに対する戦力化カレンダー。🟢/🟡/🔴ステータス。SO連携用JSONエクスポート。",
+      r5_title:"⑤ 育成キャパシティ分析", r5_desc:"充足率ヒートマップ（スキル×ペア数）。スキル別MC精密分析。推奨ペアテーブル（✅/⚠️ステータス）。",
+      why_label:"なぜ重要か", why_title:"このプロジェクトが示すもの",
+      w1_title:"現実のジレンマを解決", w1_desc:"トレーナー不足は実際の小売業の課題。4段階モデルがそれを命名・定量化・解決経路を提示。",
+      w2_title:"双方向統合", w2_desc:"WPの出力（アクションプラン）を消費し、SOの入力（育成JSON）を生成。計画と実行をつなぐアーキテクチャ上のリンク。",
+      w3_title:"ORを人員管理に応用", w3_desc:"MCシミュレーション結果の線形近似を、多くのマネージャーが感覚で（そして不正確に）管理している問題に適用。",
+      w4_title:"時間軸を意識したスケジューリング", w4_desc:"季節ピーク締め切りに対してプランをスケジュール。「ホリデー前に惣菜上級は間に合うか？」という本質的な問いに答える。",
+      cta_label:"試してみる", cta_title:"OJTプランニングを実際に動かす",
+      cta_desc:"一括シミュレーション後にTPを開き、「WP推奨から自動生成」をクリック。キャパシティ分析タブでヒートマップを確認。",
+      cta_btn1:"↗ ライブアプリを開く", cta_btn2:"← HR Tech Suite",
+    }
+  };
+  </script>
+  <script src="js/main.js"></script>
+</body>
+</html>
