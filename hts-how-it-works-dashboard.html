@@ -1,0 +1,1237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard Design — Manami Oyama</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&family=Noto+Serif+JP:wght@300;400&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    /* ── Design decision cards ── */
+    .decision-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 24px;
+    }
+    .decision-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px 24px;
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity .5s ease, transform .5s ease;
+    }
+    .decision-card.visible { opacity: 1; transform: translateY(0); }
+    .decision-card:hover { border-color: var(--accent2); }
+    .decision-q {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+    .decision-a {
+      font-family: var(--serif);
+      font-size: 1rem;
+      margin-bottom: 8px;
+      line-height: 1.3;
+    }
+    .decision-why {
+      font-size: 0.83rem;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+    .decision-card .decision-tag {
+      display: inline-block;
+      margin-top: 10px;
+      font-size: 0.68rem;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 20px;
+      background: var(--tag-bg);
+      color: var(--accent);
+    }
+
+    /* ── Tab section header ── */
+    .tab-section-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+    .tab-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      font-size: 1.4rem;
+      flex-shrink: 0;
+    }
+    .tab-badge.exec { background: #e8f0f8; }
+    .tab-badge.hr   { background: #fef3e2; }
+    .tab-badge.ops  { background: #eaf2ee; }
+    .tab-audience {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 3px;
+    }
+    .tab-audience.exec  { color: #1a4a7a; }
+    .tab-audience.hr    { color: #e67e22; }
+    .tab-audience.ops   { color: var(--accent); }
+    .tab-title-sm {
+      font-family: var(--serif);
+      font-size: 1.25rem;
+      line-height: 1.2;
+    }
+
+    /* ── KPI anatomy ── */
+    .kpi-anatomy {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin: 24px 0;
+    }
+    .kpi-anatomy-header {
+      padding: 14px 20px;
+      background: var(--tag-bg);
+      border-bottom: 1px solid var(--border);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+    .kpi-row {
+      display: grid;
+      grid-template-columns: 160px 1fr 1fr;
+      border-bottom: 1px solid var(--border);
+    }
+    .kpi-row:last-child { border-bottom: none; }
+    .kpi-cell {
+      padding: 14px 18px;
+      font-size: 0.83rem;
+      border-right: 1px solid var(--border);
+      line-height: 1.5;
+    }
+    .kpi-cell:last-child { border-right: none; }
+    .kpi-cell.label {
+      font-weight: 600;
+      color: var(--ink);
+      background: #fafaf8;
+      font-size: 0.8rem;
+    }
+    .kpi-cell.muted { color: var(--muted); }
+    .kpi-cell.accent { color: var(--accent); font-style: italic; }
+
+    /* ── Information hierarchy diagram ── */
+    .info-hierarchy {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      margin: 24px 0;
+    }
+    .ih-row {
+      display: flex;
+      align-items: stretch;
+      gap: 0;
+      opacity: 0;
+      transform: translateX(-12px);
+      transition: opacity .5s ease, transform .5s ease;
+    }
+    .ih-row.visible { opacity: 1; transform: translateX(0); }
+    .ih-level {
+      width: 44px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0 0 0 0;
+      flex-shrink: 0;
+    }
+    .ih-num {
+      width: 28px;
+      height: 28px;
+      background: var(--accent);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #fff;
+      flex-shrink: 0;
+      z-index: 1;
+    }
+    .ih-line {
+      width: 2px;
+      flex: 1;
+      background: var(--accent2);
+      margin: 0 auto;
+    }
+    .ih-row:last-child .ih-line { display: none; }
+    .ih-content {
+      flex: 1;
+      padding: 4px 0 24px 16px;
+    }
+    .ih-title {
+      font-family: var(--serif);
+      font-size: 1rem;
+      margin-bottom: 4px;
+    }
+    .ih-desc {
+      font-size: 0.83rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+    .ih-example {
+      margin-top: 8px;
+      background: #1a1a1a;
+      border-radius: 6px;
+      padding: 10px 14px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.74rem;
+      color: #b7d5c8;
+      line-height: 1.5;
+    }
+
+    /* ── Metric rationale table ── */
+    .rationale-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+      margin: 20px 0;
+    }
+    .rationale-table th {
+      background: var(--tag-bg);
+      padding: 9px 14px;
+      text-align: left;
+      border: 1px solid var(--border);
+      font-weight: 600;
+      font-size: 0.75rem;
+      letter-spacing: 0.04em;
+    }
+    .rationale-table td {
+      padding: 10px 14px;
+      border: 1px solid var(--border);
+      vertical-align: top;
+      line-height: 1.55;
+    }
+    .rationale-table tr:nth-child(even) td { background: #fafaf8; }
+    .rationale-table .rejected {
+      color: #c0392b;
+      text-decoration: line-through;
+      font-size: 0.78rem;
+    }
+    .rationale-table .chosen {
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    /* ── Cross-audience comparison ── */
+    .cross-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 0;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin: 24px 0;
+    }
+    .cross-col { border-right: 1px solid var(--border); }
+    .cross-col:last-child { border-right: none; }
+    .cross-col-header {
+      padding: 12px 16px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      border-bottom: 1px solid var(--border);
+    }
+    .cross-col-header.exec  { background: #e8f0f8; color: #1a4a7a; }
+    .cross-col-header.hr    { background: #fef3e2; color: #e67e22; }
+    .cross-col-header.ops   { background: var(--tag-bg); color: var(--accent); }
+    .cross-item {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.82rem;
+      line-height: 1.5;
+    }
+    .cross-item:last-child { border-bottom: none; }
+    .cross-item .cross-label {
+      font-size: 0.68rem;
+      font-weight: 600;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 3px;
+    }
+    .cross-item .cross-val {
+      color: var(--ink);
+    }
+    .cross-item .cross-so {
+      margin-top: 4px;
+      font-size: 0.76rem;
+      color: var(--accent);
+      font-style: italic;
+    }
+
+    /* ── So What framework ── */
+    .sowhat-flow {
+      display: flex;
+      align-items: stretch;
+      gap: 0;
+      margin: 28px 0;
+      flex-wrap: wrap;
+    }
+    .sw-step {
+      flex: 1;
+      min-width: 180px;
+      padding: 20px 18px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-right: none;
+      position: relative;
+    }
+    .sw-step:last-child { border-right: 1px solid var(--border); }
+    .sw-step:first-child { border-radius: var(--radius) 0 0 var(--radius); }
+    .sw-step:last-child  { border-radius: 0 var(--radius) var(--radius) 0; }
+    .sw-step::after {
+      content: '→';
+      position: absolute;
+      right: -13px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--accent2);
+      font-size: 1.1rem;
+      z-index: 1;
+      background: var(--bg);
+      padding: 2px 0;
+    }
+    .sw-step:last-child::after { display: none; }
+    .sw-num {
+      font-family: var(--serif);
+      font-size: 1.4rem;
+      color: var(--accent2);
+      margin-bottom: 6px;
+      line-height: 1;
+    }
+    .sw-title {
+      font-family: var(--serif);
+      font-size: 0.95rem;
+      margin-bottom: 6px;
+    }
+    .sw-desc { font-size: 0.78rem; color: var(--muted); line-height: 1.55; }
+    .sw-example {
+      margin-top: 10px;
+      font-size: 0.74rem;
+      background: var(--tag-bg);
+      border-radius: 6px;
+      padding: 8px 10px;
+      color: var(--accent);
+      font-style: italic;
+      line-height: 1.4;
+    }
+
+    /* ── Principle cards ── */
+    .principle-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 32px;
+    }
+    .principle-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      border-top: 3px solid var(--accent);
+      opacity: 0;
+      transform: translateY(14px);
+      transition: opacity .5s ease, transform .5s ease;
+    }
+    .principle-card.visible { opacity: 1; transform: translateY(0); }
+    .principle-card:hover { border-color: var(--accent2); border-top-color: var(--accent); }
+    .principle-num {
+      font-family: var(--serif);
+      font-size: 2rem;
+      color: var(--accent2);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    .principle-title {
+      font-family: var(--serif);
+      font-size: 1.05rem;
+      margin-bottom: 8px;
+    }
+    .principle-desc { font-size: 0.84rem; color: var(--muted); line-height: 1.65; }
+
+    @media (max-width: 860px) {
+      .decision-grid, .cross-grid, .principle-row { grid-template-columns: 1fr; }
+      .kpi-row { grid-template-columns: 1fr; }
+      .kpi-cell { border-right: none; border-bottom: 1px solid var(--border); }
+      .sowhat-flow { flex-direction: column; }
+      .sw-step { border-right: 1px solid var(--border); border-bottom: none; }
+      .sw-step:not(:last-child) { border-bottom: none; }
+      .sw-step { border-radius: 0; }
+      .sw-step:first-child { border-radius: var(--radius) var(--radius) 0 0; }
+      .sw-step:last-child  { border-radius: 0 0 var(--radius) var(--radius); border-bottom: 1px solid var(--border); }
+      .sw-step::after { content: '↓'; right: auto; left: 50%; top: auto; bottom: -14px; transform: translateX(-50%); }
+    }
+    @media (max-width: 600px) {
+      .tab-section-header { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="nav-inner">
+      <a href="how-it-works-hr-tech-suite.html" class="nav-logo" style="text-decoration:none;color:inherit;">HR Tech Suite</a>
+      <div class="nav-links">
+        <a href="#philosophy"  data-i18n="nav_philosophy">Philosophy</a>
+        <a href="#exec"        data-i18n="nav_exec">Executive</a>
+        <a href="#hr"          data-i18n="nav_hr">HR Manager</a>
+        <a href="#ops"         data-i18n="nav_ops">Ops Manager</a>
+        <a href="#cross"       data-i18n="nav_cross">Cross-Audience</a>
+        <a href="how-it-works-hr-tech-suite.html" class="btn-back" data-i18n="nav_back">← Suite Overview</a>
+        <div class="lang-toggle">
+          <button class="lang-btn active" data-lang-btn="en">EN</button>
+          <button class="lang-btn"        data-lang-btn="ja">JA</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ── Hero ── -->
+  <section id="hero" class="hero" style="border-top:none;">
+    <div class="container">
+      <p class="hero-eyebrow fade-up" data-i18n="hero_eyebrow">Dashboard Design · KPI Architecture · Data Storytelling</p>
+      <h1 class="hero-title fade-up" data-i18n="hero_title">Dashboards as<br><em>Decision Architecture</em></h1>
+      <p class="hero-desc fade-up" data-i18n="hero_desc">Choosing what to measure, who sees what, and in what order — these are design decisions that determine whether a dashboard changes behavior or gets ignored. This page documents the reasoning behind every choice in the HR Tech Suite Control Tower.</p>
+      <div class="btn-group fade-up">
+        <a href="#philosophy" class="btn btn-primary" data-i18n="cta_primary">Read the Design Rationale</a>
+        <a href="how-it-works-hr-tech-suite.html" class="btn btn-outline" data-i18n="cta_back">← Suite Overview</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── One-liner ── -->
+  <section style="padding:0 0 60px;border-top:none;">
+    <div class="container">
+      <div class="one-liner fade-up">
+        <p data-i18n="one_liner">A dashboard that requires the user to think is a dashboard that gets ignored. Every structural decision — which KPI to show first, what to suppress, when to generate an action automatically — is an answer to the question: <em>what does this person need to do next?</em></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Design Philosophy ── -->
+  <section id="philosophy">
+    <div class="container">
+      <p class="section-label" data-i18n="phil_label">Design Philosophy</p>
+      <h2 class="section-title" data-i18n="phil_title">Three principles that governed<br><em>every metric choice</em></h2>
+      <p class="section-desc" data-i18n="phil_desc">Before deciding what to measure, I defined the constraints: what makes a metric worth including, and what makes it worth leaving out.</p>
+
+      <div class="principle-row">
+        <div class="principle-card fade-up">
+          <div class="principle-num">01</div>
+          <div class="principle-title" data-i18n="pr1_title">Actionability over Completeness</div>
+          <p class="principle-desc" data-i18n="pr1_desc">A metric earns its place only if the viewer can act on it. Showing "total employee count" to a C-suite audience is noise — they can't change it by Friday. Showing "30-day operation risk" gives them something to approve or escalate. Every metric was pressure-tested against: <em>what decision does this enable?</em></p>
+        </div>
+        <div class="principle-card fade-up">
+          <div class="principle-num">02</div>
+          <div class="principle-title" data-i18n="pr2_title">Audience-Specific Grain</div>
+          <p class="principle-desc" data-i18n="pr2_desc">The same underlying simulation produces three completely different dashboards. Executives see aggregated composite scores (OHI, EVP). HR managers see individual-level risk ranked by severity. Ops managers see shift-level flags. Same data, calibrated to the resolution at which each audience operates.</p>
+        </div>
+        <div class="principle-card fade-up">
+          <div class="principle-num">03</div>
+          <div class="principle-title" data-i18n="pr3_title">Causal Narrative, Not Correlation Gallery</div>
+          <p class="principle-desc" data-i18n="pr3_desc">Charts placed next to each other imply a relationship. The Executive KPI root-cause chart deliberately places labor cost ratio, coverage, and churn risk on the same timeline to make the causal chain visible: understaffing → churn → coverage decline → labor cost spike. The layout is the argument.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Executive Tab ── -->
+  <section id="exec">
+    <div class="container">
+      <div class="tab-section-header">
+        <div class="tab-badge exec">🏦</div>
+        <div>
+          <div class="tab-audience exec" data-i18n="exec_audience">Executive Dashboard — C-Suite / Business Owners</div>
+          <div class="tab-title-sm" data-i18n="exec_tab_title">Designing for someone with 30 seconds and full authority</div>
+        </div>
+      </div>
+
+      <!-- KPI Selection Rationale -->
+      <p class="section-label" data-i18n="exec_kpi_label">KPI Design</p>
+      <h3 style="font-family:var(--serif);font-size:1.4rem;margin-bottom:8px;" data-i18n="exec_kpi_title">Why these four metrics — and not the obvious ones</h3>
+      <p style="color:var(--muted);font-size:0.9rem;margin-bottom:0;" data-i18n="exec_kpi_desc">The instinctive executive metrics are revenue, headcount, and costs. I rejected all three as primary KPIs because they are outputs, not levers. The dashboard uses leading indicators that precede P&L impact by 4–8 weeks.</p>
+
+      <table class="rationale-table" style="margin-top:20px;">
+        <thead>
+          <tr>
+            <th data-i18n="rt_col1">Metric</th>
+            <th data-i18n="rt_col2">What It Measures</th>
+            <th data-i18n="rt_col3">Why Not the Simpler Alternative</th>
+            <th data-i18n="rt_col4">Decision Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="chosen">OHI<br><span style="font-size:0.72rem;color:var(--muted);">Org Health Index</span></td>
+            <td data-i18n="ohi_what">Coverage rate × (1 − avg churn risk). Composite of operational stability and people risk.</td>
+            <td><span class="rejected" data-i18n="ohi_rejected">Employee satisfaction score</span><br><span style="font-size:0.8rem;color:var(--muted);" data-i18n="ohi_why">Satisfaction surveys are lagging, self-reported, and don't connect to P&L. OHI is computed from behavioral signals.</span></td>
+            <td data-i18n="ohi_value">Single number that answers: "Is the organization healthy enough to execute next month's plan?"</td>
+          </tr>
+          <tr>
+            <td class="chosen">EVP<br><span style="font-size:0.72rem;color:var(--muted);">Economic Value Protected</span></td>
+            <td data-i18n="evp_what">Baseline loss (no action) minus optimized loss (with system interventions). Dollar value of risk avoided.</td>
+            <td><span class="rejected" data-i18n="evp_rejected">Turnover cost YTD</span><br><span style="font-size:0.8rem;color:var(--muted);" data-i18n="evp_why">Historical turnover cost is a post-mortem. EVP is forward-looking and quantifies the value of not acting versus acting.</span></td>
+            <td data-i18n="evp_value">Justifies HR investment in dollar terms an executive understands without translation.</td>
+          </tr>
+          <tr>
+            <td class="chosen" data-i18n="lcr_name">Labor Cost %</td>
+            <td data-i18n="lcr_what">Weekly labor cost ÷ weekly revenue. Compared against target (17.5%) and industry median (18.5%).</td>
+            <td><span class="rejected" data-i18n="lcr_rejected">Total weekly wage ($)</span><br><span style="font-size:0.8rem;color:var(--muted);" data-i18n="lcr_why">Absolute dollar amounts are meaningless without revenue context. A $14,000 wage bill is fine at $90K revenue and catastrophic at $55K.</span></td>
+            <td data-i18n="lcr_value">Directly links staffing decisions to margin. A delta of +2% triggers a specific approval workflow.</td>
+          </tr>
+          <tr>
+            <td class="chosen" data-i18n="opr_name">30-Day Op Risk</td>
+            <td data-i18n="opr_what">Next month's forecast coverage vs. 90% threshold. Derived from Monte Carlo simulation with seasonal demand.</td>
+            <td><span class="rejected" data-i18n="opr_rejected">Current week's understaffed shifts</span><br><span style="font-size:0.8rem;color:var(--muted);" data-i18n="opr_why">Current-week data is too late — the shift already happened. A 30-day forward view gives executives time to approve budgets.</span></td>
+            <td data-i18n="opr_value">Converts a staffing forecast into a binary risk signal executives can approve/escalate in one decision.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Information Hierarchy -->
+      <p class="section-label" style="margin-top:48px;" data-i18n="exec_hier_label">Information Hierarchy</p>
+      <h3 style="font-family:var(--serif);font-size:1.4rem;margin-bottom:8px;" data-i18n="exec_hier_title">The deliberate reading order</h3>
+      <p style="color:var(--muted);font-size:0.9rem;margin-bottom:0;" data-i18n="exec_hier_desc">The layout forces a specific cognitive path: status → cause → action. Skipping any layer produces an uninformed decision.</p>
+
+      <div class="info-hierarchy" style="margin-top:24px;">
+        <div class="ih-row fade-up">
+          <div class="ih-level">
+            <div class="ih-num">1</div>
+            <div class="ih-line"></div>
+          </div>
+          <div class="ih-content">
+            <div class="ih-title" data-i18n="ih1_title">Status — 4 Big Number Cards</div>
+            <p class="ih-desc" data-i18n="ih1_desc">Red / yellow / green color coding delivers the verdict in under 3 seconds. No chart-reading required. The executive knows whether to continue reading or escalate immediately. Each card shows only three data points: current value, benchmark, and delta.</p>
+            <div class="ih-example">OHI: 74.2% | Target: 80% | Delta: −5.8pp 🔴</div>
+          </div>
+        </div>
+        <div class="ih-row fade-up">
+          <div class="ih-level">
+            <div class="ih-num">2</div>
+            <div class="ih-line"></div>
+          </div>
+          <div class="ih-content">
+            <div class="ih-title" data-i18n="ih2_title">Cause — KPI Root-Cause Chart</div>
+            <p class="ih-desc" data-i18n="ih2_desc">A single chart with three overlaid series: labor cost ratio (bars), shift coverage rate (green line), churn risk (red dashed). The layout embeds the causal argument — when the red line rises, the green line falls, and the bars spike 4–6 weeks later. No analytical work required; the relationship is visible.</p>
+            <div class="ih-example">Coverage ↓ in Aug → Churn ↑ in Sep → Labor Cost ↑ in Oct (Holiday backfill)</div>
+          </div>
+        </div>
+        <div class="ih-row fade-up">
+          <div class="ih-level">
+            <div class="ih-num">3</div>
+            <div class="ih-line"></div>
+          </div>
+          <div class="ih-content">
+            <div class="ih-title" data-i18n="ih3_title">Trend — Cost vs. Risk Trend Chart</div>
+            <p class="ih-desc" data-i18n="ih3_desc">Past 12 months of actual labor cost (bars) + next 6 months forecast including the training/hiring plan effect (lighter bars) + revenue risk line (red dashed). The critical insight: "costs look controlled now, but the risk line spikes next quarter if no action is taken." The forecast period is what creates urgency.</p>
+            <div class="ih-example">Forecast: If current plan continues → Coverage drops to 83% in Nov → Est. $4,200 revenue risk</div>
+          </div>
+        </div>
+        <div class="ih-row fade-up">
+          <div class="ih-level">
+            <div class="ih-num">4</div>
+          </div>
+          <div class="ih-content">
+            <div class="ih-title" data-i18n="ih4_title">Action — Auto-Generated Executive Actions</div>
+            <p class="ih-desc" data-i18n="ih4_desc">Instead of asking the executive to derive actions from charts, the system generates specific, approvable items with dollar amounts and deadlines. Triggered by threshold crossings: OHI &lt;80, EVP ≤0, LCR +2pp, coverage &lt;85%, keyman churn ≥60%. Priority-sorted: 🔴 approve now, 🟡 schedule this month.</p>
+            <div class="ih-example">🔴 Approve hiring budget ($5,000) for Deli + Food (2 roles). Delay risks $4,200 revenue loss in November.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── HR Manager Tab ── -->
+  <section id="hr">
+    <div class="container">
+      <div class="tab-section-header">
+        <div class="tab-badge hr">👥</div>
+        <div>
+          <div class="tab-audience hr" data-i18n="hr_audience">HR Manager Dashboard — People Operations</div>
+          <div class="tab-title-sm" data-i18n="hr_tab_title">Designing for someone who needs to act on individuals, not averages</div>
+        </div>
+      </div>
+
+      <p class="section-label" data-i18n="hr_flow_label">Layout Logic</p>
+      <h3 style="font-family:var(--serif);font-size:1.4rem;margin-bottom:8px;" data-i18n="hr_flow_title">Alert → Diagnose → Prescribe: why this order matters</h3>
+      <p style="color:var(--muted);font-size:0.9rem;margin-bottom:24px;" data-i18n="hr_flow_desc">HR managers are context-switchers. The dashboard must deliver the most time-sensitive information first, then provide the tools to investigate, then tell them exactly what to do. Reversing this order produces paralysis by analysis.</p>
+
+      <div class="info-hierarchy">
+        <div class="ih-row fade-up">
+          <div class="ih-level">
+            <div class="ih-num">1</div>
+            <div class="ih-line"></div>
+          </div>
+          <div class="ih-content">
+            <div class="ih-title" data-i18n="hr_ih1_title">Alert — Top 3 Cards (the fires burning right now)</div>
+            <p class="ih-desc" data-i18n="hr_ih1_desc">High Flight Risk count (with Advanced-skilled flag), 30-day Critical Skill Gap probability by department, and Hiring/Training needs summary. These are the three questions HR asks every Monday morning. The cards answer all three before the user scrolls.</p>
+            <div class="ih-example">🔴 High Flight Risk: 3 staff (incl. 1 Deli Advanced) | 30-Day Gap: Food 65% 🔴 | Needs: Hire 2 / Train 3</div>
+          </div>
+        </div>
+        <div class="ih-row fade-up">
+          <div class="ih-level">
+            <div class="ih-num">2</div>
+            <div class="ih-line"></div>
+          </div>
+          <div class="ih-content">
+            <div class="ih-title" data-i18n="hr_ih2_title">Diagnose — Talent Vulnerability Matrix</div>
+            <p class="ih-desc" data-i18n="hr_ih2_desc">X-axis: Replaceability (skill uniqueness + cross-training depth). Y-axis: Retention probability (1 − churn risk). Bubble size: opportunity loss if this person leaves. The four quadrants answer different questions — 🚨 bottom-left demands immediate action; ✅ top-right needs no attention. Color-coded by role group so patterns emerge (e.g., all SLs clustering in the danger zone).</p>
+            <div class="ih-example" style="font-size:0.72rem;">
+              X-axis chosen over "years of service": tenure ≠ replaceability if skills are over-concentrated<br>
+              Y-axis chosen over "engagement score": engagement surveys lag behavior by 4–8 weeks
+            </div>
+          </div>
+        </div>
+        <div class="ih-row fade-up">
+          <div class="ih-level">
+            <div class="ih-num">3</div>
+            <div class="ih-line"></div>
+          </div>
+          <div class="ih-content">
+            <div class="ih-title" data-i18n="hr_ih3_title">Context — Stress &amp; Turnover Trends (the backstory)</div>
+            <p class="ih-desc" data-i18n="hr_ih3_desc">Weekly overtime vs. stress score (dual-axis chart), monthly termination/hire flow (bar chart). Placed after the matrix — not before — because these are explanatory, not alerting. When the HR manager sees a high-risk cluster in the matrix, they scroll down to see "oh, that department has had 3 consecutive high-stress weeks." Sequence creates narrative.</p>
+          </div>
+        </div>
+        <div class="ih-row fade-up">
+          <div class="ih-level">
+            <div class="ih-num">4</div>
+          </div>
+          <div class="ih-content">
+            <div class="ih-title" data-i18n="hr_ih4_title">Prescribe — AI Prescriptive Actions (close the loop)</div>
+            <p class="ih-desc" data-i18n="hr_ih4_desc">Three action types, each with a specific triggering condition: [1-on-1] when churn probability ≥50% + stress factor identified → generates a named, reason-explained recommendation. [Start Training] when skill gap &gt;15% + peak season &gt;4 weeks away → names the trainee candidate. [Hiring Alert] when coverage forecast drops below 90% within 6 months → names the shift type and deadline. The system closes the inference loop the HR manager would otherwise have to draw manually.</p>
+            <div class="ih-example">🗣️ [1-on-1] FT-03 (Food Adv) churn risk 72%. Root cause: 3 consecutive pref-mismatch weeks + OT overload. Schedule this week.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Axis design rationale -->
+      <p class="section-label" style="margin-top:48px;" data-i18n="hr_matrix_label">Matrix Design Decisions</p>
+      <h3 style="font-family:var(--serif);font-size:1.4rem;margin-bottom:16px;" data-i18n="hr_matrix_title">Why these axes — not the obvious alternatives</h3>
+      <div class="decision-grid">
+        <div class="decision-card fade-up">
+          <div class="decision-q" data-i18n="dm1_q">X-axis: Why Replaceability?</div>
+          <div class="decision-a" data-i18n="dm1_a">Not performance score. Not years of service.</div>
+          <p class="decision-why" data-i18n="dm1_why">Performance score measures past contribution. Replaceability measures future risk. An employee can be a top performer and completely replaceable (cashier with 5 backups) — or a mediocre performer and irreplaceable (sole Deli Advanced holder). The business risk is concentrated where skill is scarce, not where performance is low.</p>
+          <span class="decision-tag" data-i18n="dm1_tag">Computed: skill uniqueness × cross-training depth</span>
+        </div>
+        <div class="decision-card fade-up">
+          <div class="decision-q" data-i18n="dm2_q">Y-axis: Why Retention Probability?</div>
+          <div class="decision-a" data-i18n="dm2_a">Not engagement score. Not manager rating.</div>
+          <p class="decision-why" data-i18n="dm2_why">Engagement surveys are self-reported, infrequent, and lag behavioral signals by 4–8 weeks. Retention probability is derived from LightGBM inference on 10 behavioral features updated every simulation run. It captures shift mismatch accumulation, overtime stress, and seasonal churn patterns that engagement surveys miss entirely.</p>
+          <span class="decision-tag" data-i18n="dm2_tag">Computed: 1 − LightGBM churn probability</span>
+        </div>
+        <div class="decision-card fade-up">
+          <div class="decision-q" data-i18n="dm3_q">Bubble Size: Why Opportunity Loss?</div>
+          <div class="decision-a" data-i18n="dm3_a">Not role seniority. Not salary band.</div>
+          <p class="decision-why" data-i18n="dm3_why">Seniority creates visual bias toward managers who may be easily replaceable. Opportunity loss — the revenue impact of this person leaving given current coverage gaps — makes the business consequence visible. A part-timer holding the last Deli Advanced skill during Holiday season has a larger bubble than the assistant manager they work under.</p>
+          <span class="decision-tag" data-i18n="dm3_tag">Computed: skill scarcity × seasonal demand × hire/train cost</span>
+        </div>
+        <div class="decision-card fade-up">
+          <div class="decision-q" data-i18n="dm4_q">4 Quadrants: Why These Thresholds?</div>
+          <div class="decision-a" data-i18n="dm4_a">0.5 replaceability / 0.5 retention: not arbitrary.</div>
+          <p class="decision-why" data-i18n="dm4_why">0.5 retention = 50% churn probability, which equals the historical industry average for retail annual turnover (FMI 2023: ~35–50% depending on role). At this threshold, the expected value of intervention breaks even with cost. 0.5 replaceability = average cross-training coverage. Below average on both axes defines the danger zone where intervention ROI is highest.</p>
+          <span class="decision-tag" data-i18n="dm4_tag">Threshold: FMI 2023 retail churn baseline</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Ops Manager Tab ── -->
+  <section id="ops">
+    <div class="container">
+      <div class="tab-section-header">
+        <div class="tab-badge ops">🏪</div>
+        <div>
+          <div class="tab-audience ops" data-i18n="ops_audience">Ops Manager Dashboard — Shop Floor Operations</div>
+          <div class="tab-title-sm" data-i18n="ops_tab_title">Designing for someone who acts in minutes, not days</div>
+        </div>
+      </div>
+
+      <p class="section-label" data-i18n="ops_design_label">Design Constraints</p>
+      <h3 style="font-family:var(--serif);font-size:1.4rem;margin-bottom:8px;" data-i18n="ops_design_title">The ops manager needs flags, not scores</h3>
+      <p style="color:var(--muted);font-size:0.9rem;margin-bottom:24px;" data-i18n="ops_design_desc">The critical insight governing this tab's design: ops managers make real-time decisions. A continuous score (e.g., "safety score: 47") is not actionable at 9am when a shift is about to start. A flag (⚠️) on a specific skill × shift combination is. Every metric was redesigned from continuous to categorical where possible.</p>
+
+      <div class="decision-grid">
+        <div class="decision-card fade-up">
+          <div class="decision-q" data-i18n="od1_q">Safety Score: Why target headcount as denominator?</div>
+          <div class="decision-a" data-i18n="od1_a">Not actual headcount. Not percentage of ideal.</div>
+          <p class="decision-why" data-i18n="od1_why">Using actual headcount makes understaffed shifts appear more competent than they are. If target is 6 and only 2 show up — both Advanced — the score would be 100% with actual count as denominator. With target count, the score reflects the real risk: 2 people doing the work of 6, regardless of their skill level.</p>
+          <span class="decision-tag" data-i18n="od1_tag">Safety Score = Σ(skill_level × weight) / target_headcount</span>
+        </div>
+        <div class="decision-card fade-up">
+          <div class="decision-q" data-i18n="od2_q">Coverage chart: Why separate Advanced from Basic?</div>
+          <div class="decision-a" data-i18n="od2_a">Not a single "coverage rate." Skill-level disaggregation.</div>
+          <p class="decision-why" data-i18n="od2_why">A shift fully covered by Basic-level staff in the Deli department has a fundamentally different risk profile than one covered by Advanced staff. Aggregating into a single coverage number masks the skill depth problem. The bar charts show Advanced hit-rate and Basic hit-rate separately, allowing the ops manager to immediately see whether they have people or capable people.</p>
+          <span class="decision-tag" data-i18n="od2_tag">Disaggregated: Advanced hit-rate | Basic hit-rate | per skill × shift</span>
+        </div>
+        <div class="decision-card fade-up">
+          <div class="decision-q" data-i18n="od3_q">Satisfaction ranking: Why sorted ascending?</div>
+          <div class="decision-a" data-i18n="od3_a">Worst first. Not alphabetical. Not by role.</div>
+          <p class="decision-why" data-i18n="od3_why">When sorted by satisfaction ascending, the people who need a follow-up conversation appear at the top without any scanning. The ops manager opens the dashboard and immediately sees the three staff members whose shifts deviated most from their preferences. Sorting by role or name requires cognitive work to find the at-risk individuals. The ⚠ icon on specific cells surfaces the exact day/shift where the deviation occurred.</p>
+          <span class="decision-tag" data-i18n="od3_tag">Sort: satisfaction score ascending (worst at top)</span>
+        </div>
+        <div class="decision-card fade-up">
+          <div class="decision-q" data-i18n="od4_q">Substitute Suggestion: Why show soft-NG candidates?</div>
+          <div class="decision-a" data-i18n="od4_a">Not excluded — flagged with ⚠. Transparent tradeoffs.</div>
+          <p class="decision-why" data-i18n="od4_why">Excluding soft-NG (preferred-rest) candidates produces a cleaner list but less information. In an emergency absence, the manager may need to contact someone on their preferred day off. By including them with an ⚠ flag, the tool respects the manager's authority to make that call while making the tradeoff visible. Hard constraints (labor law, max hours) remain absolute exclusions.</p>
+          <span class="decision-tag" data-i18n="od4_tag">Rank: skill match → hours margin → wage. Soft-NG: flagged, not excluded.</span>
+        </div>
+      </div>
+
+      <!-- Stress analysis -->
+      <p class="section-label" style="margin-top:48px;" data-i18n="ops_stress_label">Shift Stress Analysis</p>
+      <h3 style="font-family:var(--serif);font-size:1.4rem;margin-bottom:8px;" data-i18n="ops_stress_title">Why composite stress — and not just overtime hours</h3>
+      <p style="color:var(--muted);font-size:0.9rem;margin-bottom:20px;" data-i18n="ops_stress_desc">Overtime hours alone miss two critical stressors that predict burnout better in retail: skill scarcity pressure (being the only person who can do something) and preference mismatch accumulation (being repeatedly assigned shifts you hate). The composite score weights three components:</p>
+
+      <div class="kpi-anatomy">
+        <div class="kpi-anatomy-header" data-i18n="stress_formula_label">Shift Stress Score Composition</div>
+        <div class="kpi-row" style="background:#f5f5f3;">
+          <div class="kpi-cell label" data-i18n="sf_col1">Component</div>
+          <div class="kpi-cell label" data-i18n="sf_col2">Formula</div>
+          <div class="kpi-cell label" data-i18n="sf_col3">Design Rationale</div>
+        </div>
+        <div class="kpi-row">
+          <td class="kpi-cell label">Shortage Stress (×0.5)</td>
+          <td class="kpi-cell muted" data-i18n="sf_r1_formula">shortage_ratio × role_burden × day_type × skill_scarcity</td>
+          <td class="kpi-cell accent" data-i18n="sf_r1_why">Highest weight because it directly predicts burnout. MG/ASM get 1.8× role multiplier (decision load increases when understaffed). Sale days get 1.4× (peak demand amplifies every stressor).</td>
+        </div>
+        <div class="kpi-row">
+          <td class="kpi-cell label">Preference Stress (×0.2)</td>
+          <td class="kpi-cell muted" data-i18n="sf_r2_formula">mismatch_days / total_days. For "Any" preference: shift variety as proxy (max 0.3 cap).</td>
+          <td class="kpi-cell accent" data-i18n="sf_r2_why">Lower weight because a single mismatch is acceptable; accumulation is the problem. "Any" preference staff still experience stress from being rotated through all shifts — captured via variance proxy.</td>
+        </div>
+        <div class="kpi-row">
+          <td class="kpi-cell label">Overtime Risk (×0.3)</td>
+          <td class="kpi-cell muted" data-i18n="sf_r3_formula">avg_shortage × 0.6 + tenure_factor × 0.2 + (1 − engagement/100) × 0.2. MG/ASM/SL only.</td>
+          <td class="kpi-cell accent" data-i18n="sf_r3_why">Shorter tenure = harder to refuse overtime (0.9 factor). Longer tenure = more leverage to decline (0.3). Engagement drop correlates with refusal tendency but also with the stress of being asked repeatedly.</td>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Cross-Audience Design ── -->
+  <section id="cross">
+    <div class="container">
+      <p class="section-label" data-i18n="cross_label">Cross-Audience Design</p>
+      <h2 class="section-title" data-i18n="cross_title">One simulation.<br><em>Three completely different stories.</em></h2>
+      <p class="section-desc" data-i18n="cross_desc">The same Monte Carlo simulation result feeds all three dashboards. The transformation applied at each layer — what is aggregated, what is surfaced, what is suppressed — defines the analytical design skill. Here is how the same data becomes three different answers.</p>
+
+      <div class="cross-grid">
+        <div class="cross-col">
+          <div class="cross-col-header exec" data-i18n="cross_exec_head">🏦 Executive</div>
+          <div class="cross-item">
+            <div class="cross-label" data-i18n="cross_input">Input</div>
+            <div class="cross-val" data-i18n="cross_mc_result">MC simulation: adv_hit_rate by skill × shift</div>
+          </div>
+          <div class="cross-item">
+            <div class="cross-label" data-i18n="cross_transform">Transformation</div>
+            <div class="cross-val" data-i18n="cross_e_transform">Aggregated into OHI (avg_coverage × risk factor). Trend line extended 6 months with seasonal multipliers.</div>
+          </div>
+          <div class="cross-item">
+            <div class="cross-label" data-i18n="cross_output">Output</div>
+            <div class="cross-val" data-i18n="cross_e_output">Single composite number + color signal</div>
+            <div class="cross-so" data-i18n="cross_e_so">"Is the org healthy? Yes/No."</div>
+          </div>
+          <div class="cross-item">
+            <div class="cross-label" data-i18n="cross_suppressed">Suppressed</div>
+            <div class="cross-val" data-i18n="cross_e_suppress">Individual skill breakdowns, shift-level flags, specific employee names</div>
+          </div>
+        </div>
+
+        <div class="cross-col">
+          <div class="cross-col-header hr" data-i18n="cross_hr_head">👥 HR Manager</div>
+          <div class="cross-item">
+            <div class="cross-label" data-i18n="cross_input">Input</div>
+            <div class="cross-val" data-i18n="cross_mc_result">MC simulation: adv_hit_rate by skill × shift</div>
+          </div>
+          <div class="cross-item">
+            <div class="cross-label" data-i18n="cross_transform">Transformation</div>
+            <div class="cross-val" data-i18n="cross_h_transform">Converted to skill gap probability per department. Combined with LightGBM churn scores per individual.</div>
+          </div>
+          <div class="cross-item">
+            <div class="cross-label" data-i18n="cross_output">Output</div>
+            <div class="cross-val" data-i18n="cross_h_output">Named individuals ranked by risk × replaceability</div>
+            <div class="cross-so" data-i18n="cross_h_so">"Who do I call first this week?"</div>
+          </div>
+          <div class="cross-item">
+            <div class="cross-label" data-i18n="cross_suppressed">Suppressed</div>
+            <div class="cross-val" data-i18n="cross_h_suppress">Shift-level granularity, wage cost breakdown, substitute ranking</div>
+          </div>
+        </div>
+
+        <div class="cross-col">
+          <div class="cross-col-header ops" data-i18n="cross_ops_head">🏪 Ops Manager</div>
+          <div class="cross-item">
+            <div class="cross-label" data-i18n="cross_input">Input</div>
+            <div class="cross-val" data-i18n="cross_mc_result">MC simulation: adv_hit_rate by skill × shift</div>
+          </div>
+          <div class="cross-item">
+            <div class="cross-label" data-i18n="cross_transform">Transformation</div>
+            <div class="cross-val" data-i18n="cross_o_transform">Kept at full resolution: skill × shift × day_type. Safety score computed per cell. Binary ⚠ flag at threshold.</div>
+          </div>
+          <div class="cross-item">
+            <div class="cross-label" data-i18n="cross_output">Output</div>
+            <div class="cross-val" data-i18n="cross_o_output">⚠ flags on specific shifts. Ranked substitute list.</div>
+            <div class="cross-so" data-i18n="cross_o_so">"Which slot do I fix right now?"</div>
+          </div>
+          <div class="cross-item">
+            <div class="cross-label" data-i18n="cross_suppressed">Suppressed</div>
+            <div class="cross-val" data-i18n="cross_o_suppress">Aggregate scores, trend lines, individual churn probability</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="background:var(--tag-bg);border:1px solid var(--accent2);border-radius:var(--radius);padding:20px 24px;margin-top:20px;" class="fade-up">
+        <p style="font-family:var(--serif);font-size:1rem;color:var(--accent);margin-bottom:6px;" data-i18n="cross_insight_title">The Design Insight</p>
+        <p style="font-size:0.88rem;color:var(--muted);line-height:1.65;margin:0;" data-i18n="cross_insight_desc">The same 10,000 simulation results are used in all three tabs — zero additional computation. The analytical work is entirely in the transformation layer: what level of abstraction does each audience need? Executives need convergence (one number). HR managers need individual resolution (names). Ops managers need spatial resolution (which slot, which skill). Mismatching resolution to audience is why most dashboards fail.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── So What Framework ── -->
+  <section id="sowhat">
+    <div class="container">
+      <p class="section-label" data-i18n="sw_label">Insight Extraction Framework</p>
+      <h2 class="section-title" data-i18n="sw_title">The "So What?" test<br><em>applied to every metric</em></h2>
+      <p class="section-desc" data-i18n="sw_desc">Every metric in the dashboard passed a four-stage filter before inclusion. This is the same framework I apply when evaluating whether a number belongs on a dashboard or in an appendix.</p>
+
+      <div class="sowhat-flow">
+        <div class="sw-step fade-up">
+          <div class="sw-num">01</div>
+          <div class="sw-title" data-i18n="sw1_title">What is this measuring?</div>
+          <p class="sw-desc" data-i18n="sw1_desc">Precise definition of the numerator, denominator, and time window. Ambiguous metrics produce arguments, not decisions.</p>
+          <div class="sw-example" data-i18n="sw1_example">OHI = avg_coverage × (1 − avg_churn_risk). Not "employee wellbeing." Not "morale."</div>
+        </div>
+        <div class="sw-step fade-up">
+          <div class="sw-num">02</div>
+          <div class="sw-title" data-i18n="sw2_title">Who does it change behavior for?</div>
+          <p class="sw-desc" data-i18n="sw2_desc">If the answer isn't a specific role, the metric belongs in a data warehouse, not a dashboard. Metrics without an owner are decoration.</p>
+          <div class="sw-example" data-i18n="sw2_example">30-Day Op Risk → Owner: C-Suite. They have budget authority to approve emergency hiring. HR Manager cannot approve budget.</div>
+        </div>
+        <div class="sw-step fade-up">
+          <div class="sw-num">03</div>
+          <div class="sw-title" data-i18n="sw3_title">What does "bad" look like — specifically?</div>
+          <p class="sw-desc" data-i18n="sw3_desc">A metric without a threshold is a number without meaning. Thresholds must be calibrated to the business, not set arbitrarily.</p>
+          <div class="sw-example" data-i18n="sw3_example">LCR: Target 17.5% (our margin model). Warning at +2pp (triggers P&L review). Based on FMI 2023 median 18.5%.</div>
+        </div>
+        <div class="sw-step fade-up">
+          <div class="sw-num">04</div>
+          <div class="sw-title" data-i18n="sw4_title">What is the next action?</div>
+          <p class="sw-desc" data-i18n="sw4_desc">If crossing the threshold doesn't trigger a specific, named action within a defined timeframe, the metric is a vanity metric regardless of how interesting it is.</p>
+          <div class="sw-example" data-i18n="sw4_example">OHI &lt; 60% → "Approve emergency staffing budget this week." Not "investigate further."</div>
+        </div>
+      </div>
+
+      <!-- Metrics that didn't make the cut -->
+      <p class="section-label" style="margin-top:48px;" data-i18n="cut_label">What Didn't Make the Cut</p>
+      <h3 style="font-family:var(--serif);font-size:1.4rem;margin-bottom:8px;" data-i18n="cut_title">Rejected metrics — and why</h3>
+      <p style="color:var(--muted);font-size:0.9rem;margin-bottom:0;" data-i18n="cut_desc">Deciding what not to show is as important as deciding what to show. These were removed during design iteration.</p>
+
+      <table class="rationale-table" style="margin-top:20px;">
+        <thead>
+          <tr>
+            <th data-i18n="cut_col1">Rejected Metric</th>
+            <th data-i18n="cut_col2">Why It Felt Useful</th>
+            <th data-i18n="cut_col3">Why It Was Cut</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="rejected" data-i18n="cut_r1_name">Employee satisfaction score (survey)</td>
+            <td data-i18n="cut_r1_felt">Directly measures how people feel about work.</td>
+            <td data-i18n="cut_r1_cut">Lagging by 4–8 weeks. Self-reported. Not correlated with behavioral churn signals in this dataset. Replaced by LightGBM churn probability derived from operational data.</td>
+          </tr>
+          <tr>
+            <td class="rejected" data-i18n="cut_r2_name">Total headcount</td>
+            <td data-i18n="cut_r2_felt">Executives always want to know "how many people do we have."</td>
+            <td data-i18n="cut_r2_cut">Headcount without skill composition is meaningless. 30 employees with no Deli Advanced coverage is worse than 25 with full skill depth. Replaced by skill coverage hit-rates.</td>
+          </tr>
+          <tr>
+            <td class="rejected" data-i18n="cut_r3_name">Average tenure</td>
+            <td data-i18n="cut_r3_felt">Longer tenure = more experience = lower risk.</td>
+            <td data-i18n="cut_r3_cut">Tenure doesn't predict churn (long-tenured employees exit too, just for different reasons). Doesn't capture skill depth or replaceability. Used as a feature inside the churn model, not as a standalone dashboard metric.</td>
+          </tr>
+          <tr>
+            <td class="rejected" data-i18n="cut_r4_name">Training completion rate (%)</td>
+            <td data-i18n="cut_r4_felt">Shows whether the training plan is on track.</td>
+            <td data-i18n="cut_r4_cut">Percentage completed is an activity metric, not an outcome metric. 100% completion of the wrong training plan is worse than 0% of the right one. Replaced by coverage rate change post-training, which measures actual skill uplift.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ── Why This Demonstrates ── -->
+  <section>
+    <div class="container">
+      <p class="section-label" data-i18n="why_label">What This Demonstrates</p>
+      <h2 class="section-title" data-i18n="why_title">Dashboard design<br><em>as analytical discipline</em></h2>
+      <div class="why-grid">
+        <div class="why-card fade-up">
+          <div class="why-icon">🎯</div>
+          <div class="why-title" data-i18n="w1_title">KPI Architecture</div>
+          <p class="why-desc" data-i18n="w1_desc">Composite metrics (OHI, EVP) designed from first principles, with documented rationale for every component weight. Threshold calibration against industry benchmarks (FMI 2023), not intuition.</p>
+        </div>
+        <div class="why-card fade-up">
+          <div class="why-icon">🧭</div>
+          <div class="why-title" data-i18n="w2_title">Audience-Resolution Matching</div>
+          <p class="why-desc" data-i18n="w2_desc">The deliberate choice to aggregate, disaggregate, or flag the same data depending on who is reading it — and the ability to explain why each level of abstraction serves its audience.</p>
+        </div>
+        <div class="why-card fade-up">
+          <div class="why-icon">🔍</div>
+          <div class="why-title" data-i18n="w3_title">Insightful Metric Rejection</div>
+          <p class="why-desc" data-i18n="w3_desc">Removing metrics that feel useful but don't pass the actionability test. Survey satisfaction, total headcount, and training completion rate all failed the "so what?" filter — and are documented as intentional exclusions, not oversights.</p>
+        </div>
+        <div class="why-card fade-up">
+          <div class="why-icon">📖</div>
+          <div class="why-title" data-i18n="w4_title">Layout as Argument</div>
+          <p class="why-desc" data-i18n="w4_desc">The sequence of charts in the Executive tab — cards → root cause → trend → action — is a structured argument, not an aesthetic choice. Each section answers the question the previous one raises.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CTA ── -->
+  <section class="cta-section" style="background:#fff;">
+    <div class="container">
+      <div class="offer-box">
+        <p class="section-label" data-i18n="cta_label">Explore Further</p>
+        <h3 style="font-family:var(--serif);font-size:1.8rem;margin-bottom:16px;" data-i18n="cta_title">See the dashboard live</h3>
+        <p style="color:var(--muted);margin-bottom:32px;line-height:1.6;" data-i18n="cta_desc">Run a global simulation in the HR Tech Suite to populate all three dashboards with real data — then evaluate whether the design decisions documented here hold up in practice.</p>
+        <div class="btn-group">
+          <a href="#" target="_blank" class="btn btn-primary">↗ <span data-i18n="cta_btn1">Open Live Dashboard</span></a>
+          <a href="how-it-works-hr-tech-suite.html" class="btn btn-outline" data-i18n="cta_btn2">← Suite Overview</a>
+          <a href="index.html" class="btn btn-outline" data-i18n="cta_btn3">← Portfolio</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <p data-i18n="footer">© 2026 Manami Oyama · Built with HTML, CSS & JavaScript</p>
+    </div>
+  </footer>
+
+  <script>
+  const PAGE_TRANSLATIONS = {
+    en: {
+      nav_philosophy:"Philosophy", nav_exec:"Executive", nav_hr:"HR Manager", nav_ops:"Ops Manager", nav_cross:"Cross-Audience", nav_back:"← Suite Overview",
+      hero_eyebrow:"Dashboard Design · KPI Architecture · Data Storytelling",
+      hero_title:"Dashboards as Decision Architecture",
+      hero_desc:"Choosing what to measure, who sees what, and in what order — these are design decisions that determine whether a dashboard changes behavior or gets ignored. This page documents the reasoning behind every choice in the HR Tech Suite Control Tower.",
+      cta_primary:"Read the Design Rationale", cta_back:"← Suite Overview",
+      one_liner:"A dashboard that requires the user to think is a dashboard that gets ignored. Every structural decision — which KPI to show first, what to suppress, when to generate an action automatically — is an answer to the question: what does this person need to do next?",
+      phil_label:"Design Philosophy", phil_title:"Three principles that governed every metric choice",
+      phil_desc:"Before deciding what to measure, I defined the constraints: what makes a metric worth including, and what makes it worth leaving out.",
+      pr1_title:"Actionability over Completeness",
+      pr1_desc:"A metric earns its place only if the viewer can act on it. Showing 'total employee count' to a C-suite audience is noise — they can't change it by Friday. Showing '30-day operation risk' gives them something to approve or escalate. Every metric was pressure-tested against: what decision does this enable?",
+      pr2_title:"Audience-Specific Grain",
+      pr2_desc:"The same underlying simulation produces three completely different dashboards. Executives see aggregated composite scores (OHI, EVP). HR managers see individual-level risk ranked by severity. Ops managers see shift-level flags. Same data, calibrated to the resolution at which each audience operates.",
+      pr3_title:"Causal Narrative, Not Correlation Gallery",
+      pr3_desc:"Charts placed next to each other imply a relationship. The Executive KPI root-cause chart deliberately places labor cost ratio, coverage, and churn risk on the same timeline to make the causal chain visible: understaffing → churn → coverage decline → labor cost spike. The layout is the argument.",
+      exec_audience:"Executive Dashboard — C-Suite / Business Owners",
+      exec_tab_title:"Designing for someone with 30 seconds and full authority",
+      exec_kpi_label:"KPI Design", exec_kpi_title:"Why these four metrics — and not the obvious ones",
+      exec_kpi_desc:"The instinctive executive metrics are revenue, headcount, and costs. I rejected all three as primary KPIs because they are outputs, not levers. The dashboard uses leading indicators that precede P&L impact by 4–8 weeks.",
+      rt_col1:"Metric", rt_col2:"What It Measures", rt_col3:"Why Not the Simpler Alternative", rt_col4:"Decision Value",
+      ohi_what:"Coverage rate × (1 − avg churn risk). Composite of operational stability and people risk.",
+      ohi_rejected:"Employee satisfaction score",
+      ohi_why:"Satisfaction surveys are lagging, self-reported, and don't connect to P&L. OHI is computed from behavioral signals.",
+      ohi_value:"Single number that answers: 'Is the organization healthy enough to execute next month's plan?'",
+      evp_what:"Baseline loss (no action) minus optimized loss (with system interventions). Dollar value of risk avoided.",
+      evp_rejected:"Turnover cost YTD",
+      evp_why:"Historical turnover cost is a post-mortem. EVP is forward-looking and quantifies the value of not acting versus acting.",
+      evp_value:"Justifies HR investment in dollar terms an executive understands without translation.",
+      lcr_name:"Labor Cost %", lcr_what:"Weekly labor cost ÷ weekly revenue. Compared against target (17.5%) and industry median (18.5%).",
+      lcr_rejected:"Total weekly wage ($)",
+      lcr_why:"Absolute dollar amounts are meaningless without revenue context. A $14,000 wage bill is fine at $90K revenue and catastrophic at $55K.",
+      lcr_value:"Directly links staffing decisions to margin. A delta of +2% triggers a specific approval workflow.",
+      opr_name:"30-Day Op Risk", opr_what:"Next month's forecast coverage vs. 90% threshold. Derived from Monte Carlo simulation with seasonal demand.",
+      opr_rejected:"Current week's understaffed shifts",
+      opr_why:"Current-week data is too late — the shift already happened. A 30-day forward view gives executives time to approve budgets.",
+      opr_value:"Converts a staffing forecast into a binary risk signal executives can approve/escalate in one decision.",
+      exec_hier_label:"Information Hierarchy", exec_hier_title:"The deliberate reading order",
+      exec_hier_desc:"The layout forces a specific cognitive path: status → cause → action. Skipping any layer produces an uninformed decision.",
+      ih1_title:"Status — 4 Big Number Cards", ih1_desc:"Red / yellow / green color coding delivers the verdict in under 3 seconds. No chart-reading required. The executive knows whether to continue reading or escalate immediately. Each card shows only three data points: current value, benchmark, and delta.",
+      ih2_title:"Cause — KPI Root-Cause Chart", ih2_desc:"A single chart with three overlaid series: labor cost ratio (bars), shift coverage rate (green line), churn risk (red dashed). The layout embeds the causal argument — when the red line rises, the green line falls, and the bars spike 4–6 weeks later. No analytical work required; the relationship is visible.",
+      ih3_title:"Trend — Cost vs. Risk Trend Chart", ih3_desc:"Past 12 months of actual labor cost (bars) + next 6 months forecast including the training/hiring plan effect (lighter bars) + revenue risk line (red dashed). The critical insight: 'costs look controlled now, but the risk line spikes next quarter if no action is taken.' The forecast period is what creates urgency.",
+      ih4_title:"Action — Auto-Generated Executive Actions", ih4_desc:"Instead of asking the executive to derive actions from charts, the system generates specific, approvable items with dollar amounts and deadlines. Triggered by threshold crossings: OHI <80, EVP ≤0, LCR +2pp, coverage <85%, keyman churn ≥60%. Priority-sorted: 🔴 approve now, 🟡 schedule this month.",
+      hr_audience:"HR Manager Dashboard — People Operations",
+      hr_tab_title:"Designing for someone who needs to act on individuals, not averages",
+      hr_flow_label:"Layout Logic", hr_flow_title:"Alert → Diagnose → Prescribe: why this order matters",
+      hr_flow_desc:"HR managers are context-switchers. The dashboard must deliver the most time-sensitive information first, then provide the tools to investigate, then tell them exactly what to do. Reversing this order produces paralysis by analysis.",
+      hr_ih1_title:"Alert — Top 3 Cards (the fires burning right now)",
+      hr_ih1_desc:"High Flight Risk count (with Advanced-skilled flag), 30-day Critical Skill Gap probability by department, and Hiring/Training needs summary. These are the three questions HR asks every Monday morning. The cards answer all three before the user scrolls.",
+      hr_ih2_title:"Diagnose — Talent Vulnerability Matrix",
+      hr_ih2_desc:"X-axis: Replaceability (skill uniqueness + cross-training depth). Y-axis: Retention probability (1 − churn risk). Bubble size: opportunity loss if this person leaves. The four quadrants answer different questions — 🚨 bottom-left demands immediate action; ✅ top-right needs no attention. Color-coded by role group so patterns emerge.",
+      hr_ih3_title:"Context — Stress & Turnover Trends (the backstory)",
+      hr_ih3_desc:"Weekly overtime vs. stress score (dual-axis chart), monthly termination/hire flow (bar chart). Placed after the matrix — not before — because these are explanatory, not alerting. When the HR manager sees a high-risk cluster in the matrix, they scroll down to see 'oh, that department has had 3 consecutive high-stress weeks.' Sequence creates narrative.",
+      hr_ih4_title:"Prescribe — AI Prescriptive Actions (close the loop)",
+      hr_ih4_desc:"Three action types, each with a specific triggering condition: [1-on-1] when churn probability ≥50% + stress factor identified → generates a named, reason-explained recommendation. [Start Training] when skill gap >15% + peak season >4 weeks away → names the trainee candidate. [Hiring Alert] when coverage forecast drops below 90% within 6 months → names the shift type and deadline.",
+      hr_matrix_label:"Matrix Design Decisions", hr_matrix_title:"Why these axes — not the obvious alternatives",
+      dm1_q:"X-axis: Why Replaceability?", dm1_a:"Not performance score. Not years of service.",
+      dm1_why:"Performance score measures past contribution. Replaceability measures future risk. An employee can be a top performer and completely replaceable (cashier with 5 backups) — or a mediocre performer and irreplaceable (sole Deli Advanced holder). The business risk is concentrated where skill is scarce, not where performance is low.",
+      dm1_tag:"Computed: skill uniqueness × cross-training depth",
+      dm2_q:"Y-axis: Why Retention Probability?", dm2_a:"Not engagement score. Not manager rating.",
+      dm2_why:"Engagement surveys are self-reported, infrequent, and lag behavioral signals by 4–8 weeks. Retention probability is derived from LightGBM inference on 10 behavioral features updated every simulation run. It captures shift mismatch accumulation, overtime stress, and seasonal churn patterns that engagement surveys miss entirely.",
+      dm2_tag:"Computed: 1 − LightGBM churn probability",
+      dm3_q:"Bubble Size: Why Opportunity Loss?", dm3_a:"Not role seniority. Not salary band.",
+      dm3_why:"Seniority creates visual bias toward managers who may be easily replaceable. Opportunity loss — the revenue impact of this person leaving given current coverage gaps — makes the business consequence visible. A part-timer holding the last Deli Advanced skill during Holiday season has a larger bubble than the assistant manager they work under.",
+      dm3_tag:"Computed: skill scarcity × seasonal demand × hire/train cost",
+      dm4_q:"4 Quadrants: Why These Thresholds?", dm4_a:"0.5 replaceability / 0.5 retention: not arbitrary.",
+      dm4_why:"0.5 retention = 50% churn probability, which equals the historical industry average for retail annual turnover (FMI 2023: ~35–50% depending on role). At this threshold, the expected value of intervention breaks even with cost. 0.5 replaceability = average cross-training coverage. Below average on both axes defines the danger zone where intervention ROI is highest.",
+      dm4_tag:"Threshold: FMI 2023 retail churn baseline",
+      ops_audience:"Ops Manager Dashboard — Shop Floor Operations",
+      ops_tab_title:"Designing for someone who acts in minutes, not days",
+      ops_design_label:"Design Constraints", ops_design_title:"The ops manager needs flags, not scores",
+      ops_design_desc:"The critical insight governing this tab's design: ops managers make real-time decisions. A continuous score (e.g., 'safety score: 47') is not actionable at 9am when a shift is about to start. A flag (⚠️) on a specific skill × shift combination is. Every metric was redesigned from continuous to categorical where possible.",
+      od1_q:"Safety Score: Why target headcount as denominator?", od1_a:"Not actual headcount. Not percentage of ideal.",
+      od1_why:"Using actual headcount makes understaffed shifts appear more competent than they are. If target is 6 and only 2 show up — both Advanced — the score would be 100% with actual count as denominator. With target count, the score reflects the real risk: 2 people doing the work of 6, regardless of their skill level.",
+      od1_tag:"Safety Score = Σ(skill_level × weight) / target_headcount",
+      od2_q:"Coverage chart: Why separate Advanced from Basic?", od2_a:"Not a single 'coverage rate.' Skill-level disaggregation.",
+      od2_why:"A shift fully covered by Basic-level staff in the Deli department has a fundamentally different risk profile than one covered by Advanced staff. Aggregating into a single coverage number masks the skill depth problem. The bar charts show Advanced hit-rate and Basic hit-rate separately.",
+      od2_tag:"Disaggregated: Advanced hit-rate | Basic hit-rate | per skill × shift",
+      od3_q:"Satisfaction ranking: Why sorted ascending?", od3_a:"Worst first. Not alphabetical. Not by role.",
+      od3_why:"When sorted by satisfaction ascending, the people who need a follow-up conversation appear at the top without any scanning. The ops manager opens the dashboard and immediately sees the three staff members whose shifts deviated most from their preferences.",
+      od3_tag:"Sort: satisfaction score ascending (worst at top)",
+      od4_q:"Substitute Suggestion: Why show soft-NG candidates?", od4_a:"Not excluded — flagged with ⚠. Transparent tradeoffs.",
+      od4_why:"Excluding soft-NG candidates produces a cleaner list but less information. In an emergency absence, the manager may need to contact someone on their preferred day off. By including them with an ⚠ flag, the tool respects the manager's authority to make that call while making the tradeoff visible.",
+      od4_tag:"Rank: skill match → hours margin → wage. Soft-NG: flagged, not excluded.",
+      ops_stress_label:"Shift Stress Analysis", ops_stress_title:"Why composite stress — and not just overtime hours",
+      ops_stress_desc:"Overtime hours alone miss two critical stressors that predict burnout better in retail: skill scarcity pressure (being the only person who can do something) and preference mismatch accumulation (being repeatedly assigned shifts you hate). The composite score weights three components:",
+      stress_formula_label:"Shift Stress Score Composition",
+      sf_col1:"Component", sf_col2:"Formula", sf_col3:"Design Rationale",
+      sf_r1_formula:"shortage_ratio × role_burden × day_type × skill_scarcity",
+      sf_r1_why:"Highest weight because it directly predicts burnout. MG/ASM get 1.8× role multiplier (decision load increases when understaffed). Sale days get 1.4× (peak demand amplifies every stressor).",
+      sf_r2_formula:"mismatch_days / total_days. For 'Any' preference: shift variety as proxy (max 0.3 cap).",
+      sf_r2_why:"Lower weight because a single mismatch is acceptable; accumulation is the problem. 'Any' preference staff still experience stress from being rotated through all shifts — captured via variance proxy.",
+      sf_r3_formula:"avg_shortage × 0.6 + tenure_factor × 0.2 + (1 − engagement/100) × 0.2. MG/ASM/SL only.",
+      sf_r3_why:"Shorter tenure = harder to refuse overtime (0.9 factor). Longer tenure = more leverage to decline (0.3). Engagement drop correlates with refusal tendency but also with the stress of being asked repeatedly.",
+      cross_label:"Cross-Audience Design", cross_title:"One simulation. Three completely different stories.",
+      cross_desc:"The same Monte Carlo simulation result feeds all three dashboards. The transformation applied at each layer — what is aggregated, what is surfaced, what is suppressed — defines the analytical design skill.",
+      cross_exec_head:"🏦 Executive", cross_hr_head:"👥 HR Manager", cross_ops_head:"🏪 Ops Manager",
+      cross_input:"Input", cross_transform:"Transformation", cross_output:"Output", cross_suppressed:"Suppressed",
+      cross_mc_result:"MC simulation: adv_hit_rate by skill × shift",
+      cross_e_transform:"Aggregated into OHI (avg_coverage × risk factor). Trend line extended 6 months with seasonal multipliers.",
+      cross_e_output:"Single composite number + color signal",
+      cross_e_so:"\"Is the org healthy? Yes/No.\"",
+      cross_e_suppress:"Individual skill breakdowns, shift-level flags, specific employee names",
+      cross_h_transform:"Converted to skill gap probability per department. Combined with LightGBM churn scores per individual.",
+      cross_h_output:"Named individuals ranked by risk × replaceability",
+      cross_h_so:"\"Who do I call first this week?\"",
+      cross_h_suppress:"Shift-level granularity, wage cost breakdown, substitute ranking",
+      cross_o_transform:"Kept at full resolution: skill × shift × day_type. Safety score computed per cell. Binary ⚠ flag at threshold.",
+      cross_o_output:"⚠ flags on specific shifts. Ranked substitute list.",
+      cross_o_so:"\"Which slot do I fix right now?\"",
+      cross_o_suppress:"Aggregate scores, trend lines, individual churn probability",
+      cross_insight_title:"The Design Insight",
+      cross_insight_desc:"The same 10,000 simulation results are used in all three tabs — zero additional computation. The analytical work is entirely in the transformation layer: what level of abstraction does each audience need? Executives need convergence (one number). HR managers need individual resolution (names). Ops managers need spatial resolution (which slot, which skill). Mismatching resolution to audience is why most dashboards fail.",
+      sw_label:"Insight Extraction Framework", sw_title:"The 'So What?' test applied to every metric",
+      sw_desc:"Every metric in the dashboard passed a four-stage filter before inclusion. This is the same framework I apply when evaluating whether a number belongs on a dashboard or in an appendix.",
+      sw1_title:"What is this measuring?", sw1_desc:"Precise definition of the numerator, denominator, and time window. Ambiguous metrics produce arguments, not decisions.",
+      sw1_example:"OHI = avg_coverage × (1 − avg_churn_risk). Not 'employee wellbeing.' Not 'morale.'",
+      sw2_title:"Who does it change behavior for?", sw2_desc:"If the answer isn't a specific role, the metric belongs in a data warehouse, not a dashboard. Metrics without an owner are decoration.",
+      sw2_example:"30-Day Op Risk → Owner: C-Suite. They have budget authority to approve emergency hiring. HR Manager cannot approve budget.",
+      sw3_title:"What does 'bad' look like — specifically?", sw3_desc:"A metric without a threshold is a number without meaning. Thresholds must be calibrated to the business, not set arbitrarily.",
+      sw3_example:"LCR: Target 17.5% (our margin model). Warning at +2pp (triggers P&L review). Based on FMI 2023 median 18.5%.",
+      sw4_title:"What is the next action?", sw4_desc:"If crossing the threshold doesn't trigger a specific, named action within a defined timeframe, the metric is a vanity metric regardless of how interesting it is.",
+      sw4_example:"OHI < 60% → 'Approve emergency staffing budget this week.' Not 'investigate further.'",
+      cut_label:"What Didn't Make the Cut", cut_title:"Rejected metrics — and why",
+      cut_desc:"Deciding what not to show is as important as deciding what to show. These were removed during design iteration.",
+      cut_col1:"Rejected Metric", cut_col2:"Why It Felt Useful", cut_col3:"Why It Was Cut",
+      cut_r1_name:"Employee satisfaction score (survey)", cut_r1_felt:"Directly measures how people feel about work.",
+      cut_r1_cut:"Lagging by 4–8 weeks. Self-reported. Not correlated with behavioral churn signals in this dataset. Replaced by LightGBM churn probability derived from operational data.",
+      cut_r2_name:"Total headcount", cut_r2_felt:"Executives always want to know 'how many people do we have.'",
+      cut_r2_cut:"Headcount without skill composition is meaningless. 30 employees with no Deli Advanced coverage is worse than 25 with full skill depth. Replaced by skill coverage hit-rates.",
+      cut_r3_name:"Average tenure", cut_r3_felt:"Longer tenure = more experience = lower risk.",
+      cut_r3_cut:"Tenure doesn't predict churn (long-tenured employees exit too, just for different reasons). Doesn't capture skill depth or replaceability. Used as a feature inside the churn model, not as a standalone dashboard metric.",
+      cut_r4_name:"Training completion rate (%)", cut_r4_felt:"Shows whether the training plan is on track.",
+      cut_r4_cut:"Percentage completed is an activity metric, not an outcome metric. 100% completion of the wrong training plan is worse than 0% of the right one. Replaced by coverage rate change post-training, which measures actual skill uplift.",
+      why_label:"What This Demonstrates", why_title:"Dashboard design as analytical discipline",
+      w1_title:"KPI Architecture", w1_desc:"Composite metrics (OHI, EVP) designed from first principles, with documented rationale for every component weight. Threshold calibration against industry benchmarks (FMI 2023), not intuition.",
+      w2_title:"Audience-Resolution Matching", w2_desc:"The deliberate choice to aggregate, disaggregate, or flag the same data depending on who is reading it — and the ability to explain why each level of abstraction serves its audience.",
+      w3_title:"Insightful Metric Rejection", w3_desc:"Removing metrics that feel useful but don't pass the actionability test. Survey satisfaction, total headcount, and training completion rate all failed the 'so what?' filter — and are documented as intentional exclusions, not oversights.",
+      w4_title:"Layout as Argument", w4_desc:"The sequence of charts in the Executive tab — cards → root cause → trend → action — is a structured argument, not an aesthetic choice. Each section answers the question the previous one raises.",
+      cta_label:"Explore Further", cta_title:"See the dashboard live",
+      cta_desc:"Run a global simulation in the HR Tech Suite to populate all three dashboards with real data — then evaluate whether the design decisions documented here hold up in practice.",
+      cta_btn1:"Open Live Dashboard", cta_btn2:"← Suite Overview", cta_btn3:"← Portfolio",
+      footer:"© 2026 Manami Oyama · Built with HTML, CSS & JavaScript",
+    },
+    ja: {
+      nav_philosophy:"設計思想", nav_exec:"経営陣", nav_hr:"HRマネージャー", nav_ops:"現場マネージャー", nav_cross:"横断設計", nav_back:"← スイート概要",
+      hero_eyebrow:"ダッシュボード設計 · KPI設計 · データストーリーテリング",
+      hero_title:"意思決定の\n設計としての\nダッシュボード",
+      hero_desc:"何を測定するか、誰が何を見るか、どの順番で見せるか——これらは、ダッシュボードが行動を変えるか無視されるかを決定する設計上の判断です。このページでは、HR Tech Suite Control Towerの全ての選択の根拠を文書化します。",
+      cta_primary:"設計の根拠を読む", cta_back:"← スイート概要",
+      one_liner:"ユーザーに考えさせるダッシュボードは、無視されるダッシュボードです。どのKPIを最初に表示するか、何を省略するか、いつアクションを自動生成するか——全ての構造的な判断は、「この人は次に何をすべきか？」という問いへの回答です。",
+      phil_label:"設計思想", phil_title:"全ての指標選択を支配した3つの原則",
+      phil_desc:"何を測定するかを決める前に、制約を定義しました：何が指標を含める価値があるものにし、何が除外の価値があるものにするか。",
+      pr1_title:"完全性よりも実用性",
+      pr1_desc:"指標は、閲覧者がそれに基づいて行動できる場合にのみ存在価値があります。「従業員総数」を経営陣に表示することはノイズです——金曜日までに変更できません。「30日間の事業継続リスク」は、承認またはエスカレーションの対象を提供します。全ての指標は「これはどの意思決定を可能にするか？」に対してプレッシャーテストされました。",
+      pr2_title:"オーディエンス固有の粒度",
+      pr2_desc:"同じシミュレーション結果が3つの全く異なるダッシュボードを生成します。経営陣は集約された複合スコア（OHI、EVP）を見ます。HRマネージャーは重症度でランク付けされた個人レベルのリスクを見ます。現場マネージャーはシフトレベルのフラグを見ます。同じデータを、各オーディエンスが運営する解像度に合わせて調整します。",
+      pr3_title:"相関のギャラリーではなく因果ナラティブ",
+      pr3_desc:"隣り合って配置されたグラフは関係性を暗示します。経営陣のKPI因果分析チャートは、人件費率・充足率・離職リスクを意図的に同じタイムラインに配置し、因果連鎖を可視化します：人員不足→離職→充足率低下→人件費スパイク。レイアウトが論証です。",
+      exec_audience:"経営陣向けダッシュボード — C-Suite / ビジネスオーナー",
+      exec_tab_title:"30秒の時間と完全な権限を持つ人のための設計",
+      exec_kpi_label:"KPI設計", exec_kpi_title:"なぜこの4つの指標なのか——明白な代替案ではなく",
+      exec_kpi_desc:"直感的な経営陣指標は売上・人員数・コストです。これら3つを主要KPIとして拒否しました——成果であり、レバーではないからです。ダッシュボードはP&L影響の4〜8週前に先行する先行指標を使用します。",
+      rt_col1:"指標", rt_col2:"測定対象", rt_col3:"なぜ単純な代替案ではないのか", rt_col4:"意思決定価値",
+      ohi_what:"充足率 × (1 − 平均離職リスク)。業務安定性と人材リスクの複合指標。",
+      ohi_rejected:"従業員満足度スコア（サーベイ）",
+      ohi_why:"満足度サーベイは遅行性、自己申告型で、P&Lに繋がりません。OHIは行動シグナルから計算されます。",
+      ohi_value:"「組織は来月の計画を実行するのに十分な健全性があるか？」という問いに答える単一の数値。",
+      evp_what:"ベースライン損失（対策なし）マイナス最適化損失（システム介入あり）。回避されたリスクのドル価値。",
+      evp_rejected:"年初来の離職コスト総額",
+      evp_why:"過去の離職コストは事後分析です。EVPは前向きで、行動しない場合と行動する場合の価値を定量化します。",
+      evp_value:"経営陣が翻訳なしに理解できるドル価値でHR投資を正当化します。",
+      lcr_name:"人件費率", lcr_what:"週次人件費 ÷ 週次売上。目標（17.5%）と業界中央値（18.5%）と比較。",
+      lcr_rejected:"週次人件費総額（ドル）",
+      lcr_why:"絶対的なドル額は売上のコンテキストなしには意味をなしません。$14,000の人件費は$90K売上では問題なく、$55Kでは致命的です。",
+      lcr_value:"人員配置の意思決定を利益率に直接リンクします。+2%の差異は特定の承認ワークフローを起動します。",
+      opr_name:"翌月事業継続リスク", opr_what:"翌月の予測充足率 vs 90%閾値。季節需要を考慮したモンテカルロシミュレーションから導出。",
+      opr_rejected:"今週の人員不足シフト",
+      opr_why:"今週のデータでは遅すぎます——シフトはすでに発生しています。30日前の見通しにより、経営陣は予算を承認する時間を持てます。",
+      opr_value:"人員配置予測を、経営陣が一つの判断で承認・エスカレーションできる二値のリスクシグナルに変換します。",
+      exec_hier_label:"情報の階層構造", exec_hier_title:"意図的な読み取り順序",
+      exec_hier_desc:"レイアウトは特定の認知パスを強制します：状態→原因→アクション。どの層をスキップしても情報不足の意思決定が生まれます。",
+      ih1_title:"状態 — 4つのBig Numberカード",
+      ih1_desc:"赤/黄/緑の色分けが3秒以内に判定を伝えます。グラフを読む必要がありません。経営陣は読み続けるべきかエスカレーションすべきかを即座に判断できます。各カードは現在値・ベンチマーク・差異の3つのデータポイントのみを表示します。",
+      ih2_title:"原因 — KPI因果分析チャート",
+      ih2_desc:"3つの重ね合わされた系列を持つ単一のチャート：人件費率（棒）・シフト充足率（緑線）・離職リスク（赤点線）。レイアウトが因果論証を埋め込みます——赤線が上がると緑線が下がり、棒は4〜6週後にスパイクします。分析作業は不要で、関係性が可視化されています。",
+      ih3_title:"トレンド — コスト vs. リスクトレンドチャート",
+      ih3_desc:"過去12ヶ月の実際の人件費（棒）＋育成・採用プランの効果を含む未来6ヶ月予測（薄い棒）＋収益リスクライン（赤破線）。重要なインサイト：「今はコストが管理されているように見えるが、対策を講じなければリスクラインが来四半期にスパイクする」。予測期間が緊急性を生み出します。",
+      ih4_title:"アクション — 自動生成された経営判断アクション",
+      ih4_desc:"グラフからアクションを導出するよう経営陣に求める代わりに、システムがドル額と期限を含む具体的な承認可能な項目を生成します。閾値超過によってトリガー：OHI<80、EVP≤0、LCR+2pp、充足率<85%、キーマン離職率≥60%。優先度順：🔴今すぐ承認、🟡今月中にスケジュール。",
+      hr_audience:"HRマネージャー向けダッシュボード — 人事オペレーション",
+      hr_tab_title:"平均値ではなく個人に対して行動する必要がある人のための設計",
+      hr_flow_label:"レイアウトロジック", hr_flow_title:"アラート→診断→処方：なぜこの順序が重要か",
+      hr_flow_desc:"HRマネージャーはコンテキストスイッチャーです。ダッシュボードは最も時間的に重要な情報を最初に届け、調査するためのツールを提供し、何をすべきかを正確に伝えなければなりません。この順序を逆にすると分析麻痺が生じます。",
+      hr_ih1_title:"アラート — トップ3カード（今まさに燃えている火）",
+      hr_ih1_desc:"高離職リスク者数（Advanced要員フラグ付き）、部門別30日重要スキル欠員確率、採用・育成ニーズサマリー。これらはHRが毎週月曜日に尋ねる3つの質問です。カードはスクロールする前に全ての答えを提供します。",
+      hr_ih2_title:"診断 — タレント脆弱性マトリクス",
+      hr_ih2_desc:"X軸：代替可能性（スキル希少性＋クロストレーニング深度）。Y軸：定着予測率（1−離職リスク）。バブルサイズ：この人が去った場合の機会損失。4つの象限は異なる質問に答えます——🚨左下は即時対応が必要；✅右上は注意不要。役職グループ別の色分けでパターンが浮かび上がります。",
+      hr_ih3_title:"コンテキスト — ストレス・人員変動トレンド（背景情報）",
+      hr_ih3_desc:"週次残業 vs 平均ストレス（デュアル軸チャート）、月次退職・採用推移（棒グラフ）。マトリクスの後に配置——前ではなく——これらは説明的であり、アラート的ではないからです。HRマネージャーがマトリクスで高リスクのクラスターを見たとき、下にスクロールして「あ、その部門は3週連続で高ストレス状態だった」と気づきます。順序がナラティブを生み出します。",
+      hr_ih4_title:"処方 — AI処方アクション（ループを閉じる）",
+      hr_ih4_desc:"3つのアクションタイプ、それぞれに特定のトリガー条件：[1on1]離職確率≥50%＋ストレス要因特定→名前と理由を説明した推奨を生成。[育成開始]スキルギャップ>15%＋ピークシーズン>4週先→Trainee候補を指名。[採用警告]充足率予測が6ヶ月以内に90%を下回る→シフトタイプと期限を指定。",
+      hr_matrix_label:"マトリクス設計の判断", hr_matrix_title:"なぜこれらの軸なのか——明白な代替案ではなく",
+      dm1_q:"X軸：なぜ代替可能性？", dm1_a:"パフォーマンススコアではない。在籍年数でもない。",
+      dm1_why:"パフォーマンススコアは過去の貢献を測定します。代替可能性は将来のリスクを測定します。従業員はトップパフォーマーで完全に代替可能（バックアップが5人いるレジ担当）であることも、平凡なパフォーマーで不可欠（唯一の惣菜上級スキル保有者）であることもあります。ビジネスリスクはパフォーマンスが低い場所ではなく、スキルが希少な場所に集中しています。",
+      dm1_tag:"計算式：スキル希少性 × クロストレーニング深度",
+      dm2_q:"Y軸：なぜ定着予測率？", dm2_a:"エンゲージメントスコアではない。マネージャー評価でもない。",
+      dm2_why:"エンゲージメントサーベイは自己申告型で不定期、行動シグナルに4〜8週遅れます。定着予測率はシミュレーション実行ごとに更新される10の行動特徴量に対するLightGBM推論から導出されます。エンゲージメントサーベイが完全に見逃すシフト不一致の蓄積・残業ストレス・季節離職パターンを捉えます。",
+      dm2_tag:"計算式：1 − LightGBM離職確率",
+      dm3_q:"バブルサイズ：なぜ機会損失？", dm3_a:"役職の上位性ではない。給与帯でもない。",
+      dm3_why:"役職の上位性は代替可能なマネージャーに視覚的バイアスをもたらします。機会損失——現在の充足率ギャップを考慮したこの人が去った場合の収益影響——はビジネス的帰結を可視化します。Holiday期間中に最後の惣菜上級スキルを保有するパートタイムが、部下の副店長より大きいバブルを持つこともあります。",
+      dm3_tag:"計算式：スキル希少性 × 季節需要 × 採用・育成コスト",
+      dm4_q:"4象限：なぜこの閾値？", dm4_a:"代替可能性0.5 / 定着率0.5：恣意的ではない。",
+      dm4_why:"定着率0.5 = 離職確率50%は、小売業の年間離職率の業界平均（FMI 2023：役職によって約35〜50%）に等しい。この閾値で、介入の期待値がコストとbreak-evenします。代替可能性0.5 = 平均的なクロストレーニングカバレッジ。両軸で平均以下が、介入ROIが最も高い危険ゾーンを定義します。",
+      dm4_tag:"閾値：FMI 2023 小売業離職ベースライン",
+      ops_audience:"現場マネージャー向けダッシュボード — 店舗運営",
+      ops_tab_title:"日単位ではなく分単位で行動する人のための設計",
+      ops_design_label:"設計制約", ops_design_title:"現場マネージャーはスコアではなく、フラグを必要としている",
+      ops_design_desc:"このタブの設計を支配する重要なインサイト：現場マネージャーはリアルタイムの意思決定を行います。連続スコア（例：「安心度スコア：47」）はシフトが始まろうとしている午前9時に行動可能ではありません。特定のスキル×シフト帯の組み合わせ上の⚠フラグは行動可能です。全ての指標は可能な限り連続型からカテゴリ型に再設計されました。",
+      od1_q:"安心度スコア：なぜ目標人員を分母に？", od1_a:"実人員ではない。理想の割合でもない。",
+      od1_why:"実人員を使うと、人員不足のシフトが実際より有能に見えます。目標が6人で2人しか来なかった場合——両者がAdvancedであっても——実人員を分母にすると100%になります。目標人員を使うと、スコアは実際のリスクを反映します：スキルレベルに関わらず、6人分の仕事を2人でやっている。",
+      od1_tag:"安心度スコア = Σ(スキルレベル × 重み) / 目標人員数",
+      od2_q:"充足率チャート：なぜAdvancedとBasicを分けるのか？", od2_a:"単一の「充足率」ではない。スキルレベルの分解。",
+      od2_why:"惣菜部門のBasicレベルスタッフで完全にカバーされたシフトは、Advancedスタッフでカバーされたシフトと根本的に異なるリスクプロファイルを持ちます。単一の充足率数値への集約はスキル深度の問題を隠します。棒グラフはAdvancedヒット率とBasicヒット率を別々に表示します。",
+      od2_tag:"分解表示：Advanced率 | Basic率 | スキル × シフト帯ごと",
+      od3_q:"満足度ランキング：なぜ昇順ソート？", od3_a:"最悪を上位に。アルファベット順でも役職順でもない。",
+      od3_why:"満足度昇順にソートすると、フォローアップ会話が必要な人が走査なしにトップに表示されます。現場マネージャーはダッシュボードを開くと、希望から最も逸脱したシフトに入った3人のスタッフを即座に確認できます。",
+      od3_tag:"ソート：満足度スコア昇順（最悪を上位に）",
+      od4_q:"代替候補サジェスト：なぜソフトNGの候補を表示するのか？", od4_a:"除外ではなく⚠でフラグ。透明なトレードオフ。",
+      od4_why:"ソフトNG候補を除外するとリストはクリーンになりますが情報が少なくなります。緊急欠勤の場合、マネージャーは希望休の人に連絡する必要があるかもしれません。⚠フラグ付きで含めることで、ツールはマネージャーの権限を尊重しながらトレードオフを可視化します。",
+      od4_tag:"ランク：スキルマッチ→時間余裕→時給。ソフトNG：フラグ表示、除外しない。",
+      ops_stress_label:"シフトストレス分析", ops_stress_title:"なぜ複合ストレスなのか——残業時間だけではない理由",
+      ops_stress_desc:"残業時間だけでは、小売業でバーンアウトをより良く予測する2つの重要なストレス要因を見逃します：スキル希少性プレッシャー（自分にしかできないことがある重圧）と希望シフト不一致の蓄積（嫌いなシフトに繰り返し入れられること）。複合スコアは3つのコンポーネントを重み付けします：",
+      stress_formula_label:"シフトストレススコアの構成",
+      sf_col1:"コンポーネント", sf_col2:"計算式", sf_col3:"設計根拠",
+      sf_r1_formula:"shortage_ratio × 役職負担係数 × 日種別係数 × スキル希少性",
+      sf_r1_why:"バーンアウトを直接予測するため最高の重み。MG/ASMは役職乗数1.8×（人員不足時に意思決定負荷が増大）。セール日は1.4×（ピーク需要が全てのストレス要因を増幅）。",
+      sf_r2_formula:"不一致日数 / 出勤日数。「Any」希望の場合：シフト多様性を代理指標として使用（上限0.3）。",
+      sf_r2_why:"単一の不一致は許容範囲内だが、蓄積が問題のため重みは低め。「Any」希望のスタッフも全シフト帯を順番に割り当てられることでストレスを経験します——分散の代理指標で捉えます。",
+      sf_r3_formula:"avg_shortage × 0.6 + 在籍係数 × 0.2 + (1 − エンゲージメント/100) × 0.2。MG/ASM/SLのみ。",
+      sf_r3_why:"在籍が短いほど残業を断りにくい（係数0.9）。在籍が長いほど断るレバレッジが増す（0.3）。エンゲージメント低下は断る傾向と相関しますが、繰り返し依頼されるストレスとも相関します。",
+      cross_label:"クロスオーディエンス設計", cross_title:"1つのシミュレーション。3つの全く異なるストーリー。",
+      cross_desc:"同じモンテカルロシミュレーション結果が3つのダッシュボード全てに供給されます。各レイヤーで適用される変換——何を集約し、何を浮かび上がらせ、何を抑制するか——が分析設計スキルを定義します。",
+      cross_exec_head:"🏦 経営陣", cross_hr_head:"👥 HRマネージャー", cross_ops_head:"🏪 現場マネージャー",
+      cross_input:"入力", cross_transform:"変換", cross_output:"出力", cross_suppressed:"非表示",
+      cross_mc_result:"MCシミュレーション：スキル×シフト帯ごとのadv_hit_rate",
+      cross_e_transform:"OHIに集約（avg_coverage × リスク係数）。季節係数を使って6ヶ月先までトレンドラインを延長。",
+      cross_e_output:"単一の複合数値 + 色シグナル",
+      cross_e_so:"「組織は健全か？Yes/No。」",
+      cross_e_suppress:"個別スキル内訳、シフトレベルのフラグ、従業員名",
+      cross_h_transform:"部門別スキルギャップ確率に変換。個人ごとのLightGBM離職スコアと結合。",
+      cross_h_output:"リスク × 代替可能性でランク付けされた名前付きの個人",
+      cross_h_so:"「今週最初に誰に連絡すべきか？」",
+      cross_h_suppress:"シフトレベルの粒度、人件費内訳、代替候補ランキング",
+      cross_o_transform:"完全な解像度を維持：スキル × シフト帯 × 日種別。セルごとに安心度スコアを計算。閾値で二値⚠フラグ。",
+      cross_o_output:"特定のシフトへの⚠フラグ。ランク付けされた代替候補リスト。",
+      cross_o_so:"「今すぐどのスロットを修正すべきか？」",
+      cross_o_suppress:"集約スコア、トレンドライン、個人の離職確率",
+      cross_insight_title:"設計のインサイト",
+      cross_insight_desc:"同じ10,000件のシミュレーション結果が全3タブで使用されます——追加計算はゼロ。分析作業は全て変換レイヤーにあります：各オーディエンスはどの抽象化レベルを必要としているか？経営陣は収束（1つの数値）を必要とします。HRマネージャーは個人解像度（名前）を必要とします。現場マネージャーは空間的解像度（どのスロット、どのスキル）を必要とします。解像度とオーディエンスの不一致が、ほとんどのダッシュボードが失敗する理由です。",
+      sw_label:"インサイト抽出フレームワーク", sw_title:"全ての指標に適用した「So What？」テスト",
+      sw_desc:"ダッシュボードの全ての指標は、含める前に4段階のフィルターを通過しました。これは、ある数値がダッシュボードに属するか付録に属するかを評価する際に適用するフレームワークです。",
+      sw1_title:"何を測定しているのか？", sw1_desc:"分子・分母・時間窓の正確な定義。曖昧な指標は意思決定ではなく議論を生みます。",
+      sw1_example:"OHI = avg_coverage × (1 − avg_churn_risk)。「従業員のウェルビーイング」ではない。「モラール」でもない。",
+      sw2_title:"誰の行動を変えるのか？", sw2_desc:"答えが特定の役職でなければ、その指標はダッシュボードではなくデータウェアハウスに属します。所有者のない指標は装飾です。",
+      sw2_example:"翌月リスク → 所有者：C-Suite。緊急採用を承認する予算権限を持つのは彼ら。HRマネージャーは予算を承認できない。",
+      sw3_title:"「悪い」状態とは具体的にどのような状態か？", sw3_desc:"閾値のない指標は意味のない数値です。閾値はビジネスに合わせて較正されなければならず、恣意的に設定してはなりません。",
+      sw3_example:"人件費率：目標17.5%（当社マージンモデル）。+2ppで警告（P&Lレビューをトリガー）。FMI 2023中央値18.5%に基づく。",
+      sw4_title:"次のアクションは何か？", sw4_desc:"閾値を超えても定義された期間内に特定の名前付きアクションが発動しなければ、その指標はどれほど興味深くても虚栄指標です。",
+      sw4_example:"OHI < 60% → 「今週中に緊急人員配置予算を承認する。」「さらに調査する」ではない。",
+      cut_label:"カットされたもの", cut_title:"除外された指標——その理由",
+      cut_desc:"何を表示しないかを決めることは、何を表示するかを決めることと同じくらい重要です。これらは設計の反復中に削除されました。",
+      cut_col1:"除外された指標", cut_col2:"なぜ有用に感じたか", cut_col3:"なぜカットされたか",
+      cut_r1_name:"従業員満足度スコア（サーベイ）", cut_r1_felt:"仕事に対する人々の気持ちを直接測定する。",
+      cut_r1_cut:"4〜8週遅行。自己申告型。このデータセットの行動的な離職シグナルと相関しない。業務データから導出されたLightGBM離職確率に置き換えられました。",
+      cut_r2_name:"従業員総数", cut_r2_felt:"経営陣は常に「何人いるか」を知りたがる。",
+      cut_r2_cut:"スキル構成なしの人員数は意味をなしません。惣菜Advancedカバレッジのない30名は、完全なスキル深度を持つ25名より劣ります。スキル充足率ヒット率に置き換えられました。",
+      cut_r3_name:"平均在籍期間", cut_r3_felt:"在籍期間が長い = 経験が多い = リスクが低い。",
+      cut_r3_cut:"在籍期間は離職を予測しない（長期在籍の従業員も退職しますが、異なる理由で）。スキル深度や代替可能性を捉えません。単独のダッシュボード指標としてではなく、離職モデル内の特徴量として使用。",
+      cut_r4_name:"育成完了率（%）", cut_r4_felt:"育成計画が順調かどうかを示す。",
+      cut_r4_cut:"完了率は活動指標であり、成果指標ではありません。間違った育成プランの100%完了は、正しいものの0%より悪い。実際のスキル向上を測定する育成後の充足率変化に置き換えられました。",
+      why_label:"このプロジェクトが示すもの", why_title:"分析的規律としてのダッシュボード設計",
+      w1_title:"KPIアーキテクチャ", w1_desc:"第一原理から設計された複合指標（OHI、EVP）、全てのコンポーネント重みについて文書化された根拠。直感ではなく業界ベンチマーク（FMI 2023）に対する閾値較正。",
+      w2_title:"オーディエンス解像度マッチング", w2_desc:"誰が読むかによって同じデータを集約、分解、またはフラグ表示する意図的な選択——そして各抽象化レベルがそのオーディエンスにどのように機能するかを説明できる能力。",
+      w3_title:"洞察に富んだ指標の除外", w3_desc:"有用に感じるが実用性テストをパスしない指標の削除。サーベイ満足度・従業員総数・育成完了率は全て「So what？」フィルターに失敗しました——見落としではなく意図的な除外として文書化されています。",
+      w4_title:"論証としてのレイアウト", w4_desc:"経営陣タブのグラフの順序——カード→因果分析→トレンド→アクション——は美的選択ではなく構造化された論証です。各セクションが前のセクションが生じさせる問いに答えます。",
+      cta_label:"さらに探索する", cta_title:"ダッシュボードをライブで見る",
+      cta_desc:"HR Tech Suiteで一括シミュレーションを実行して全3つのダッシュボードに実データを投入し、ここで文書化された設計判断が実際に機能するかどうかを評価してください。",
+      cta_btn1:"ライブダッシュボードを開く", cta_btn2:"← スイート概要", cta_btn3:"← ポートフォリオ",
+      footer:"© 2026 Manami Oyama · HTML、CSS、JavaScriptで構築",
+    }
+  };
+  </script>
+  <script src="js/main.js"></script>
+</body>
+</html>
