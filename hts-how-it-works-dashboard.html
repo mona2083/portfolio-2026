@@ -236,6 +236,20 @@
       font-weight: 500;
     }
 
+    .exec-rationale th {
+      background: #f4faf7;
+      font-weight: 700;
+    }
+    .exec-rationale tr:nth-child(even) td { background: #fcfbf9; }
+    .exec-rationale th:last-child {
+      color: var(--accent);
+      font-weight: 700;
+    }
+    .exec-rationale td:last-child {
+      font-weight: 600;
+      background: #f7fbf8;
+    }
+
     /* ── Cross-audience comparison ── */
     .cross-grid {
       display: grid;
@@ -417,6 +431,10 @@
       <p class="hero-eyebrow fade-up" data-i18n="hero_eyebrow">Dashboard Design · KPI Architecture · Data Storytelling</p>
       <h1 class="hero-title fade-up" data-i18n="hero_title">Dashboards as<br><em>Decision Architecture</em></h1>
       <p class="hero-desc fade-up" data-i18n="hero_desc">Choosing what to measure, who sees what, and in what order — these are design decisions that determine whether a dashboard changes behavior or gets ignored. This page documents the reasoning behind every choice in the HR Tech Suite Control Tower.</p>
+      <div class="hero-meta fade-up" style="justify-content:center;margin:22px 0 30px;">
+        <div class="hero-meta-item"><span class="dot"></span><span data-i18n="hero_audience">For Executives, HR Managers, and Ops Managers: this page explains the architecture decisions behind the UI.</span></div>
+        <div class="hero-meta-item"><span class="dot"></span><span data-i18n="hero_read_time">Read time: 4 min</span></div>
+      </div>
       <div class="btn-group fade-up">
         <a href="#philosophy" class="btn btn-primary" data-i18n="cta_primary">Read the Design Rationale</a>
         <a href="hr-tech-suite-index.html" class="btn btn-outline" data-i18n="cta_back">← Suite Overview</a>
@@ -476,7 +494,7 @@
       <h3 style="font-family:var(--serif);font-size:1.4rem;margin-bottom:8px;" data-i18n="exec_kpi_title">Why these four metrics — and not the obvious ones</h3>
       <p style="color:var(--muted);font-size:0.9rem;margin-bottom:0;" data-i18n="exec_kpi_desc">The instinctive executive metrics are revenue, headcount, and costs. I rejected all three as primary KPIs because they are outputs, not levers. The dashboard uses leading indicators that precede P&L impact by 4–8 weeks.</p>
 
-      <table class="rationale-table" style="margin-top:20px;">
+      <table class="rationale-table exec-rationale" style="margin-top:20px;">
         <thead>
           <tr>
             <th data-i18n="rt_col1">Metric</th>
@@ -923,6 +941,7 @@
         <p class="section-label" data-i18n="cta_label">Explore Further</p>
         <h3 style="font-family:var(--serif);font-size:1.8rem;margin-bottom:16px;" data-i18n="cta_title">See the dashboard live</h3>
         <p style="color:var(--muted);margin-bottom:32px;line-height:1.6;" data-i18n="cta_desc">Run a global simulation in the HR Tech Suite to populate all three dashboards with real data — then evaluate whether the design decisions documented here hold up in practice.</p>
+        <p style="color:var(--muted);margin-bottom:24px;line-height:1.7;" data-i18n="cta_contact">Contact me to discuss how this architecture can be applied to your data. <a href="https://www.linkedin.com/in/manami-oyama/" target="_blank" style="color:var(--accent);font-weight:600;">LinkedIn</a> · <a href="mailto:omanami.to@gmail.com" style="color:var(--accent);font-weight:600;">Email</a></p>
         <div class="btn-group">
           <a href="#" target="_blank" class="btn btn-primary">↗ <span data-i18n="cta_btn1">Open Live Dashboard</span></a>
           <a href="hr-tech-suite-index.html" class="btn btn-outline" data-i18n="cta_btn2">← Suite Overview</a>
@@ -945,6 +964,8 @@
       hero_eyebrow:"Dashboard Design · KPI Architecture · Data Storytelling",
       hero_title:"Dashboards as Decision Architecture",
       hero_desc:"Choosing what to measure, who sees what, and in what order — these are design decisions that determine whether a dashboard changes behavior or gets ignored. This page documents the reasoning behind every choice in the HR Tech Suite Control Tower.",
+      hero_audience:"For Executives, HR Managers, and Ops Managers: this page explains the architecture decisions behind the UI.",
+      hero_read_time:"Read time: 4 min",
       cta_primary:"Read the Design Rationale", cta_back:"← Suite Overview",
       one_liner:"A dashboard that requires the user to think is a dashboard that gets ignored. Every structural decision — which KPI to show first, what to suppress, when to generate an action automatically — is an answer to the question: what does this person need to do next?",
       phil_label:"Design Philosophy", phil_title:"Three principles that governed every metric choice",
@@ -1080,6 +1101,7 @@
       w4_title:"Layout as Argument", w4_desc:"The sequence of charts in the Executive tab — cards → root cause → trend → action — is a structured argument, not an aesthetic choice. Each section answers the question the previous one raises.",
       cta_label:"Explore Further", cta_title:"See the dashboard live",
       cta_desc:"Run a global simulation in the HR Tech Suite to populate all three dashboards with real data — then evaluate whether the design decisions documented here hold up in practice.",
+      cta_contact:"Contact me to discuss how this architecture can be applied to your data. <a href=\"https://www.linkedin.com/in/manami-oyama/\" target=\"_blank\" style=\"color:var(--accent);font-weight:600;\">LinkedIn</a> · <a href=\"mailto:omanami.to@gmail.com\" style=\"color:var(--accent);font-weight:600;\">Email</a>",
       cta_btn1:"Open Live Dashboard", cta_btn2:"← Suite Overview", cta_btn3:"← Portfolio",
       footer:"© 2026 Manami Oyama · Built with HTML, CSS & JavaScript",
     },
@@ -1088,6 +1110,8 @@
       hero_eyebrow:"ダッシュボード設計 · KPI設計 · データストーリーテリング",
       hero_title:"意思決定の\n設計としての\nダッシュボード",
       hero_desc:"何を測定するか、誰が何を見るか、どの順番で見せるか——これらは、ダッシュボードが行動を変えるか無視されるかを決定する設計上の判断です。このページでは、HR Tech Suite Control Towerの全ての選択の根拠を文書化します。",
+      hero_audience:"対象: 経営陣・HRマネージャー・現場マネージャー。このページはUI設計の意図とアーキテクチャの舞台裏を解説します。",
+      hero_read_time:"読む時間: 4分",
       cta_primary:"設計の根拠を読む", cta_back:"← スイート概要",
       one_liner:"ユーザーに考えさせるダッシュボードは、無視されるダッシュボードです。どのKPIを最初に表示するか、何を省略するか、いつアクションを自動生成するか——全ての構造的な判断は、「この人は次に何をすべきか？」という問いへの回答です。",
       phil_label:"設計思想", phil_title:"全ての指標選択を支配した3つの原則",
@@ -1227,6 +1251,7 @@
       w4_title:"論証としてのレイアウト", w4_desc:"経営陣タブのグラフの順序——カード→因果分析→トレンド→アクション——は美的選択ではなく構造化された論証です。各セクションが前のセクションが生じさせる問いに答えます。",
       cta_label:"さらに探索する", cta_title:"ダッシュボードをライブで見る",
       cta_desc:"HR Tech Suiteで一括シミュレーションを実行して全3つのダッシュボードに実データを投入し、ここで文書化された設計判断が実際に機能するかどうかを評価してください。",
+      cta_contact:"あなたのデータにこのアーキテクチャをどう適用できるか、ぜひご相談ください。<a href=\"https://www.linkedin.com/in/manami-oyama/\" target=\"_blank\" style=\"color:var(--accent);font-weight:600;\">LinkedIn</a> ・ <a href=\"mailto:omanami.to@gmail.com\" style=\"color:var(--accent);font-weight:600;\">メール</a>",
       cta_btn1:"ライブダッシュボードを開く", cta_btn2:"← スイート概要", cta_btn3:"← ポートフォリオ",
       footer:"© 2026 Manami Oyama · HTML、CSS、JavaScriptで構築",
     }
