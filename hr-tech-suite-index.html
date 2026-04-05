@@ -197,6 +197,7 @@
     .app-card.wp::before  { background: var(--suite-green); }
     .app-card.ro::before  { background: var(--suite-orange); }
     .app-card.tp::before  { background: var(--suite-purple); }
+    .app-card.db::before  { background: var(--accent); }
     .app-card:hover { border-color: var(--accent2); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(0,0,0,0.06); }
     .app-card-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
     .app-num { font-family: var(--serif); font-size: 0.75rem; color: var(--muted); letter-spacing: 0.06em; margin-bottom: 4px; }
@@ -213,6 +214,7 @@
     .app-engine.wp  { color: var(--suite-green); }
     .app-engine.ro  { color: var(--suite-orange); }
     .app-engine.tp  { color: var(--suite-purple); }
+    .app-engine.db  { color: var(--accent); }
     .app-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.7; flex: 1; }
     .app-outputs {
       display: flex;
@@ -715,17 +717,35 @@
           </div>
         </div>
 
-      </div>
-    </div>
-  </section>
+        <!-- Dashboard -->
+        <div class="app-card db">
+          <div class="app-card-header">
+            <div>
+              <div class="app-num">App 05</div>
+              <div class="app-title">Control Tower Dashboard</div>
+            </div>
+            <div class="app-icon">🧭</div>
+          </div>
+          <div class="app-engine db" data-i18n="db_engine">Decision Dashboard Architecture</div>
+          <p class="app-desc" data-i18n="db_desc">Integrates outputs from all four engines into role-specific decision layers: executive KPIs, HR risk operations, shift health for store managers, ROI/sales narratives, and a metric library for analysts. One simulation run updates every audience view.</p>
+          <div class="app-outputs">
+            <div class="app-output-item" data-i18n="db_o1">Executive / HR / Ops / ROI / Library tabs</div>
+            <div class="app-output-item" data-i18n="db_o2">KPI hierarchy designed by action priority</div>
+            <div class="app-output-item" data-i18n="db_o3">Cross-audience consistency from shared SSOT</div>
+            <div class="app-output-item" data-i18n="db_o4">Action-ready insights instead of raw charts</div>
+          </div>
+          <div class="project-tags">
+            <span class="tag">Streamlit</span>
+            <span class="tag">Plotly</span>
+            <span class="tag">KPI Design</span>
+            <span class="tag">Data Storytelling</span>
+          </div>
+          <div class="app-links">
+            <a href="#" target="_blank" class="project-link" style="background:var(--accent);color:#fff;border-color:var(--accent);">↗ <span data-i18n="link_demo">Live Demo</span></a>
+            <a href="hts-how-it-works-dashboard.html" class="project-link">ⓘ <span data-i18n="link_how">How It Works</span></a>
+          </div>
+        </div>
 
-  <section>
-    <div class="container">
-      <p class="section-label" data-i18n="dash_intro_label">Dashboard Bridge</p>
-      <h2 class="section-title" data-i18n="dash_intro_title">How these four outputs<br><em>become one control panel</em></h2>
-      <p class="section-desc" data-i18n="dash_intro_desc">The Dashboard app is where all engine outputs merge into one decision view: executive KPIs, HR risk alerts, operations coverage health, ROI simulation, and a metric library that uses the same simulation run.</p>
-      <div class="btn-group" style="justify-content:flex-start;margin-top:24px;">
-        <a href="hts-how-it-works-dashboard.html" class="btn btn-outline">ⓘ <span data-i18n="dash_intro_btn">How Dashboard Works</span></a>
       </div>
     </div>
   </section>
@@ -921,6 +941,12 @@
       tp_desc:"Auto-generates OJT roadmaps from WP recommendations. Solves the chicken-and-egg dilemma (not enough trainers to train trainers) with 4-tier capacity analysis. Pairs trainees with optimal trainers, embeds them into the shift optimizer, and exports to JSON for SO integration.",
       tp_o1:"Auto training plan from WP recommendations", tp_o2:"Training capacity heatmap per skill",
       tp_o3:"Trainer/trainee pair optimization", tp_o4:"Shift-aware scheduling (off-strength aware)",
+      db_engine:"Decision Dashboard Architecture",
+      db_desc:"Integrates outputs from all four engines into role-specific decision layers: executive KPIs, HR risk operations, shift health for store managers, ROI/sales narratives, and a metric library for analysts. One simulation run updates every audience view.",
+      db_o1:"Executive / HR / Ops / ROI / Library tabs",
+      db_o2:"KPI hierarchy designed by action priority",
+      db_o3:"Cross-audience consistency from shared SSOT",
+      db_o4:"Action-ready insights instead of raw charts",
       tech_label:"Technical Stack", tech_title:"Production-grade tools, not tutorial libraries",
       tech1_label:"Optimization Engine", tech1_desc:"Used internally at Google for vehicle routing, scheduling, and bin-packing. Applied here to prove the optimal weekly shift assignment across 31+ employees with competing hard and soft constraints — returning a mathematically certified result, not a heuristic approximation.",
       tech2_label:"Probabilistic Simulation", tech2_desc:"10,000 roster draws per skill × shift band, modelling stochastic absence, seasonal demand, and skill distribution. Outputs hit-rate distributions (not point estimates) that quantify the probability of skill shortfall — enabling decisions under uncertainty.",
@@ -1010,6 +1036,12 @@
       tp_desc:"WP推奨から自動でOJTロードマップを生成。「トレーナーを育てるトレーナーがいない」鶏と卵のジレンマを4段階キャパシティ分析で解消。Traineeを最適Trainerとペアリングし、シフトオプティマイザーに組み込みJSON出力。",
       tp_o1:"WP推奨からの自動育成プラン生成", tp_o2:"スキル別育成キャパシティヒートマップ",
       tp_o3:"Trainer/Traineeペア最適化", tp_o4:"シフト連携スケジューリング（戦力外考慮）",
+      db_engine:"意思決定ダッシュボード設計",
+      db_desc:"4エンジンの出力を役割別の意思決定レイヤーへ統合します。経営KPI、HRリスク運用、現場のシフト健全性、ROI/営業説明、分析者向け指標ライブラリを、1回のシミュレーション実行で同時更新します。",
+      db_o1:"経営 / HR / Ops / ROI / ライブラリの5タブ",
+      db_o2:"次アクション優先で設計したKPI階層",
+      db_o3:"共有SSOTによる部門横断の整合性",
+      db_o4:"生チャートではなく実行可能な示唆を提示",
       tech_label:"技術スタック", tech_title:"チュートリアルライブラリではなく、本番グレードのツール",
       tech1_label:"最適化エンジン", tech1_desc:"Google社内でも使用されるOR-Tools CP-SAT。31名以上の従業員に対する競合するハード・ソフト制約を持つ週次シフト最適割当を数学的に証明 — ヒューリスティックな近似ではなく、数学的に保証された結果を返します。",
       tech2_label:"確率シミュレーション", tech2_desc:"スキル×シフト帯ごとに10,000回のロスター抽出。確率的欠勤・季節需要・スキル分布をモデル化。点推定ではなくヒット率分布を出力し、不確実性下での意思決定を可能にします。",
