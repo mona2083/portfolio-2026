@@ -89,7 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initBackToTop();
   
   // アニメーション対象の要素を監視
-  const animatedElements = document.querySelectorAll('.project-card, .skill-group, .stat-card, .timeline-item, .tech-card, .category-card, .flow-step, .why-card, .biz-card, .constraint-card, .card-base, .fade-up');
+  const animatedElements = document.querySelectorAll('.project-card, .skill-group, .stat-card, .timeline-item, .tech-card, .category-card, .flow-step, .why-card, .biz-card, .constraint-card, .card-base, .app-card, .fade-up');
   animatedElements.forEach(el => {
     if(!el.classList.contains('fade-up')) { 
       el.style.opacity = '0';
