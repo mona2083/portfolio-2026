@@ -49,27 +49,27 @@
           <div class="tech-icon">🧮</div>
           <div>
             <p class="tech-label">Layer 1</p>
-            <h3 class="tech-title" data-i18n="t1_title">Mathematical Optimization — OR-Tools</h3>
-            <p class="tech-desc" data-i18n="t1_desc">Google's OR-Tools solves a "knapsack problem" — given a budget and dozens of options, it finds the exact combination with the highest total value. Not trial and error: a mathematical proof. The answer is the best possible answer, guaranteed. The same technology powers airline scheduling, supply chain logistics, and Google Maps routing.</p>
-            <span class="tech-pill" data-i18n="t1_pill">Provably optimal — not just "pretty good"</span>
+            <h3 class="tech-title" data-i18n="t1_title">Mathematical Optimization — OR-Tools CP-SAT</h3>
+            <p class="tech-desc" data-i18n="t1_desc">Google's CP-SAT (Constraint Programming Satisfiability) solver finds the provably optimal combination of spending within your budget and constraints. It's not trial-and-error or heuristic—it's a mathematical proof. It guarantees "this is the best possible answer." The same technology powers airline scheduling, supply chain logistics, and autonomous vehicle routing.</p>
+            <span class="tech-pill" data-i18n="t1_pill">Provably optimal—mathematically guaranteed</span>
           </div>
         </div>
         <div class="tech-card">
           <div class="tech-icon">⚖️</div>
           <div>
             <p class="tech-label">Layer 2</p>
-            <h3 class="tech-title" data-i18n="t2_title">Utility Theory — Economics-based scoring</h3>
-            <p class="tech-desc" data-i18n="t2_desc">Utility Theory — used in behavioral finance — lets us assign a numerical "life value" to any spending. Each item scores across 4 axes: Health, Relationships, Freedom, and Growth. Your sliders set how much each axis matters. The optimizer maximizes your total utility, not just your bank balance.</p>
-            <span class="tech-pill" data-i18n="t2_pill">Rooted in Nobel Prize-winning economic theory</span>
+            <h3 class="tech-title" data-i18n="t2_title">Utility Theory — 6-Axis Life Quality Model</h3>
+            <p class="tech-desc" data-i18n="t2_desc">Utility Theory (from behavioral economics) lets us assign a numeric "life value" score to any spending choice. Each item is rated across 6 dimensions: Health, Connections, Freedom, Growth, Food quality, and Savings. Your input weights determine how much each dimension matters to you. The optimizer balances these to maximize total life quality, not just minimize costs.</p>
+            <span class="tech-pill" data-i18n="t2_pill">Rooted in well-being economics and PERMA theory</span>
           </div>
         </div>
         <div class="tech-card">
           <div class="tech-icon">🤖</div>
           <div>
             <p class="tech-label">Layer 3</p>
-            <h3 class="tech-title" data-i18n="t3_title">LLM Integration — Gemini API</h3>
-            <p class="tech-desc" data-i18n="t3_desc">Google's Gemini fills in realistic cost and score estimates when you add a new item. Type "electric scooter" and it instantly returns initial cost, monthly cost, and scores for all 4 axes. It also generates a plain-language summary of your result in the tone of a lifestyle advisor.</p>
-            <span class="tech-pill" data-i18n="t3_pill">LLM as a data assistant, not just a chatbot</span>
+            <h3 class="tech-title" data-i18n="t3_title">LLM Intelligence — Value-Aware Profiling & Recommendations</h3>
+            <p class="tech-desc" data-i18n="t3_desc">Google's Gemini LLM serves two critical roles: (1) Analyzes your passion text + lifestyle survey to infer which of the 6 dimensions matter most to you, then auto-adjust your value weights. (2) Proposes 10–15 custom spending items tailored to your budget and inferred values—avoiding duplicates of sensible defaults. This turns sliders + open-ended input into a personalized optimization.</p>
+            <span class="tech-pill" data-i18n="t3_pill">LLM as a values analyst, not just a data lookup</span>
           </div>
         </div>
       </div>
@@ -79,73 +79,84 @@
   <section>
     <div class="container">
       <p class="section-label" data-i18n="flow_label">The Process</p>
-      <h2 class="section-title" data-i18n="flow_title">From your input to optimal answer</h2>
-      <p class="section-desc" data-i18n="flow_desc">Here's exactly what happens when you click "Optimize."</p>
+      <h2 class="section-title" data-i18n="flow_title">9-step user journey to optimal spending</h2>
+      <p class="section-desc" data-i18n="flow_desc">Here's exactly what happens from clicking in to getting your result.</p>
       <div class="flow">
 
         <div class="flow-step">
-          <div class="flow-num">1</div>
+          <div class="flow-num">1–2</div>
           <div>
-            <h3 class="flow-title" data-i18n="f1_title">Your values become numbers</h3>
-            <p class="flow-desc" data-i18n="f1_desc">Your slider settings become weights in a mathematical formula. Higher weight = that axis counts more when scoring each item.</p>
-            <div class="flow-code">
-              <span class="cm"># Your priority sliders</span><br>
-              weights = {<br>
-              &nbsp;&nbsp;<span class="kw">"health"</span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="nu">9</span>,&nbsp;&nbsp;<span class="cm"># you care deeply about health</span><br>
-              &nbsp;&nbsp;<span class="kw">"connections"</span>:&nbsp;<span class="nu">6</span>,<br>
-              &nbsp;&nbsp;<span class="kw">"freedom"</span>:&nbsp;&nbsp;&nbsp;<span class="nu">4</span>,<br>
-              &nbsp;&nbsp;<span class="kw">"growth"</span>:&nbsp;&nbsp;&nbsp;&nbsp;<span class="nu">7</span>,<br>
-              &nbsp;&nbsp;<span class="kw">"savings"</span>:&nbsp;&nbsp;&nbsp;<span class="nu">5</span>,<br>
-              }
-            </div>
-          </div>
-        </div>
-
-        <div class="flow-step">
-          <div class="flow-num">2</div>
-          <div>
-            <h3 class="flow-title" data-i18n="f2_title">Each item gets a utility score</h3>
-            <p class="flow-desc" data-i18n="f2_desc">For every candidate item the app calculates a "utility." Higher priority items get a bonus multiplier (up to 2×) so the things you want most are strongly preferred.</p>
-            <div class="flow-code">
-              <span class="cm"># Utility = weighted sum × priority bonus</span><br>
-              utility = (<br>
-              &nbsp;&nbsp;w[<span class="kw">"health"</span>] × (health + <span class="nu">10</span>) × <span class="nu">100</span><br>
-              &nbsp;&nbsp;+ w[<span class="kw">"connections"</span>] × connections × <span class="nu">100</span><br>
-              &nbsp;&nbsp;+ w[<span class="kw">"freedom"</span>] × freedom × <span class="nu">100</span><br>
-              &nbsp;&nbsp;+ w[<span class="kw">"growth"</span>] × growth × <span class="nu">100</span><br>
-              ) × priority_bonus &nbsp;<span class="cm"># 1.0× – 2.0×</span>
-            </div>
+            <h3 class="flow-title" data-i18n="f1_title">Financial foundation: Budget + Household + Goals</h3>
+            <p class="flow-desc" data-i18n="f1_desc">You input monthly available income, fixed costs, household size, and a savings target. The app calculates your monthly discretionary budget and optionally models realistic risk costs (medical, housing repair, emergency fund) based on your age and family structure.</p>
           </div>
         </div>
 
         <div class="flow-step">
           <div class="flow-num">3</div>
           <div>
-            <h3 class="flow-title" data-i18n="f3_title">Savings competes as a real option</h3>
-            <p class="flow-desc" data-i18n="f3_desc">Unlike a typical budgeting app that treats savings as "leftover money," this optimizer treats saving as a choice that competes directly with spending. If savings=9, the optimizer actively sacrifices items to protect your savings goal.</p>
+            <h3 class="flow-title" data-i18n="f2_title">Passion & lifestyle context: Free-form input + 5 questions</h3>
+            <p class="flow-desc" data-i18n="f2_desc">You write 2–3 sentences about your passions and interests. You answer 5 questions about health priorities, social preferences, work-life balance, learning, and meal style. The app also asks about dining-out frequency and food quality preferences.</p>
+          </div>
+        </div>
+
+        <div class="flow-step">
+          <div class="flow-num">4–5</div>
+          <div>
+            <h3 class="flow-title" data-i18n="f3_title">AI value profiling: LLM infers your priorities</h3>
+            <p class="flow-desc" data-i18n="f3_desc">Gemini analyzes your passion text + lifestyle answers to infer how much you care about each of 6 life dimensions (Health, Connections, Freedom, Growth, Food, Savings). It auto-adjusts your value weights. You can manually edit these sliders. Based on your values + budget, Gemini also proposes 10–15 custom spending items.</p>
             <div class="flow-code">
-              <span class="cm"># Savings utility scales with total item value</span><br>
-              savings_coef = (<br>
-              &nbsp;&nbsp;total_utility × w[<span class="kw">"savings"</span>]<br>
-              ) ÷ (<span class="nu">10</span> × monthly_budget)<br><br>
-              savings_value = actual_savings × savings_coef
+              <span class="cm"># AI inferred weights</span><br>
+              values = {<br>
+              &nbsp;&nbsp;<span class="kw">"health"</span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="nu">8</span>,&nbsp;&nbsp;<span class="cm"># AI detected fitness importance</span><br>
+              &nbsp;&nbsp;<span class="kw">"connections"</span>:&nbsp;<span class="nu">7</span>,<span class="cm"># social themes in passion text</span><br>
+              &nbsp;&nbsp;<span class="kw">"freedom"</span>:&nbsp;&nbsp;&nbsp;<span class="nu">6</span>,<br>
+              &nbsp;&nbsp;<span class="kw">"growth"</span>:&nbsp;&nbsp;&nbsp;&nbsp;<span class="nu">9</span>,<br>
+              &nbsp;&nbsp;<span class="kw">"food"</span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="nu">5</span>,&nbsp;&nbsp;<span class="cm"># from meal preferences</span><br>
+              &nbsp;&nbsp;<span class="kw">"savings"</span>:&nbsp;&nbsp;&nbsp;<span class="nu">6</span>,<br>
+              }
             </div>
           </div>
         </div>
 
         <div class="flow-step">
-          <div class="flow-num">4</div>
+          <div class="flow-num">6</div>
           <div>
-            <h3 class="flow-title" data-i18n="f4_title">OR-Tools finds the provably best answer</h3>
-            <p class="flow-desc" data-i18n="f4_desc">The CP-SAT solver considers all possible combinations simultaneously and returns the selection that maximizes total utility + savings, subject to your budget and rules (e.g. "exactly one transport package," "pet insurance only if pet is selected").</p>
+            <h3 class="flow-title" data-i18n="f4_title">Item review & curation: Refine the proposal</h3>
+            <p class="flow-desc" data-i18n="f4_desc">The app shows you curated default items (gym, transport options, time-saving appliances, etc.) and the 10+ AI-proposed items. You adjust priorities, costs, or remove items you don't want. You can also add your own custom spending idea.</p>
+          </div>
+        </div>
+
+        <div class="flow-step">
+          <div class="flow-num">7–8</div>
+          <div>
+            <h3 class="flow-title" data-i18n="f5_title">Utility scoring & constraint resolution</h3>
+            <p class="flow-desc" data-i18n="f5_desc">For each candidate item, the app calculates a "utility score" = (value weights × item axes scores) × priority bonus. Transport is treated as a mandatory single-choice category (pick exactly one: car, e-bike, transit, etc.). Constraints like "pet insurance only if pet selected" are enforced. Food is modeled as 3 flexible tiers: minimalist floor, your estimated preference, and a luxury band.</p>
             <div class="flow-code">
-              <span class="cm"># Maximize: item utility + savings value</span><br>
+              <span class="cm"># Utility combines all 6 dimensions</span><br>
+              item_utility = (<br>
+              &nbsp;&nbsp;w[health] × item.health × 100<br>
+              &nbsp;&nbsp;+ w[connections] × item.connections × 100<br>
+              &nbsp;&nbsp;+ w[freedom] × item.freedom × 100<br>
+              &nbsp;&nbsp;+ w[growth] × item.growth × 100<br>
+              &nbsp;&nbsp;+ w[food] × item.food_score × 40<br>
+              ) × priority_bonus &nbsp;<span class="cm"># 1.0×–2.0×</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="flow-step">
+          <div class="flow-num">9</div>
+          <div>
+            <h3 class="flow-title" data-i18n="f6_title">CP-SAT solver: Find the global optimum</h3>
+            <p class="flow-desc" data-i18n="f6_desc">The optimizer simultaneously evaluates all valid combinations and returns the selection that maximizes total utility + savings, subject to your budget cap and all constraints. The result is a spending plan where every item earned its place mathematically.</p>
+            <div class="flow-code">
+              <span class="cm"># Maximize: total utility + savings benefit</span><br>
               model.Maximize(<br>
               &nbsp;&nbsp;Σ(x[i] × utility[i]) + savings_value<br>
               )<br>
               <span class="cm"># Subject to constraints</span><br>
               model.Add(Σ monthly_costs ≤ budget)<br>
-              model.Add(Σ transport_items = <span class="nu">1</span>)
+              model.Add(transport_items == 1)
             </div>
           </div>
         </div>
@@ -157,41 +168,48 @@
   <section>
     <div class="container">
       <p class="section-label" data-i18n="ex_label">Concrete Example</p>
-      <h2 class="section-title" data-i18n="ex_title">Gym vs. Travel Fund: who wins?</h2>
-      <p class="section-desc" data-i18n="ex_desc">Budget is tight — only one fits. Health=9, Relationships=7, Freedom=5, Growth=4, Savings=5.</p>
+      <h2 class="section-title" data-i18n="ex_title">Young professional: Optimize for health & growth</h2>
+      <p class="section-desc" data-i18n="ex_desc">Monthly budget=$2500 · Savings goal=$300/month · Weights: Health=9, Growth=8, Connections=6, Freedom=5, Food=5, Savings=7.</p>
       <div class="example-box">
         <div class="example-header">
-          <h3 data-i18n="ex_scenario">Scenario: $150 remaining. Only one fits.</h3>
-          <p data-i18n="ex_scenario_sub">Gym = $50/month · Travel Fund = $150/month</p>
+          <h3 data-i18n="ex_scenario">Scenario: What gets selected?</h3>
+          <p data-i18n="ex_scenario_sub">Personal trainer (£200/mo) vs. Online course (£60/mo) vs. Dining-out budget (£150/mo)</p>
         </div>
         <div class="example-body">
           <div class="item-compare">
             <div class="item-card winner">
-              <div class="item-name">💪 <span data-i18n="ex_gym">Gym</span></div>
+              <div class="item-name">💪 <span data-i18n="ex_gym">Personal Trainer</span></div>
               <div class="item-scores">
-                <div class="score-row"><span class="score-label" data-i18n="ex_health">Health</span><div class="score-bar-wrap"><div class="score-bar" style="width:90%"></div></div><span class="score-num">9</span></div>
-                <div class="score-row"><span class="score-label" data-i18n="ex_connect">Connect</span><div class="score-bar-wrap"><div class="score-bar" style="width:50%"></div></div><span class="score-num">5</span></div>
-                <div class="score-row"><span class="score-label" data-i18n="ex_freedom">Freedom</span><div class="score-bar-wrap"><div class="score-bar" style="width:10%"></div></div><span class="score-num">1</span></div>
-                <div class="score-row"><span class="score-label" data-i18n="ex_growth">Growth</span><div class="score-bar-wrap"><div class="score-bar" style="width:30%"></div></div><span class="score-num">3</span></div>
+                <div class="score-row"><span class="score-label" data-i18n="ex_health">Health</span><div class="score-bar-wrap"><div class="score-bar" style="width:95%"></div></div><span class="score-num">9</span></div>
+                <div class="score-row"><span class="score-label" data-i18n="ex_grow">Growth</span><div class="score-bar-wrap"><div class="score-bar" style="width:70%"></div></div><span class="score-num">7</span></div>
+                <div class="score-row"><span class="score-label" data-i18n="ex_connect">Connect</span><div class="score-bar-wrap"><div class="score-bar" style="width:60%"></div></div><span class="score-num">6</span></div>
               </div>
               <div class="winner-badge" data-i18n="ex_winner">✓ Selected</div>
             </div>
             <div class="item-card">
-              <div class="item-name">✈️ <span data-i18n="ex_travel">Travel Fund</span></div>
+              <div class="item-name">📚 <span data-i18n="ex_course">Online Course</span></div>
               <div class="item-scores">
-                <div class="score-row"><span class="score-label" data-i18n="ex_health">Health</span><div class="score-bar-wrap"><div class="score-bar" style="width:30%"></div></div><span class="score-num">3</span></div>
-                <div class="score-row"><span class="score-label" data-i18n="ex_connect">Connect</span><div class="score-bar-wrap"><div class="score-bar" style="width:60%"></div></div><span class="score-num">6</span></div>
-                <div class="score-row"><span class="score-label" data-i18n="ex_freedom">Freedom</span><div class="score-bar-wrap"><div class="score-bar" style="width:70%"></div></div><span class="score-num">7</span></div>
-                <div class="score-row"><span class="score-label" data-i18n="ex_growth">Growth</span><div class="score-bar-wrap"><div class="score-bar" style="width:50%"></div></div><span class="score-num">5</span></div>
+                <div class="score-row"><span class="score-label" data-i18n="ex_health">Health</span><div class="score-bar-wrap"><div class="score-bar" style="width:20%"></div></div><span class="score-num">2</span></div>
+                <div class="score-row"><span class="score-label" data-i18n="ex_grow">Growth</span><div class="score-bar-wrap"><div class="score-bar" style="width:90%"></div></div><span class="score-num">9</span></div>
+                <div class="score-row"><span class="score-label" data-i18n="ex_connect">Connect</span><div class="score-bar-wrap"><div class="score-bar" style="width:30%"></div></div><span class="score-num">3</span></div>
+              </div>
+            </div>
+            <div class="item-card">
+              <div class="item-name">🍽️ <span data-i18n="ex_dine">Dining Out</span></div>
+              <div class="item-scores">
+                <div class="score-row"><span class="score-label" data-i18n="ex_health">Health</span><div class="score-bar-wrap"><div class="score-bar" style="width:40%"></div></div><span class="score-num">4</span></div>
+                <div class="score-row"><span class="score-label" data-i18n="ex_grow">Growth</span><div class="score-bar-wrap"><div class="score-bar" style="width:50%"></div></div><span class="score-num">5</span></div>
+                <div class="score-row"><span class="score-label" data-i18n="ex_connect">Connect</span><div class="score-bar-wrap"><div class="score-bar" style="width:85%"></div></div><span class="score-num">8</span></div>
               </div>
             </div>
           </div>
           <div class="formula-box">
-            <p class="formula-title" data-i18n="ex_calc">The calculation</p>
+            <p class="formula-title" data-i18n="ex_calc">Why Personal Trainer won</p>
             <div class="formula">
-              <span data-i18n="ex_gym_calc">Gym</span>&nbsp;=&nbsp;(<span class="hi">9</span>×19 + <span class="hi">7</span>×5 + <span class="hi">5</span>×1 + <span class="hi">4</span>×3) × <span class="val">2.0×</span> = (171+35+5+12) × 2.0 = <span class="result">446</span><br>
-              <span data-i18n="ex_travel_calc">Travel</span> = (<span class="hi">9</span>×13 + <span class="hi">7</span>×6 + <span class="hi">5</span>×7 + <span class="hi">4</span>×5) × <span class="val">1.0×</span> = (117+42+35+20) × 1.0 = <span class="result">214</span><br><br>
-              <span data-i18n="ex_verdict">→ Gym wins (446 > 214) — Health weight=9 amplifies its high health score.</span>
+              <span data-i18n="ex_trainer_calc">Trainer</span>: (9×19 + 8×17 + 6×16 + 5×10) × 1.0 = (171 + 136 + 96 + 50) = <span class="result">453</span><br>
+              <span data-i18n="ex_course_calc">Course</span>: (9×12 + 8×19 + 6×13 + 5×10) × 0.8 = (108 + 152 + 78 + 50) × 0.8 = <span class="result">283</span><br>
+              <span data-i18n="ex_dine_calc">Dining</span>: (9×14 + 8×15 + 6×18 + 5×10) × 1.2 = (126 + 120 + 108 + 50) × 1.2 = <span class="result">538</span> but costs £150/mo vs £200/mo<br><br>
+              <span data-i18n="ex_verdict">→ Trainer selected because Health weight=9 heavily amplifies its 9/10 health score. Course & Dining both included but Trainer dominates utility-per-dollar.</span>
             </div>
           </div>
         </div>
@@ -280,32 +298,37 @@
         tech_desc:"Each layer handles a different part of the problem. Together they form a system no single technology could achieve alone.",
         t1_title:"Mathematical Optimization — OR-Tools",
         t1_desc:"Google's OR-Tools solves a \"knapsack problem\" — given a budget and dozens of options, it finds the exact combination with the highest total value. Not trial and error: a mathematical proof. The answer is the best possible answer, guaranteed. The same technology powers airline scheduling, supply chain logistics, and Google Maps routing.",
-        t1_pill:"Provably optimal — not just \"pretty good\"",
-        t2_title:"Utility Theory — Economics-based scoring",
-        t2_desc:"Utility Theory — used in behavioral finance — lets us assign a numerical \"life value\" to any spending. Each item scores across 4 axes: Health, Relationships, Freedom, and Growth. Your sliders set how much each axis matters. The optimizer maximizes your total utility, not just your bank balance.",
-        t2_pill:"Rooted in Nobel Prize-winning economic theory",
-        t3_title:"LLM Integration — Gemini API",
-        t3_desc:"Google's Gemini fills in realistic cost and score estimates when you add a new item. Type \"electric scooter\" and it instantly returns initial cost, monthly cost, and scores for all 4 axes. It also generates a plain-language summary of your result in the tone of a lifestyle advisor.",
-        t3_pill:"LLM as a data assistant, not just a chatbot",
-        flow_label:"The Process", flow_title:"From your input to optimal answer",
-        flow_desc:"Here's exactly what happens when you click \"Optimize.\"",
-        f1_title:"Your values become numbers",
-        f1_desc:"Your slider settings become weights in a mathematical formula. Higher weight = that axis counts more when scoring each item.",
-        f2_title:"Each item gets a utility score",
-        f2_desc:"For every candidate item the app calculates a \"utility.\" Higher priority items get a bonus multiplier (up to 2×) so the things you want most are strongly preferred.",
-        f3_title:"Savings competes as a real option",
-        f3_desc:"Unlike a typical budgeting app that treats savings as \"leftover money,\" this optimizer treats saving as a choice that competes directly with spending. If savings=9, the optimizer actively sacrifices items to protect your savings goal.",
-        f4_title:"OR-Tools finds the provably best answer",
-        f4_desc:"The CP-SAT solver considers all possible combinations simultaneously and returns the selection that maximizes total utility + savings, subject to your budget and rules (e.g. \"exactly one transport package,\" \"pet insurance only if pet is selected\").",
-        ex_label:"Concrete Example", ex_title:"Gym vs. Travel Fund: who wins?",
-        ex_desc:"Budget is tight — only one fits. Health=9, Relationships=7, Freedom=5, Growth=4, Savings=5.",
-        ex_scenario:"Scenario: $200 remaining. Only one fits.",
-        ex_scenario_sub:"Gym = $50/month · Travel Fund = $150/month",
-        ex_gym:"Gym", ex_travel:"Travel Fund",
-        ex_health:"Health", ex_connect:"Connect", ex_freedom:"Freedom", ex_growth:"Growth",
-        ex_winner:"✓ Selected", ex_calc:"The calculation",
-        ex_gym_calc:"Gym", ex_travel_calc:"Travel",
-        ex_verdict:"→ Gym wins (446 > 214) — Health weight=9 amplifies its high health score.",
+        t1_pill:"Provably optimal—mathematically guaranteed",
+        t2_title:"Utility Theory — 6-Axis Life Quality Model",
+        t2_desc:"Utility Theory (from behavioral economics) lets us assign a numeric \"life value\" score to any spending choice. Each item is rated across 6 dimensions: Health, Connections, Freedom, Growth, Food quality, and Savings. Your input weights determine how much each dimension matters to you. The optimizer balances these to maximize total life quality, not just minimize costs.",
+        t2_pill:"Rooted in well-being economics and PERMA theory",
+        t3_title:"LLM Intelligence — Value-Aware Profiling & Recommendations",
+        t3_desc:"Google's Gemini LLM serves two critical roles: (1) Analyzes your passion text + lifestyle survey to infer which of the 6 dimensions matter most to you, then auto-adjust your value weights. (2) Proposes 10–15 custom spending items tailored to your budget and inferred values—avoiding duplicates of sensible defaults. This turns sliders + open-ended input into a personalized optimization.",
+        t3_pill:"LLM as a values analyst, not just a data lookup",
+        flow_label:"The Process", flow_title:"9-step user journey to optimal spending",
+        flow_desc:"Here's exactly what happens from clicking in to getting your result.",
+        f1_title:"Financial foundation: Budget + Household + Goals",
+        f1_desc:"You input monthly available income, fixed costs, household size, and a savings target. The app calculates your monthly discretionary budget and optionally models realistic risk costs (medical, housing repair, emergency fund) based on your age and family structure.",
+        f2_title:"Passion & lifestyle context: Free-form input + 5 questions",
+        f2_desc:"You write 2–3 sentences about your passions and interests. You answer 5 questions about health priorities, social preferences, work-life balance, learning, and meal style. The app also asks about dining-out frequency and food quality preferences.",
+        f3_title:"AI value profiling: LLM infers your priorities",
+        f3_desc:"Gemini analyzes your passion text + lifestyle answers to infer how much you care about each of 6 life dimensions (Health, Connections, Freedom, Growth, Food, Savings). It auto-adjusts your value weights. You can manually edit these sliders. Based on your values + budget, Gemini also proposes 10–15 custom spending items.",
+        f4_title:"Item review & curation: Refine the proposal",
+        f4_desc:"The app shows you curated default items (gym, transport options, time-saving appliances, etc.) and the 10+ AI-proposed items. You adjust priorities, costs, or remove items you don't want. You can also add your own custom spending idea.",
+        f5_title:"Utility scoring & constraint resolution",
+        f5_desc:"For each candidate item, the app calculates a \"utility score\" = (value weights × item axes scores) × priority bonus. Transport is treated as a mandatory single-choice category (pick exactly one: car, e-bike, transit, etc.). Constraints like \"pet insurance only if pet selected\" are enforced. Food is modeled as 3 flexible tiers: minimalist floor, your estimated preference, and a luxury band.",
+        f6_title:"CP-SAT solver: Find the global optimum",
+        f6_desc:"The optimizer simultaneously evaluates all valid combinations and returns the selection that maximizes total utility + savings, subject to your budget cap and all constraints. The result is a spending plan where every item earned its place mathematically.",
+        ex_label:"Concrete Example", ex_title:"Young professional: Optimize for health & growth",
+        ex_desc:"Monthly budget=$2500 · Savings goal=$300/month · Weights: Health=9, Growth=8, Connections=6, Freedom=5, Food=5, Savings=7.",
+        ex_scenario:"Scenario: What gets selected?",
+        ex_scenario_sub:"Personal trainer (£200/mo) vs. Online course (£60/mo) vs. Dining-out budget (£150/mo)",
+        ex_gym:"Personal Trainer", ex_travel:"Online Course", ex_dine:"Dining Out",
+        ex_health:"Health", ex_connect:"Connect", ex_freedom:"Freedom", ex_growth:"Growth", ex_grow:"Growth",
+        ex_winner:"✓ Selected", ex_calc:"Why Personal Trainer won",
+        ex_gym_calc:"Trainer", ex_travel_calc:"Course", ex_dine_calc:"Dining",
+        ex_trainer_calc:"Trainer", ex_course_calc:"Course",
+        ex_verdict:"→ Trainer selected because Health weight=9 heavily amplifies its 9/10 health score. Course & Dining both included but Trainer dominates utility-per-dollar.",
         biz_label: "Business Applications",
         biz_title: "How this translates to your business",
         biz_desc: "The same mathematical logic ('knapsack problem' & CP-SAT solver) used here to optimize personal budget can directly solve complex operational challenges.",
@@ -338,32 +361,37 @@
         tech_desc:"それぞれが異なる問題を担当し、単一の技術では実現できないシステムを構成しています。",
         t1_title:"数理最適化 — OR-Tools",
         t1_desc:"GoogleのOR-Toolsは「ナップサック問題」を解きます。予算と数十の選択肢から、合計価値が最も高い組み合わせを見つけます。試行錯誤ではなく数学的な証明です。返ってくる答えは「かなり良い」のではなく「証明可能な最良解」。航空スケジューリング・サプライチェーン・Googleマップと同じ技術です。",
-        t1_pill:"証明可能な最適解 — 「そこそこ良い」ではない",
-        t2_title:"効用理論 — 経済学ベースのスコアリング",
-        t2_desc:"行動ファイナンスで使われる「効用理論」により、あらゆる支出に数値的な「人生の価値」を割り当てます。各アイテムは健康・つながり・自由・成長の4軸でスコアリングされます。スライダーで重みを設定すると、オプティマイザーが残高ではなく効用合計を最大化します。",
-        t2_pill:"ノーベル賞受賞の経済理論に基づく",
-        t3_title:"LLM連携 — Gemini API",
-        t3_desc:"新しいアイテムを追加するとき、GeminiがリアルなコストとスコアをJSON形式で補完します。「電動キックボード」と入力するだけで初期費用・月次費用・4軸スコアが返ります。また最適化結果をライフスタイルアドバイザーのトーンで要約します。",
-        t3_pill:"LLMをチャットボットではなくデータアシスタントとして活用",
-        flow_label:"処理の流れ", flow_title:"入力から最適解まで",
-        flow_desc:"「最適化を実行」を押したとき内部で何が起きているかを説明します。",
-        f1_title:"あなたの価値観が数値になる",
-        f1_desc:"スライダーの設定が数学的な重みになります。重みが高いほど、そのアイテムをスコアリングする際にその軸がより重要になります。",
-        f2_title:"各アイテムに効用スコアが計算される",
-        f2_desc:"候補アイテムごとに「効用」を計算します。優先度の高いアイテムには最大2倍のボーナス乗数が付きます。",
-        f3_title:"貯蓄も本物の選択肢として競合する",
-        f3_desc:"一般的な家計簿アプリは貯蓄を「余ったお金」として扱います。このオプティマイザーは貯蓄を支出と直接競合する選択肢として扱います。貯蓄=9なら目標を守るためにアイテムを積極的に諦めます。",
-        f4_title:"OR-Toolsが証明可能な最良解を返す",
-        f4_desc:"CP-SATソルバーはすべての組み合わせを同時に考慮し、予算制約とルールを満たしながら効用合計＋貯蓄価値を最大化する選択を返します。",
-        ex_label:"具体例", ex_title:"ジム vs. 旅行積立：どちらが選ばれる？",
-        ex_desc:"予算が限られているとき、両方は選べません。健康=9、つながり=7、自由=5、成長=4、貯蓄=5の設定での計算を示します。",
-        ex_scenario:"シナリオ：月次予算の残り$150。どちらか一方しか選べない。",
-        ex_scenario_sub:"ジム = $50/月 · 旅行積立 = $150/月",
-        ex_gym:"ジム", ex_travel:"旅行積立",
-        ex_health:"健康", ex_connect:"つながり", ex_freedom:"自由", ex_growth:"成長",
-        ex_winner:"✓ 選択された", ex_calc:"計算式",
-        ex_gym_calc:"ジム", ex_travel_calc:"旅行積立",
-        ex_verdict:"→ ジムが勝つ（446 > 214）。健康の重み=9が高い健康スコアを大きく増幅するため。",
+        t1_pill:"証明可能な最適解—数学的に保証",
+        t2_title:"効用理論 — 6軸ライフクオリティモデル",
+        t2_desc:"行動経済学の「効用理論」により、あらゆる支出に数値的な「人生の価値」スコアを付けられます。各アイテムは6つの次元で評価されます：健康、つながり、自由、成長、食、貯蓄。あなたの入力値で各次元の重要度を決定します。オプティマイザーはこれらをバランスさせて、総合的な人生の質を最大化します。",
+        t2_pill:"ウェルビーイング経済学とPERMA理論に基づく",
+        t3_title:"LLMインテリジェンス — 価値を理解した分析と提案",
+        t3_desc:"GoogleのGemini LLMは2つの重要な役割を果たします：(1) あなたの熱量テキスト＋ライフスタイル質問から、6つの次元のうちどれが最も重要かを推測し、価値の重みを自動調整します。(2) あなたの予算と推測された価値観に合わせて10～15個のカスタムアイテムを提案します。既存デフォルトアイテムとの重複を避けます。スライダー＋自由入力がパーソナライズされた最適化に変わります。",
+        t3_pill:"データ検索ではなく、価値を分析するLLM",
+        flow_label:"処理の流れ", flow_title:"9ステップのユーザージャーニー",
+        flow_desc:"クリックして結果を得るまでに起きることを詳しく説明します。",
+        f1_title:"財務基盤：予算＆家族構成＆目標",
+        f1_desc:"毎月の可処分所得、固定費、家族構成、貯蓄目標を入力します。アプリが月次の自由に使える予算を計算し、オプションで年齢や家族構成に基づく現実的なリスクコスト（医療、住居修繕、緊急費）をシミュレートします。",
+        f2_title:"熱量とライフスタイルの文脈：自由入力＋5問",
+        f2_desc:"あなたの興味や情熱について2～3文で書きます。健康優先度、社交志向、仕事生活バランス、学習、食事スタイルについて5つの質問に答えます。外食頻度と食質への願いについても聞かれます。",
+        f3_title:"AI価値観分析：LLMが優先度を推測",
+        f3_desc:"Geminiがあなたの熱量テキスト＋ライフスタイル回答から、6つの人生次元（健康、つながり、自由、成長、食、貯蓄）のうちどれが重要かを推測します。あなたの価値の重みが自動調整されます。スライダーで手動編集も可能です。あなたの価値観＋予算に基づいて、Geminiが10～15個のカスタムアイテムを提案します。",
+        f4_title:"アイテムレビュー＆キュレーション：提案を磨く",
+        f4_desc:"アプリが厳選デフォルトアイテム（ジム、交通手段、時短家電など）と10以上のAI提案アイテムを示します。優先度や費用を調整したり、不要なものを削除します。自分のカスタムアイテムも追加できます。",
+        f5_title:"効用スコアリング＆制約解決",
+        f5_desc:"各候補アイテムについて、アプリが「効用スコア」＝（価値の重み×アイテムの軸スコア）×優先度ボーナスを計算します。交通手段は必須単一選択カテゴリ（車・e-bike・公共交通など、必ず1つ選択）として扱われます。「ペット保険はペット選択時のみ」といった制約が強要されます。食は3つの柔軟な層でモデル化：最小限の床、あなたの推定レベル、ラグジュアリーバンド。",
+        f6_title:"CP-SATソルバー：グローバルな最適解を発見",
+        f6_desc:"オプティマイザーが有効な組み合わせをすべて同時に評価し、予算上限と全制約を満たしながら、効用合計＋貯蓄価値を最大化する選択を返します。結果は、すべてのアイテムが数学的にその場所を獲得した支出計画です。",
+        ex_label:"具体例", ex_title:"若手社会人：健康と成長で最適化",
+        ex_desc:"月次予算=$2500 · 貯蓄目標=$300/月 · 重み：健康=9、成長=8、つながり=6、自由=5、食=5、貯蓄=7。",
+        ex_scenario:"シナリオ：何が選ばれる？",
+        ex_scenario_sub:"パーソナルトレーナー（£200/月）vs オンライン講座（£60/月）vs 外食予算（£150/月）",
+        ex_gym:"パーソナルトレーナー", ex_travel:"オンライン講座", ex_dine:"外食予算",
+        ex_health:"健康", ex_connect:"つながり", ex_freedom:"自由", ex_growth:"成長", ex_grow:"成長",
+        ex_winner:"✓ 選択された", ex_calc:"パーソナルトレーナーが勝った理由",
+        ex_gym_calc:"トレーナー", ex_travel_calc:"講座", ex_dine_calc:"外食",
+        ex_trainer_calc:"トレーナー", ex_course_calc:"講座",
+        ex_verdict:"→ トレーナーが選択される。健康の重み=9が高い健康スコア9/10を大きく増幅するため。講座と外食も含まれていますが、トレーナーが人生価値あたりコストで圧倒的。",
         biz_label: "ビジネスへの応用",
         biz_title: "この技術を貴社のビジネスにどう活かすか",
         biz_desc: "個人の予算最適化に使われている「ナップサック問題」とCP-SATソルバーの論理は、企業の複雑なオペレーション課題の解決に直結します。",
