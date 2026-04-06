@@ -10,13 +10,29 @@
     :root{--bg:#f4f6f3;--accent:#1a4a7a;--accent2:#b7cde8;--accent3:#eaf0f8;--border:#dde8f0;}
     .tech-card{display:block;}
     .tech-card .tech-pill{margin-bottom:12px;}
+    .phase-badge{display:inline-block;background:var(--accent);color:#fff;font-size:11px;font-weight:600;letter-spacing:.08em;padding:3px 10px;border-radius:20px;margin-bottom:10px;}
     .constraint-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:20px;}
+    @media(max-width:700px){.constraint-grid{grid-template-columns:1fr;}}
     .constraint-card{border:1px solid var(--border);border-radius:10px;padding:16px 18px;background:white;}
+    .badge{font-size:10px;font-weight:700;letter-spacing:.08em;padding:2px 8px;border-radius:12px;display:inline-block;margin-bottom:8px;}
+    .hard-badge{background:#fdecea;color:#c0392b;} .soft-badge{background:#fff8e0;color:#b87a00;}
+    .ojt-badge{background:#eaf0f8;color:#1a4a7a;}
     .formula-box{background:#1a1a1a;color:#b7d5c8;border-radius:8px;padding:16px 20px;font-family:'Courier New',monospace;font-size:13px;line-height:1.7;margin:16px 0;}
+    .skill-table{width:100%;border-collapse:collapse;font-size:13px;margin:16px 0;}
+    .skill-table th{background:var(--accent3);padding:8px 12px;text-align:left;border:1px solid var(--border);font-weight:600;}
+    .skill-table td{padding:8px 12px;border:1px solid var(--border);vertical-align:top;}
+    .skill-table tr:nth-child(even) td{background:#fafaf8;}
     .flow-steps{counter-reset:steps;list-style:none;padding:0;margin:24px 0 0;}
     .flow-step{counter-increment:steps;display:flex;gap:18px;margin-bottom:20px;align-items:flex-start;}
     .flow-step::before{content:counter(steps);min-width:32px;height:32px;border-radius:50%;background:var(--accent);color:white;font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;}
     .flow-step h4{margin:0 0 4px;font-size:15px;} .flow-step p{margin:0;font-size:13px;color:#555;line-height:1.6;}
+    .result-section{border-left:3px solid var(--accent);padding:10px 16px;margin:10px 0;background:white;border-radius:0 8px 8px 0;}
+    .result-section h4{margin:0 0 4px;font-size:14px;} .result-section p{margin:0;font-size:13px;color:#555;}
+    .stress-row{display:flex;gap:12px;margin:12px 0;flex-wrap:wrap;}
+    .stress-card{flex:1;min-width:160px;background:white;border:1px solid var(--border);border-radius:8px;padding:12px 14px;}
+    .stress-card .s-label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:4px;}
+    .stress-card .s-title{font-size:13px;font-weight:600;margin-bottom:4px;}
+    .stress-card .s-desc{font-size:12px;color:#666;line-height:1.5;}
   </style>
 </head>
 <body>

@@ -83,26 +83,10 @@ function initBackToTop() {
   });
 }
 
-// ハンバーガーメニュー初期化（HR Tech Suiteのみ）
-function initHamburger() {
-  const hamburger = document.getElementById('navHamburger');
-  const navLinks  = document.getElementById('navLinks');
-  if (!hamburger || !navLinks) return;
-  hamburger.addEventListener('click', () => {
-    hamburger.classList.toggle('open');
-    navLinks.classList.toggle('open');
-  });
-  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
-    hamburger.classList.remove('open');
-    navLinks.classList.remove('open');
-  }));
-}
-
 document.addEventListener('DOMContentLoaded', () => {
   // 初期化時に保存されていた言語を適用
   applyLang(currentLang);
   initBackToTop();
-  initHamburger();
   
   // アニメーション対象の要素を監視
   const animatedElements = document.querySelectorAll('.project-card, .skill-group, .stat-card, .timeline-item, .tech-card, .category-card, .flow-step, .why-card, .biz-card, .constraint-card, .card-base, .app-card, .fade-up');

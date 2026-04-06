@@ -8,6 +8,98 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&family=Noto+Serif+JP:wght@300;400&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css" />
+  <style>
+    /* HeroレイアウトとFeaturedカードの安全なレイアウト保証 */
+    .hero-flex { display: flex; align-items: center; justify-content: space-between; gap: 40px; flex-wrap: wrap; }
+    .hero-content { flex: 1; min-width: 300px; }
+    .hero-avatar { width: 180px; height: 180px; background: var(--surface); border: 1px solid var(--border); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 5rem; flex-shrink: 0; box-shadow: 0 10px 30px rgba(0,0,0,0.05); overflow: hidden; }
+    
+    .featured-project { grid-column: 1 / -1; display: flex; gap: 32px; align-items: stretch; background: #fff; border: 2px solid var(--accent2); padding: 40px; }
+    .featured-content { flex: 1; display: flex; flex-direction: column; }
+    .featured-visual { flex: 0.8; background: var(--tag-bg); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 6rem; min-height: 250px; }
+
+    /* HR Tech Suite card accent variant */
+    .featured-project-hr {
+      border-color: #8fb2d4;
+      background: linear-gradient(180deg, #f4f8fc 0%, #ffffff 42%);
+    }
+    .featured-project-hr .project-title {
+      color: #1a4a7a;
+    }
+    .featured-project-hr .project-badge-inline {
+      border-color: #8fb2d4;
+      background: #eaf2fb;
+    }
+    .featured-project-hr .project-links .project-link:first-child {
+      background: #1a4a7a !important;
+      border-color: #1a4a7a !important;
+      color: #fff !important;
+    }
+
+    .approach-banner {
+      margin: 24px 0 64px;
+      padding: 34px 36px;
+      border: 1px solid #b9cbe0;
+      border-left: 5px solid #1a4a7a;
+      border-radius: 20px;
+      background: linear-gradient(135deg, #f7fbff 0%, #ffffff 55%, #eef5fb 100%);
+      box-shadow: 0 10px 30px rgba(26, 74, 122, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 28px;
+    }
+    .approach-copy { flex: 1; min-width: 0; }
+    .approach-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #1a4a7a;
+      margin-bottom: 10px;
+    }
+    .approach-title {
+      font-family: var(--serif);
+      font-size: clamp(1.4rem, 2.3vw, 2rem);
+      line-height: 1.2;
+      margin-bottom: 10px;
+      color: var(--ink);
+    }
+    .approach-desc {
+      color: var(--muted);
+      line-height: 1.75;
+      font-size: 0.94rem;
+      max-width: 72ch;
+    }
+    .approach-cta {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .approach-banner .project-link {
+      background: #1a4a7a;
+      border-color: #1a4a7a;
+      color: #fff;
+      white-space: nowrap;
+      box-shadow: 0 8px 20px rgba(26, 74, 122, 0.18);
+    }
+    .approach-banner .project-link:hover {
+      background: #153d64;
+      border-color: #153d64;
+      color: #fff;
+    }
+    
+    @media(max-width: 860px) {
+      .featured-project { flex-direction: column; padding: 24px; }
+      .featured-visual { min-height: 180px; font-size: 4rem; }
+      .approach-banner { flex-direction: column; align-items: flex-start; padding: 28px 24px; }
+    }
+    @media(max-width: 768px) {
+      .hero-flex { flex-direction: column-reverse; align-items: flex-start; gap: 24px; }
+      .hero-avatar { width: 120px; height: 120px; font-size: 3.5rem; }
+    }
+  </style>
 </head>
 <body>
 
