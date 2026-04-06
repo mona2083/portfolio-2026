@@ -140,7 +140,7 @@
 
   <section>
     <div class="container">
-      <p class="section-label" data-i18n="overview_label">The System</p>
+      <p class="section-label" data-i18n="overview_label">Overview</p>
       <h2 class="section-title" data-i18n="overview_title">3 AI models, 1 integrated decision</h2>
       <p class="section-desc" data-i18n="overview_desc">Each module solves a different business problem. The Summary Dashboard combines all three into one actionable recommendation per product, per week.</p>
 
@@ -211,7 +211,7 @@
 
   <section>
     <div class="container">
-      <p class="section-label" data-i18n="flow_label">How They Connect</p>
+      <p class="section-label" data-i18n="flow_label">The Process</p>
       <h2 class="section-title" data-i18n="flow_title">From data to decision in 4 steps</h2>
       <p class="section-desc" data-i18n="flow_desc">The three models form a fully integrated pipeline — a change in price dynamically ripples through to the inventory plan.</p>
       <div class="flow">
@@ -368,8 +368,8 @@
       <p class="section-label" data-i18n="cta_label">Try It</p>
       <h2 class="section-title" data-i18n="cta_title">See all three models in action</h2>
       <p class="section-desc" style="margin:0 auto 28px;" data-i18n="cta_desc">Generate demo data, move the price slider, run the inventory optimizer — then check the Summary Dashboard for the integrated recommendation.</p>
-      <a href="http://138.68.47.65:8082/" target="_blank" class="btn-primary" data-i18n="cta_btn1">↗ Open Live App</a>
-      <a href="index.html" class="btn-outline" data-i18n="cta_btn2">← Back to Portfolio</a>
+      <a href="http://138.68.47.65:8082/" target="_blank" class="btn btn-primary" data-i18n="cta_btn1">↗ Open Live App</a>
+      <a href="index.html" class="btn btn-outline" data-i18n="cta_btn2">← Back to Portfolio</a>
     </div>
   </div>
 
@@ -382,7 +382,7 @@
         hero_title:'How the <em>Retail Decision Engine</em> works',
         hero_desc:"Three models — Deep Learning forecasting, dynamic pricing, and inventory optimization — working together to tell a retailer exactly what to do this week.",
         one_liner:'Most retailers make pricing and ordering decisions based on gut feeling. This app replaces intuition with an <em>integrated AI pipeline</em> that optimizes every decision simultaneously.',
-        overview_label:"The System",overview_title:"3 AI models, 1 integrated decision",
+        overview_label:"Overview",overview_title:"3 AI models, 1 integrated decision",
         overview_desc:"Each module solves a different business problem. The Summary Dashboard combines all three into one actionable recommendation per product, per week.",
         m1_title:"Demand Forecasting (AI)",m1_desc:"Temporal Fusion Transformer (TFT) learns complex seasonal patterns and predicts future demand based on price scenarios.",
         m2_title:"Dynamic Pricing",m2_desc:"Live slider feeds price inputs directly into the AI, while SciPy calculates the theoretical optimum benchmark.",
@@ -397,7 +397,7 @@
         t2_pill:"scipy.optimize · Hybrid Rendering · Real-time Inference",
         t3_title:"OR-Tools CP-SAT Solver — Inventory Optimization",
         t3_desc:"The inventory problem is a discrete, multi-period decision. For the next 8 weeks, the solver decides: order or not, and how many? Hard constraints include maximum warehouse capacity and lead times. To handle real-world edge cases (like unavoidable initial shortages), minimum safety stock and stockouts are modeled as soft constraints using slack variables and penalty costs. CP-SAT takes the AI-predicted demand directly to find the order schedule that minimizes total cost.",        t3_pill:"OR-Tools CP-SAT · Multi-period planning · Integrated Data Pipeline",
-        flow_label:"How They Connect",flow_title:"From data to decision in 4 steps",
+        flow_label:"The Process",flow_title:"From data to decision in 4 steps",
         flow_desc:"The three models form a fully integrated pipeline — a change in price dynamically ripples through to the inventory plan.",
         f1_title:"Planned Price → TFT predicts 8-week demand",
         f1_desc:"When a user adjusts the price slider, the planned price is fed into the loaded Temporal Fusion Transformer (.ckpt) to dynamically infer the demand for the next 8 weeks based on historical context.",
@@ -445,7 +445,7 @@
         hero_title:"Retail Decision Engineの仕組み",
         hero_desc:"深層学習による需要予測・ダイナミックプライシング・発注最適化の3つのモデルが連携し、小売業者に「今週何をすべきか」を正確に伝えます。",
         one_liner:"ほとんどの小売業者は価格設定と発注を直感で行っています。このアプリは直感を、すべての意思決定を同時に最適化する『統合されたAIパイプライン』に置き換えます。",
-        overview_label:"システム全体像",overview_title:"3つのAIモデル、1つの統合判断",
+        overview_label:"概要",overview_title:"3つのAIモデル、1つの統合判断",
         overview_desc:"各モジュールが異なるビジネス問題を解きます。総合ダッシュボードが3つを統合し、商品ごとに週次の推奨アクションを提供します。",
         m1_title:"需要予測 (AI)",m1_desc:"Temporal Fusion Transformer (TFT)が複雑な季節パターンを学習し、価格シナリオに基づいた将来需要を予測します。",
         m2_title:"ダイナミックプライシング",m2_desc:"価格スライダーがAIに直接入力を送り、SciPyが同時に理論的な最適ベンチマークを計算します。",
@@ -460,7 +460,7 @@
         t2_pill:"scipy.optimize · ハイブリッドレンダリング · リアルタイム推論",
         t3_title:"OR-Tools CP-SATソルバー — 発注最適化",
         t3_desc:"在庫問題は離散的・複数期間の意思決定です。今後8週間の各週について「発注するかどうか、するなら何個？」を決定します。倉庫容量やリードタイムは絶対の「ハード制約」として扱い、欠品や最低安全水準の割れはスラック変数を用いたペナルティ（ソフト制約）としてモデル化することで、不可避な初期欠品などでのシステム破綻を防ぎます。AIが予測した需要を直接受け取り、これらペナルティを含む総コストを最小化する組み合わせを見つけます。",        t3_pill:"OR-Tools CP-SAT · 複数期間計画 · 統合データパイプライン",
-        flow_label:"モデルの連携",flow_title:"データから意思決定まで4ステップ",
+        flow_label:"処理の流れ",flow_title:"データから意思決定まで4ステップ",
         flow_desc:"3つのモデルは完全に統合されたパイプラインを形成し、価格の変化が動的に発注計画へと波及します。",
         f1_title:"計画価格 → TFTが8週間の需要を予測",
         f1_desc:"ユーザーが価格スライダーを調整すると、その計画価格がロード済みのTemporal Fusion Transformer（.ckpt）に渡され、過去のコンテキストに基づいて今後8週間の需要が動的に推論されます。",
