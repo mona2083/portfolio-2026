@@ -303,6 +303,47 @@
       flex-shrink: 0;
     }
 
+    /* ── Hamburger ── */
+    .nav-hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+    }
+    .nav-hamburger span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--ink);
+      border-radius: 2px;
+      transition: all 0.25s ease;
+    }
+    .nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-hamburger.open span:nth-child(2) { opacity: 0; }
+    .nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    @media (max-width: 640px) {
+      .nav-hamburger { display: flex; }
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 60px;
+        left: 0; right: 0;
+        background: rgba(247, 245, 240, 0.98);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid var(--border);
+        flex-direction: column;
+        padding: 16px 24px 20px;
+        gap: 16px;
+        align-items: flex-start;
+      }
+      .nav-links.open { display: flex; }
+      .lang-toggle { margin-top: 4px; }
+    }
+
     /* ── Responsive ── */
     @media (max-width: 860px) {
       .apps-grid     { grid-template-columns: 1fr; }
@@ -329,7 +370,10 @@
   <nav>
     <div class="nav-inner">
       <a href="index.html" class="nav-logo" style="text-decoration:none;color:inherit;">Manami Oyama</a>
-      <div class="nav-links">
+      <button class="nav-hamburger" id="navHamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="nav-links" id="navLinks">
         <a href="#overview"     data-i18n="nav_overview">Overview</a>
         <a href="#dashboard"    data-i18n="nav_dashboard">Dashboard</a>
         <a href="#apps"         data-i18n="nav_apps">Apps</a>
@@ -854,8 +898,9 @@
         <h3 style="font-family:var(--serif);font-size:1.8rem;margin-bottom:16px;" data-i18n="cta_title">See all four engines in action</h3>
         <p style="color:var(--muted);margin-bottom:32px;line-height:1.6;" data-i18n="cta_desc">The full suite is live. Run a global simulation from the sidebar, explore each app, and check the Control Tower dashboard — Executive, HR, Ops, ROI, and Metric Library tabs all update from the same simulation run.</p>
         <div class="btn-group">
-          <a href="mailto:omanami.to@gmail.com?subject=Custom%20PoC%20Request%20for%20HR%20Tech%20Suite&body=Hello%20Manami%2C%0A%0AWe%20would%20like%20to%20run%20a%20custom%20PoC%20for%20our%20company.%0A%0ACompany%20name%3A%0AEmployee%20count%3A%0ACurrent%20turnover%20rate%3A%0ATarget%20KPI%3A%0ADesired%20PoC%20timeline%3A%0A%0AThank%20you." class="btn btn-primary">↗ <span data-i18n="cta_btn1">Run a Custom PoC</span></a>
-          <a href="index.html"        class="btn btn-outline" data-i18n="cta_btn2">← Back to Portfolio</a>
+          <a href="http://138.68.47.65:8081/" target="_blank" class="btn btn-primary" data-i18n="cta_btn1">↗ Open Live App</a>
+          <a href="mailto:omanami.to@gmail.com?subject=Custom%20PoC%20Request%20for%20HR%20Tech%20Suite&body=Hello%20Manami%2C%0A%0AWe%20would%20like%20to%20run%20a%20custom%20PoC%20for%20our%20company.%0A%0ACompany%20name%3A%0AEmployee%20count%3A%0ACurrent%20turnover%20rate%3A%0ATarget%20KPI%3A%0ADesired%20PoC%20timeline%3A%0A%0AThank%20you." class="btn btn-outline" data-i18n="cta_btn2">Send an Email</a>
+          <a href="index.html" class="btn btn-outline" data-i18n="cta_btn3">← Back to Portfolio</a>
         </div>
       </div>
     </div>
@@ -955,7 +1000,7 @@
       w4_title:"Stakeholder-Driven UX", w4_desc:"Six dashboard tabs tailored to six audiences — each showing exactly the metrics they care about, at exactly the granularity they can act on. Product thinking applied to data presentation.",
       cta_label:"Try It", cta_title:"See all four engines in action",
       cta_desc:"The full suite is live. Run a global simulation from the sidebar, explore each app, and check the Control Tower dashboard — Executive, HR, Ops, ROI, and Metric Library tabs all update from the same simulation run.",
-      cta_btn1:"Run a Custom PoC", cta_btn2:"← Back to Portfolio",
+      cta_btn1:"↗ Open Live App", cta_btn2:"Send an Email", cta_btn3:"← Back to Portfolio",
       link_demo:"Live Demo", link_how:"How It Works",
       footer:"© 2026 Manami Oyama · Built with HTML, CSS & JavaScript",
     },
@@ -1045,12 +1090,24 @@
       w4_title:"ステークホルダー主導のUX", w4_desc:"6種類のオーディエンス向けに調整された6つのダッシュボードタブ——それぞれが必要なメトリクスを必要な粒度で表示。データプレゼンテーションへのプロダクト思考の適用。",
       cta_label:"試してみる", cta_title:"4つのエンジンが実際に動く様子を確認する",
       cta_desc:"スイート全体が稼働中です。サイドバーから一括シミュレーションを実行し、各アプリを探索して、Control Towerダッシュボードを確認してください。経営陣・HR・Ops・ROI・指標ライブラリの全タブが同一のシミュレーション実行から更新されます。",
-      cta_btn1:"カスタムPoCを相談する", cta_btn2:"← ポートフォリオに戻る",
+      cta_btn1:"↗ ライブアプリを開く", cta_btn2:"メールを送る", cta_btn3:"← ポートフォリオに戻る",
       link_demo:"ライブデモ", link_how:"仕組みを見る",
       footer:"© 2026 Manami Oyama · HTML、CSS、JavaScriptで構築",
     }
   };
   </script>
   <script src="js/main.js"></script>
+  <script>
+    const hamburger = document.getElementById('navHamburger');
+    const navLinks  = document.getElementById('navLinks');
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('open');
+      navLinks.classList.toggle('open');
+    });
+    navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+      hamburger.classList.remove('open');
+      navLinks.classList.remove('open');
+    }));
+  </script>
 </body>
 </html>
