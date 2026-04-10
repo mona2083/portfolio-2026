@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Agri-Decision Suite — Hawaii Edition</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&family=Noto+Serif+JP:wght@300;400&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    /* 既存のポートフォリオのスタイルを継承 */
+    :root{--bg:#f4f6f3;--accent:#2d6a4f;--accent2:#b7d5c8;--accent3:#eaf2ed;--border:#d0dbd3;--text:#1a1a1a;}
+    body{font-family:'DM Sans','Noto Sans JP',sans-serif;background:var(--bg);color:var(--text);margin:0;line-height:1.6;}
+    .container{max-width:900px;margin:0 auto;padding:0 24px;}
+    nav{padding:20px 0;border-bottom:1px solid var(--border);background:#fff;}
+    .nav-inner{display:flex;justify-content:space-between;align-items:center;}
+    .nav-logo{font-family:'DM Serif Display',serif;font-size:1.4rem;font-weight:700;color:var(--accent);text-decoration:none;}
+    
+    .hero{padding:80px 0 60px;background:linear-gradient(180deg, #fff 0%, var(--bg) 100%);}
+    .hero-eyebrow{color:var(--accent);font-weight:700;letter-spacing:.1em;text-transform:uppercase;font-size:12px;margin-bottom:12px;}
+    .hero-title{font-family:'DM Serif Display','Noto Serif JP',serif;font-size:3rem;line-height:1.1;margin-bottom:24px;}
+    .hero-title em{font-style:italic;color:var(--accent);}
+    .hero-desc{font-size:1.1rem;color:#555;max-width:600px;margin-bottom:32px;}
+    .one-liner{background:white;border:1px solid var(--border);padding:24px;border-radius:12px;margin-bottom:40px;box-shadow:0 4px 12px rgba(0,0,0,0.03);}
+
+    section{padding:60px 0;}
+    .section-label{color:var(--accent);font-weight:700;font-size:12px;text-transform:uppercase;margin-bottom:8px;}
+    .section-title{font-family:'DM Serif Display',serif;font-size:2rem;margin-bottom:16px;}
+    
+    .tech-cards{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
+    .tech-card{background:white;padding:32px;border-radius:12px;border:1px solid var(--border);}
+    .tech-pill{display:inline-block;background:var(--accent3);color:var(--accent);padding:4px 12px;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:16px;}
+    
+    .constraint-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:24px;}
+    .constraint-card{border:1px solid var(--border);border-radius:10px;padding:20px;background:white;}
+    .badge{font-size:10px;font-weight:700;padding:2px 8px;border-radius:12px;display:inline-block;margin-bottom:12px;}
+    .opt-badge{background:#eaf2ed;color:#2d6a4f;}
+    .sim-badge{background:#fff8e0;color:#b87a00;}
+    .ml-badge{background:#eaf0f8;color:#1a4a7a;}
+
+    .formula-box{background:#1a1a1a;color:#b7d5c8;border-radius:8px;padding:20px;font-family:'Courier New',monospace;font-size:13px;margin:24px 0;}
+    .btn{display:inline-block;padding:12px 24px;border-radius:6px;font-weight:600;text-decoration:none;transition:0.2s;}
+    .btn-primary{background:var(--accent);color:white;}
+    .btn-outline{border:1px solid var(--accent);color:var(--accent);}
+
+    footer{padding:40px 0;border-top:1px solid var(--border);text-align:center;font-size:12px;color:#888;}
+    @media(max-width:700px){.tech-cards, .constraint-grid{grid-template-columns:1fr;}.hero-title{font-size:2.2rem;}}
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="container nav-inner">
+    <a href="#" class="nav-logo">Agri-Decision Suite</a>
+    <div class="nav-links">
+      <span style="font-size:12px;color:var(--accent);font-weight:700;">HAWAII EDITION</span>
+    </div>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="container">
+    <p class="hero-eyebrow">Strategic Proposal</p>
+    <h1 class="hero-title">Bridging the Gap Between <br><em>Field Data</em> and <em>P&L Decisions</em></h1>
+    <p class="hero-desc">ハワイの農業が直面する労働力不足とコスト増を、数理最適化とAI予測で解決する意思決定設計（Decision Architecture）。</p>
+    <div class="one-liner">
+      <p>「単なるデータの可視化」を超え、複雑な制約（成熟度・物流・労働法）を数学的に解き、収穫から配送までの**「明日すべき最適な行動」**を導き出します。</p>
+    </div>
+    <div class="btn-group">
+      <a href="mailto:omanami.to@gmail.com" class="btn btn-primary">Request PoC Details</a>
+      <a href="https://mona2083.github.io/portfolio-2026/hr-tech-suite-index.html" class="btn btn-outline">View Core Technology</a>
+    </div>
+  </div>
+</div>
+
+<section style="background:var(--accent3)">
+  <div class="container">
+    <p class="section-label">Core Value</p>
+    <h2 class="section-title">Decision Architecture</h2>
+    <div class="tech-cards">
+      <div class="tech-card">
+        <div class="tech-pill">PROFIT-DRIVEN</div>
+        <h3>解像度の変換</h3>
+        <p>経営層にはROIを、現場マネージャーには最適な人員配置を、作業員には明確なタスクリストを。立場に合わせて「次に何をすべきか」を提示します。</p>
+      </div>
+      <div class="tech-card">
+        <div class="tech-pill">LOCAL OPTIMIZATION</div>
+        <h3>ハワイ特有の制約への適応</h3>
+        <p>孤立した物流環境、季節性の強い労働需要、多様なビザ（H-2A等）の要件を数理モデルに組み込み、地域課題に直接応えます。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <p class="section-label">The Engines</p>
+    <h2 class="section-title">4つのエンジンによる最適化</h2>
+    <div class="constraint-grid">
+      <div class="constraint-card">
+        <span class="badge opt-badge">OPTIMIZATION</span>
+        <h4>Harvest & Logistics Optimizer</h4>
+        <p>Google OR-Toolsを使用。作物の成熟度窓口とトラックの空き状況を同期し、鮮度を最大化する収穫スケジュールを自動生成。</p>
+      </div>
+      <div class="constraint-card">
+        <span class="badge sim-badge">SIMULATION</span>
+        <h4>Yield & Labor Simulator</h4>
+        <p>1万回のモンテカルロシミュレーション。天候リスクを考慮し、12ヶ月先の収穫量予測と人員の過不足を可視化。</p>
+      </div>
+      <div class="constraint-card">
+        <span class="badge ml-badge">PREDICTIVE AI</span>
+        <h4>Quality Risk Predictor</h4>
+        <p>LightGBMによる品質劣化予測。センサーデータから病害虫や廃棄リスクを事前に察知し、優先収穫区画をアラート。</p>
+      </div>
+      <div class="constraint-card">
+        <span class="badge opt-badge">KNOWLEDGE</span>
+        <h4>Succession Planner</h4>
+        <p>熟練農家の「勘」を制約変数化。未経験者や季節労働者でもミスなく動ける最適なタスク割り当てを数理的に算出。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="background:var(--accent3)">
+  <div class="container">
+    <p class="section-label">Proposed Action</p>
+    <h2 class="section-title">4-Week Paid PoC (実証実験)</h2>
+    <div class="formula-box">
+      Goal: 収穫ロスの低減 ＋ スケジューリング時間の80%削減<br><br>
+      Week 1: 実データの収集（過去の収穫・シフト・天候）<br>
+      Week 2: カスタム制約のモデル化（農場独自のルールの組み込み）<br>
+      Week 3: 最適化シミュレーションの実行と手動計画との比較<br>
+      Week 4: ROI分析と最終レポート提示
+    </div>
+    <p style="font-size:14px; color:#555;">※ F-1留学生のCPT/OPT枠組みを活用し、スポンサーシップ不要での柔軟な参画を提案します。</p>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <p>© 2026 Manami Oyama · Data Scientist / ML Product Engineer</p>
+  </div>
+</footer>
+
+</body>
+</html>
