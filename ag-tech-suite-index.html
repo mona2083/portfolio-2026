@@ -1,0 +1,1266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ag-Tech Suite — Manami Oyama</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&family=Noto+Serif+JP:wght@300;400&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    /* ── Ag-Tech Suite accent palette ── */
+    :root {
+      --suite-green:  #2a7a3c;
+      --suite-amber:  #b45309;
+      --suite-blue:   #1e5fa0;
+      --suite-teal:   #0e7490;
+      --suite-brown:  #78350f;
+      --suite-lime:   #3d6b17;
+      --suite-sky:    #0369a1;
+    }
+
+    /* ── Hero visual: 4-app grid ── */
+    .suite-hero-visual {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      width: 240px;
+      flex-shrink: 0;
+    }
+    .suite-app-tile {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 12px;
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .suite-app-tile:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.08); }
+    .suite-app-tile .tile-icon { font-size: 1.5rem; margin-bottom: 4px; }
+    .suite-app-tile .tile-label { font-size: 0.65rem; font-weight: 600; color: var(--muted); letter-spacing: 0.05em; line-height: 1.3; }
+    .suite-app-tile.t-pl  { border-top: 3px solid var(--suite-green); }
+    .suite-app-tile.t-lc  { border-top: 3px solid var(--suite-lime); }
+    .suite-app-tile.t-hl  { border-top: 3px solid var(--suite-amber); }
+    .suite-app-tile.t-yl  { border-top: 3px solid var(--suite-blue); }
+
+    /* ── Problem / Solution two-column ── */
+    .prob-sol-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 40px;
+    }
+    .prob-card {
+      background: #fff8f5;
+      border: 1px solid #f0c9b0;
+      border-left: 4px solid #c0392b;
+      border-radius: 0 var(--radius) var(--radius) 0;
+      padding: 20px 20px 20px 18px;
+    }
+    .prob-card .prob-label {
+      font-size: 0.66rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #c0392b;
+      margin-bottom: 6px;
+    }
+    .prob-card h4 { font-family: var(--serif); font-size: 0.95rem; margin-bottom: 6px; }
+    .prob-card p  { font-size: 0.82rem; color: var(--muted); line-height: 1.6; margin: 0; }
+    .sol-card {
+      background: var(--tag-bg);
+      border: 1px solid var(--accent2);
+      border-left: 4px solid var(--accent);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      padding: 20px 20px 20px 18px;
+    }
+    .sol-card .sol-label {
+      font-size: 0.66rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 6px;
+    }
+    .sol-card h4 { font-family: var(--serif); font-size: 0.95rem; margin-bottom: 6px; }
+    .sol-card p  { font-size: 0.82rem; color: var(--muted); line-height: 1.6; margin: 0; }
+
+    /* ── Architecture flow ── */
+    .arch-wrap {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px;
+      margin-top: 32px;
+    }
+    .arch-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      flex-wrap: wrap;
+    }
+    .arch-box {
+      background: var(--tag-bg);
+      border: 1px solid var(--accent2);
+      border-radius: 10px;
+      padding: 14px 18px;
+      text-align: center;
+      min-width: 110px;
+    }
+    .arch-box .arch-icon { font-size: 1.4rem; margin-bottom: 4px; }
+    .arch-box .arch-name { font-size: 0.72rem; font-weight: 600; color: var(--accent); }
+    .arch-box .arch-tech { font-size: 0.65rem; color: var(--muted); margin-top: 2px; }
+    .arch-arrow {
+      color: var(--accent2);
+      font-size: 1.4rem;
+      padding: 0 6px;
+      flex-shrink: 0;
+    }
+    .arch-ssot {
+      margin-top: 20px;
+      background: #1a1a1a;
+      border-radius: 8px;
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .arch-ssot .ssot-label { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.1em; color: #6b9c7a; text-transform: uppercase; }
+    .arch-ssot .ssot-items { display: flex; gap: 12px; flex-wrap: wrap; }
+    .arch-ssot .ssot-pill { font-size: 0.68rem; background: #2a2a2a; color: #b7d5c8; border-radius: 20px; padding: 3px 10px; font-family: 'Courier New', monospace; }
+
+    /* ── Portal persona cards ── */
+    .persona-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-top: 32px;
+    }
+    .persona-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      transition: all var(--transition);
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    .persona-card.visible { opacity: 1; transform: translateY(0); }
+    .persona-card:hover { border-color: var(--accent2); box-shadow: 0 8px 28px rgba(0,0,0,0.06); }
+    .persona-tag {
+      font-size: 0.66rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .persona-tag.ceo    { color: var(--suite-green); }
+    .persona-tag.coo    { color: var(--suite-amber); }
+    .persona-tag.staff  { color: var(--suite-blue); }
+    .persona-title { font-family: var(--serif); font-size: 1.15rem; margin-bottom: 10px; line-height: 1.3; }
+    .persona-icon { font-size: 2rem; margin-bottom: 12px; }
+    .persona-desc { font-size: 0.83rem; color: var(--muted); line-height: 1.7; margin: 0 0 12px; }
+    .persona-kpis { display: flex; flex-wrap: wrap; gap: 6px; }
+    .persona-kpi-pill {
+      font-size: 0.68rem;
+      background: var(--tag-bg);
+      border: 1px solid var(--accent2);
+      border-radius: 20px;
+      padding: 3px 10px;
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    /* ── Key metrics bar ── */
+    .metrics-bar {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-top: 40px;
+    }
+    .metric-item {
+      text-align: center;
+      padding: 24px 16px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      transition: border-color var(--transition);
+    }
+    .metric-item:hover { border-color: var(--accent2); }
+    .metric-val {
+      font-family: var(--serif);
+      font-size: 2rem;
+      color: var(--accent);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+    .metric-lbl { font-size: 0.78rem; color: var(--muted); line-height: 1.4; }
+    .metrics-note {
+      margin-top: 14px;
+      font-size: 0.73rem;
+      color: var(--muted);
+      line-height: 1.6;
+      opacity: 0.9;
+    }
+
+    /* ── App detail section (7 engines) ── */
+    .apps-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-top: 40px;
+    }
+    .app-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transition: all var(--transition);
+      opacity: 0;
+      transform: translateY(16px);
+      position: relative;
+      overflow: hidden;
+    }
+    .app-card.visible { opacity: 1; transform: translateY(0); }
+    .app-card::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 4px;
+    }
+    .app-card.pl::before  { background: var(--suite-green); }
+    .app-card.lc::before  { background: var(--suite-lime); }
+    .app-card.hl::before  { background: var(--suite-amber); }
+    .app-card.yl::before  { background: var(--suite-blue); }
+    .app-card.ch::before  { background: var(--suite-teal); }
+    .app-card.ss::before  { background: var(--suite-brown); }
+    .app-card.ir::before  { background: var(--suite-sky); }
+    .app-card:hover { border-color: var(--accent2); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(0,0,0,0.06); }
+    .app-card-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+    .app-num { font-family: var(--serif); font-size: 0.75rem; color: var(--muted); letter-spacing: 0.06em; margin-bottom: 4px; }
+    .app-title { font-family: var(--serif); font-size: 1.25rem; line-height: 1.2; }
+    .app-icon { font-size: 2rem; flex-shrink: 0; }
+    .app-engine {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .app-engine.pl  { color: var(--suite-green); }
+    .app-engine.lc  { color: var(--suite-lime); }
+    .app-engine.hl  { color: var(--suite-amber); }
+    .app-engine.yl  { color: var(--suite-blue); }
+    .app-engine.ch  { color: var(--suite-teal); }
+    .app-engine.ss  { color: var(--suite-brown); }
+    .app-engine.ir  { color: var(--suite-sky); }
+    .app-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.7; flex: 1; }
+    .app-outputs {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .app-output-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+    .app-output-item::before {
+      content: '';
+      width: 4px; height: 4px;
+      background: var(--accent);
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .app-links { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px; }
+
+    /* ── Tech stack pills ── */
+    .tech-stack-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 20px;
+    }
+    .ts-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 6px 14px;
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--ink);
+      transition: border-color var(--transition);
+    }
+    .ts-pill:hover { border-color: var(--accent2); }
+    .ts-pill .ts-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    /* ── Pipeline flow diagram ── */
+    .pipeline-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0;
+      margin: 12px 0;
+    }
+    .pipe-box {
+      background: var(--tag-bg);
+      border: 1px solid var(--accent2);
+      border-radius: 8px;
+      padding: 10px 14px;
+      text-align: center;
+      min-width: 100px;
+      font-size: 0.72rem;
+    }
+    .pipe-box .p-icon { font-size: 1.1rem; margin-bottom: 2px; }
+    .pipe-box .p-name { font-weight: 600; color: var(--accent); font-size: 0.68rem; }
+    .pipe-box .p-tech { font-size: 0.62rem; color: var(--muted); margin-top: 1px; }
+
+    /* ── Hamburger ── */
+    .nav-hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+    }
+    .nav-hamburger span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--ink);
+      border-radius: 2px;
+      transition: all 0.25s ease;
+    }
+    .nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-hamburger.open span:nth-child(2) { opacity: 0; }
+    .nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    @media (max-width: 640px) {
+      .nav-hamburger { display: flex; }
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 60px;
+        left: 0; right: 0;
+        background: rgba(247, 245, 240, 0.98);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid var(--border);
+        flex-direction: column;
+        padding: 16px 24px 20px;
+        gap: 16px;
+        align-items: flex-start;
+      }
+      .nav-links.open { display: flex; }
+      .lang-toggle { margin-top: 4px; }
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 960px) {
+      .persona-grid     { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 860px) {
+      .apps-grid        { grid-template-columns: 1fr; }
+      .metrics-bar      { grid-template-columns: 1fr 1fr; }
+      .prob-sol-grid    { grid-template-columns: 1fr; }
+      .persona-grid     { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 600px) {
+      .suite-hero-visual { width: 180px; }
+      .suite-app-tile   { padding: 10px 8px; }
+    }
+    @media (max-width: 480px) {
+      .suite-hero-visual { display: none; }
+      .metrics-bar      { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Navigation ── -->
+  <nav>
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo" style="text-decoration:none;color:inherit;">Manami Oyama</a>
+      <button class="nav-hamburger" id="navHamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="nav-links" id="navLinks">
+        <a href="#overview"   data-i18n="nav_overview">Overview</a>
+        <a href="#portal"     data-i18n="nav_portal">Portal</a>
+        <a href="#engines"    data-i18n="nav_engines">Engines</a>
+        <a href="#tech"       data-i18n="nav_tech">Tech</a>
+        <a href="index.html"  data-i18n="nav_back" class="btn-back">← Portfolio</a>
+        <div class="lang-toggle">
+          <button class="lang-btn active" data-lang-btn="en">EN</button>
+          <button class="lang-btn"        data-lang-btn="ja">JA</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ── Hero ── -->
+  <section id="hero" class="index-hero" style="padding-top:120px;padding-bottom:80px;border-top:none;">
+    <div class="container hero-flex">
+      <div class="hero-content">
+        <p class="hero-eyebrow fade-up" data-i18n="hero_eyebrow">Integrated Agri-Decision Suite</p>
+        <h1 class="hero-name fade-up" style="font-size:clamp(2.2rem,5vw,3.8rem);">Ag-Tech<br><em>Suite</em></h1>
+        <p class="hero-tagline fade-up" data-i18n="hero_tagline">Seven AI engines — crop planning, lifecycle monitoring, harvest logistics, yield simulation, health prediction, knowledge transfer, and smart irrigation — unified in a 3-persona Portal dashboard. Built for Hawaii's specialty crop operations.</p>
+        <div class="hero-meta fade-up" style="margin-bottom:32px;">
+          <div class="hero-meta-item"><span class="dot"></span><span data-i18n="meta_apps">7 Integrated Engines</span></div>
+          <div class="hero-meta-item"><span class="dot"></span><span data-i18n="meta_tech">OR-Tools · LightGBM · Monte Carlo</span></div>
+          <div class="hero-meta-item"><span class="dot"></span><span data-i18n="meta_stack">Python · Streamlit · Open-Meteo API</span></div>
+        </div>
+        <div class="btn-group fade-up" style="justify-content:flex-start;margin-top:0;">
+          <!-- <a href="#" target="_blank" class="btn btn-primary">↗ <span data-i18n="cta_demo">Live Demo</span></a> -->
+          <a href="#engines" class="btn btn-primary" data-i18n="cta_engines">Explore Engines</a>
+        </div>
+      </div>
+
+      <!-- 4-tile visual (primary engines) -->
+      <div class="suite-hero-visual fade-up">
+        <div class="suite-app-tile t-pl">
+          <div class="tile-icon">📅</div>
+          <div class="tile-label">Planting<br>Strategy</div>
+        </div>
+        <div class="suite-app-tile t-hl">
+          <div class="tile-icon">🌾</div>
+          <div class="tile-label">Harvest<br>Logistics</div>
+        </div>
+        <div class="suite-app-tile t-yl">
+          <div class="tile-icon">🌦️</div>
+          <div class="tile-label">Yield & Labor<br>Simulator</div>
+        </div>
+        <div class="suite-app-tile t-lc">
+          <div class="tile-icon">🌿</div>
+          <div class="tile-label">Crop Health<br>Predictor</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── One-liner ── -->
+  <section style="padding:0 0 60px;border-top:none;">
+    <div class="container">
+      <div class="one-liner fade-up">
+        <p data-i18n="one_liner">Seven AI engines run in sequence — CP-SAT plans the optimal crop mix, a GDD thermal model tracks every plant's growth, LightGBM predicts quality degradation before harvest, Monte Carlo simulates 2,000 weather scenarios, and CP-SAT again routes every worker and truck — all surfaced in a 3-persona Portal dashboard built for Hawaii's specialty crop operations.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Problem → Solution ── -->
+  <section id="overview">
+    <div class="container">
+      <p class="section-label" data-i18n="prob_label">Problem → Solution</p>
+      <h2 class="section-title" data-i18n="prob_title">Six farm operations problems.<br><em>Seven integrated engines.</em></h2>
+      <p class="section-desc" data-i18n="prob_desc">Each engine targets a specific constraint in specialty crop operations — and they share a single data pipeline driven by live weather.</p>
+
+      <div class="prob-sol-grid">
+        <!-- Row 1 -->
+        <div class="prob-card fade-up">
+          <div class="prob-label" data-i18n="p1_label">Problem 01</div>
+          <h4 data-i18n="p1_title">Crop planning is done by intuition, not data</h4>
+          <p data-i18n="p1_desc">Deciding which crops to plant, in which parcels, and when is a combinatorial problem too complex for a spreadsheet. Suboptimal rotations leave revenue on the table and over-commit labor during peak seasons.</p>
+        </div>
+        <div class="sol-card fade-up">
+          <div class="sol-label" data-i18n="s1_label">Solution — Planting Strategy Optimizer</div>
+          <h4 data-i18n="s1_title">CP-SAT proves the optimal 24-month planting schedule</h4>
+          <p data-i18n="s1_desc">Binary variables per parcel × crop × month, with hard constraints for parcel exclusivity and labor capacity, and a revenue-maximizing objective that accounts for seasonal price fluctuations. Results pipe directly into the Lifecycle Manager.</p>
+        </div>
+
+        <!-- Row 2 -->
+        <div class="prob-card fade-up">
+          <div class="prob-label" data-i18n="p2_label">Problem 02</div>
+          <h4 data-i18n="p2_title">Crop growth is invisible until something goes wrong</h4>
+          <p data-i18n="p2_desc">Growth stage transitions, water stress, pest risk, and harvest timing are tracked informally or not at all. By the time managers notice a problem, the harvest window has narrowed or quality has dropped.</p>
+        </div>
+        <div class="sol-card fade-up">
+          <div class="sol-label" data-i18n="s2_label">Solution — Crop Lifecycle Manager</div>
+          <h4 data-i18n="s2_title">GDD thermal accumulation + water balance model per parcel</h4>
+          <p data-i18n="s2_desc">Daily growing degree days (GDD) accumulate against crop-specific thresholds. Soil moisture, Kona wind days, and pest history all reduce the effective GDD rate. Stage transitions (vegetative → flowering → harvest) trigger automatic field alerts.</p>
+        </div>
+
+        <!-- Row 3 -->
+        <div class="prob-card fade-up">
+          <div class="prob-label" data-i18n="p3_label">Problem 03</div>
+          <h4 data-i18n="p3_title">Harvest scheduling is manual and misses bottlenecks</h4>
+          <p data-i18n="p3_desc">Assigning workers to parcels, scheduling trucks, and sequencing harvests across a multi-crop farm is a combinatorial logistics problem. Manual scheduling leads to idle trucks, over-allocated workers, and missed urgency windows.</p>
+        </div>
+        <div class="sol-card fade-up">
+          <div class="sol-label" data-i18n="s3_label">Solution — Harvest Logistics Optimizer</div>
+          <h4 data-i18n="s3_title">CP-SAT interval variables solve job-shop harvest scheduling</h4>
+          <p data-i18n="s3_desc">Tasks are chunked into 2-hour blocks with no-overlap constraints across workers and trucks. High-urgency parcels (flagged by the Health Predictor) carry large penalty weights. Skill matching, OJT pairing, and equipment constraints are all encoded as hard constraints.</p>
+        </div>
+
+        <!-- Row 4 -->
+        <div class="prob-card fade-up">
+          <div class="prob-label" data-i18n="p4_label">Problem 04</div>
+          <h4 data-i18n="p4_title">Revenue is unpredictable because weather is unpredictable</h4>
+          <p data-i18n="p4_desc">Drought, trade winds, and temperature swings all affect yield and labor demand in different ways. Farm budgets based on a single expected-yield forecast are routinely wrong. Owners make investment decisions without knowing the distribution of outcomes.</p>
+        </div>
+        <div class="sol-card fade-up">
+          <div class="sol-label" data-i18n="s4_label">Solution — Yield & Labor Simulator</div>
+          <h4 data-i18n="s4_title">2,000 Monte Carlo runs across weather scenarios</h4>
+          <p data-i18n="s4_desc">Each run samples a weather scenario (normal / drought / Kona wind / heavy rain) based on live Open-Meteo probabilities, applies crop-specific yield response functions, and calculates labor demand. Outputs are revenue P10/P50/P90 distributions — not point estimates.</p>
+        </div>
+
+        <!-- Row 5 -->
+        <div class="prob-card fade-up">
+          <div class="prob-label" data-i18n="p5_label">Problem 05</div>
+          <h4 data-i18n="p5_title">Quality degradation is noticed at the packing shed, not the field</h4>
+          <p data-i18n="p5_desc">By the time visual defects appear, the harvest window for premium-grade produce has already passed. Urgent harvests triggered too late mean lower prices, higher waste, and rushed labor allocation.</p>
+        </div>
+        <div class="sol-card fade-up">
+          <div class="sol-label" data-i18n="s5_label">Solution — Crop Health Predictor</div>
+          <h4 data-i18n="s5_title">LightGBM predicts quality-degradation risk from 11 field features</h4>
+          <p data-i18n="s5_desc">Days since rain, temperature, humidity, soil moisture, pest history score, Kona wind exposure, sunshine hours, crop type, area, altitude, and days since harvest combine into a per-parcel risk score. Critical parcels (≥0.70) surface as priority alerts in the Harvest Logistics Optimizer.</p>
+        </div>
+
+        <!-- Row 6 -->
+        <div class="prob-card fade-up">
+          <div class="prob-label" data-i18n="p6_label">Problem 06</div>
+          <h4 data-i18n="p6_title">Senior farmers' tacit knowledge leaves with them</h4>
+          <p data-i18n="p6_desc">25+ years of crop-specific decision-making lives in one person's head. When that person retires or is absent, younger workers and seasonal staff make costly mistakes. There is no structured system to transfer skills or assign tasks by competency.</p>
+        </div>
+        <div class="sol-card fade-up">
+          <div class="sol-label" data-i18n="s6_label">Solution — Knowledge Transfer Planner</div>
+          <h4 data-i18n="s6_title">Task assignment optimization + auto-generated OJT schedules</h4>
+          <p data-i18n="s6_desc">Workers are profiled by skill level (none / basic / advanced) per crop task. A mathematical model assigns tasks to the most competent available worker, flags succession risks, and generates OJT pairings — embedding them into the Harvest Logistics Optimizer as co-scheduling constraints.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Architecture ── -->
+  <section id="architecture">
+    <div class="container">
+      <p class="section-label" data-i18n="arch_label">Architecture</p>
+      <h2 class="section-title" data-i18n="arch_title">Seven engines.<br><em>One data pipeline.</em></h2>
+      <p class="section-desc" data-i18n="arch_desc">A shared database layer (master_data.py + weather_fetcher.py) feeds all engines. Planting decisions flow into Lifecycle; Health alerts into Harvest Logistics; Simulation results into the Portal dashboard.</p>
+
+      <div class="arch-wrap fade-up">
+        <!-- Shared data layer -->
+        <div class="arch-ssot" style="margin-bottom:24px;margin-top:0;">
+          <div class="ssot-label" data-i18n="arch_ssot">Shared Data Layer</div>
+          <div class="ssot-items">
+            <span class="ssot-pill">master_data.py</span>
+            <span class="ssot-pill">weather_fetcher.py</span>
+            <span class="ssot-pill">Open-Meteo API</span>
+            <span class="ssot-pill">session_state</span>
+          </div>
+        </div>
+
+        <!-- Pipeline row 1: Planning → Lifecycle -->
+        <div class="pipeline-row">
+          <div class="pipe-box" style="border-top:3px solid var(--suite-green);">
+            <div class="p-icon">📅</div>
+            <div class="p-name">Planting Optimizer</div>
+            <div class="p-tech">CP-SAT</div>
+          </div>
+          <div class="arch-arrow">→</div>
+          <div class="pipe-box" style="border-top:3px solid var(--suite-lime);">
+            <div class="p-icon">🌱</div>
+            <div class="p-name">Lifecycle Manager</div>
+            <div class="p-tech">GDD Model</div>
+          </div>
+          <div class="arch-arrow">→</div>
+          <div class="pipe-box" style="border-top:3px solid var(--suite-teal);">
+            <div class="p-icon">🌿</div>
+            <div class="p-name">Health Predictor</div>
+            <div class="p-tech">LightGBM</div>
+          </div>
+          <div class="arch-arrow">→</div>
+          <div class="pipe-box" style="border-top:3px solid var(--suite-amber);">
+            <div class="p-icon">🌾</div>
+            <div class="p-name">Harvest Logistics</div>
+            <div class="p-tech">CP-SAT</div>
+          </div>
+        </div>
+
+        <!-- Pipeline row 2: parallel engines -->
+        <div class="pipeline-row" style="margin-top:12px;">
+          <div class="pipe-box" style="border-top:3px solid var(--suite-blue);">
+            <div class="p-icon">🌦️</div>
+            <div class="p-name">Yield Simulator</div>
+            <div class="p-tech">Monte Carlo</div>
+          </div>
+          <div class="arch-arrow" style="opacity:0.3;">·</div>
+          <div class="pipe-box" style="border-top:3px solid var(--suite-brown);">
+            <div class="p-icon">🎓</div>
+            <div class="p-name">Knowledge Transfer</div>
+            <div class="p-tech">Math Optimization</div>
+          </div>
+          <div class="arch-arrow" style="opacity:0.3;">·</div>
+          <div class="pipe-box" style="border-top:3px solid var(--suite-sky);">
+            <div class="p-icon">💧</div>
+            <div class="p-name">Irrigation Optimizer</div>
+            <div class="p-tech">CP-SAT</div>
+          </div>
+        </div>
+
+        <!-- Dashboard aggregation -->
+        <div style="display:flex;justify-content:center;margin-top:14px;">
+          <div style="font-size:1.2rem;color:var(--accent2);">↓ ↓ ↓ ↓ ↓ ↓ ↓</div>
+        </div>
+        <div style="display:flex;justify-content:center;margin-top:10px;">
+          <div class="arch-box" style="border:2px solid var(--accent);background:var(--tag-bg);min-width:260px;">
+            <div class="arch-icon">🌺</div>
+            <div class="arch-name" style="font-size:0.85rem;" data-i18n="arch_portal">Portal Dashboard</div>
+            <div class="arch-tech" data-i18n="arch_tabs">Farm Owner · Field Manager · Field Staff</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Portal Dashboard ── -->
+  <section id="portal">
+    <div class="container">
+      <p class="section-label" data-i18n="portal_label">Portal Dashboard</p>
+      <h2 class="section-title" data-i18n="portal_title">Three personas.<br><em>One unified decision center.</em></h2>
+      <p class="section-desc" data-i18n="portal_desc">A single Streamlit portal presents the same simulation results at three different levels of abstraction — 12-month financial outlook for the owner, weekly operational alerts for the manager, and today's task list for field staff.</p>
+
+      <div class="persona-grid" style="margin-top:32px;">
+
+        <!-- CEO -->
+        <div class="persona-card fade-up">
+          <div class="persona-icon">👔</div>
+          <div class="persona-tag ceo" data-i18n="p_ceo_tag">Farm Owner / CEO</div>
+          <div class="persona-title" data-i18n="p_ceo_title">Financial Outlook &amp; ROI Dashboard</div>
+          <p class="persona-desc" data-i18n="p_ceo_desc">12-month revenue forecast with P10/P50/P90 confidence bands, opportunity loss from suboptimal crop mix, irrigation ROI simulation with and without smart system, and a one-click "Run All Engines" scenario comparison.</p>
+          <div class="persona-kpis">
+            <span class="persona-kpi-pill" data-i18n="ceo_k1">Revenue Forecast</span>
+            <span class="persona-kpi-pill" data-i18n="ceo_k2">Opportunity Loss</span>
+            <span class="persona-kpi-pill" data-i18n="ceo_k3">Irrigation ROI</span>
+            <span class="persona-kpi-pill" data-i18n="ceo_k4">12-Month KPIs</span>
+          </div>
+        </div>
+
+        <!-- COO -->
+        <div class="persona-card fade-up">
+          <div class="persona-icon">🧑‍🌾</div>
+          <div class="persona-tag coo" data-i18n="p_coo_tag">Field Manager / COO</div>
+          <div class="persona-title" data-i18n="p_coo_title">Weekly Operations &amp; Alert Dashboard</div>
+          <p class="persona-desc" data-i18n="p_coo_desc">This week's harvest schedule with worker assignments, parcel health alerts from the Crop Health Predictor, staffing risk heatmap by week (full-staff vs. short-staffed scenarios), and auto-generated field task priority list.</p>
+          <div class="persona-kpis">
+            <span class="persona-kpi-pill" data-i18n="coo_k1">Harvest Schedule</span>
+            <span class="persona-kpi-pill" data-i18n="coo_k2">Health Alerts</span>
+            <span class="persona-kpi-pill" data-i18n="coo_k3">Staffing Risk</span>
+            <span class="persona-kpi-pill" data-i18n="coo_k4">Task Priority</span>
+          </div>
+        </div>
+
+        <!-- Field Staff -->
+        <div class="persona-card fade-up">
+          <div class="persona-icon">👷</div>
+          <div class="persona-tag staff" data-i18n="p_staff_tag">Field Staff</div>
+          <div class="persona-title" data-i18n="p_staff_title">Today's Tasks &amp; Procedure Guide</div>
+          <p class="persona-desc" data-i18n="p_staff_desc">Personalized daily task card with crop-specific procedure notes drawn from the Knowledge Transfer database. Skill level matched to task complexity. OJT assignments shown alongside regular duties with senior worker pairing.</p>
+          <div class="persona-kpis">
+            <span class="persona-kpi-pill" data-i18n="staff_k1">Daily Task Card</span>
+            <span class="persona-kpi-pill" data-i18n="staff_k2">Procedure Notes</span>
+            <span class="persona-kpi-pill" data-i18n="staff_k3">OJT Assignments</span>
+            <span class="persona-kpi-pill" data-i18n="staff_k4">Skill Tracking</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Key Metrics ── -->
+  <section id="metrics">
+    <div class="container">
+      <p class="section-label" data-i18n="metrics_label">By the Numbers</p>
+      <h2 class="section-title" data-i18n="metrics_title">What this suite<br><em>is built on</em></h2>
+      <div class="metrics-bar">
+        <div class="metric-item fade-up">
+          <div class="metric-val">7</div>
+          <div class="metric-lbl" data-i18n="m1">Integrated AI<br>engines</div>
+        </div>
+        <div class="metric-item fade-up">
+          <div class="metric-val">3×</div>
+          <div class="metric-lbl" data-i18n="m2">CP-SAT solvers<br>in one pipeline</div>
+        </div>
+        <div class="metric-item fade-up">
+          <div class="metric-val">2,000</div>
+          <div class="metric-lbl" data-i18n="m3">Monte Carlo<br>simulations per run</div>
+        </div>
+        <div class="metric-item fade-up">
+          <div class="metric-val">11</div>
+          <div class="metric-lbl" data-i18n="m4">LightGBM features<br>for health prediction</div>
+        </div>
+      </div>
+      <p class="metrics-note" data-i18n="metrics_note">Built on synthetic data modelled on Hawaii specialty crop operations (papaya, coffee, taro, macadamia, pineapple). Live weather via Open-Meteo API (Waimea / Hilo / Kona stations).</p>
+    </div>
+  </section>
+
+  <!-- ── 7 Engines ── -->
+  <section id="engines">
+    <div class="container">
+      <p class="section-label" data-i18n="engines_label">The Seven Engines</p>
+      <h2 class="section-title" data-i18n="engines_title">Each engine solves one constraint.<br><em>Together they run the whole farm.</em></h2>
+
+      <div class="apps-grid">
+
+        <!-- Engine 01: Planting Strategy Optimizer -->
+        <div class="app-card pl">
+          <div class="app-card-header">
+            <div>
+              <div class="app-num">Engine 01</div>
+              <div class="app-title" data-i18n="e1_title">Planting Strategy Optimizer</div>
+            </div>
+            <div class="app-icon">📅</div>
+          </div>
+          <div class="app-engine pl" data-i18n="e1_engine">CP-SAT Constraint Programming</div>
+          <p class="app-desc" data-i18n="e1_desc">Solves the 24-month crop rotation plan as a combinatorial optimization problem. Binary variables represent whether crop c is planted in parcel p at month m. Hard constraints enforce parcel exclusivity and labor capacity limits. The objective maximizes seasonal revenue — accounting for Honolulu market price multipliers (winter +40%, summer +20%) across 5 crop types and 6+ parcels.</p>
+          <div class="app-outputs">
+            <div class="app-output-item" data-i18n="e1_o1">Binary variables: parcel × crop × month</div>
+            <div class="app-output-item" data-i18n="e1_o2">Seasonal price multiplier optimization</div>
+            <div class="app-output-item" data-i18n="e1_o3">Perennial crop (coffee, macadamia) co-scheduling</div>
+            <div class="app-output-item" data-i18n="e1_o4">Results pipe into Lifecycle Manager</div>
+          </div>
+          <div class="project-tags">
+            <span class="tag">OR-Tools CP-SAT</span>
+            <span class="tag">Python</span>
+            <span class="tag">Streamlit</span>
+            <span class="tag">Plotly</span>
+          </div>
+        </div>
+
+        <!-- Engine 02: Crop Lifecycle Manager -->
+        <div class="app-card lc">
+          <div class="app-card-header">
+            <div>
+              <div class="app-num">Engine 02</div>
+              <div class="app-title" data-i18n="e2_title">Crop Lifecycle Manager</div>
+            </div>
+            <div class="app-icon">🌱</div>
+          </div>
+          <div class="app-engine lc" data-i18n="e2_engine">GDD Thermal Accumulation + Water Balance</div>
+          <p class="app-desc" data-i18n="e2_desc">Tracks every planted batch from germination to harvest using Growing Degree Day (GDD) accumulation. Daily GDD is reduced by soil moisture deficit (drought: ×0.5, dry: ×0.8), Kona wind stress, and pest history score. Stage transitions trigger automatic alerts. Syncs initial planting schedules from the Planting Optimizer.</p>
+          <div class="app-outputs">
+            <div class="app-output-item" data-i18n="e2_o1">Daily GDD calculation per parcel</div>
+            <div class="app-output-item" data-i18n="e2_o2">Kona wind stress model (×0.9 GDD factor)</div>
+            <div class="app-output-item" data-i18n="e2_o3">Vegetative → flowering → harvest transitions</div>
+            <div class="app-output-item" data-i18n="e2_o4">Pest stress compound penalty</div>
+          </div>
+          <div class="project-tags">
+            <span class="tag">GDD Model</span>
+            <span class="tag">Water Balance</span>
+            <span class="tag">Python</span>
+            <span class="tag">Plotly</span>
+          </div>
+        </div>
+
+        <!-- Engine 03: Harvest Logistics Optimizer -->
+        <div class="app-card hl">
+          <div class="app-card-header">
+            <div>
+              <div class="app-num">Engine 03</div>
+              <div class="app-title" data-i18n="e3_title">Harvest Logistics Optimizer</div>
+            </div>
+            <div class="app-icon">🌾</div>
+          </div>
+          <div class="app-engine hl" data-i18n="e3_engine">CP-SAT Interval Variables — Job-Shop Scheduling</div>
+          <p class="app-desc" data-i18n="e3_desc">Schedules multi-day harvest operations across workers, trucks, and parcels using CP-SAT interval variables with AddNoOverlap constraints. Harvest tasks are chunked into flexible 2-hour blocks. High-urgency parcels (from Health Predictor) carry 50,000-point penalty weights. Skill matching and OJT co-scheduling are encoded as hard constraints.</p>
+          <div class="app-outputs">
+            <div class="app-output-item" data-i18n="e3_o1">Job-shop scheduling: worker × parcel × truck</div>
+            <div class="app-output-item" data-i18n="e3_o2">Urgency priority (Critical / High / Med / Low)</div>
+            <div class="app-output-item" data-i18n="e3_o3">OJT pair co-scheduling constraints</div>
+            <div class="app-output-item" data-i18n="e3_o4">Short-staffed scenario comparison</div>
+          </div>
+          <div class="project-tags">
+            <span class="tag">OR-Tools CP-SAT</span>
+            <span class="tag">Interval Variables</span>
+            <span class="tag">Python</span>
+            <span class="tag">Plotly</span>
+          </div>
+        </div>
+
+        <!-- Engine 04: Yield & Labor Simulator -->
+        <div class="app-card yl">
+          <div class="app-card-header">
+            <div>
+              <div class="app-num">Engine 04</div>
+              <div class="app-title" data-i18n="e4_title">Yield &amp; Labor Simulator</div>
+            </div>
+            <div class="app-icon">🌦️</div>
+          </div>
+          <div class="app-engine yl" data-i18n="e4_engine">Monte Carlo Weather Simulation</div>
+          <p class="app-desc" data-i18n="e4_desc">Runs 2,000 Monte Carlo simulations per run, sampling weather scenarios (normal / drought / Kona wind / heavy rain) according to live Open-Meteo probabilities from Hawaii weather stations. Each trial applies crop-specific yield response functions to temperature, rainfall, humidity, and pest risk. Outputs revenue distributions — not single-point estimates — for each crop type.</p>
+          <div class="app-outputs">
+            <div class="app-output-item" data-i18n="e4_o1">Revenue P10 / P50 / P90 distributions</div>
+            <div class="app-output-item" data-i18n="e4_o2">Live weather scenario probabilities</div>
+            <div class="app-output-item" data-i18n="e4_o3">Per-crop yield response functions</div>
+            <div class="app-output-item" data-i18n="e4_o4">Labor demand forecast by scenario</div>
+          </div>
+          <div class="project-tags">
+            <span class="tag">Monte Carlo</span>
+            <span class="tag">Open-Meteo API</span>
+            <span class="tag">NumPy</span>
+            <span class="tag">Plotly</span>
+          </div>
+        </div>
+
+        <!-- Engine 05: Crop Health Predictor -->
+        <div class="app-card ch">
+          <div class="app-card-header">
+            <div>
+              <div class="app-num">Engine 05</div>
+              <div class="app-title" data-i18n="e5_title">Crop Health Predictor</div>
+            </div>
+            <div class="app-icon">🌿</div>
+          </div>
+          <div class="app-engine ch" data-i18n="e5_engine">LightGBM Quality-Degradation Model</div>
+          <p class="app-desc" data-i18n="e5_desc">Predicts per-parcel quality degradation risk using 11 field features: days since rain, average temperature, humidity, soil moisture, days since harvest (maturity proxy), pest history score, Kona wind days (30d), sunshine hours (7d), crop type encoding, area (ha), and altitude. Trained on 5,000 synthetic records with Hawaii-specific risk thresholds.</p>
+          <div class="app-outputs">
+            <div class="app-output-item" data-i18n="e5_o1">Risk score: Critical (≥0.70) / High / Med / Low</div>
+            <div class="app-output-item" data-i18n="e5_o2">11-feature LightGBM model</div>
+            <div class="app-output-item" data-i18n="e5_o3">Priority alerts feed Harvest Logistics Optimizer</div>
+            <div class="app-output-item" data-i18n="e5_o4">Kona wind &amp; altitude as domain features</div>
+          </div>
+          <div class="project-tags">
+            <span class="tag">LightGBM</span>
+            <span class="tag">Feature Engineering</span>
+            <span class="tag">Python</span>
+            <span class="tag">Plotly</span>
+          </div>
+        </div>
+
+        <!-- Engine 06: Knowledge Transfer Planner -->
+        <div class="app-card ss">
+          <div class="app-card-header">
+            <div>
+              <div class="app-num">Engine 06</div>
+              <div class="app-title" data-i18n="e6_title">Knowledge Transfer &amp; Continuity Planner</div>
+            </div>
+            <div class="app-icon">🎓</div>
+          </div>
+          <div class="app-engine ss" data-i18n="e6_engine">Mathematical Optimization — Task Assignment</div>
+          <p class="app-desc" data-i18n="e6_desc">Digitizes 25+ years of senior farmer tacit knowledge as a task catalog with skill requirements (none / basic / advanced). A mathematical model assigns each task to the most competent available worker, flags succession risks when only one senior holds critical skills, and generates OJT pairings. Assigns integrate into the Harvest Logistics Optimizer as co-scheduling constraints.</p>
+          <div class="app-outputs">
+            <div class="app-output-item" data-i18n="e6_o1">Skill-matched task assignment (3 levels)</div>
+            <div class="app-output-item" data-i18n="e6_o2">Senior-only task succession risk flags</div>
+            <div class="app-output-item" data-i18n="e6_o3">OJT pairing exported to Harvest Optimizer</div>
+            <div class="app-output-item" data-i18n="e6_o4">Live weather scenario task adjustments</div>
+          </div>
+          <div class="project-tags">
+            <span class="tag">Operations Research</span>
+            <span class="tag">Python</span>
+            <span class="tag">Streamlit</span>
+            <span class="tag">Plotly</span>
+          </div>
+        </div>
+
+        <!-- Engine 07: Smart Irrigation Optimizer -->
+        <div class="app-card ir">
+          <div class="app-card-header">
+            <div>
+              <div class="app-num">Engine 07</div>
+              <div class="app-title" data-i18n="e7_title">Smart Irrigation Optimizer</div>
+            </div>
+            <div class="app-icon">💧</div>
+          </div>
+          <div class="app-engine ir" data-i18n="e7_engine">CP-SAT Water Resource Scheduling</div>
+          <p class="app-desc" data-i18n="e7_desc">Schedules daily irrigation (in 1-hour blocks, max 4h/parcel/day) across a multi-day forecast horizon. Soil moisture is modelled as an integer variable updated by irrigation input, rainfall, and evaporation. Kona wind days double the evaporation rate. Rain-cancellation thresholds and post-harvest water cutoff for non-perennial crops are encoded as hard constraints.</p>
+          <div class="app-outputs">
+            <div class="app-output-item" data-i18n="e7_o1">Daily irrigation schedule per parcel</div>
+            <div class="app-output-item" data-i18n="e7_o2">Kona wind evaporation model (×2 on wind days)</div>
+            <div class="app-output-item" data-i18n="e7_o3">Rain-cancel threshold automatic cutoff</div>
+            <div class="app-output-item" data-i18n="e7_o4">ROI simulation vs. manual irrigation</div>
+          </div>
+          <div class="project-tags">
+            <span class="tag">OR-Tools CP-SAT</span>
+            <span class="tag">Integer Variables</span>
+            <span class="tag">Python</span>
+            <span class="tag">Plotly</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Tech Stack ── -->
+  <section id="tech">
+    <div class="container">
+      <p class="section-label" data-i18n="tech_label">Technical Stack</p>
+      <h2 class="section-title" data-i18n="tech_title">The right tool<br><em>for each constraint</em></h2>
+
+      <div class="tech-cards" style="margin-top:32px;">
+        <div class="tech-card fade-up">
+          <div class="tech-icon">⚙️</div>
+          <div>
+            <div class="tech-label" data-i18n="tech1_label">Optimization Engine (×3)</div>
+            <div class="tech-title">Google OR-Tools CP-SAT</div>
+            <p class="tech-desc" data-i18n="tech1_desc">Used in three separate engines: planting schedule optimization (24-month binary decision variables), harvest logistics scheduling (interval variables + no-overlap), and irrigation scheduling (integer soil moisture variables). CP-SAT returns mathematically certified solutions — not heuristic approximations — and handles hard constraints natively, which matters when a missed urgency window means crop loss.</p>
+            <span class="tech-pill">Constraint Programming · Interval Variables · Integer Programming</span>
+          </div>
+        </div>
+
+        <div class="tech-card fade-up">
+          <div class="tech-icon">🎲</div>
+          <div>
+            <div class="tech-label" data-i18n="tech2_label">Probabilistic Simulation</div>
+            <div class="tech-title">Monte Carlo Weather Simulation</div>
+            <p class="tech-desc" data-i18n="tech2_desc">2,000 trials per simulation run, each sampling a weather scenario from live Open-Meteo probabilities (Waimea / Hilo / Kona weather stations), then applying Gaussian noise to rainfall, temperature, humidity, and pest risk parameters. Output is a revenue distribution — P10/P50/P90 — that reflects the actual uncertainty of Hawaii's variable weather, not a single optimistic forecast.</p>
+            <span class="tech-pill">Stochastic Simulation · NumPy · Open-Meteo API</span>
+          </div>
+        </div>
+
+        <div class="tech-card fade-up">
+          <div class="tech-icon">🧠</div>
+          <div>
+            <div class="tech-label" data-i18n="tech3_label">Machine Learning</div>
+            <div class="tech-title">LightGBM Crop Health Model</div>
+            <p class="tech-desc" data-i18n="tech3_desc">Gradient-boosted decision trees trained on 5,000 synthetic records with Hawaii-specific features: Kona wind exposure days, altitude (Mauna Kea slope vs. Kona coast), and crop-type encoding for papaya, coffee, taro, macadamia, and pineapple. Risk scores (0–1) feed urgency weights directly into the Harvest Logistics Optimizer — closing the loop between prediction and scheduling.</p>
+            <span class="tech-pill">LightGBM · Binary Classification · Domain Features</span>
+          </div>
+        </div>
+
+        <div class="tech-card fade-up">
+          <div class="tech-icon">🌦️</div>
+          <div>
+            <div class="tech-label" data-i18n="tech4_label">Live Weather Integration</div>
+            <div class="tech-title">Open-Meteo API — Real-Time Data Pipeline</div>
+            <p class="tech-desc" data-i18n="tech4_desc">weather_fetcher.py calls the Open-Meteo API to derive real-time scenario probabilities (normal / drought / Kona wind / heavy rain) from current conditions at Hawaii weather stations. These probabilities flow into the Yield Simulator, the Knowledge Transfer Planner (task adjustments by scenario), and the Portal dashboard — making every simulation reflect today's actual conditions, not static assumptions.</p>
+            <span class="tech-pill">Open-Meteo · Real-Time · Scenario Derivation</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:40px;">
+        <p class="section-label" data-i18n="stack_label">Full Stack</p>
+        <div class="tech-stack-row">
+          <span class="ts-pill"><span class="ts-dot" style="background:var(--suite-green)"></span>Python 3.12</span>
+          <span class="ts-pill"><span class="ts-dot" style="background:var(--suite-amber)"></span>Streamlit</span>
+          <span class="ts-pill"><span class="ts-dot" style="background:var(--suite-green)"></span>OR-Tools CP-SAT</span>
+          <span class="ts-pill"><span class="ts-dot" style="background:var(--suite-teal)"></span>LightGBM</span>
+          <span class="ts-pill"><span class="ts-dot" style="background:var(--suite-blue)"></span>Monte Carlo / NumPy</span>
+          <span class="ts-pill"><span class="ts-dot" style="background:var(--suite-amber)"></span>Plotly</span>
+          <span class="ts-pill"><span class="ts-dot" style="background:var(--suite-sky)"></span>Open-Meteo API</span>
+          <span class="ts-pill"><span class="ts-dot" style="background:var(--suite-lime)"></span>GDD Thermal Model</span>
+          <span class="ts-pill"><span class="ts-dot" style="background:var(--suite-brown)"></span>pandas / scikit-learn</span>
+          <span class="ts-pill"><span class="ts-dot" style="background:var(--accent)"></span>session_state Pipeline</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Why section ── -->
+  <section>
+    <div class="container">
+      <p class="section-label" data-i18n="why_label">Why It Matters</p>
+      <h2 class="section-title" data-i18n="why_title">What this project<br><em>demonstrates</em></h2>
+      <div class="why-grid">
+        <div class="why-card fade-up">
+          <div class="why-icon">🔗</div>
+          <div class="why-title" data-i18n="w1_title">Multi-Engine Data Pipeline</div>
+          <p class="why-desc" data-i18n="w1_desc">Seven engines connected through session_state: planting decisions seed lifecycle tracking; health scores set harvest urgency weights; knowledge transfer assignments inject OJT constraints into logistics scheduling. Each engine is independent, but together they form a closed feedback loop.</p>
+        </div>
+        <div class="why-card fade-up">
+          <div class="why-icon">🏝️</div>
+          <div class="why-title" data-i18n="w2_title">Hawaii Domain Knowledge</div>
+          <p class="why-desc" data-i18n="w2_desc">Kona wind stress, altitude-dependent crop behavior, Honolulu seasonal price multipliers, and Big Island weather station selection are all encoded as first-class model parameters — not afterthoughts. The models reflect the actual constraints of Hawaiian specialty crop operations.</p>
+        </div>
+        <div class="why-card fade-up">
+          <div class="why-icon">👥</div>
+          <div class="why-title" data-i18n="w3_title">3-Persona UX Design</div>
+          <p class="why-desc" data-i18n="w3_desc">The same simulation run surfaces different information at three different levels of abstraction: 12-month P10/P50/P90 revenue for the owner, this week's harvest schedule and health alerts for the manager, and a personalized task card with procedure notes for field staff. Product thinking applied to agricultural decision support.</p>
+        </div>
+        <div class="why-card fade-up">
+          <div class="why-icon">🌐</div>
+          <div class="why-title" data-i18n="w4_title">Real Data Integration</div>
+          <p class="why-desc" data-i18n="w4_desc">Unlike static demo dashboards, this suite integrates live weather data from Open-Meteo API in real time. Scenario probabilities update each run. The irrigation optimizer reads today's forecast. The yield simulator reflects actual current conditions — not hypothetical inputs.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CTA ── -->
+  <section class="cta-section" style="background:#fff;">
+    <div class="container">
+      <div class="offer-box">
+        <p class="section-label" data-i18n="cta_label">Explore</p>
+        <h3 style="font-family:var(--serif);font-size:1.8rem;margin-bottom:16px;" data-i18n="cta_title">Seven engines, one farm, live weather</h3>
+        <p style="color:var(--muted);margin-bottom:32px;line-height:1.6;" data-i18n="cta_desc">Run a full simulation from the sidebar — all seven engines execute in sequence, pulling live weather from Hawaii stations. Check the Portal dashboard for the Farm Owner ROI outlook, the Field Manager's harvest schedule, and the Field Staff's daily task card.</p>
+        <div class="btn-group">
+          <!-- <a href="#" target="_blank" class="btn btn-primary" data-i18n="cta_btn1">↗ Open Live App</a> -->
+          <a href="mailto:omanami.to@gmail.com?subject=Ag-Tech%20Suite%20Inquiry&body=Hello%20Manami%2C%0A%0AI'm%20interested%20in%20the%20Ag-Tech%20Suite.%0A%0AOrganization%3A%0AUse%20case%3A%0A" class="btn btn-outline" data-i18n="cta_btn2">Send an Email</a>
+          <a href="index.html" class="btn btn-outline" data-i18n="cta_btn3">← Back to Portfolio</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <p data-i18n="footer">© 2026 Manami Oyama · Built with HTML, CSS &amp; JavaScript</p>
+    </div>
+  </footer>
+
+  <script>
+  const PAGE_TRANSLATIONS = {
+    en: {
+      nav_overview:"Overview", nav_portal:"Portal", nav_engines:"Engines", nav_tech:"Tech", nav_back:"← Portfolio",
+      hero_eyebrow:"Integrated Agri-Decision Suite",
+      hero_tagline:"Seven AI engines — crop planning, lifecycle monitoring, harvest logistics, yield simulation, health prediction, knowledge transfer, and smart irrigation — unified in a 3-persona Portal dashboard. Built for Hawaii's specialty crop operations.",
+      meta_apps:"7 Integrated Engines", meta_tech:"OR-Tools · LightGBM · Monte Carlo", meta_stack:"Python · Streamlit · Open-Meteo API",
+      cta_engines:"Explore Engines",
+      one_liner:"Seven AI engines run in sequence — CP-SAT plans the optimal crop mix, a GDD thermal model tracks every plant's growth, LightGBM predicts quality degradation before harvest, Monte Carlo simulates 2,000 weather scenarios, and CP-SAT again routes every worker and truck — all surfaced in a 3-persona Portal dashboard built for Hawaii's specialty crop operations.",
+      prob_label:"Problem → Solution", prob_title:"Six farm operations problems. Seven integrated engines.",
+      prob_desc:"Each engine targets a specific constraint in specialty crop operations — and they share a single data pipeline driven by live weather.",
+      p1_label:"Problem 01", p1_title:"Crop planning is done by intuition, not data",
+      p1_desc:"Deciding which crops to plant, in which parcels, and when is a combinatorial problem too complex for a spreadsheet. Suboptimal rotations leave revenue on the table and over-commit labor during peak seasons.",
+      s1_label:"Solution — Planting Strategy Optimizer", s1_title:"CP-SAT proves the optimal 24-month planting schedule",
+      s1_desc:"Binary variables per parcel × crop × month, with hard constraints for parcel exclusivity and labor capacity, and a revenue-maximizing objective that accounts for seasonal price fluctuations. Results pipe directly into the Lifecycle Manager.",
+      p2_label:"Problem 02", p2_title:"Crop growth is invisible until something goes wrong",
+      p2_desc:"Growth stage transitions, water stress, pest risk, and harvest timing are tracked informally or not at all. By the time managers notice a problem, the harvest window has narrowed or quality has dropped.",
+      s2_label:"Solution — Crop Lifecycle Manager", s2_title:"GDD thermal accumulation + water balance model per parcel",
+      s2_desc:"Daily growing degree days (GDD) accumulate against crop-specific thresholds. Soil moisture, Kona wind days, and pest history all reduce the effective GDD rate. Stage transitions trigger automatic field alerts.",
+      p3_label:"Problem 03", p3_title:"Harvest scheduling is manual and misses bottlenecks",
+      p3_desc:"Assigning workers to parcels, scheduling trucks, and sequencing harvests across a multi-crop farm is a combinatorial logistics problem. Manual scheduling leads to idle trucks, over-allocated workers, and missed urgency windows.",
+      s3_label:"Solution — Harvest Logistics Optimizer", s3_title:"CP-SAT interval variables solve job-shop harvest scheduling",
+      s3_desc:"Tasks are chunked into 2-hour blocks with no-overlap constraints across workers and trucks. High-urgency parcels carry large penalty weights. Skill matching, OJT pairing, and equipment constraints are all hard constraints.",
+      p4_label:"Problem 04", p4_title:"Revenue is unpredictable because weather is unpredictable",
+      p4_desc:"Drought, trade winds, and temperature swings all affect yield and labor demand differently. Farm budgets based on a single expected-yield forecast are routinely wrong. Owners make investment decisions without knowing the distribution of outcomes.",
+      s4_label:"Solution — Yield & Labor Simulator", s4_title:"2,000 Monte Carlo runs across weather scenarios",
+      s4_desc:"Each run samples a weather scenario based on live Open-Meteo probabilities from Hawaii stations, applies crop-specific yield response functions, and outputs P10/P50/P90 revenue distributions — not single-point estimates.",
+      p5_label:"Problem 05", p5_title:"Quality degradation is noticed at the packing shed, not the field",
+      p5_desc:"By the time visual defects appear, the harvest window for premium-grade produce has already passed. Urgent harvests triggered too late mean lower prices, higher waste, and rushed labor allocation.",
+      s5_label:"Solution — Crop Health Predictor", s5_title:"LightGBM predicts quality-degradation risk from 11 field features",
+      s5_desc:"Days since rain, temperature, humidity, soil moisture, pest history, Kona wind days, sunshine hours, crop type, area, altitude, and days since harvest combine into a per-parcel risk score. Critical parcels surface as priority alerts in the Harvest Optimizer.",
+      p6_label:"Problem 06", p6_title:"Senior farmers' tacit knowledge leaves with them",
+      p6_desc:"25+ years of crop-specific decision-making lives in one person's head. When that person is absent, younger workers make costly mistakes. There is no structured system to transfer skills or assign tasks by competency.",
+      s6_label:"Solution — Knowledge Transfer Planner", s6_title:"Task assignment optimization + auto-generated OJT schedules",
+      s6_desc:"Workers are profiled by skill level per crop task. A mathematical model assigns tasks to the most competent available worker, flags succession risks, and generates OJT pairings embedded into the Harvest Logistics Optimizer.",
+      arch_label:"Architecture", arch_title:"Seven engines. One data pipeline.",
+      arch_desc:"A shared database layer (master_data.py + weather_fetcher.py) feeds all engines. Planting decisions flow into Lifecycle; Health alerts into Harvest Logistics; Simulation results into the Portal dashboard.",
+      arch_ssot:"Shared Data Layer", arch_portal:"Portal Dashboard", arch_tabs:"Farm Owner · Field Manager · Field Staff",
+      portal_label:"Portal Dashboard", portal_title:"Three personas. One unified decision center.",
+      portal_desc:"A single Streamlit portal presents the same simulation results at three different levels of abstraction — 12-month financial outlook for the owner, weekly operational alerts for the manager, and today's task list for field staff.",
+      p_ceo_tag:"Farm Owner / CEO", p_ceo_title:"Financial Outlook & ROI Dashboard",
+      p_ceo_desc:"12-month revenue forecast with P10/P50/P90 confidence bands, opportunity loss from suboptimal crop mix, irrigation ROI simulation with and without smart system, and a one-click \"Run All Engines\" scenario comparison.",
+      ceo_k1:"Revenue Forecast", ceo_k2:"Opportunity Loss", ceo_k3:"Irrigation ROI", ceo_k4:"12-Month KPIs",
+      p_coo_tag:"Field Manager / COO", p_coo_title:"Weekly Operations & Alert Dashboard",
+      p_coo_desc:"This week's harvest schedule with worker assignments, parcel health alerts from the Crop Health Predictor, staffing risk heatmap by week (full-staff vs. short-staffed), and auto-generated field task priority list.",
+      coo_k1:"Harvest Schedule", coo_k2:"Health Alerts", coo_k3:"Staffing Risk", coo_k4:"Task Priority",
+      p_staff_tag:"Field Staff", p_staff_title:"Today's Tasks & Procedure Guide",
+      p_staff_desc:"Personalized daily task card with crop-specific procedure notes drawn from the Knowledge Transfer database. Skill-matched task complexity. OJT assignments alongside regular duties with senior worker pairing.",
+      staff_k1:"Daily Task Card", staff_k2:"Procedure Notes", staff_k3:"OJT Assignments", staff_k4:"Skill Tracking",
+      metrics_label:"By the Numbers", metrics_title:"What this suite is built on",
+      m1:"Integrated AI\nengines", m2:"CP-SAT solvers\nin one pipeline", m3:"Monte Carlo\nsimulations per run", m4:"LightGBM features\nfor health prediction",
+      metrics_note:"Built on synthetic data modelled on Hawaii specialty crop operations (papaya, coffee, taro, macadamia, pineapple). Live weather via Open-Meteo API (Waimea / Hilo / Kona stations).",
+      engines_label:"The Seven Engines", engines_title:"Each engine solves one constraint. Together they run the whole farm.",
+      e1_title:"Planting Strategy Optimizer", e1_engine:"CP-SAT Constraint Programming",
+      e1_desc:"Solves the 24-month crop rotation plan as a combinatorial optimization problem. Binary variables represent whether crop c is planted in parcel p at month m. Hard constraints enforce parcel exclusivity and labor capacity limits. The objective maximizes seasonal revenue — accounting for Honolulu market price multipliers across 5 crop types and 6+ parcels.",
+      e1_o1:"Binary variables: parcel × crop × month", e1_o2:"Seasonal price multiplier optimization",
+      e1_o3:"Perennial crop (coffee, macadamia) co-scheduling", e1_o4:"Results pipe into Lifecycle Manager",
+      e2_title:"Crop Lifecycle Manager", e2_engine:"GDD Thermal Accumulation + Water Balance",
+      e2_desc:"Tracks every planted batch from germination to harvest using Growing Degree Day (GDD) accumulation. Daily GDD is reduced by soil moisture deficit, Kona wind stress, and pest history score. Stage transitions trigger automatic alerts. Syncs initial planting schedules from the Planting Optimizer.",
+      e2_o1:"Daily GDD calculation per parcel", e2_o2:"Kona wind stress model (×0.9 GDD factor)",
+      e2_o3:"Vegetative → flowering → harvest transitions", e2_o4:"Pest stress compound penalty",
+      e3_title:"Harvest Logistics Optimizer", e3_engine:"CP-SAT Interval Variables — Job-Shop Scheduling",
+      e3_desc:"Schedules multi-day harvest operations across workers, trucks, and parcels using CP-SAT interval variables with AddNoOverlap constraints. Tasks are chunked into 2-hour blocks. High-urgency parcels carry 50,000-point penalty weights. Skill matching and OJT co-scheduling are hard constraints.",
+      e3_o1:"Job-shop scheduling: worker × parcel × truck", e3_o2:"Urgency priority (Critical / High / Med / Low)",
+      e3_o3:"OJT pair co-scheduling constraints", e3_o4:"Short-staffed scenario comparison",
+      e4_title:"Yield & Labor Simulator", e4_engine:"Monte Carlo Weather Simulation",
+      e4_desc:"Runs 2,000 Monte Carlo simulations per run, sampling weather scenarios according to live Open-Meteo probabilities from Hawaii weather stations. Each trial applies crop-specific yield response functions to temperature, rainfall, humidity, and pest risk. Outputs revenue distributions — P10/P50/P90 — for each crop type.",
+      e4_o1:"Revenue P10 / P50 / P90 distributions", e4_o2:"Live weather scenario probabilities",
+      e4_o3:"Per-crop yield response functions", e4_o4:"Labor demand forecast by scenario",
+      e5_title:"Crop Health Predictor", e5_engine:"LightGBM Quality-Degradation Model",
+      e5_desc:"Predicts per-parcel quality degradation risk using 11 field features: days since rain, temperature, humidity, soil moisture, days since harvest, pest history score, Kona wind days, sunshine hours, crop type, area, and altitude. Trained on 5,000 synthetic records. Risk scores feed urgency weights into Harvest Logistics.",
+      e5_o1:"Risk score: Critical (≥0.70) / High / Med / Low", e5_o2:"11-feature LightGBM model",
+      e5_o3:"Priority alerts feed Harvest Logistics Optimizer", e5_o4:"Kona wind & altitude as domain features",
+      e6_title:"Knowledge Transfer & Continuity Planner", e6_engine:"Mathematical Optimization — Task Assignment",
+      e6_desc:"Digitizes 25+ years of senior farmer tacit knowledge as a task catalog with skill requirements. A mathematical model assigns tasks to the most competent available worker, flags succession risks, and generates OJT pairings that integrate into the Harvest Logistics Optimizer as co-scheduling constraints.",
+      e6_o1:"Skill-matched task assignment (3 levels)", e6_o2:"Senior-only task succession risk flags",
+      e6_o3:"OJT pairing exported to Harvest Optimizer", e6_o4:"Live weather scenario task adjustments",
+      e7_title:"Smart Irrigation Optimizer", e7_engine:"CP-SAT Water Resource Scheduling",
+      e7_desc:"Schedules daily irrigation across a multi-day forecast horizon. Soil moisture is modelled as an integer variable updated by irrigation input, rainfall, and evaporation. Kona wind days double the evaporation rate. Rain-cancellation thresholds and post-harvest water cutoff for non-perennial crops are hard constraints.",
+      e7_o1:"Daily irrigation schedule per parcel", e7_o2:"Kona wind evaporation model (×2 on wind days)",
+      e7_o3:"Rain-cancel threshold automatic cutoff", e7_o4:"ROI simulation vs. manual irrigation",
+      tech_label:"Technical Stack", tech_title:"The right tool for each constraint",
+      tech1_label:"Optimization Engine (×3)", tech1_desc:"Used in three separate engines: planting schedule optimization, harvest logistics scheduling, and irrigation scheduling. CP-SAT returns mathematically certified solutions — not heuristic approximations — and handles hard constraints natively.",
+      tech2_label:"Probabilistic Simulation", tech2_desc:"2,000 trials per run, each sampling a weather scenario from live Open-Meteo probabilities, then applying Gaussian noise to rainfall, temperature, humidity, and pest risk. Output is a revenue distribution reflecting the actual uncertainty of Hawaii's variable weather.",
+      tech3_label:"Machine Learning", tech3_desc:"Gradient-boosted decision trees trained on 5,000 synthetic records with Hawaii-specific features: Kona wind days, altitude, and crop-type encoding. Risk scores feed urgency weights directly into the Harvest Logistics Optimizer.",
+      tech4_label:"Live Weather Integration", tech4_desc:"weather_fetcher.py calls Open-Meteo API to derive real-time scenario probabilities from Hawaii weather stations. These flow into the Yield Simulator, Knowledge Transfer Planner, and Portal dashboard — making every simulation reflect today's actual conditions.",
+      stack_label:"Full Stack",
+      why_label:"Why It Matters", why_title:"What this project demonstrates",
+      w1_title:"Multi-Engine Data Pipeline", w1_desc:"Seven engines connected through session_state: planting decisions seed lifecycle tracking; health scores set harvest urgency weights; OJT assignments inject constraints into logistics scheduling. Each engine is independent, but together they form a closed feedback loop.",
+      w2_title:"Hawaii Domain Knowledge", w2_desc:"Kona wind stress, altitude-dependent crop behavior, Honolulu seasonal price multipliers, and Big Island weather station selection are all encoded as first-class model parameters — not afterthoughts.",
+      w3_title:"3-Persona UX Design", w3_desc:"The same simulation run surfaces different information at three levels of abstraction: P10/P50/P90 revenue for the owner, this week's harvest schedule for the manager, and a daily task card for field staff. Product thinking applied to agricultural decision support.",
+      w4_title:"Real Data Integration", w4_desc:"Unlike static demo dashboards, this suite integrates live weather from Open-Meteo API in real time. Scenario probabilities update each run. The irrigation optimizer reads today's forecast — not hypothetical inputs.",
+      cta_label:"Explore", cta_title:"Seven engines, one farm, live weather",
+      cta_desc:"Run a full simulation from the sidebar — all seven engines execute in sequence, pulling live weather from Hawaii stations. Check the Portal for the Farm Owner ROI outlook, the Field Manager's harvest schedule, and the Field Staff's daily task card.",
+      cta_btn2:"Send an Email", cta_btn3:"← Back to Portfolio",
+      footer:"© 2026 Manami Oyama · Built with HTML, CSS & JavaScript",
+    },
+    ja: {
+      nav_overview:"概要", nav_portal:"ポータル", nav_engines:"エンジン", nav_tech:"技術", nav_back:"← ポートフォリオ",
+      hero_eyebrow:"統合農業意思決定スイート",
+      hero_tagline:"作付計画・ライフサイクル管理・収穫物流・収益シミュレーション・品質予測・技術継承・スマート散水の7つのAIエンジンを、3ペルソナ対応のポータルダッシュボードに統合。ハワイ産特作農業向けに設計。",
+      meta_apps:"7つの統合エンジン", meta_tech:"OR-Tools · LightGBM · モンテカルロ", meta_stack:"Python · Streamlit · Open-Meteo API",
+      cta_engines:"エンジンを見る",
+      one_liner:"7つのAIエンジンが連動して動く。CP-SATが最適作付計画を立案し、GDD熱積算モデルが各区画の生育を追跡。LightGBMが収穫前に品質劣化リスクを予測し、モンテカルロが2,000通りの天候シナリオを計算。そしてCP-SATが再び全作業員とトラックをスケジュール配置する。これら全てが、ハワイ農業のための3ペルソナ対応ポータルダッシュボードに集約されています。",
+      prob_label:"課題 → 解決策", prob_title:"6つの農場経営課題に、7つのエンジンで応える。",
+      prob_desc:"各エンジンが特定の農業経営上のボトルネックを解決し、全データはライブ気象データで駆動する単一パイプラインとして共有されます。",
+      p1_label:"課題 01", p1_title:"作付計画が勘と経験に依存している",
+      p1_desc:"どの作物をどの区画にいつ植えるかは、スプレッドシートでは扱えない組み合わせ最適化問題です。非効率な輪作は収益機会の損失と繁忙期の労働過負荷をもたらします。",
+      s1_label:"解決策 — 作付戦略オプティマイザー", s1_title:"CP-SATが24ヶ月の最適作付スケジュールを数学的証明",
+      s1_desc:"区画×作物×月のバイナリ変数に、区画排他制約・労働キャパシティ制約を組み込み、季節価格変動を考慮した収益最大化目的関数で解を求めます。結果はライフサイクルマネージャーに自動連携されます。",
+      p2_label:"課題 02", p2_title:"作物の生育状況は問題が起きるまで見えない",
+      p2_desc:"生育ステージの遷移・水ストレス・病害虫リスク・収穫タイミングは非公式に管理されるか、記録されていません。マネージャーが気づく頃には収穫窓が狭まり、品質が低下しています。",
+      s2_label:"解決策 — 作物ライフサイクルマネージャー", s2_title:"区画別GDD積算温度モデル＋水収支モデル",
+      s2_desc:"日次GDD（生育有効積算温度）が作物別閾値に向けて蓄積。土壌水分不足・コナウィンズ・病害虫履歴スコアがGDD蓄積を阻害。ステージ遷移時に自動アラートを発報します。",
+      p3_label:"課題 03", p3_title:"収穫作業のスケジューリングが手作業でボトルネックを見逃す",
+      p3_desc:"複数作物農場での作業員・トラック・収穫区画の割り当ては組み合わせ物流問題です。手作業では遊休トラックや過負荷作業員、緊急収穫タイミングの逸失が生じます。",
+      s3_label:"解決策 — 収穫物流オプティマイザー", s3_title:"CP-SAT区間変数によるジョブショップ型収穫スケジューリング",
+      s3_desc:"タスクを2時間ブロックに分割し、作業員・トラック間のno-overlap制約を設定。品質予測の高リスク区画は大ペナルティ重みで優先化。スキルマッチングとOJTペアリングがハード制約として組み込まれます。",
+      p4_label:"課題 04", p4_title:"天候が不確定なため収益が予測できない",
+      p4_desc:"干ばつ・貿易風・気温変動は収穫量と労働需要に異なる影響を与えます。単一予測値に基づく農場予算は常にはずれます。オーナーは結果の分布を知らないまま投資判断を行っています。",
+      s4_label:"解決策 — 収益・労働シミュレーター", s4_title:"2,000回のモンテカルロシミュレーション",
+      s4_desc:"ハワイの気象観測所からのライブOpen-Meteo確率に基づいて気象シナリオをサンプリングし、作物別収穫量応答関数を適用。出力はP10/P50/P90収益分布——単一予測値ではありません。",
+      p5_label:"課題 05", p5_title:"品質劣化は選果場で気づく——畑で気づかない",
+      p5_desc:"外観異常が現れる頃には、プレミアム品の収穫窓はすでに過ぎています。手遅れの緊急収穫は低単価・高廃棄・突貫労働配置を招きます。",
+      s5_label:"解決策 — 作物品質予測エンジン", s5_title:"LightGBMが11の圃場特徴量から品質劣化リスクを予測",
+      s5_desc:"降雨からの日数・気温・湿度・土壌水分・病害虫スコア・コナウィンズ日数・日照時間・作物種別・面積・標高・前回収穫からの日数が区画別リスクスコアに統合。高リスク区画は収穫物流オプティマイザーの優先アラートに連携されます。",
+      p6_label:"課題 06", p6_title:"熟練農家の暗黙知が後継者に伝わらない",
+      p6_desc:"25年以上の作物別意思決定ノウハウが特定の人物の頭の中に存在します。その人物が不在の時、若手・季節労働者はコストのかかるミスを犯します。スキル別タスク配分の体系的な仕組みがありません。",
+      s6_label:"解決策 — 知識継承・事業継続プランナー", s6_title:"タスク配分最適化＋OJTスケジュール自動生成",
+      s6_desc:"作業員を作物タスク別のスキルレベル（なし／基本／高度）でプロファイリング。数理最適化が最適作業員にタスクを配分し、継承リスクをフラグ化。OJTペアリングは収穫物流オプティマイザーの制約として組み込まれます。",
+      arch_label:"アーキテクチャ", arch_title:"7つのエンジン。ひとつのデータパイプライン。",
+      arch_desc:"共有データレイヤー（master_data.py + weather_fetcher.py）が全エンジンに供給。作付決定はライフサイクルへ、品質アラートは収穫物流へ、シミュレーション結果はポータルダッシュボードへ流れます。",
+      arch_ssot:"共有データレイヤー", arch_portal:"ポータルダッシュボード", arch_tabs:"農場オーナー · 現場マネージャー · 現場スタッフ",
+      portal_label:"ポータルダッシュボード", portal_title:"3つのペルソナ。ひとつの統合意思決定センター。",
+      portal_desc:"単一のStreamlitポータルが同じシミュレーション結果を3段階の抽象度で提示。オーナーには12ヶ月の財務見通し、マネージャーには週次運営アラート、現場スタッフには今日のタスクリストを表示します。",
+      p_ceo_tag:"農場オーナー / CEO", p_ceo_title:"財務見通し＆ROIダッシュボード",
+      p_ceo_desc:"P10/P50/P90信頼区間付き12ヶ月収益予測、非最適作付による機会損失、スマート散水システム導入有無のROIシミュレーション、「全エンジン一括実行」によるシナリオ比較。",
+      ceo_k1:"収益予測", ceo_k2:"機会損失", ceo_k3:"散水ROI", ceo_k4:"12ヶ月KPI",
+      p_coo_tag:"現場マネージャー / COO", p_coo_title:"週次オペレーション＆アラートダッシュボード",
+      p_coo_desc:"作業員配置済みの今週の収穫スケジュール、品質予測エンジンからの区画健全性アラート、週別配置リスクヒートマップ（通常/人手不足シナリオ）、自動生成フィールドタスク優先リスト。",
+      coo_k1:"収穫スケジュール", coo_k2:"健全性アラート", coo_k3:"配置リスク", coo_k4:"タスク優先度",
+      p_staff_tag:"現場スタッフ", p_staff_title:"今日の作業カード＆手順ガイド",
+      p_staff_desc:"知識継承データベースの作物別手順ノート付き個人タスクカード。タスク複雑度にスキルレベルをマッチング。通常業務と並んでOJT配置を先輩農家のペアリングとともに表示。",
+      staff_k1:"日次タスクカード", staff_k2:"手順ノート", staff_k3:"OJT配置", staff_k4:"スキル記録",
+      metrics_label:"数字で見る", metrics_title:"このSuiteの構成",
+      m1:"統合AI\nエンジン数", m2:"パイプライン内の\nCP-SATソルバー数", m3:"1回のシミュレーション\nでの試行数", m4:"品質予測の\nLightGBM特徴量数",
+      metrics_note:"ハワイ産特作農業（パパイヤ・コーヒー・タロイモ・マカダミア・パイナップル）をモデルとした合成データを使用。ライブ気象データはOpen-Meteo API（ワイメア/ヒロ/コナ観測所）経由で取得。",
+      engines_label:"7つのエンジン", engines_title:"各エンジンがひとつの制約を解決する。合わさって農場全体を動かす。",
+      e1_title:"作付戦略オプティマイザー", e1_engine:"CP-SAT 制約プログラミング",
+      e1_desc:"24ヶ月の輪作計画を組み合わせ最適化問題として解く。作物c を区画p に月m に植えるかを示すバイナリ変数に、区画排他制約・労働キャパシティ制約を組み込み、5作物×6区画以上の季節価格変動を考慮した収益最大化目的関数で最適解を算出。結果はライフサイクルマネージャーへ自動連携。",
+      e1_o1:"バイナリ変数: 区画×作物×月", e1_o2:"季節価格乗数の最適化",
+      e1_o3:"多年生作物（コーヒー・マカダミア）の同時スケジューリング", e1_o4:"結果はライフサイクルマネージャーへ連携",
+      e2_title:"作物ライフサイクルマネージャー", e2_engine:"GDD積算温度モデル＋水収支モデル",
+      e2_desc:"播種から収穫まで全バッチをGDD（生育有効積算温度）蓄積で追跡。日次GDDは土壌水分不足（干ばつ×0.5、乾燥×0.8）・コナウィンズ・病害虫履歴スコアによって減衰。ステージ遷移時に自動アラート発報。作付最適化の初期スケジュールを同期。",
+      e2_o1:"区画別日次GDD算出", e2_o2:"コナウィンズストレスモデル（GDD係数×0.9）",
+      e2_o3:"栄養成長→開花→収穫ステージ遷移", e2_o4:"病害虫ストレス複合ペナルティ",
+      e3_title:"収穫物流オプティマイザー", e3_engine:"CP-SAT区間変数 — ジョブショップ型スケジューリング",
+      e3_desc:"CP-SAT区間変数とAddNoOverlap制約で、作業員・トラック・区画をまたぐ複数日収穫作業をスケジューリング。タスクは最大柔軟性のため2時間ブロックに分割。高緊急度区画（品質予測エンジンからフラグ）は50,000点のペナルティ重み。スキルマッチングとOJTペアリングがハード制約として組み込まれます。",
+      e3_o1:"ジョブショップ配置: 作業員×区画×トラック", e3_o2:"緊急優先度（緊急/高/中/低）",
+      e3_o3:"OJTペア同時スケジューリング制約", e3_o4:"人手不足シナリオとの比較",
+      e4_title:"収益・労働シミュレーター", e4_engine:"モンテカルロ気象シミュレーション",
+      e4_desc:"1回2,000試行のモンテカルロシミュレーション。ハワイ気象観測所のライブOpen-Meteo確率に基づいて気象シナリオ（通常/干ばつ/コナウィンズ/大雨）をサンプリングし、作物別収穫量応答関数に適用。出力は作物別P10/P50/P90収益分布——単一予測値ではありません。",
+      e4_o1:"収益P10/P50/P90分布", e4_o2:"ライブ気象シナリオ確率",
+      e4_o3:"作物別収穫量応答関数", e4_o4:"シナリオ別労働需要予測",
+      e5_title:"作物品質予測エンジン", e5_engine:"LightGBM品質劣化予測モデル",
+      e5_desc:"11の圃場特徴量（降雨からの日数・気温・湿度・土壌水分・収穫からの日数・病害虫スコア・コナウィンズ日数30日・日照時間7日・作物種別・面積・標高）から区画別品質劣化リスクを予測。5,000件の合成データで学習。リスクスコアは収穫物流オプティマイザーの優先度重みとして直接連携。",
+      e5_o1:"リスクスコア: 緊急（≥0.70）/高/中/低", e5_o2:"11特徴量LightGBMモデル",
+      e5_o3:"優先アラートを収穫物流オプティマイザーへ連携", e5_o4:"コナウィンズ・標高をドメイン特徴量として使用",
+      e6_title:"知識継承・事業継続プランナー", e6_engine:"数理最適化 — タスク配分",
+      e6_desc:"25年以上の熟練農家の暗黙知をスキル要件付きタスクカタログとしてデジタル化。数理最適化が最適な作業員にタスクを配分し、継承リスクをフラグ化。OJTペアリングは収穫物流オプティマイザーの同時スケジューリング制約として組み込まれます。",
+      e6_o1:"スキルマッチングタスク配分（3段階）", e6_o2:"上級者専任タスクの継承リスクフラグ",
+      e6_o3:"OJTペアリングを収穫オプティマイザーへ出力", e6_o4:"ライブ気象シナリオによるタスク調整",
+      e7_title:"スマート散水オプティマイザー", e7_engine:"CP-SAT水資源スケジューリング",
+      e7_desc:"複数日予報期間にわたる日次散水を1時間ブロック単位でスケジューリング。土壌水分量を整数変数として散水・降雨・蒸発で更新。コナウィンズの日は蒸発量が2倍に増加。雨天キャンセル閾値と非多年生作物の収穫後断水がハード制約として設定されています。",
+      e7_o1:"区画別日次散水スケジュール", e7_o2:"コナウィンズ蒸発モデル（風日×2倍）",
+      e7_o3:"雨天閾値による自動キャンセル", e7_o4:"手動散水との比較ROIシミュレーション",
+      tech_label:"技術スタック", tech_title:"各制約に最適なツールを",
+      tech1_label:"最適化エンジン（×3使用）", tech1_desc:"3つの独立エンジンで使用：作付スケジュール最適化、収穫物流スケジューリング、散水スケジューリング。CP-SATは数学的に保証された最適解を返します——ヒューリスティック近似ではなく。ハード制約をネイティブに扱えることが、収穫窓を逃すと品質損失に直結する農業ドメインで重要です。",
+      tech2_label:"確率的シミュレーション", tech2_desc:"1回2,000試行。ライブOpen-Meteo確率から気象シナリオをサンプリングし、降雨・気温・湿度・病害虫リスクにガウスノイズを加えて適用。出力はハワイの変動気候の実際の不確実性を反映した収益分布です。",
+      tech3_label:"機械学習", tech3_desc:"ハワイ固有特徴量（コナウィンズ日数・標高・作物種別エンコーディング）を含む5,000件の合成データで学習。リスクスコアは収穫物流オプティマイザーの優先度重みとして直接連携——予測とスケジューリングのループを閉じます。",
+      tech4_label:"ライブ気象データ連携", tech4_desc:"weather_fetcher.pyがOpen-Meteo APIを呼び出し、ハワイ気象観測所の現在状況からリアルタイムシナリオ確率を導出。収益シミュレーター・知識継承プランナー・ポータルダッシュボードに供給——全シミュレーションが今日の実際の状況を反映します。",
+      stack_label:"フルスタック",
+      why_label:"なぜ重要か", why_title:"このプロジェクトが示すもの",
+      w1_title:"マルチエンジンデータパイプライン", w1_desc:"7つのエンジンがsession_stateを通じて連動：作付決定がライフサイクル追跡のシードとなり、健全性スコアが収穫優先度重みを設定し、OJT配置が物流スケジューリングに制約を注入。各エンジンは独立しているが、合わさってフィードバックループを形成します。",
+      w2_title:"ハワイドメイン知識の埋め込み", w2_desc:"コナウィンズストレス・標高依存の作物特性・ホノルル季節価格乗数・ビッグアイランド気象観測所の選択が一級モデルパラメータとして組み込まれています——後付けではなく。",
+      w3_title:"3ペルソナUX設計", w3_desc:"同じシミュレーション結果が3段階の抽象度で提示：オーナーにはP10/P50/P90収益、マネージャーには今週の収穫スケジュール、現場スタッフには日次タスクカード。農業意思決定支援へのプロダクト思考の適用。",
+      w4_title:"リアルデータ統合", w4_desc:"静的デモダッシュボードと異なり、Open-Meteo APIのライブ気象データをリアルタイムで統合。シナリオ確率が毎回更新。散水オプティマイザーは今日の予報を読み込む——仮定入力ではなく。",
+      cta_label:"体験する", cta_title:"7つのエンジン、1つの農場、ライブ気象データ",
+      cta_desc:"サイドバーから全シミュレーションを実行——7つのエンジンが順次起動し、ハワイ観測所のライブ気象データを取得します。ポータルで農場オーナーのROI見通し、現場マネージャーの収穫スケジュール、現場スタッフの日次タスクカードを確認できます。",
+      cta_btn2:"メールを送る", cta_btn3:"← ポートフォリオに戻る",
+      footer:"© 2026 Manami Oyama · Built with HTML, CSS & JavaScript",
+    },
+  };
+
+  // ── i18n ──────────────────────────────────────────────────────────
+  let currentLang = "en";
+
+  function applyTranslations(lang) {
+    const t = PAGE_TRANSLATIONS[lang];
+    if (!t) return;
+    document.querySelectorAll("[data-i18n]").forEach(el => {
+      const key = el.getAttribute("data-i18n");
+      if (t[key] !== undefined) el.innerHTML = t[key];
+    });
+    document.querySelectorAll("[data-lang-btn]").forEach(btn => {
+      btn.classList.toggle("active", btn.getAttribute("data-lang-btn") === lang);
+    });
+    currentLang = lang;
+  }
+
+  document.querySelectorAll("[data-lang-btn]").forEach(btn => {
+    btn.addEventListener("click", () => applyTranslations(btn.getAttribute("data-lang-btn")));
+  });
+
+  // ── Hamburger ─────────────────────────────────────────────────────
+  const hamburger = document.getElementById("navHamburger");
+  const navLinks  = document.getElementById("navLinks");
+  hamburger.addEventListener("click", () => {
+    hamburger.classList.toggle("open");
+    navLinks.classList.toggle("open");
+  });
+  navLinks.querySelectorAll("a").forEach(a => {
+    a.addEventListener("click", () => {
+      hamburger.classList.remove("open");
+      navLinks.classList.remove("open");
+    });
+  });
+
+  // ── Scroll fade-up ─────────────────────────────────────────────────
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add("visible"); });
+  }, { threshold: 0.08 });
+  document.querySelectorAll(".fade-up").forEach(el => observer.observe(el));
+
+  // ── App cards fade (triggered by same observer) ───────────────────
+  const cardObserver = new IntersectionObserver(entries => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add("visible"), i * 80);
+      }
+    });
+  }, { threshold: 0.05 });
+  document.querySelectorAll(".app-card, .persona-card").forEach(el => cardObserver.observe(el));
+  </script>
+
+</body>
+</html>
