@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>How It Works — Yield &amp; Labor Simulator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&family=Noto+Serif+JP:wght@300;400&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/style.css"/>
+  <style>
+    :root{--bg:#f0f4f8;--accent:#1e5fa0;--accent2:#93c5fd;--accent3:#eff6ff;--border:#bfdbfe;}
+    .scenario-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:20px;}
+    @media(max-width:700px){.scenario-grid{grid-template-columns:1fr 1fr;}}
+    .scenario-card{border:1px solid var(--border);border-radius:10px;padding:14px 16px;background:white;}
+    .scenario-dot{width:12px;height:12px;border-radius:50%;display:inline-block;margin-right:6px;}
+    .scenario-card .sc-prob{font-size:11px;color:#888;margin-top:4px;}
+    .scenario-card .sc-label{font-size:14px;font-weight:600;display:flex;align-items:center;}
+    .scenario-card .sc-conditions{font-size:11px;color:#555;margin-top:8px;line-height:1.6;}
+    .formula-box{background:#1a1a1a;color:#93c5fd;border-radius:8px;padding:16px 20px;font-family:'Courier New',monospace;font-size:13px;line-height:1.7;margin:16px 0;}
+    .formula-box .comment{color:#6b7280;}
+    .skill-table{width:100%;border-collapse:collapse;font-size:13px;margin:16px 0;}
+    .skill-table th{background:var(--accent3);padding:8px 12px;text-align:left;border:1px solid var(--border);font-weight:600;}
+    .skill-table td{padding:8px 12px;border:1px solid var(--border);vertical-align:top;}
+    .skill-table tr:nth-child(even) td{background:#f8faff;}
+    .flow-steps{counter-reset:steps;list-style:none;padding:0;margin:24px 0 0;}
+    .flow-step{counter-increment:steps;display:flex;gap:18px;margin-bottom:20px;align-items:flex-start;}
+    .flow-step::before{content:counter(steps);min-width:32px;height:32px;border-radius:50%;background:var(--accent);color:white;font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;}
+    .flow-step h4{margin:0 0 4px;font-size:15px;}
+    .flow-step p{margin:0;font-size:13px;color:#555;line-height:1.6;}
+    .result-section{border-left:3px solid var(--accent);padding:10px 16px;margin:10px 0;background:white;border-radius:0 8px 8px 0;}
+    .result-section h4{margin:0 0 4px;font-size:14px;}
+    .result-section p{margin:0;font-size:13px;color:#555;}
+    .why-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:20px;}
+    @media(max-width:700px){.why-grid{grid-template-columns:1fr;}}
+    .why-card{background:white;border:1px solid var(--border);border-radius:10px;padding:18px 20px;}
+    .why-card h4{margin:0 0 6px;font-size:14px;font-weight:600;}
+    .why-card p{margin:0;font-size:13px;color:#555;line-height:1.6;}
+    .pct-badge{display:inline-block;background:var(--accent3);border:1px solid var(--border);border-radius:4px;font-size:11px;font-weight:700;color:var(--accent);padding:2px 7px;margin-left:6px;}
+  </style>
+</head>
+<body>
+<nav>
+  <div class="nav-inner">
+    <a href="ag-tech-suite-index.html" class="nav-logo" style="text-decoration:none;color:inherit;">Ag-Tech Suite</a>
+    <div class="nav-links">
+      <a href="ag-tech-suite-index.html" class="btn-back" data-i18n="nav_back">← Suite Overview</a>
+      <div class="lang-toggle">
+        <button class="lang-btn active" data-lang-btn="en">EN</button>
+        <button class="lang-btn" data-lang-btn="ja">JA</button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="container">
+    <p class="hero-eyebrow fade-up" data-i18n="hero_eyebrow">Engine 04 — Technical Deep Dive</p>
+    <h1 class="hero-title fade-up" data-i18n="hero_title">How the <em>Yield &amp; Labor Simulator</em> works</h1>
+    <p class="hero-desc fade-up" data-i18n="hero_desc">A plain-English explanation of Monte Carlo simulation — sampling 2,000 weather scenarios to generate P10/P50/P90 revenue distributions and probabilistic labor-gap alerts for a 21.5-hectare Hawaii farm.</p>
+    <div class="one-liner fade-up"><p data-i18n="one_liner">Instead of a single "expected yield" number, this engine runs 2,000 random weather draws per month — each one independently computing crop yields, revenues, and labor demand — then summarizes the distribution as pessimistic (P10), median (P50), and optimistic (P90) forecasts so the farm owner can plan staffing and finance with known risk levels.</p></div>
+    <div class="btn-group fade-up" style="margin-bottom:20px">
+      <a href="ag-tech-suite-index.html" class="btn btn-outline" data-i18n="nav_back">← Suite Overview</a>
+    </div>
+  </div>
+</div>
+
+<section>
+  <div class="container">
+    <p class="section-label" data-i18n="overview_label">Overview</p>
+    <h2 class="section-title" data-i18n="overview_title">What it simulates</h2>
+    <table class="skill-table">
+      <thead><tr><th data-i18n="ov_c1">Setting</th><th data-i18n="ov_c2">Detail</th></tr></thead>
+      <tbody>
+        <tr><td data-i18n="ov_r1a">Farm</td><td data-i18n="ov_r1b">Papaya 3.0 ha · Coffee 5.0 ha · Taro 1.5 ha · Macadamia 8.0 ha · Pineapple 4.0 ha = 21.5 ha total</td></tr>
+        <tr><td data-i18n="ov_r2a">Monte Carlo runs</td><td data-i18n="ov_r2b">2,000 trials per simulation (default), configurable up to any N</td></tr>
+        <tr><td data-i18n="ov_r3a">Weather scenarios</td><td data-i18n="ov_r3b">5 scenarios — Normal (50%), Drought (20%), Winter Storm (15%), Flash Flood (10%), Tourism Boom (5%)</td></tr>
+        <tr><td data-i18n="ov_r4a">Output horizon</td><td data-i18n="ov_r4b">12 months, monthly P10/P50/P90 for yield, revenue, and labor demand</td></tr>
+        <tr><td data-i18n="ov_r5a">Labor baseline</td><td data-i18n="ov_r5b">9 full-time workers + up to 6 seasonal; shortage probability computed per month</td></tr>
+        <tr><td data-i18n="ov_r6a">Live weather input</td><td data-i18n="ov_r6b">Open-Meteo API — Waimea / Hilo / Kona stations adjust scenario probabilities dynamically</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section style="background:var(--accent3)">
+  <div class="container">
+    <p class="section-label" data-i18n="tech_label">The Technology</p>
+    <h2 class="section-title" data-i18n="tech_title">Monte Carlo + probabilistic weather sampling</h2>
+    <div class="tech-cards">
+      <div class="tech-card">
+        <div class="tech-pill" data-i18n="t1_pill">Monte Carlo simulation — the core loop</div>
+        <h3 class="tech-title" data-i18n="t1_title">2,000-trial stochastic sampling</h3>
+        <p class="tech-desc" data-i18n="t1_desc">For each of 2,000 trials, the engine independently samples a weather scenario from the probability distribution for every month. Within each scenario, Gaussian noise is added to all weather parameters (rainfall ±25%, temperature ±1.5°C, humidity ±8%, pest risk ±20%) to model within-scenario variability. The trial then computes yield, revenue, and labor demand for all 5 crops. After all trials, P10/P50/P90 percentiles are extracted from the 2,000-value distribution — giving a statistically grounded range rather than a single-point estimate.</p>
+      </div>
+      <div class="tech-card">
+        <div class="tech-pill" data-i18n="t2_pill">Multi-factor yield response function</div>
+        <h3 class="tech-title" data-i18n="t2_title">Crop-specific weather sensitivity model</h3>
+        <p class="tech-desc" data-i18n="t2_desc">Each crop has a weather_sensitivity coefficient (papaya=0.8, coffee=0.6, taro=0.5, macadamia=0.4, pineapple=0.5). Three sub-factors are computed independently — rainfall_factor (optimal 60–120 mm/month), temp_factor (optimal 22–27°C), and pest_factor — then combined: combined = 1 − sensitivity × (1 − rain × temp × pest). This captures that a drought-resistant macadamia orchard barely changes under dry spells while papaya production collapses. Revenue adjusts price upward by +10% for every 10% demand above baseline, modelling tourism-driven price surges.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <p class="section-label" data-i18n="scenarios_label">Weather Scenarios</p>
+    <h2 class="section-title" data-i18n="scenarios_title">The 5 scenarios sampled each trial</h2>
+    <p style="font-size:14px;color:#555;margin-bottom:8px;" data-i18n="scenarios_desc">Each month, one scenario is drawn from this weighted distribution. Gaussian noise is then applied to all parameters within the chosen scenario.</p>
+    <div class="scenario-grid">
+      <div class="scenario-card">
+        <div class="sc-label"><span class="scenario-dot" style="background:#2a9d8f;"></span><span data-i18n="sc1_name">Normal Year</span></div>
+        <div class="sc-prob" data-i18n="sc1_prob">Probability: 50%</div>
+        <div class="sc-conditions" data-i18n="sc1_cond">80 mm/month · 26°C · 65% humidity · 22 sunny days · 2 Kona wind days</div>
+      </div>
+      <div class="scenario-card">
+        <div class="sc-label"><span class="scenario-dot" style="background:#e76f51;"></span><span data-i18n="sc2_name">Drought</span></div>
+        <div class="sc-prob" data-i18n="sc2_prob">Probability: 20%</div>
+        <div class="sc-conditions" data-i18n="sc2_cond">20 mm/month · 29°C · 45% humidity · 28 sunny days · pest risk ×0.8</div>
+      </div>
+      <div class="scenario-card">
+        <div class="sc-label"><span class="scenario-dot" style="background:#e9c46a;"></span><span data-i18n="sc3_name">Winter Storm</span></div>
+        <div class="sc-prob" data-i18n="sc3_prob">Probability: 15%</div>
+        <div class="sc-conditions" data-i18n="sc3_cond">150 mm/month · 22°C · 80% humidity · 8 Kona wind days · pest risk ×1.5</div>
+      </div>
+      <div class="scenario-card">
+        <div class="sc-label"><span class="scenario-dot" style="background:#457b9d;"></span><span data-i18n="sc4_name">Flash Flood</span></div>
+        <div class="sc-prob" data-i18n="sc4_prob">Probability: 10%</div>
+        <div class="sc-conditions" data-i18n="sc4_cond">300 mm/month · 24°C · 90% humidity · 8 sunny days · pest risk ×2.5</div>
+      </div>
+      <div class="scenario-card">
+        <div class="sc-label"><span class="scenario-dot" style="background:#8338ec;"></span><span data-i18n="sc5_name">Tourism Boom</span></div>
+        <div class="sc-prob" data-i18n="sc5_prob">Probability: 5%</div>
+        <div class="sc-conditions" data-i18n="sc5_cond">Normal weather + retail demand ×1.35 — price premium applied to all crops</div>
+      </div>
+    </div>
+
+    <h3 style="margin-top:32px;font-size:17px;" data-i18n="formula_title">Yield &amp; Revenue calculation per trial</h3>
+    <div class="formula-box">
+<span class="comment"># For each trial t, month m, crop c:</span>
+scenario = sample_from_distribution(probs)    <span class="comment"># weighted draw</span>
+weather  = add_gaussian_noise(scenario)        <span class="comment"># ±25% rainfall, ±1.5°C temp, ...</span>
+
+rain_factor = clamp(f(rainfall), 0.2, 1.2)    <span class="comment"># optimal 60–120 mm</span>
+temp_factor = max(0.7, 1 − 0.03 × |temp − 24.5|)
+pest_factor = max(0.5, 1 − 0.15 × (pest − 1.0))
+
+combined = 1 − sensitivity[c] × (1 − rain × temp × pest)
+yield_kg = base_yield_kg_ha[c] × area_ha / 12 × combined
+
+adj_price = price_per_kg[c] × (1 + 0.1 × (demand_factor − 1))
+revenue   = yield_kg × adj_price
+
+<span class="comment"># Labor demand = fixed base + harvest variable</span>
+labor = area_ha × 0.25 + yield_kg / labor_kg_per_month[c]
+    </div>
+    <p style="font-size:13px;color:#555;margin-top:8px;" data-i18n="formula_note">After 2,000 trials per month: P10/P50/P90 = sorted_results[200], [1000], [1800]. Labor shortage probability = count(labor &gt; 9 workers) / 2000.</p>
+  </div>
+</section>
+
+<section style="background:var(--accent3)">
+  <div class="container">
+    <p class="section-label" data-i18n="crop_label">Crop Reference</p>
+    <h2 class="section-title" data-i18n="crop_title">Crop parameters driving the simulation</h2>
+    <table class="skill-table">
+      <thead><tr>
+        <th data-i18n="cr_c1">Crop</th>
+        <th data-i18n="cr_c2">Base yield</th>
+        <th data-i18n="cr_c3">Price/kg</th>
+        <th data-i18n="cr_c4">Harvest season</th>
+        <th data-i18n="cr_c5">Weather sensitivity</th>
+        <th data-i18n="cr_c6">Labor capacity</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>🍈 Papaya</td><td>20,000 kg/ha/yr</td><td>$1.20</td><td data-i18n="cr_papaya_s">Year-round</td><td>0.8 (highest)</td><td>6,000 kg/worker-month</td></tr>
+        <tr><td>☕ Coffee</td><td>2,000 kg/ha/yr</td><td>$8.50</td><td data-i18n="cr_coffee_s">Sep–Jan</td><td>0.6</td><td>1,200 kg/worker-month</td></tr>
+        <tr><td>🌿 Taro</td><td>15,000 kg/ha/yr</td><td>$1.80</td><td data-i18n="cr_taro_s">Mar–Oct</td><td>0.5</td><td>4,000 kg/worker-month</td></tr>
+        <tr><td>🥜 Macadamia</td><td>3,500 kg/ha/yr</td><td>$6.00</td><td data-i18n="cr_mac_s">Aug–Dec</td><td>0.4 (lowest)</td><td>3,000 kg/worker-month</td></tr>
+        <tr><td>🍍 Pineapple</td><td>60,000 kg/ha/yr</td><td>$0.80</td><td data-i18n="cr_pine_s">Apr–Sep</td><td>0.5</td><td>8,000 kg/worker-month</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <p class="section-label" data-i18n="pipeline_label">Data Pipeline</p>
+    <h2 class="section-title" data-i18n="pipeline_title">How data flows through the simulator</h2>
+    <ol class="flow-steps">
+      <li class="flow-step">
+        <div><h4 data-i18n="fp1_title">Live weather fetch from Open-Meteo API</h4>
+        <p data-i18n="fp1_desc">On session start the engine queries Open-Meteo's historical/forecast endpoints for Waimea (Big Island north), Hilo (east/wet side), and Kona (west/dry side). Recent rainfall, temperature, and wind patterns adjust the base scenario probabilities — e.g., a dry run-up raises the drought probability above 20%.</p></div>
+      </li>
+      <li class="flow-step">
+        <div><h4 data-i18n="fp2_title">Farm configuration &amp; worker count from session_state</h4>
+        <p data-i18n="fp2_desc">User-adjustable sliders for per-crop area (ha), current full-time workers, and seasonal hire cap are read from Streamlit session_state. Any changes trigger a fresh simulation run with the new parameters.</p></div>
+      </li>
+      <li class="flow-step">
+        <div><h4 data-i18n="fp3_title">2,000-trial Monte Carlo loop</h4>
+        <p data-i18n="fp3_desc">For each trial: sample scenario → add noise → compute yield/revenue/labor for all 5 crops across 12 months. Results are accumulated into per-month raw arrays. Uses a seeded random.Random(42) for reproducibility; seed is user-adjustable in advanced settings.</p></div>
+      </li>
+      <li class="flow-step">
+        <div><h4 data-i18n="fp4_title">Percentile extraction &amp; risk alert generation</h4>
+        <p data-i18n="fp4_desc">P10/P50/P90 are extracted from sorted arrays. Labor shortage probability is computed as count(labor_demand &gt; current_workers) / 2000. Months with &gt;80% shortage probability trigger HIGH severity alerts; &gt;50% trigger MEDIUM. Recommended seasonal hire = ceil(max_labor_p90 − current_workers).</p></div>
+      </li>
+      <li class="flow-step">
+        <div><h4 data-i18n="fp5_title">Output to Harvest Logistics &amp; Knowledge Transfer engines</h4>
+        <p data-i18n="fp5_desc">The monthly risk_alerts array and recommended_seasonal_hire are pushed to session_state. The Harvest Logistics Optimizer uses shortage months to flag scheduling stress periods. The Knowledge Transfer Planner uses task_failure_probs from stress tests to prioritize urgent OJT sessions.</p></div>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section style="background:var(--accent3)">
+  <div class="container">
+    <p class="section-label" data-i18n="results_label">Results</p>
+    <h2 class="section-title" data-i18n="results_title">What the simulation produces</h2>
+    <div class="result-section"><h4 data-i18n="r1_title">Monthly P10 / P50 / P90 revenue bands</h4><p data-i18n="r1_desc">A fan chart showing the pessimistic, median, and optimistic revenue outcome for each month — directly answering "what's the worst-case month for cash flow planning?"</p></div>
+    <div class="result-section"><h4 data-i18n="r2_title">Labor shortage probability per month</h4><p data-i18n="r2_desc">A probability bar (0–100%) showing how often the 9 full-time workers are insufficient. Combined with the coffee harvest peak (Sep–Jan) and macadamia season (Aug–Dec) overlapping, this reveals the critical staffing crunch months.</p></div>
+    <div class="result-section"><h4 data-i18n="r3_title">Recommended seasonal hire count</h4><p data-i18n="r3_desc">ceil(max_labor_p90 − 9) gives the number of seasonal workers needed to cover the worst-case labor demand at the 90th percentile — with a 3-week recruitment lead time flag if the crunch is within the window.</p></div>
+    <div class="result-section"><h4 data-i18n="r4_title">Opportunity loss estimate</h4><p data-i18n="r4_desc">annual_revenue_p50 − actual_revenue_p50 quantifies the revenue lost when labor shortages prevent full harvest. This is the key number used to justify seasonal worker hiring costs.</p></div>
+    <div class="result-section"><h4 data-i18n="r5_title">Per-scenario comparison table</h4><p data-i18n="r5_desc">run_scenario_comparison() re-runs 500 trials at 100% probability for each of the 5 scenarios individually — giving a side-by-side comparison of annual yield, revenue, peak labor, and shortage months under each extreme.</p></div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <p class="section-label" data-i18n="why_label">Why It Matters</p>
+    <h2 class="section-title" data-i18n="why_title">The farm management problem it solves</h2>
+    <div class="why-grid">
+      <div class="why-card"><h4 data-i18n="w1_title">From "hope for the best" to risk-quantified planning</h4><p data-i18n="w1_desc">Traditional Hawaii farm planning uses last year's numbers. Monte Carlo replaces hindsight with forward-looking probability distributions — the farm owner can see that there's a 30% chance next January revenue drops below $X before committing to equipment loans.</p></div>
+      <div class="why-card"><h4 data-i18n="w2_title">Seasonal hire decisions with ROI justification</h4><p data-i18n="w2_desc">The opportunity loss figure ($revenue lost due to understaffing) vs. the cost of hiring seasonal workers creates a direct ROI calculation — replacing gut feeling with quantified break-even analysis for HR decisions.</p></div>
+      <div class="why-card"><h4 data-i18n="w3_title">Hawaii-specific multi-crop complexity</h4><p data-i18n="w3_desc">With 5 crops across 21.5 ha each having different harvest seasons, weather sensitivities, and price points, the interactions are too complex to track manually. The simulator captures all cross-crop effects simultaneously — e.g., coffee and macadamia peak labor demand coinciding.</p></div>
+      <div class="why-card"><h4 data-i18n="w4_title">Pipeline input for downstream engines</h4><p data-i18n="w4_desc">The simulator's output — shortage months, task failure probabilities, recommended hires — feeds directly into the Harvest Logistics Optimizer and Knowledge Transfer Planner. The entire suite's risk response is calibrated by what the Monte Carlo simulation reveals each run.</p></div>
+    </div>
+  </div>
+</section>
+
+<section style="background:var(--accent3)">
+  <div class="container" style="text-align:center;">
+    <p class="section-label" data-i18n="cta_label">Navigation</p>
+    <h2 class="section-title" data-i18n="cta_title">Explore the other engines</h2>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:16px;">
+      <a href="ats-how-it-works-harvest-logistics.html" class="btn btn-outline" data-i18n="cta_prev">← Engine 03: Harvest Logistics</a>
+      <a href="ag-tech-suite-index.html" class="btn btn-primary" data-i18n="cta_suite">Suite Overview</a>
+      <a href="ats-how-it-works-crop-health.html" class="btn btn-outline" data-i18n="cta_next">Engine 05: Crop Health Predictor →</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container footer-inner">
+    <span>Ag-Tech Suite — Hawaii Edition</span>
+    <span data-i18n="footer_note">Portfolio case study · Manami Oyama</span>
+  </div>
+</footer>
+
+<script>
+const T = {
+  en: {
+    nav_back:"← Suite Overview",hero_eyebrow:"Engine 04 — Technical Deep Dive",hero_title:"How the <em>Yield &amp; Labor Simulator</em> works",hero_desc:"A plain-English explanation of Monte Carlo simulation — sampling 2,000 weather scenarios to generate P10/P50/P90 revenue distributions and probabilistic labor-gap alerts for a 21.5-hectare Hawaii farm.",one_liner:"Instead of a single \"expected yield\" number, this engine runs 2,000 random weather draws per month — each one independently computing crop yields, revenues, and labor demand — then summarizes the distribution as pessimistic (P10), median (P50), and optimistic (P90) forecasts so the farm owner can plan staffing and finance with known risk levels.",
+    overview_label:"Overview",overview_title:"What it simulates",ov_c1:"Setting",ov_c2:"Detail",
+    ov_r1a:"Farm",ov_r1b:"Papaya 3.0 ha · Coffee 5.0 ha · Taro 1.5 ha · Macadamia 8.0 ha · Pineapple 4.0 ha = 21.5 ha total",
+    ov_r2a:"Monte Carlo runs",ov_r2b:"2,000 trials per simulation (default), configurable up to any N",
+    ov_r3a:"Weather scenarios",ov_r3b:"5 scenarios — Normal (50%), Drought (20%), Winter Storm (15%), Flash Flood (10%), Tourism Boom (5%)",
+    ov_r4a:"Output horizon",ov_r4b:"12 months, monthly P10/P50/P90 for yield, revenue, and labor demand",
+    ov_r5a:"Labor baseline",ov_r5b:"9 full-time workers + up to 6 seasonal; shortage probability computed per month",
+    ov_r6a:"Live weather input",ov_r6b:"Open-Meteo API — Waimea / Hilo / Kona stations adjust scenario probabilities dynamically",
+    tech_label:"The Technology",tech_title:"Monte Carlo + probabilistic weather sampling",
+    t1_pill:"Monte Carlo simulation — the core loop",t1_title:"2,000-trial stochastic sampling",t1_desc:"For each of 2,000 trials, the engine independently samples a weather scenario from the probability distribution for every month. Within each scenario, Gaussian noise is added to all weather parameters (rainfall ±25%, temperature ±1.5°C, humidity ±8%, pest risk ±20%) to model within-scenario variability. The trial then computes yield, revenue, and labor demand for all 5 crops. After all trials, P10/P50/P90 percentiles are extracted from the 2,000-value distribution — giving a statistically grounded range rather than a single-point estimate.",
+    t2_pill:"Multi-factor yield response function",t2_title:"Crop-specific weather sensitivity model",t2_desc:"Each crop has a weather_sensitivity coefficient (papaya=0.8, coffee=0.6, taro=0.5, macadamia=0.4, pineapple=0.5). Three sub-factors are computed independently — rainfall_factor (optimal 60–120 mm/month), temp_factor (optimal 22–27°C), and pest_factor — then combined: combined = 1 − sensitivity × (1 − rain × temp × pest). This captures that a drought-resistant macadamia orchard barely changes under dry spells while papaya production collapses.",
+    scenarios_label:"Weather Scenarios",scenarios_title:"The 5 scenarios sampled each trial",scenarios_desc:"Each month, one scenario is drawn from this weighted distribution. Gaussian noise is then applied to all parameters within the chosen scenario.",
+    sc1_name:"Normal Year",sc1_prob:"Probability: 50%",sc1_cond:"80 mm/month · 26°C · 65% humidity · 22 sunny days · 2 Kona wind days",
+    sc2_name:"Drought",sc2_prob:"Probability: 20%",sc2_cond:"20 mm/month · 29°C · 45% humidity · 28 sunny days · pest risk ×0.8",
+    sc3_name:"Winter Storm",sc3_prob:"Probability: 15%",sc3_cond:"150 mm/month · 22°C · 80% humidity · 8 Kona wind days · pest risk ×1.5",
+    sc4_name:"Flash Flood",sc4_prob:"Probability: 10%",sc4_cond:"300 mm/month · 24°C · 90% humidity · 8 sunny days · pest risk ×2.5",
+    sc5_name:"Tourism Boom",sc5_prob:"Probability: 5%",sc5_cond:"Normal weather + retail demand ×1.35 — price premium applied to all crops",
+    formula_title:"Yield & Revenue calculation per trial",formula_note:"After 2,000 trials per month: P10/P50/P90 = sorted_results[200], [1000], [1800]. Labor shortage probability = count(labor > 9 workers) / 2000.",
+    crop_label:"Crop Reference",crop_title:"Crop parameters driving the simulation",cr_c1:"Crop",cr_c2:"Base yield",cr_c3:"Price/kg",cr_c4:"Harvest season",cr_c5:"Weather sensitivity",cr_c6:"Labor capacity",
+    cr_papaya_s:"Year-round",cr_coffee_s:"Sep–Jan",cr_taro_s:"Mar–Oct",cr_mac_s:"Aug–Dec",cr_pine_s:"Apr–Sep",
+    pipeline_label:"Data Pipeline",pipeline_title:"How data flows through the simulator",
+    fp1_title:"Live weather fetch from Open-Meteo API",fp1_desc:"On session start the engine queries Open-Meteo's historical/forecast endpoints for Waimea (Big Island north), Hilo (east/wet side), and Kona (west/dry side). Recent rainfall, temperature, and wind patterns adjust the base scenario probabilities — e.g., a dry run-up raises the drought probability above 20%.",
+    fp2_title:"Farm configuration & worker count from session_state",fp2_desc:"User-adjustable sliders for per-crop area (ha), current full-time workers, and seasonal hire cap are read from Streamlit session_state. Any changes trigger a fresh simulation run with the new parameters.",
+    fp3_title:"2,000-trial Monte Carlo loop",fp3_desc:"For each trial: sample scenario → add noise → compute yield/revenue/labor for all 5 crops across 12 months. Results are accumulated into per-month raw arrays. Uses a seeded random.Random(42) for reproducibility; seed is user-adjustable in advanced settings.",
+    fp4_title:"Percentile extraction & risk alert generation",fp4_desc:"P10/P50/P90 are extracted from sorted arrays. Labor shortage probability is computed as count(labor_demand > current_workers) / 2000. Months with >80% shortage probability trigger HIGH severity alerts; >50% trigger MEDIUM. Recommended seasonal hire = ceil(max_labor_p90 − current_workers).",
+    fp5_title:"Output to Harvest Logistics & Knowledge Transfer engines",fp5_desc:"The monthly risk_alerts array and recommended_seasonal_hire are pushed to session_state. The Harvest Logistics Optimizer uses shortage months to flag scheduling stress periods. The Knowledge Transfer Planner uses task_failure_probs from stress tests to prioritize urgent OJT sessions.",
+    results_label:"Results",results_title:"What the simulation produces",
+    r1_title:"Monthly P10 / P50 / P90 revenue bands",r1_desc:"A fan chart showing the pessimistic, median, and optimistic revenue outcome for each month — directly answering \"what's the worst-case month for cash flow planning?\"",
+    r2_title:"Labor shortage probability per month",r2_desc:"A probability bar (0–100%) showing how often the 9 full-time workers are insufficient. Combined with the coffee harvest peak (Sep–Jan) and macadamia season (Aug–Dec) overlapping, this reveals the critical staffing crunch months.",
+    r3_title:"Recommended seasonal hire count",r3_desc:"ceil(max_labor_p90 − 9) gives the number of seasonal workers needed to cover the worst-case labor demand at the 90th percentile — with a 3-week recruitment lead time flag if the crunch is within the window.",
+    r4_title:"Opportunity loss estimate",r4_desc:"annual_revenue_p50 − actual_revenue_p50 quantifies the revenue lost when labor shortages prevent full harvest. This is the key number used to justify seasonal worker hiring costs.",
+    r5_title:"Per-scenario comparison table",r5_desc:"run_scenario_comparison() re-runs 500 trials at 100% probability for each of the 5 scenarios individually — giving a side-by-side comparison of annual yield, revenue, peak labor, and shortage months under each extreme.",
+    why_label:"Why It Matters",why_title:"The farm management problem it solves",
+    w1_title:"From \"hope for the best\" to risk-quantified planning",w1_desc:"Traditional Hawaii farm planning uses last year's numbers. Monte Carlo replaces hindsight with forward-looking probability distributions — the farm owner can see that there's a 30% chance next January revenue drops below $X before committing to equipment loans.",
+    w2_title:"Seasonal hire decisions with ROI justification",w2_desc:"The opportunity loss figure ($revenue lost due to understaffing) vs. the cost of hiring seasonal workers creates a direct ROI calculation — replacing gut feeling with quantified break-even analysis for HR decisions.",
+    w3_title:"Hawaii-specific multi-crop complexity",w3_desc:"With 5 crops across 21.5 ha each having different harvest seasons, weather sensitivities, and price points, the interactions are too complex to track manually. The simulator captures all cross-crop effects simultaneously — e.g., coffee and macadamia peak labor demand coinciding.",
+    w4_title:"Pipeline input for downstream engines",w4_desc:"The simulator's output — shortage months, task failure probabilities, recommended hires — feeds directly into the Harvest Logistics Optimizer and Knowledge Transfer Planner. The entire suite's risk response is calibrated by what the Monte Carlo simulation reveals each run.",
+    cta_label:"Navigation",cta_title:"Explore the other engines",cta_prev:"← Engine 03: Harvest Logistics",cta_suite:"Suite Overview",cta_next:"Engine 05: Crop Health Predictor →",
+    footer_note:"Portfolio case study · Manami Oyama"
+  },
+  ja: {
+    nav_back:"← スイート概要",hero_eyebrow:"エンジン 04 — 技術解説",hero_title:"<em>収量・労務シミュレーター</em> の仕組み",hero_desc:"モンテカルロ法の平易な解説 — ハワイ21.5ヘクタールの農場向けに2,000気象シナリオをサンプリングし、P10/P50/P90の収益分布と労働力不足確率アラートを生成します。",one_liner:"「期待収量」の単一数値ではなく、このエンジンは月ごとに2,000回のランダム気象抽選を実行し、各試行で独立に作物収量・収益・労働需要を計算します。結果を悲観的（P10）・中央値（P50）・楽観的（P90）の予測分布としてまとめ、農場オーナーが既知のリスクレベルで人員配置と財務計画を立てられるようにします。",
+    overview_label:"概要",overview_title:"何をシミュレートするか",ov_c1:"設定項目",ov_c2:"詳細",
+    ov_r1a:"農場構成",ov_r1b:"パパイヤ3.0ha・コーヒー5.0ha・タロ1.5ha・マカデミア8.0ha・パイナップル4.0ha＝計21.5ha",
+    ov_r2a:"モンテカルロ試行回数",ov_r2b:"デフォルト2,000回、任意のNに変更可能",
+    ov_r3a:"気象シナリオ",ov_r3b:"5シナリオ — 通常年50%・干ばつ20%・冬嵐15%・鉄砲水10%・観光需要急増5%",
+    ov_r4a:"予測期間",ov_r4b:"12ヶ月、収量・収益・労働需要の月次P10/P50/P90",
+    ov_r5a:"労働力ベースライン",ov_r5b:"常勤9名＋季節最大6名、月別労働不足確率を算出",
+    ov_r6a:"ライブ気象入力",ov_r6b:"Open-Meteo API — ワイメア/ヒロ/コナ観測点がシナリオ確率を動的に調整",
+    tech_label:"技術",tech_title:"モンテカルロ法＋確率的気象サンプリング",
+    t1_pill:"モンテカルロシミュレーション — コアループ",t1_title:"2,000試行の確率的サンプリング",t1_desc:"2,000試行それぞれで、月ごとに確率分布から気象シナリオを独立にサンプリングします。各シナリオ内でガウスノイズを全パラメータに付加（降水量±25%、気温±1.5°C、湿度±8%、病害虫リスク±20%）してシナリオ内変動をモデル化。試行後、2,000値の分布からP10/P50/P90パーセンタイルを抽出し、単一点推定でなく統計的根拠のある幅を提供します。",
+    t2_pill:"多要素収量応答関数",t2_title:"作物別気象感度モデル",t2_desc:"各作物に気象感度係数（パパイヤ=0.8、コーヒー=0.6、タロ=0.5、マカデミア=0.4、パイナップル=0.5）を設定。降水量要因（最適60〜120mm/月）・気温要因（最適22〜27°C）・病害虫要因を独立計算後、combined = 1 − sensitivity × (1 − rain × temp × pest) で統合。干ばつ耐性の高いマカデミアは乾燥でもほぼ変化しないのに対し、パパイヤ生産は崩壊するという差異を正確に捉えます。",
+    scenarios_label:"気象シナリオ",scenarios_title:"各試行でサンプリングされる5シナリオ",scenarios_desc:"毎月、この重み付き分布から1シナリオが抽選されます。選ばれたシナリオの全パラメータにガウスノイズが加えられます。",
+    sc1_name:"通常年",sc1_prob:"確率：50%",sc1_cond:"80mm/月・26°C・湿度65%・晴天22日・コナウィンズ2日",
+    sc2_name:"干ばつ",sc2_prob:"確率：20%",sc2_cond:"20mm/月・29°C・湿度45%・晴天28日・病害虫リスク×0.8",
+    sc3_name:"冬の嵐・強風",sc3_prob:"確率：15%",sc3_cond:"150mm/月・22°C・湿度80%・コナウィンズ8日・病害虫リスク×1.5",
+    sc4_name:"鉄砲水・局地的大雨",sc4_prob:"確率：10%",sc4_cond:"300mm/月・24°C・湿度90%・晴天8日・病害虫リスク×2.5",
+    sc5_name:"観光需要急増",sc5_prob:"確率：5%",sc5_cond:"通常気象＋小売需要×1.35 — 全作物に価格プレミアム適用",
+    formula_title:"試行ごとの収量・収益計算",formula_note:"2,000試行後：P10/P50/P90 = ソート済み結果の[200][1000][1800]番目。労働力不足確率 = count(労働需要 > 9名) / 2000。",
+    crop_label:"作物リファレンス",crop_title:"シミュレーションを駆動する作物パラメータ",cr_c1:"作物",cr_c2:"基準収量",cr_c3:"単価/kg",cr_c4:"収穫シーズン",cr_c5:"気象感度",cr_c6:"処理能力",
+    cr_papaya_s:"通年",cr_coffee_s:"9〜1月",cr_taro_s:"3〜10月",cr_mac_s:"8〜12月",cr_pine_s:"4〜9月",
+    pipeline_label:"データパイプライン",pipeline_title:"シミュレーター内のデータフロー",
+    fp1_title:"Open-Meteo APIからライブ気象取得",fp1_desc:"セッション開始時にOpen-MeteoのワイメアHilo・コナ観測点のエンドポイントを照会。直近の降水量・気温・風のパターンがベースシナリオ確率を調整します（例：乾燥傾向が続くと干ばつ確率が20%以上に上昇）。",
+    fp2_title:"session_stateからの農場設定・人員数",fp2_desc:"作物別面積（ha）・常勤人数・季節労働者上限のスライダーをStreamlit session_stateから読み込みます。変更があるたびに新しいパラメータで再シミュレーションが起動します。",
+    fp3_title:"2,000試行のモンテカルロループ",fp3_desc:"各試行：シナリオサンプリング → ノイズ付加 → 5作物×12ヶ月の収量/収益/労働需要を計算。結果は月別の生配列に蓄積。再現性のためrandom.Random(42)シードを使用（詳細設定で変更可）。",
+    fp4_title:"パーセンタイル抽出とリスクアラート生成",fp4_desc:"ソート済み配列からP10/P50/P90を抽出。労働不足確率 = count(労働需要 > 常勤人数) / 2000。不足確率>80%の月はHIGH severity、>50%はMEDIUMアラートを生成。推奨季節雇用数 = ceil(max_labor_p90 − 常勤人数)。",
+    fp5_title:"収穫物流・知識継承エンジンへの出力",fp5_desc:"月次risk_alertsと推奨季節雇用数をsession_stateに送出。収穫物流オプティマイザーは不足月をスケジューリングストレス期間としてフラグ。知識継承プランナーはストレステストのtask_failure_probsを活用して緊急OJTを優先化します。",
+    results_label:"出力結果",results_title:"シミュレーションが生成するもの",
+    r1_title:"月次P10/P50/P90収益バンド",r1_desc:"各月の悲観的・中央値・楽観的収益をファンチャートで表示 — 「キャッシュフロー計画で最悪のシナリオはいつか」に直接回答します。",
+    r2_title:"月別労働力不足確率",r2_desc:"常勤9名が不足する頻度を確率バー（0〜100%）で表示。コーヒー収穫ピーク（9〜1月）とマカデミアシーズン（8〜12月）が重なる繁忙月を明確に特定します。",
+    r3_title:"推奨季節雇用数",r3_desc:"ceil(max_labor_p90 − 9)で90パーセンタイルの最大労働需要をカバーする季節労働者数を算出。繁忙期まで3週間以内の場合は採用リードタイム警告を表示します。",
+    r4_title:"機会損失試算",r4_desc:"annual_revenue_p50 − actual_revenue_p50で、労働力不足による収穫機会損失を定量化。季節雇用コストの正当化に直結する数値です。",
+    r5_title:"シナリオ別比較テーブル",r5_desc:"run_scenario_comparison()が5シナリオそれぞれを100%確率で500試行再実行し、年間収量・収益・ピーク労働・不足月数を横並び比較します。",
+    why_label:"なぜ重要か",why_title:"解決する農場管理の課題",
+    w1_title:"「うまくいくことを祈る」からリスク定量計画へ",w1_desc:"従来のハワイ農業計画は前年実績に頼ります。モンテカルロ法は後知恵を前向きな確率分布に置き換え — 設備投資前に「来年1月の収益が$X以下になる確率が30%ある」と把握できます。",
+    w2_title:"ROI根拠のある季節雇用意思決定",w2_desc:"人員不足による機会損失と季節雇用コストの比較で直接的なROI計算が生まれ、感覚的な判断を定量的な損益分岐点分析に置き換えます。",
+    w3_title:"ハワイ特有の多品種複雑性",w3_desc:"5作物×21.5haで収穫シーズン・気象感度・価格がそれぞれ異なる交互作用は手動では追いきれません。シミュレーターがコーヒーとマカデミアのピーク労働需要重複など全ての相互影響を同時に捉えます。",
+    w4_title:"下流エンジンへのパイプライン入力",w4_desc:"不足月・タスク失敗確率・推奨雇用数がそのまま収穫物流オプティマイザーと知識継承プランナーに流れ込みます。スイート全体のリスク対応はモンテカルロシミュレーターの出力によって毎回キャリブレーションされます。",
+    cta_label:"ナビゲーション",cta_title:"他のエンジンを見る",cta_prev:"← エンジン03: 収穫物流オプティマイザー",cta_suite:"スイート概要",cta_next:"エンジン05: 作物健康予測 →",
+    footer_note:"ポートフォリオ事例 · 大山愛美"
+  }
+};
+let lang = "en";
+function applyLang(l) {
+  lang = l;
+  document.querySelectorAll("[data-i18n]").forEach(el => {
+    const k = el.getAttribute("data-i18n");
+    if (T[l][k] !== undefined) el.innerHTML = T[l][k];
+  });
+  document.querySelectorAll(".lang-btn").forEach(btn => {
+    btn.classList.toggle("active", btn.getAttribute("data-lang-btn") === l);
+  });
+}
+document.querySelectorAll(".lang-btn").forEach(btn => {
+  btn.addEventListener("click", () => applyLang(btn.getAttribute("data-lang-btn")));
+});
+document.querySelectorAll(".fade-up").forEach((el, i) => {
+  el.style.animationDelay = (i * 0.08) + "s";
+});
+</script>
+</body>
+</html>

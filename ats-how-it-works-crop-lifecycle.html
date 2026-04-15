@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>How It Works — Crop Lifecycle Manager</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&family=Noto+Serif+JP:wght@300;400&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/style.css"/>
+  <style>
+    :root{--bg:#f4f7f0;--accent:#3d6b17;--accent2:#afd08a;--accent3:#eaf3e2;--border:#bfd9a0;}
+    .constraint-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:20px;}
+    @media(max-width:700px){.constraint-grid{grid-template-columns:1fr;}}
+    .constraint-card{border:1px solid var(--border);border-radius:10px;padding:16px 18px;background:white;}
+    .badge{font-size:10px;font-weight:700;letter-spacing:.08em;padding:2px 8px;border-radius:12px;display:inline-block;margin-bottom:8px;}
+    .model-badge{background:#eaf3e2;color:#3d6b17;}
+    .stress-badge{background:#fff1e0;color:#a05000;}
+    .alert-badge{background:#fdecea;color:#c0392b;}
+    .formula-box{background:#1a1a1a;color:#b7d5c8;border-radius:8px;padding:16px 20px;font-family:'Courier New',monospace;font-size:13px;line-height:1.7;margin:16px 0;}
+    .skill-table{width:100%;border-collapse:collapse;font-size:13px;margin:16px 0;}
+    .skill-table th{background:var(--accent3);padding:8px 12px;text-align:left;border:1px solid var(--border);font-weight:600;}
+    .skill-table td{padding:8px 12px;border:1px solid var(--border);vertical-align:top;}
+    .skill-table tr:nth-child(even) td{background:#fafdf6;}
+    .flow-steps{counter-reset:steps;list-style:none;padding:0;margin:24px 0 0;}
+    .flow-step{counter-increment:steps;display:flex;gap:18px;margin-bottom:20px;align-items:flex-start;}
+    .flow-step::before{content:counter(steps);min-width:32px;height:32px;border-radius:50%;background:var(--accent);color:white;font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;}
+    .flow-step h4{margin:0 0 4px;font-size:15px;}
+    .flow-step p{margin:0;font-size:13px;color:#555;line-height:1.6;}
+    .result-section{border-left:3px solid var(--accent);padding:10px 16px;margin:10px 0;background:white;border-radius:0 8px 8px 0;}
+    .result-section h4{margin:0 0 4px;font-size:14px;}
+    .result-section p{margin:0;font-size:13px;color:#555;}
+    .stage-row{display:flex;gap:4px;align-items:center;flex-wrap:wrap;margin:12px 0;}
+    .stage-box{padding:8px 14px;border-radius:8px;font-size:12px;font-weight:600;text-align:center;}
+    .stage-arrow{font-size:1.2rem;color:var(--accent2);}
+  </style>
+</head>
+<body>
+<nav>
+  <div class="nav-inner">
+    <a href="ag-tech-suite-index.html" class="nav-logo" style="text-decoration:none;color:inherit;">Ag-Tech Suite</a>
+    <div class="nav-links">
+      <a href="ag-tech-suite-index.html" class="btn-back" data-i18n="nav_back">← Suite Overview</a>
+      <div class="lang-toggle">
+        <button class="lang-btn active" data-lang-btn="en">EN</button>
+        <button class="lang-btn" data-lang-btn="ja">JA</button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="container">
+    <p class="hero-eyebrow fade-up" data-i18n="hero_eyebrow">Engine 02 — Technical Deep Dive</p>
+    <h1 class="hero-title fade-up" data-i18n="hero_title">How the <em>Crop Lifecycle Manager</em> works</h1>
+    <p class="hero-desc fade-up" data-i18n="hero_desc">A plain-English explanation of the GDD thermal accumulation model and water balance engine that tracks every planted batch from germination to harvest.</p>
+    <div class="one-liner fade-up"><p data-i18n="one_liner">Instead of relying on a calendar date, this engine tracks <em>actual biological progress</em> — accumulating heat units day by day, factoring in soil water deficit, Kona wind stress, and pest pressure, to predict the real harvest window for each parcel.</p></div>
+    <div class="btn-group fade-up" style="margin-bottom:20px">
+      <a href="ag-tech-suite-index.html" class="btn btn-outline" data-i18n="nav_back">← Suite Overview</a>
+    </div>
+  </div>
+</div>
+
+<section>
+  <div class="container">
+    <p class="section-label" data-i18n="overview_label">Overview</p>
+    <h2 class="section-title" data-i18n="overview_title">What it models</h2>
+    <p class="section-desc" data-i18n="overview_desc">5 crop types. 10 parcels. Daily GDD accumulation with multi-factor stress attenuation.</p>
+    <table class="skill-table">
+      <thead><tr><th data-i18n="ov_c1">Setting</th><th data-i18n="ov_c2">Detail</th></tr></thead>
+      <tbody>
+        <tr><td data-i18n="ov_r1a">Growth model</td><td data-i18n="ov_r1b">Growing Degree Days (GDD) — accumulated thermal units above base temperature</td></tr>
+        <tr><td data-i18n="ov_r2a">Stress factors</td><td data-i18n="ov_r2b">Soil moisture deficit · Kona wind days · Pest history score (all reduce daily GDD)</td></tr>
+        <tr><td data-i18n="ov_r3a">Growth stages</td><td data-i18n="ov_r3b">Vegetative → Flowering → Ripening → Harvest (GDD thresholds per crop)</td></tr>
+        <tr><td data-i18n="ov_r4a">Crop coverage</td><td data-i18n="ov_r4b">Papaya, Coffee, Taro, Macadamia, Pineapple — each with unique base temp and stage thresholds</td></tr>
+        <tr><td data-i18n="ov_r5a">Data sync</td><td data-i18n="ov_r5b">Initial batches seeded by Planting Strategy Optimizer; manual override available in UI</td></tr>
+        <tr><td data-i18n="ov_r6a">Alert output</td><td data-i18n="ov_r6b">Stage transition alerts → Health Predictor · Harvest alerts → Harvest Logistics Optimizer</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section style="background:var(--accent3)">
+  <div class="container">
+    <p class="section-label" data-i18n="tech_label">The Technology</p>
+    <h2 class="section-title" data-i18n="tech_title">Biophysical modelling, not calendar-based guessing</h2>
+    <div class="tech-cards">
+      <div class="tech-card">
+        <div class="tech-pill" data-i18n="t1_pill">Proven agronomic science</div>
+        <h3 class="tech-title" data-i18n="t1_title">Growing Degree Day (GDD) Model</h3>
+        <p class="tech-desc" data-i18n="t1_desc">GDD is the standard agronomic measure of thermal accumulation. A crop grows when temperature exceeds its base temperature (T_base). Each day contributes (avg_temp − T_base) GDD. When cumulative GDD crosses a threshold, the crop advances to the next growth stage. This is more accurate than calendar-based forecasting because the same crop planted in different years may mature weeks apart due to temperature variation.</p>
+      </div>
+      <div class="tech-card">
+        <div class="tech-pill" data-i18n="t2_pill">Multi-factor stress compounding</div>
+        <h3 class="tech-title" data-i18n="t2_title">Water Balance + Wind + Pest Stress Model</h3>
+        <p class="tech-desc" data-i18n="t2_desc">Raw GDD is multiplied by a stress_factor (0–1) computed from three independent stressors. Soil moisture deficit below the "dry" threshold reduces effective GDD by 20%; below "drought" by 50%. Kona wind days (Hawaii's dry trade winds) apply a crop-specific wind multiplier. Pest history score (0–1) applies up to a maximum growth penalty per crop. All three compound multiplicatively.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <p class="section-label" data-i18n="math_label">The Math</p>
+    <h2 class="section-title" data-i18n="math_title">Daily GDD calculation</h2>
+    <div class="formula-box">
+# Raw GDD for one day
+raw_gdd = max(0.0,  avg_temp_c  −  base_temp_c[crop])
+
+# Stress factor (multiplicative compounding)
+stress = 1.0
+
+if soil_moisture &lt; drought_threshold:   stress × = 0.50  # extreme drought
+elif soil_moisture &lt; dry_threshold:     stress × = 0.80  # mild drought
+
+if kona_wind_days ≥ 3:                   stress × = wind_stress_multiplier[crop]
+  # Papaya = 0.80  |  Macadamia = 0.85  |  Coffee = 0.90
+  # Taro = 0.98  |  Pineapple = 1.00 (ground-hugging, wind-immune)
+
+pest_penalty = pest_history_score × pest_stress_max_penalty[crop]
+stress × = (1.0 − pest_penalty)
+
+# Effective daily GDD
+actual_gdd = raw_gdd × stress
+
+# Stage transition
+cumulative_gdd += actual_gdd
+if cumulative_gdd ≥ stage_threshold[crop][next_stage]: → advance stage
+    </div>
+  </div>
+</section>
+
+<section style="background:var(--accent3)">
+  <div class="container">
+    <p class="section-label" data-i18n="stages_label">Growth Stages</p>
+    <h2 class="section-title" data-i18n="stages_title">Stage progression per crop</h2>
+    <p class="section-desc" data-i18n="stages_desc">GDD thresholds per crop are calibrated to Hawaii growing conditions.</p>
+    <div class="stage-row">
+      <div class="stage-box" style="background:#d4edda;color:#155724;">🌱 Vegetative</div>
+      <div class="stage-arrow">→</div>
+      <div class="stage-box" style="background:#fff3cd;color:#856404;">🌸 Flowering</div>
+      <div class="stage-arrow">→</div>
+      <div class="stage-box" style="background:#fde8c8;color:#803d00;">🍊 Ripening</div>
+      <div class="stage-arrow">→</div>
+      <div class="stage-box" style="background:#f8d7da;color:#721c24;">🌾 Harvest</div>
+    </div>
+    <table class="skill-table">
+      <thead><tr><th data-i18n="st_c1">Crop</th><th data-i18n="st_c2">Base Temp</th><th data-i18n="st_c3">Vegetative</th><th data-i18n="st_c4">Flowering</th><th data-i18n="st_c5">Ripening</th><th data-i18n="st_c6">Harvest</th><th data-i18n="st_c7">Wind Factor</th></tr></thead>
+      <tbody>
+        <tr><td>🌺 Papaya</td><td>15°C</td><td>500 GDD</td><td>900 GDD</td><td>1,400 GDD</td><td>1,500 GDD</td><td>×0.80</td></tr>
+        <tr><td>☕ Coffee</td><td>10°C</td><td>800 GDD</td><td>1,500 GDD</td><td>2,300 GDD</td><td>2,500 GDD</td><td>×0.90</td></tr>
+        <tr><td>🌿 Taro</td><td>15°C</td><td>600 GDD</td><td>1,200 GDD</td><td>1,800 GDD</td><td>2,000 GDD</td><td>×0.98</td></tr>
+        <tr><td>🥜 Macadamia</td><td>10°C</td><td>1,000 GDD</td><td>2,000 GDD</td><td>2,800 GDD</td><td>3,000 GDD</td><td>×0.85</td></tr>
+        <tr><td>🍍 Pineapple</td><td>10°C</td><td>1,200 GDD</td><td>2,200 GDD</td><td>2,800 GDD</td><td>3,000 GDD</td><td>×1.00</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <p class="section-label" data-i18n="stress_label">Stress Parameters</p>
+    <h2 class="section-title" data-i18n="stress_title">Water &amp; pest thresholds per crop</h2>
+    <div class="constraint-grid">
+      <div class="constraint-card">
+        <span class="badge stress-badge" data-i18n="water_badge">WATER STRESS</span>
+        <h4 data-i18n="ws1_title">Taro — highest water demand</h4>
+        <p data-i18n="ws1_desc">Dry threshold: 50% soil moisture. Drought threshold: 35%. Taro is a wetland crop — moisture deficits immediately reduce GDD accumulation. Even mild dryness triggers 20% growth reduction.</p>
+      </div>
+      <div class="constraint-card">
+        <span class="badge stress-badge" data-i18n="water_badge">WATER STRESS</span>
+        <h4 data-i18n="ws2_title">Papaya — sensitive to drought</h4>
+        <p data-i18n="ws2_desc">Dry threshold: 35%. Drought threshold: 20%. Combined with its high wind sensitivity (×0.80), a Kona wind week during dry conditions can compound to 36% growth reduction (0.80 × 0.80 = 0.64).</p>
+      </div>
+      <div class="constraint-card">
+        <span class="badge alert-badge" data-i18n="pest_badge">PEST STRESS</span>
+        <h4 data-i18n="ps1_title">Papaya — ringspot virus risk</h4>
+        <p data-i18n="ps1_desc">Max pest penalty: 30%. Papaya ringspot virus is endemic to Hawaii. A pest score of 1.0 reduces daily GDD by up to 30%. Accumulated through the season, a high pest year can delay harvest by 3–4 weeks.</p>
+      </div>
+      <div class="constraint-card">
+        <span class="badge alert-badge" data-i18n="pest_badge">PEST STRESS</span>
+        <h4 data-i18n="ps2_title">Coffee — moderate pest risk</h4>
+        <p data-i18n="ps2_desc">Max pest penalty: 20%. Coffee berry borer is the primary concern. Combined with its already-long 2,500 GDD requirement, a high-pest year can shift the harvest window by 2–3 weeks — critical for hand-picking coordination.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="background:var(--accent3)">
+  <div class="container">
+    <p class="section-label" data-i18n="pipe_label">Data Pipeline</p>
+    <h2 class="section-title" data-i18n="pipe_title">How lifecycle data flows downstream</h2>
+    <ol class="flow-steps">
+      <li class="flow-step">
+        <div><h4 data-i18n="pp1_title">Receives initial batches from Planting Optimizer</h4><p data-i18n="pp1_desc">When the Planting Strategy Optimizer runs, new planting events for unoccupied parcels are written to session_state["batches"] — each with crop type, planted_date, and initial GDD (perennials start at 800 GDD to reflect existing tree maturity).</p></div>
+      </li>
+      <li class="flow-step">
+        <div><h4 data-i18n="pp2_title">Manual weather inputs advance batches</h4><p data-i18n="pp2_desc">In the app, the user sets today's avg_temp, soil_moisture, Kona wind days, and pest score. The GrowthEngine calculates daily GDD for each parcel and updates cumulative totals. Stage transitions are detected automatically.</p></div>
+      </li>
+      <li class="flow-step">
+        <div><h4 data-i18n="pp3_title">Harvest-ready batches flagged for Health Predictor</h4><p data-i18n="pp3_desc">Batches entering the "harvest" stage are written to session_state["harvest_ready_parcels"]. The Crop Health Predictor reads this list to prioritize which parcels need quality risk assessment.</p></div>
+      </li>
+      <li class="flow-step">
+        <div><h4 data-i18n="pp4_title">Stage data feeds Portal COO view</h4><p data-i18n="pp4_desc">The Field Manager (COO) portal reads batch stage distribution to show what proportion of the farm is in each growth stage — a key indicator for upcoming labor demand.</p></div>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <p class="section-label" data-i18n="results_label">Results</p>
+    <h2 class="section-title" data-i18n="results_title">What the app shows</h2>
+    <div class="result-section"><h4 data-i18n="res1_title">① Parcel status grid</h4><p data-i18n="res1_desc">Each parcel shown as a card: crop type, current stage, GDD progress bar (current / target), health status (good / stressed / critical), and days since last update.</p></div>
+    <div class="result-section"><h4 data-i18n="res2_title">② GDD accumulation timeline</h4><p data-i18n="res2_desc">Line chart showing cumulative GDD over time per batch, with stage threshold lines overlaid. Stressed periods show as a shallower slope — visually showing the cost of water or pest stress.</p></div>
+    <div class="result-section"><h4 data-i18n="res3_title">③ Stress factor breakdown</h4><p data-i18n="res3_desc">Per-parcel bar chart decomposing today's effective GDD into: base GDD, water stress penalty, wind penalty, pest penalty. Managers can see exactly which stressor is slowing growth most.</p></div>
+    <div class="result-section"><h4 data-i18n="res4_title">④ Stage transition alerts</h4><p data-i18n="res4_desc">Batches that advanced to a new stage today are highlighted with a banner. Batches entering "harvest" stage trigger a cross-app alert visible in the Field Manager portal.</p></div>
+    <div class="result-section"><h4 data-i18n="res5_title">⑤ Estimated harvest date</h4><p data-i18n="res5_desc">Based on current GDD accumulation rate (rolling 7-day average), the engine projects the date when each batch will reach harvest GDD — accounting for current stress factors continuing at today's level.</p></div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <p class="section-label" data-i18n="why_label">Why It Matters</p>
+    <h2 class="section-title" data-i18n="why_title">What this demonstrates</h2>
+    <div class="why-grid">
+      <div class="why-card fade-up"><div class="why-icon">🌱</div><div class="why-title" data-i18n="w1_title">Agronomic Science as Code</div><p class="why-desc" data-i18n="w1_desc">GDD-based growth modelling is the gold standard in precision agriculture. Implementing it as a per-parcel, per-day calculation with multi-factor stress attenuation demonstrates domain depth beyond surface-level data visualization.</p></div>
+      <div class="why-card fade-up"><div class="why-icon">🏝️</div><div class="why-title" data-i18n="w2_title">Hawaii-Specific Parameters</div><p class="why-desc" data-i18n="w2_desc">Kona wind multipliers, island crop-specific base temperatures, and pest profiles (papaya ringspot, coffee berry borer) are calibrated to Big Island conditions — not generic tropical farm defaults.</p></div>
+      <div class="why-card fade-up"><div class="why-icon">🔗</div><div class="why-title" data-i18n="w3_title">Bidirectional Pipeline</div><p class="why-desc" data-i18n="w3_desc">Receives planting data from Engine 01 upstream; sends harvest-readiness signals to the Crop Health Predictor and Field Manager portal downstream. The Lifecycle Manager is the biological backbone of the entire suite.</p></div>
+      <div class="why-card fade-up"><div class="why-icon">📈</div><div class="why-title" data-i18n="w4_title">Proactive vs. Reactive Management</div><p class="why-desc" data-i18n="w4_desc">Rather than waiting for visual defects to appear, this engine gives managers advance warning — days before harvest stage is reached — so labor and logistics can be pre-arranged while quality is still optimal.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section" style="background:#fff;">
+  <div class="container">
+    <div class="offer-box">
+      <p class="section-label" data-i18n="cta_label">Explore</p>
+      <h3 style="font-family:var(--serif);font-size:1.8rem;margin-bottom:16px;" data-i18n="cta_title">See the growth model in action</h3>
+      <p style="color:var(--muted);margin-bottom:32px;" data-i18n="cta_desc">Adjust soil moisture and Kona wind days in the UI, then watch the GDD accumulation rate and estimated harvest date shift in real time.</p>
+      <div class="btn-group">
+        <a href="ats-how-it-works-planting-strategy.html" class="btn btn-outline" data-i18n="cta_btn1">← Engine 01: Planting</a>
+        <a href="ag-tech-suite-index.html" class="btn btn-outline" data-i18n="cta_btn2">Suite Overview</a>
+        <a href="ats-how-it-works-harvest-logistics.html" class="btn btn-primary" data-i18n="cta_btn3">Next: Harvest Logistics →</a>
+      </div>
+    </div>
+  </div>
+</section>
+<footer><div class="container"><p data-i18n="footer">© 2026 Manami Oyama · Built with HTML, CSS &amp; JavaScript</p></div></footer>
+
+<script>
+const PAGE_TRANSLATIONS = {
+  en:{
+    nav_back:"← Suite Overview",
+    hero_eyebrow:"Engine 02 — Technical Deep Dive",
+    hero_title:"How the Crop Lifecycle Manager works",
+    hero_desc:"A plain-English explanation of the GDD thermal accumulation model and water balance engine that tracks every planted batch from germination to harvest.",
+    one_liner:"Instead of relying on a calendar date, this engine tracks actual biological progress — accumulating heat units day by day, factoring in soil water deficit, Kona wind stress, and pest pressure, to predict the real harvest window for each parcel.",
+    overview_label:"Overview", overview_title:"What it models",
+    overview_desc:"5 crop types. 10 parcels. Daily GDD accumulation with multi-factor stress attenuation.",
+    ov_c1:"Setting", ov_c2:"Detail",
+    ov_r1a:"Growth model", ov_r1b:"Growing Degree Days (GDD) — accumulated thermal units above base temperature",
+    ov_r2a:"Stress factors", ov_r2b:"Soil moisture deficit · Kona wind days · Pest history score (all reduce daily GDD)",
+    ov_r3a:"Growth stages", ov_r3b:"Vegetative → Flowering → Ripening → Harvest (GDD thresholds per crop)",
+    ov_r4a:"Crop coverage", ov_r4b:"Papaya, Coffee, Taro, Macadamia, Pineapple — each with unique base temp and stage thresholds",
+    ov_r5a:"Data sync", ov_r5b:"Initial batches seeded by Planting Strategy Optimizer; manual override available in UI",
+    ov_r6a:"Alert output", ov_r6b:"Stage transition alerts → Health Predictor · Harvest alerts → Harvest Logistics Optimizer",
+    tech_label:"The Technology", tech_title:"Biophysical modelling, not calendar-based guessing",
+    t1_pill:"Proven agronomic science", t1_title:"Growing Degree Day (GDD) Model",
+    t1_desc:"GDD is the standard agronomic measure of thermal accumulation. A crop grows when temperature exceeds its base temperature. Each day contributes (avg_temp − T_base) GDD. When cumulative GDD crosses a threshold, the crop advances to the next stage. This is more accurate than calendar-based forecasting because the same crop in different years may mature weeks apart.",
+    t2_pill:"Multi-factor stress compounding", t2_title:"Water Balance + Wind + Pest Stress Model",
+    t2_desc:"Raw GDD is multiplied by a stress_factor (0–1) from three stressors. Soil moisture below 'dry' threshold: −20% GDD. Below 'drought': −50%. Kona wind days: crop-specific multiplier (0.80–1.00). Pest history score: up to max penalty per crop. All three compound multiplicatively.",
+    math_label:"The Math", math_title:"Daily GDD calculation",
+    stages_label:"Growth Stages", stages_title:"Stage progression per crop",
+    stages_desc:"GDD thresholds per crop are calibrated to Hawaii growing conditions.",
+    st_c1:"Crop", st_c2:"Base Temp", st_c3:"Vegetative", st_c4:"Flowering", st_c5:"Ripening", st_c6:"Harvest", st_c7:"Wind Factor",
+    stress_label:"Stress Parameters", stress_title:"Water & pest thresholds per crop",
+    water_badge:"WATER STRESS", pest_badge:"PEST STRESS",
+    ws1_title:"Taro — highest water demand", ws1_desc:"Dry threshold: 50% soil moisture. Drought threshold: 35%. Taro is a wetland crop — moisture deficits immediately reduce GDD accumulation.",
+    ws2_title:"Papaya — sensitive to drought", ws2_desc:"Dry threshold: 35%. Drought threshold: 20%. Combined with high wind sensitivity (×0.80), a Kona wind week during dry conditions compounds to 36% growth reduction.",
+    ps1_title:"Papaya — ringspot virus risk", ps1_desc:"Max pest penalty: 30%. Papaya ringspot virus is endemic to Hawaii. A pest score of 1.0 reduces daily GDD by up to 30%.",
+    ps2_title:"Coffee — moderate pest risk", ps2_desc:"Max pest penalty: 20%. Coffee berry borer is the primary concern. A high-pest year can shift the harvest window by 2–3 weeks.",
+    pipe_label:"Data Pipeline", pipe_title:"How lifecycle data flows downstream",
+    pp1_title:"Receives initial batches from Planting Optimizer", pp1_desc:"New planting events are written to session_state['batches'] — each with crop type, planted_date, and initial GDD (perennials start at 800 GDD).",
+    pp2_title:"Manual weather inputs advance batches", pp2_desc:"User sets today's avg_temp, soil_moisture, Kona wind days, and pest score. The GrowthEngine calculates daily GDD for each parcel and detects stage transitions.",
+    pp3_title:"Harvest-ready batches flagged for Health Predictor", pp3_desc:"Batches entering 'harvest' stage are written to session_state['harvest_ready_parcels']. The Crop Health Predictor reads this list to prioritize quality risk assessment.",
+    pp4_title:"Stage data feeds Portal COO view", pp4_desc:"The Field Manager portal reads batch stage distribution to show what proportion of the farm is in each growth stage.",
+    results_label:"Results", results_title:"What the app shows",
+    res1_title:"① Parcel status grid", res1_desc:"Each parcel as a card: crop type, current stage, GDD progress bar, health status (good / stressed / critical).",
+    res2_title:"② GDD accumulation timeline", res2_desc:"Cumulative GDD over time per batch with stage threshold lines. Stressed periods show as a shallower slope.",
+    res3_title:"③ Stress factor breakdown", res3_desc:"Per-parcel bar decomposing today's effective GDD into water stress, wind, and pest penalties.",
+    res4_title:"④ Stage transition alerts", res4_desc:"Batches advancing to a new stage today are highlighted. 'Harvest' stage triggers a cross-app alert in the Field Manager portal.",
+    res5_title:"⑤ Estimated harvest date", res5_desc:"Based on rolling 7-day GDD rate, projects the date each batch will reach harvest GDD — accounting for current stress levels.",
+    why_label:"Why It Matters", why_title:"What this demonstrates",
+    w1_title:"Agronomic Science as Code", w1_desc:"GDD-based growth modelling is the gold standard in precision agriculture. Implementing it per-parcel with multi-factor stress attenuation demonstrates domain depth beyond surface-level data visualization.",
+    w2_title:"Hawaii-Specific Parameters", w2_desc:"Kona wind multipliers, island crop base temperatures, and pest profiles calibrated to Big Island conditions — not generic tropical farm defaults.",
+    w3_title:"Bidirectional Pipeline", w3_desc:"Receives planting data from Engine 01; sends harvest-readiness signals to the Crop Health Predictor and Field Manager portal downstream.",
+    w4_title:"Proactive vs. Reactive Management", w4_desc:"Gives managers advance warning days before harvest stage is reached — so labor and logistics can be pre-arranged while quality is still optimal.",
+    cta_label:"Explore", cta_title:"See the growth model in action",
+    cta_desc:"Adjust soil moisture and Kona wind days in the UI, then watch the GDD accumulation rate and estimated harvest date shift in real time.",
+    cta_btn1:"← Engine 01: Planting", cta_btn2:"Suite Overview", cta_btn3:"Next: Harvest Logistics →",
+    footer:"© 2026 Manami Oyama · Built with HTML, CSS & JavaScript",
+  },
+  ja:{
+    nav_back:"← スイート概要",
+    hero_eyebrow:"エンジン 02 — 技術解説",
+    hero_title:"<em>作物ライフサイクルマネージャー</em>の仕組み",
+    hero_desc:"播種から収穫まで全作付バッチを追跡するGDD積算温度モデルと水収支エンジンを平易な言葉で解説します。",
+    one_liner:"カレンダー日付に依存する代わりに、このエンジンは実際の生物学的進行を追跡します——土壌水分不足・コナウィンズストレス・病害虫圧力を加味しながら日々熱単位を積算し、各区画の実際の収穫窓を予測します。",
+    overview_label:"概要", overview_title:"何をモデル化するか",
+    overview_desc:"5種類の作物。10区画。多要因ストレス減衰付き日次GDD積算。",
+    ov_c1:"設定項目", ov_c2:"詳細",
+    ov_r1a:"生育モデル", ov_r1b:"生育有効積算温度（GDD） — 基準温度を超えた積算熱単位",
+    ov_r2a:"ストレス要因", ov_r2b:"土壌水分不足 · コナウィンズ日数 · 病害虫履歴スコア（全て日次GDDを減少）",
+    ov_r3a:"生育ステージ", ov_r3b:"栄養成長 → 開花 → 成熟 → 収穫（作物別GDD閾値）",
+    ov_r4a:"対象作物", ov_r4b:"パパイヤ・コーヒー・タロイモ・マカダミア・パイナップル — 各作物に固有の基準温度とステージ閾値",
+    ov_r5a:"データ同期", ov_r5b:"作付戦略オプティマイザーから初期バッチを受信、UI上で手動上書き可能",
+    ov_r6a:"アラート出力", ov_r6b:"ステージ遷移アラート → 品質予測エンジン · 収穫アラート → 収穫物流オプティマイザー",
+    tech_label:"技術", tech_title:"カレンダーベースの推測ではなく生物物理モデリング",
+    t1_pill:"実証済みの農業科学", t1_title:"生育有効積算温度（GDD）モデル",
+    t1_desc:"GDDは精密農業における標準的な積算温度指標です。作物は温度が基準温度を超えると成長します。各日の寄与は（平均気温 − T_base）GDD。累積GDDが閾値を超えると次のステージへ遷移します。同じ作物でも年ごとに数週間の成熟差があるため、カレンダーベースよりも正確です。",
+    t2_pill:"多要因ストレスの複合", t2_title:"水収支＋コナウィンズ＋病害虫ストレスモデル",
+    t2_desc:"生のGDDに3つのストレス要因からのstress_factor（0〜1）を乗算。土壌水分が「乾燥」閾値以下：GDD−20%。「干ばつ」閾値以下：−50%。コナウィンズ日数：作物別乗数（0.80〜1.00）。病害虫スコア：作物別最大ペナルティまで。3つ全てが乗算的に複合します。",
+    math_label:"数式", math_title:"日次GDD計算",
+    stages_label:"生育ステージ", stages_title:"作物別ステージ進行",
+    stages_desc:"作物別GDD閾値はハワイの栽培環境にキャリブレーションされています。",
+    st_c1:"作物", st_c2:"基準温度", st_c3:"栄養成長", st_c4:"開花", st_c5:"成熟", st_c6:"収穫", st_c7:"コナウィンズ係数",
+    stress_label:"ストレスパラメータ", stress_title:"作物別水分・病害虫閾値",
+    water_badge:"水ストレス", pest_badge:"病害虫ストレス",
+    ws1_title:"タロイモ — 最高水需要", ws1_desc:"乾燥閾値：土壌水分50%。干ばつ閾値：35%。タロイモは湿地作物——水分不足は即座にGDD蓄積を減少させます。",
+    ws2_title:"パパイヤ — 干ばつに敏感", ws2_desc:"乾燥閾値：35%。干ばつ閾値：20%。高い風感度（×0.80）との組み合わせで、乾燥期のコナウィンズは成長を36%減少させます（0.80×0.80=0.64）。",
+    ps1_title:"パパイヤ — リングスポットウイルスリスク", ps1_desc:"最大ペストペナルティ：30%。パパイヤリングスポットウイルスはハワイ固有の問題。スコア1.0で日次GDDを最大30%減少。",
+    ps2_title:"コーヒー — 中程度の病害虫リスク", ps2_desc:"最大ペストペナルティ：20%。コーヒーノミキクイムシが主な懸念。高病害虫年は収穫窓を2〜3週間ずらす可能性があり、手摘みのコーディネーションに影響します。",
+    pipe_label:"データパイプライン", pipe_title:"ライフサイクルデータが下流に流れる仕組み",
+    pp1_title:"作付オプティマイザーから初期バッチを受信", pp1_desc:"新規作付イベントがsession_state['batches']に書き込まれます——作物種別・作付日・初期GDD（多年生作物は800 GDDからスタート）付きで。",
+    pp2_title:"手動気象入力でバッチを進行", pp2_desc:"ユーザーが今日の平均気温・土壌水分・コナウィンズ日数・病害虫スコアを設定。GrowthEngineが各区画の日次GDDを計算しステージ遷移を自動検知します。",
+    pp3_title:"収穫準備完了バッチを品質予測エンジンにフラグ", pp3_desc:"「収穫」ステージに入ったバッチはsession_state['harvest_ready_parcels']に書き込まれます。品質予測エンジンがこのリストを読み込み優先度を設定します。",
+    pp4_title:"ステージデータがポータルCOOビューに供給", pp4_desc:"現場マネージャーポータルがバッチステージ分布を読み込み、農場のどの割合が各生育ステージにあるかを表示します。",
+    results_label:"結果", results_title:"アプリが表示するもの",
+    res1_title:"① 区画ステータスグリッド", res1_desc:"各区画をカードで表示：作物種別・現在ステージ・GDD進行バー・健全性ステータス（良好/ストレス/危機）。",
+    res2_title:"② GDD累積タイムライン", res2_desc:"バッチ別の時系列GDD累積ラインチャート。ステージ閾値ラインをオーバーレイ。ストレス期間は傾きが浅くなる——水や病害虫ストレスのコストを視覚化。",
+    res3_title:"③ ストレス要因内訳", res3_desc:"今日の有効GDDを水ストレス・風・病害虫ペナルティに分解した区画別棒グラフ。",
+    res4_title:"④ ステージ遷移アラート", res4_desc:"本日新ステージに移行したバッチをハイライト。「収穫」ステージへの移行は現場マネージャーポータルにクロスアプリアラートを発報。",
+    res5_title:"⑤ 収穫予想日", res5_desc:"直近7日間のGDD蓄積率に基づき、現在のストレスレベルが継続すると仮定して各バッチが収穫GDDに到達する日を予測。",
+    why_label:"なぜ重要か", why_title:"このエンジンが示すもの",
+    w1_title:"農業科学のコード化", w1_desc:"GDDベースの生育モデリングは精密農業のゴールドスタンダードです。多要因ストレス減衰付きで区画ごと・日次で実装することは、表面的なデータ可視化を超えたドメインの深さを示します。",
+    w2_title:"ハワイ固有パラメータ", w2_desc:"コナウィンズ乗数・島の作物別基準温度・病害虫プロファイルがビッグアイランドの条件にキャリブレーション——汎用的な熱帯農場のデフォルト値ではありません。",
+    w3_title:"双方向パイプライン", w3_desc:"エンジン01から作付データを受信し、品質予測エンジンと現場マネージャーポータルに収穫準備完了シグナルを送信。ライフサイクルマネージャーはスイート全体の生物学的バックボーンです。",
+    w4_title:"事後対応ではなく事前管理", w4_desc:"目視で問題を確認してからではなく、収穫ステージ到達の数日前に事前警告を与えます——品質が最適な状態のうちに労働力と物流を手配できます。",
+    cta_label:"体験する", cta_title:"生育モデルを動かして確認",
+    cta_desc:"UIで土壌水分とコナウィンズ日数を調整し、GDD蓄積率と収穫予想日がリアルタイムで変化するのを確認してください。",
+    cta_btn1:"← エンジン01：作付戦略", cta_btn2:"スイート概要", cta_btn3:"次：収穫物流 →",
+    footer:"© 2026 Manami Oyama · Built with HTML, CSS & JavaScript",
+  }
+};
+let currentLang="en";
+function applyTranslations(lang){
+  const t=PAGE_TRANSLATIONS[lang]; if(!t) return;
+  document.querySelectorAll("[data-i18n]").forEach(el=>{const k=el.getAttribute("data-i18n");if(t[k]!==undefined)el.innerHTML=t[k];});
+  document.querySelectorAll("[data-lang-btn]").forEach(b=>b.classList.toggle("active",b.getAttribute("data-lang-btn")===lang));
+  currentLang=lang;
+}
+document.querySelectorAll("[data-lang-btn]").forEach(b=>b.addEventListener("click",()=>applyTranslations(b.getAttribute("data-lang-btn"))));
+const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add("visible");}),{threshold:0.08});
+document.querySelectorAll(".fade-up,.why-card").forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>

@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>How It Works — Succession &amp; Knowledge Transfer Planner</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&family=Noto+Serif+JP:wght@300;400&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/style.css"/>
+  <style>
+    :root{--bg:#fdf5ee;--accent:#78350f;--accent2:#fbbf24;--accent3:#fffbeb;--border:#fde68a;}
+    .skill-matrix{width:100%;border-collapse:collapse;font-size:12px;margin:16px 0;}
+    .skill-matrix th{background:var(--accent3);padding:7px 10px;text-align:center;border:1px solid var(--border);font-weight:600;font-size:11px;}
+    .skill-matrix td{padding:7px 10px;border:1px solid var(--border);text-align:center;}
+    .skill-matrix td.name-col{text-align:left;font-weight:500;}
+    .skill-matrix tr:nth-child(even) td{background:#fffdf5;}
+    .badge-adv{background:#dcfce7;color:#166534;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700;}
+    .badge-bas{background:#fef9c3;color:#713f12;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700;}
+    .badge-none{background:#f3f4f6;color:#6b7280;padding:2px 8px;border-radius:10px;font-size:10px;}
+    .risk-dot{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:4px;}
+    .constraint-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:20px;}
+    @media(max-width:700px){.constraint-grid{grid-template-columns:1fr;}}
+    .constraint-card{border:1px solid var(--border);border-radius:10px;padding:16px 18px;background:white;}
+    .badge{font-size:10px;font-weight:700;letter-spacing:.08em;padding:2px 8px;border-radius:12px;display:inline-block;margin-bottom:8px;}
+    .formula-box{background:#1a1a1a;color:#fbbf24;border-radius:8px;padding:16px 20px;font-family:'Courier New',monospace;font-size:13px;line-height:1.7;margin:16px 0;}
+    .formula-box .comment{color:#6b7280;}
+    .skill-table{width:100%;border-collapse:collapse;font-size:13px;margin:16px 0;}
+    .skill-table th{background:var(--accent3);padding:8px 12px;text-align:left;border:1px solid var(--border);font-weight:600;}
+    .skill-table td{padding:8px 12px;border:1px solid var(--border);vertical-align:top;}
+    .skill-table tr:nth-child(even) td{background:#fffdf5;}
+    .flow-steps{counter-reset:steps;list-style:none;padding:0;margin:24px 0 0;}
+    .flow-step{counter-increment:steps;display:flex;gap:18px;margin-bottom:20px;align-items:flex-start;}
+    .flow-step::before{content:counter(steps);min-width:32px;height:32px;border-radius:50%;background:var(--accent);color:white;font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;}
+    .flow-step h4{margin:0 0 4px;font-size:15px;}
+    .flow-step p{margin:0;font-size:13px;color:#555;line-height:1.6;}
+    .result-section{border-left:3px solid var(--accent);padding:10px 16px;margin:10px 0;background:white;border-radius:0 8px 8px 0;}
+    .result-section h4{margin:0 0 4px;font-size:14px;}
+    .result-section p{margin:0;font-size:13px;color:#555;}
+    .why-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:20px;}
+    @media(max-width:700px){.why-grid{grid-template-columns:1fr;}}
+    .why-card{background:white;border:1px solid var(--border);border-radius:10px;padding:18px 20px;}
+    .why-card h4{margin:0 0 6px;font-size:14px;font-weight:600;}
+    .why-card p{margin:0;font-size:13px;color:#555;line-height:1.6;}
+  </style>
+</head>
+<body>
+<nav>
+  <div class="nav-inner">
+    <a href="ag-tech-suite-index.html" class="nav-logo" style="text-decoration:none;color:inherit;">Ag-Tech Suite</a>
+    <div class="nav-links">
+      <a href="ag-tech-suite-index.html" class="btn-back" data-i18n="nav_back">← Suite Overview</a>
+      <div class="lang-toggle">
+        <button class="lang-btn active" data-lang-btn="en">EN</button>
+        <button class="lang-btn" data-lang-btn="ja">JA</button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="container">
+    <p class="hero-eyebrow fade-up" data-i18n="hero_eyebrow">Engine 06 — Technical Deep Dive</p>
+    <h1 class="hero-title fade-up" data-i18n="hero_title">How the <em>Succession &amp; Knowledge Transfer Planner</em> works</h1>
+    <p class="hero-desc fade-up" data-i18n="hero_desc">A plain-English explanation of greedy priority-based task optimization — matching veteran farmer tacit knowledge to the right worker-task-day combination, generating OJT pairs, and stress-testing knowledge concentration risk with Monte Carlo simulation.</p>
+    <div class="one-liner fade-up"><p data-i18n="one_liner">Hawaii's aging farming workforce means critical tacit knowledge — when to pick Kona coffee by smell, how to identify taro leaf blight before it spreads — is concentrated in one or two senior workers. This engine maps that concentration, simulates what happens if a key person is absent, and auto-generates OJT pairings that force knowledge transfer before the skill walks out the door permanently.</p></div>
+    <div class="btn-group fade-up" style="margin-bottom:20px">
+      <a href="ag-tech-suite-index.html" class="btn btn-outline" data-i18n="nav_back">← Suite Overview</a>
+    </div>
+  </div>
+</div>
+
+<section>
+  <div class="container">
+    <p class="section-label" data-i18n="overview_label">Overview</p>
+    <h2 class="section-title" data-i18n="overview_title">What it optimizes</h2>
+    <table class="skill-table">
+      <thead><tr><th data-i18n="ov_c1">Setting</th><th data-i18n="ov_c2">Detail</th></tr></thead>
+      <tbody>
+        <tr><td data-i18n="ov_r1a">Workers</td><td data-i18n="ov_r1b">7 workers (W01–W07): 1 farm manager (25 yr exp) + 2 senior workers + 4 field workers, each with crop skill profiles</td></tr>
+        <tr><td data-i18n="ov_r2a">Task catalog</td><td data-i18n="ov_r2b">Multi-task types: Harvest · Planting · Pest Control · Pruning · Weeding · OJT — each with complexity 1–3 and crop assignment</td></tr>
+        <tr><td data-i18n="ov_r3a">Planning horizon</td><td data-i18n="ov_r4b">7 days (N_DAYS), 8 hours/day per worker (WORK_START 06:00 – WORK_END 15:00)</td></tr>
+        <tr><td data-i18n="ov_r4a">Algorithm</td><td data-i18n="ov_r4b">Greedy priority-based assignment (pure Python, no OR-Tools) — tasks sorted by urgency × complexity score, then greedily matched to eligible workers</td></tr>
+        <tr><td data-i18n="ov_r5a">Stress test</td><td data-i18n="ov_r5b">Monte Carlo simulation (200 runs) — randomizes worker absence (5% turnover, 15% PTO, 5% sick day) to measure task failure probability per skill domain</td></tr>
+        <tr><td data-i18n="ov_r6a">OJT generation</td><td data-i18n="ov_r6b">Two-tier: Monte Carlo-driven urgent OJT (priority +10) + rule-based knowledge-gap OJT — both auto-matched to senior trainer + junior trainee pairs</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section style="background:var(--accent3)">
+  <div class="container">
+    <p class="section-label" data-i18n="tech_label">The Technology</p>
+    <h2 class="section-title" data-i18n="tech_title">Greedy priority assignment + Monte Carlo stress testing</h2>
+    <div class="tech-cards">
+      <div class="tech-card">
+        <div class="tech-pill" data-i18n="t1_pill">Priority-based greedy assignment</div>
+        <h3 class="tech-title" data-i18n="t1_title">Urgency-weighted task scoring without OR-Tools</h3>
+        <p class="tech-desc" data-i18n="t1_desc">Each task receives a priority score: base = URGENCY_WEIGHT[category] × complexity. Category weights: pest_control=4, ojt=6 (intentionally overweighted to protect senior time for knowledge transfer), harvest=3, pruning=2. Weather scenario multipliers apply on top — winter_storm × 2.5 on pest_control, flash_flood × 2.0 on harvest and pest tasks. Monte Carlo-flagged OJT tasks receive +10 bonus, making them the highest-priority items in the queue. Tasks are then greedily assigned in priority order to eligible workers who have the required skill level and remaining hours — no backtracking.</p>
+      </div>
+      <div class="tech-card">
+        <div class="tech-pill" data-i18n="t2_pill">Monte Carlo knowledge stress test</div>
+        <h3 class="tech-title" data-i18n="t2_title">200-trial Absence Simulation</h3>
+        <p class="tech-desc" data-i18n="t2_desc">run_knowledge_stress_test() runs the full assignment algorithm 200 times, each time randomly applying absence events: 5% probability a worker is completely absent for the week (turnover/long leave), 15% probability a full-time worker takes 1–2 PTO days, 5% probability of a sick day. For each trial, the set of unassigned tasks is recorded. After 200 trials, the engine computes: per-skill failure_prob (how often tasks in that crop domain go unassigned), per-worker dependency_score (how many extra tasks fail when that person is absent vs. baseline), and key_person_risk ranking. This output drives the urgent OJT generation.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <p class="section-label" data-i18n="km_label">Knowledge Map</p>
+    <h2 class="section-title" data-i18n="km_title">Skill concentration risk per crop domain</h2>
+    <p style="font-size:13px;color:#555;margin-bottom:12px;" data-i18n="km_desc">generate_knowledge_map() scans all 7 workers and classifies each crop domain by risk — based on how many senior workers hold "advanced" skill in that crop.</p>
+    <table class="skill-table">
+      <thead><tr>
+        <th data-i18n="km_c1">Crop Domain</th>
+        <th data-i18n="km_c2">Risk Level</th>
+        <th data-i18n="km_c3">Condition</th>
+      </tr></thead>
+      <tbody>
+        <tr><td data-i18n="km_r1a">Any domain</td><td><span class="risk-dot" style="background:#dc2626;"></span><strong data-i18n="km_r1b">Critical</strong></td><td data-i18n="km_r1c">0 senior workers hold "advanced" skill — knowledge is completely absent</td></tr>
+        <tr><td data-i18n="km_r2a">Any domain</td><td><span class="risk-dot" style="background:#f97316;"></span><strong data-i18n="km_r2b">High</strong></td><td data-i18n="km_r2c">Exactly 1 senior holds "advanced" — single point of failure (key person risk)</td></tr>
+        <tr><td data-i18n="km_r3a">Any domain</td><td><span class="risk-dot" style="background:#eab308;"></span><strong data-i18n="km_r3b">Medium</strong></td><td data-i18n="km_r3c">Multiple seniors but total "advanced" workers ≤ 2 — fragile coverage</td></tr>
+        <tr><td data-i18n="km_r4a">Any domain</td><td><span class="risk-dot" style="background:#16a34a;"></span><strong data-i18n="km_r4b">Low</strong></td><td data-i18n="km_r4c">3+ workers with "advanced" skill — redundant coverage, resilient to absence</td></tr>
+      </tbody>
+    </table>
+
+    <h3 style="margin-top:28px;font-size:17px;" data-i18n="prio_title">Task priority calculation</h3>
+    <div class="formula-box">
+<span class="comment"># Urgency weights by category:</span>
+URGENCY_WEIGHT = {"pest_control": 4, "ojt": 6, "harvest": 3, "pruning": 2}
+
+<span class="comment"># Base priority score:</span>
+base = URGENCY_WEIGHT[category] × complexity   <span class="comment"># complexity ∈ {1,2,3}</span>
+
+<span class="comment"># OJT bonus tier:</span>
+if mc_priority:  base += 10  <span class="comment"># MC-flagged urgent OJT → top of queue</span>
+else:            base -= 2   <span class="comment"># Rule-based OJT → slightly lower</span>
+
+<span class="comment"># Weather multipliers:</span>
+if winter_storm and pest_control: base *= 2.5
+if flash_flood  and (harvest or pest_control): base *= 2.0
+
+<span class="comment"># Eligibility check before assignment:</span>
+can_assign = (skill_level[worker][crop] >= required_skill[task])
+           and (not senior_required or worker.is_senior)
+           and (worker_hours_remaining >= task.duration_hours)
+    </div>
+  </div>
+</section>
+
+<section style="background:var(--accent3)">
+  <div class="container">
+    <p class="section-label" data-i18n="ojt_label">OJT Generation</p>
+    <h2 class="section-title" data-i18n="ojt_title">Two-tier automatic OJT pairing</h2>
+    <div class="constraint-grid">
+      <div class="constraint-card">
+        <span class="badge" style="background:#fdecea;color:#c0392b;" data-i18n="ojt1_badge">Tier 1 — Monte Carlo-driven (Priority +10)</span>
+        <h4 data-i18n="ojt1_title">Urgent OJT from Stress Test Results</h4>
+        <p style="font-size:13px;color:#555;line-height:1.6;" data-i18n="ojt1_desc">For every skill domain where the stress test shows failure_prob ≥ 10%, an urgent OJT task is auto-generated (OJT_MC_CROPNAME). The system finds the senior worker who holds "advanced" skill in that crop and pairs them with the highest-priority junior worker who doesn't. These tasks receive priority +10, making them the absolute highest priority in the weekly schedule — the algorithm forces senior time allocation for critical knowledge transfer before scheduling any other work.</p>
+      </div>
+      <div class="constraint-card">
+        <span class="badge" style="background:#fff8e0;color:#b87a00;" data-i18n="ojt2_badge">Tier 2 — Rule-based (Normal Priority)</span>
+        <h4 data-i18n="ojt2_title">Knowledge Map-Driven OJT</h4>
+        <p style="font-size:13px;color:#555;line-height:1.6;" data-i18n="ojt2_desc">Independently, generate_knowledge_map() identifies crop domains with "critical", "high", or "medium" concentration risk and generates OJT_RB_CROPNAME tasks for each. These have slightly lower priority (base − 2) than Monte Carlo-flagged tasks but still rank above most routine farm work. Both tiers enforce the same pairing logic: exactly one senior trainer (advanced skill in that crop) + one junior trainee, 3-hour blocks.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <p class="section-label" data-i18n="pipeline_label">Data Pipeline</p>
+    <h2 class="section-title" data-i18n="pipeline_title">How data flows through the planner</h2>
+    <ol class="flow-steps">
+      <li class="flow-step">
+        <div><h4 data-i18n="fp1_title">Worker profiles &amp; task catalog loaded from master_data</h4>
+        <p data-i18n="fp1_desc">get_default_workers() provides 7 worker profiles with skill maps (crop → none/basic/advanced), roles, availability, and daily wage. get_default_tasks() provides the farm task catalog with complexity, duration, and crop assignment. Both are loaded once and cached.</p></div>
+      </li>
+      <li class="flow-step">
+        <div><h4 data-i18n="fp2_title">Monte Carlo stress test generates task_failure_probs</h4>
+        <p data-i18n="fp2_desc">run_knowledge_stress_test() runs 200 random absence simulations. The output task_failure_probs list — sorted by failure probability descending — identifies which crop skill domains are most vulnerable. This is the primary input for Tier 1 OJT generation.</p></div>
+      </li>
+      <li class="flow-step">
+        <div><h4 data-i18n="fp3_title">OJT tasks dynamically injected into the task queue</h4>
+        <p data-i18n="fp3_desc">optimize_task_assignment() receives stress_result as an optional argument. If provided, it first generates Tier 1 MC-driven OJT tasks, then appends Tier 2 rule-based OJT tasks from generate_knowledge_map(). Both tiers are merged into the task list before priority sorting.</p></div>
+      </li>
+      <li class="flow-step">
+        <div><h4 data-i18n="fp4_title">Priority sort &amp; greedy assignment across 7 days</h4>
+        <p data-i18n="fp4_desc">All tasks (regular + OJT) are sorted by priority score descending. For OJT tasks, a senior+junior pair is forced — if no eligible trainer or trainee is available with sufficient hours, the task goes to the unassigned list. For regular tasks, the first N eligible workers with remaining hours are selected. worker_hours_remaining tracks remaining capacity per worker.</p></div>
+      </li>
+      <li class="flow-step">
+        <div><h4 data-i18n="fp5_title">KPI output &amp; session_state export</h4>
+        <p data-i18n="fp5_desc">KPIs include: coverage_pct (assigned/total tasks %), ojt_sessions completed, knowledge_transfer_score (ojt_sessions / needed_ojt), and avg_senior_utilization. Results are written to session_state for the Farm Owner dashboard — showing how well tacit knowledge is being protected this week alongside revenue metrics.</p></div>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section style="background:var(--accent3)">
+  <div class="container">
+    <p class="section-label" data-i18n="results_label">Results</p>
+    <h2 class="section-title" data-i18n="results_title">What the planner produces</h2>
+    <div class="result-section"><h4 data-i18n="r1_title">Weekly task assignment schedule</h4><p data-i18n="r1_desc">A day-by-day table showing which worker handles which task — including OJT sessions with trainer/trainee pair names, crop, and hours. Field staff see their weekly schedule; managers see coverage gaps.</p></div>
+    <div class="result-section"><h4 data-i18n="r2_title">Knowledge concentration risk map</h4><p data-i18n="r2_desc">A per-crop risk table (Critical / High / Medium / Low) showing which crops have single-point-of-failure senior dependency — the primary input for board-level succession planning discussions.</p></div>
+    <div class="result-section"><h4 data-i18n="r3_title">Key person dependency ranking</h4><p data-i18n="r3_desc">The Monte Carlo stress test produces a ranked list of workers by dependency_score — measuring how many additional tasks fail when each person is absent vs. the baseline absence rate. High scores identify who the farm cannot afford to lose.</p></div>
+    <div class="result-section"><h4 data-i18n="r4_title">Knowledge transfer score (0–100%)</h4><p data-i18n="r4_desc">min(ojt_sessions_completed / ojt_sessions_needed, 1.0) × 100 — a single number that tells the Farm Owner how well knowledge is being actively transferred this week. Target: 100% means all critical skill gaps have a scheduled OJT session.</p></div>
+    <div class="result-section"><h4 data-i18n="r5_title">Unassigned task list with reasons</h4><p data-i18n="r5_desc">Tasks that could not be scheduled due to insufficient skilled workers or hour capacity are listed explicitly — creating a visible backlog that the farm manager can address by adjusting worker availability or hiring.</p></div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <p class="section-label" data-i18n="why_label">Why It Matters</p>
+    <h2 class="section-title" data-i18n="why_title">The farm management problem it solves</h2>
+    <div class="why-grid">
+      <div class="why-card"><h4 data-i18n="w1_title">Tacit knowledge that can't be written down</h4><p data-i18n="w1_desc">Experienced Hawaii coffee farmers know harvest readiness by smell and color — knowledge that doesn't live in any manual. When the senior worker retires or moves, that capability disappears. The planner forces structured co-presence (OJT pairing) that makes tacit knowledge transferable through observation.</p></div>
+      <div class="why-card"><h4 data-i18n="w2_title">Proactive rather than reactive succession</h4><p data-i18n="w2_desc">Most farm succession failures are discovered only after the senior leaves. The Monte Carlo stress test simulates departure scenarios before they happen — quantifying exactly which skills would cause operational collapse if a key person were absent this week.</p></div>
+      <div class="why-card"><h4 data-i18n="w3_title">OJT competing with harvest urgency</h4><p data-i18n="w3_desc">Without explicit priority weighting, harvest urgency always wins and OJT never happens. By setting ojt urgency_weight=6 (higher than harvest=3) for Monte Carlo-flagged skills, the algorithm forces senior workers to spend time teaching — even in a busy week — protecting the farm's long-term capability.</p></div>
+      <div class="why-card"><h4 data-i18n="w4_title">Downstream input to Yield & Labor Simulator</h4><p data-i18n="w4_desc">The stress test's task_failure_probs feed back into the Yield & Labor Simulator's risk_alerts. A farm with critical knowledge concentration in coffee harvesting carries an additional revenue risk — quantified and surfaced to the Farm Owner dashboard alongside weather-driven revenue projections.</p></div>
+    </div>
+  </div>
+</section>
+
+<section style="background:var(--accent3)">
+  <div class="container" style="text-align:center;">
+    <p class="section-label" data-i18n="cta_label">Navigation</p>
+    <h2 class="section-title" data-i18n="cta_title">Explore the other engines</h2>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:16px;">
+      <a href="ats-how-it-works-crop-health.html" class="btn btn-outline" data-i18n="cta_prev">← Engine 05: Crop Health Predictor</a>
+      <a href="ag-tech-suite-index.html" class="btn btn-primary" data-i18n="cta_suite">Suite Overview</a>
+      <a href="ats-how-it-works-irrigation.html" class="btn btn-outline" data-i18n="cta_next">Engine 07: Smart Irrigation →</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container footer-inner">
+    <span>Ag-Tech Suite — Hawaii Edition</span>
+    <span data-i18n="footer_note">Portfolio case study · Manami Oyama</span>
+  </div>
+</footer>
+
+<script>
+const T = {
+  en: {
+    nav_back:"← Suite Overview",hero_eyebrow:"Engine 06 — Technical Deep Dive",hero_title:"How the <em>Succession &amp; Knowledge Transfer Planner</em> works",hero_desc:"A plain-English explanation of greedy priority-based task optimization — matching veteran farmer tacit knowledge to the right worker-task-day combination, generating OJT pairs, and stress-testing knowledge concentration risk with Monte Carlo simulation.",one_liner:"Hawaii's aging farming workforce means critical tacit knowledge — when to pick Kona coffee by smell, how to identify taro leaf blight before it spreads — is concentrated in one or two senior workers. This engine maps that concentration, simulates what happens if a key person is absent, and auto-generates OJT pairings that force knowledge transfer before the skill walks out the door permanently.",
+    overview_label:"Overview",overview_title:"What it optimizes",ov_c1:"Setting",ov_c2:"Detail",
+    ov_r1a:"Workers",ov_r1b:"7 workers (W01–W07): 1 farm manager (25 yr exp) + 2 senior workers + 4 field workers, each with crop skill profiles",
+    ov_r2a:"Task catalog",ov_r2b:"Multi-task types: Harvest · Planting · Pest Control · Pruning · Weeding · OJT — each with complexity 1–3 and crop assignment",
+    ov_r3a:"Planning horizon",ov_r4b:"7 days (N_DAYS), 8 hours/day per worker (WORK_START 06:00 – WORK_END 15:00)",
+    ov_r4a:"Algorithm",ov_r4b:"Greedy priority-based assignment (pure Python, no OR-Tools) — tasks sorted by urgency × complexity score, then greedily matched to eligible workers",
+    ov_r5a:"Stress test",ov_r5b:"Monte Carlo simulation (200 runs) — randomizes worker absence (5% turnover, 15% PTO, 5% sick day) to measure task failure probability per skill domain",
+    ov_r6a:"OJT generation",ov_r6b:"Two-tier: Monte Carlo-driven urgent OJT (priority +10) + rule-based knowledge-gap OJT — both auto-matched to senior trainer + junior trainee pairs",
+    tech_label:"The Technology",tech_title:"Greedy priority assignment + Monte Carlo stress testing",
+    t1_pill:"Priority-based greedy assignment",t1_title:"Urgency-weighted task scoring without OR-Tools",t1_desc:"Each task receives a priority score: base = URGENCY_WEIGHT[category] × complexity. Category weights: pest_control=4, ojt=6 (intentionally overweighted to protect senior time for knowledge transfer), harvest=3, pruning=2. Weather scenario multipliers apply on top — winter_storm × 2.5 on pest_control, flash_flood × 2.0 on harvest and pest tasks. Monte Carlo-flagged OJT tasks receive +10 bonus, making them the highest-priority items in the queue. Tasks are then greedily assigned in priority order to eligible workers who have the required skill level and remaining hours — no backtracking.",
+    t2_pill:"Monte Carlo knowledge stress test",t2_title:"200-trial Absence Simulation",t2_desc:"run_knowledge_stress_test() runs the full assignment algorithm 200 times, each time randomly applying absence events: 5% probability a worker is completely absent for the week (turnover/long leave), 15% probability a full-time worker takes 1–2 PTO days, 5% probability of a sick day. For each trial, the set of unassigned tasks is recorded. After 200 trials, the engine computes: per-skill failure_prob, per-worker dependency_score, and key_person_risk ranking. This output drives the urgent OJT generation.",
+    km_label:"Knowledge Map",km_title:"Skill concentration risk per crop domain",km_desc:"generate_knowledge_map() scans all 7 workers and classifies each crop domain by risk — based on how many senior workers hold 'advanced' skill in that crop.",
+    km_c1:"Crop Domain",km_c2:"Risk Level",km_c3:"Condition",
+    km_r1a:"Any domain",km_r1b:"Critical",km_r1c:"0 senior workers hold \"advanced\" skill — knowledge is completely absent",
+    km_r2a:"Any domain",km_r2b:"High",km_r2c:"Exactly 1 senior holds \"advanced\" — single point of failure (key person risk)",
+    km_r3a:"Any domain",km_r3b:"Medium",km_r3c:"Multiple seniors but total \"advanced\" workers ≤ 2 — fragile coverage",
+    km_r4a:"Any domain",km_r4b:"Low",km_r4c:"3+ workers with \"advanced\" skill — redundant coverage, resilient to absence",
+    prio_title:"Task priority calculation",
+    ojt_label:"OJT Generation",ojt_title:"Two-tier automatic OJT pairing",
+    ojt1_badge:"Tier 1 — Monte Carlo-driven (Priority +10)",ojt1_title:"Urgent OJT from Stress Test Results",ojt1_desc:"For every skill domain where the stress test shows failure_prob ≥ 10%, an urgent OJT task is auto-generated (OJT_MC_CROPNAME). The system finds the senior worker who holds \"advanced\" skill in that crop and pairs them with the highest-priority junior worker who doesn't. These tasks receive priority +10, making them the absolute highest priority in the weekly schedule — the algorithm forces senior time allocation for critical knowledge transfer before scheduling any other work.",
+    ojt2_badge:"Tier 2 — Rule-based (Normal Priority)",ojt2_title:"Knowledge Map-Driven OJT",ojt2_desc:"Independently, generate_knowledge_map() identifies crop domains with \"critical\", \"high\", or \"medium\" concentration risk and generates OJT_RB_CROPNAME tasks for each. These have slightly lower priority (base − 2) than Monte Carlo-flagged tasks but still rank above most routine farm work. Both tiers enforce the same pairing logic: exactly one senior trainer (advanced skill in that crop) + one junior trainee, 3-hour blocks.",
+    pipeline_label:"Data Pipeline",pipeline_title:"How data flows through the planner",
+    fp1_title:"Worker profiles & task catalog loaded from master_data",fp1_desc:"get_default_workers() provides 7 worker profiles with skill maps (crop → none/basic/advanced), roles, availability, and daily wage. get_default_tasks() provides the farm task catalog with complexity, duration, and crop assignment. Both are loaded once and cached.",
+    fp2_title:"Monte Carlo stress test generates task_failure_probs",fp2_desc:"run_knowledge_stress_test() runs 200 random absence simulations. The output task_failure_probs list — sorted by failure probability descending — identifies which crop skill domains are most vulnerable. This is the primary input for Tier 1 OJT generation.",
+    fp3_title:"OJT tasks dynamically injected into the task queue",fp3_desc:"optimize_task_assignment() receives stress_result as an optional argument. If provided, it first generates Tier 1 MC-driven OJT tasks, then appends Tier 2 rule-based OJT tasks from generate_knowledge_map(). Both tiers are merged into the task list before priority sorting.",
+    fp4_title:"Priority sort & greedy assignment across 7 days",fp4_desc:"All tasks (regular + OJT) are sorted by priority score descending. For OJT tasks, a senior+junior pair is forced — if no eligible trainer or trainee is available with sufficient hours, the task goes to the unassigned list. For regular tasks, the first N eligible workers with remaining hours are selected.",
+    fp5_title:"KPI output & session_state export",fp5_desc:"KPIs include: coverage_pct (assigned/total tasks %), ojt_sessions completed, knowledge_transfer_score (ojt_sessions / needed_ojt), and avg_senior_utilization. Results are written to session_state for the Farm Owner dashboard.",
+    results_label:"Results",results_title:"What the planner produces",
+    r1_title:"Weekly task assignment schedule",r1_desc:"A day-by-day table showing which worker handles which task — including OJT sessions with trainer/trainee pair names, crop, and hours. Field staff see their weekly schedule; managers see coverage gaps.",
+    r2_title:"Knowledge concentration risk map",r2_desc:"A per-crop risk table (Critical / High / Medium / Low) showing which crops have single-point-of-failure senior dependency — the primary input for board-level succession planning discussions.",
+    r3_title:"Key person dependency ranking",r3_desc:"The Monte Carlo stress test produces a ranked list of workers by dependency_score — measuring how many additional tasks fail when each person is absent vs. the baseline absence rate. High scores identify who the farm cannot afford to lose.",
+    r4_title:"Knowledge transfer score (0–100%)",r4_desc:"min(ojt_sessions_completed / ojt_sessions_needed, 1.0) × 100 — a single number that tells the Farm Owner how well knowledge is being actively transferred this week. Target: 100% means all critical skill gaps have a scheduled OJT session.",
+    r5_title:"Unassigned task list with reasons",r5_desc:"Tasks that could not be scheduled due to insufficient skilled workers or hour capacity are listed explicitly — creating a visible backlog that the farm manager can address by adjusting worker availability or hiring.",
+    why_label:"Why It Matters",why_title:"The farm management problem it solves",
+    w1_title:"Tacit knowledge that can't be written down",w1_desc:"Experienced Hawaii coffee farmers know harvest readiness by smell and color — knowledge that doesn't live in any manual. When the senior worker retires or moves, that capability disappears. The planner forces structured co-presence (OJT pairing) that makes tacit knowledge transferable through observation.",
+    w2_title:"Proactive rather than reactive succession",w2_desc:"Most farm succession failures are discovered only after the senior leaves. The Monte Carlo stress test simulates departure scenarios before they happen — quantifying exactly which skills would cause operational collapse if a key person were absent this week.",
+    w3_title:"OJT competing with harvest urgency",w3_desc:"Without explicit priority weighting, harvest urgency always wins and OJT never happens. By setting ojt urgency_weight=6 (higher than harvest=3) for Monte Carlo-flagged skills, the algorithm forces senior workers to spend time teaching — even in a busy week — protecting the farm's long-term capability.",
+    w4_title:"Downstream input to Yield & Labor Simulator",w4_desc:"The stress test's task_failure_probs feed back into the Yield & Labor Simulator's risk_alerts. A farm with critical knowledge concentration in coffee harvesting carries an additional revenue risk — quantified and surfaced to the Farm Owner dashboard.",
+    cta_label:"Navigation",cta_title:"Explore the other engines",cta_prev:"← Engine 05: Crop Health Predictor",cta_suite:"Suite Overview",cta_next:"Engine 07: Smart Irrigation →",
+    footer_note:"Portfolio case study · Manami Oyama"
+  },
+  ja: {
+    nav_back:"← スイート概要",hero_eyebrow:"エンジン 06 — 技術解説",hero_title:"<em>知識継承・スキルプランナー</em> の仕組み",hero_desc:"グリーディ優先度ベースのタスク最適化の平易な解説 — 熟練農家の暗黙知を適切な作業員・タスク・日付の組み合わせにマッチングし、OJTペアを生成し、モンテカルロシミュレーションで知識集中リスクをストレステストします。",one_liner:"ハワイの農業従事者の高齢化が進む中、重要な暗黙知 — コナコーヒーの摘み時を香りで判断する技術、タロ葉枯れ病を広がる前に見つける目利き — はごく少数のベテラン作業員に集中しています。このエンジンはその集中度をマッピングし、キーパーソン不在時のシナリオをシミュレーションし、技術が永久に失われる前に知識移転を強制するOJTペアリングを自動生成します。",
+    overview_label:"概要",overview_title:"何を最適化するか",ov_c1:"設定項目",ov_c2:"詳細",
+    ov_r1a:"作業員",ov_r1b:"7名（W01〜W07）：農場マネージャー（25年経験）1名＋シニアワーカー2名＋フィールドワーカー4名、各自作物スキルプロファイル付き",
+    ov_r2a:"タスクカタログ",ov_r2b:"収穫・植付・防除・剪定・除草・OJT — 各タスクに複雑度1〜3と担当作物が設定",
+    ov_r3a:"計画期間",ov_r4b:"7日間（N_DAYS）、作業員1人あたり8時間/日（作業開始06:00〜終了15:00）",
+    ov_r4a:"アルゴリズム",ov_r4b:"グリーディ優先度ベース割り当て（純Python、OR-Toolsなし）— 緊急度×複雑度スコアでタスクをソートし、適格作業員に順次割り当て",
+    ov_r5a:"ストレステスト",ov_r5b:"モンテカルロシミュレーション（200回）— 作業員不在をランダム化（離職5%・有給15%・病欠5%）してスキル領域別タスク失敗確率を計測",
+    ov_r6a:"OJT生成",ov_r6b:"2段階：モンテカルロ駆動の緊急OJT（優先度+10）＋ルールベースの知識ギャップOJT — 両方ともシニアトレーナー＋若手トレーニーペアに自動マッチング",
+    tech_label:"技術",tech_title:"グリーディ優先度割り当て＋モンテカルロストレステスト",
+    t1_pill:"優先度ベースのグリーディ割り当て",t1_title:"OR-Toolsなしの緊急度重み付きタスクスコアリング",t1_desc:"各タスクの優先度スコア：base = URGENCY_WEIGHT[カテゴリ] × 複雑度。カテゴリ重み：pest_control=4、ojt=6（知識継承のためシニア時間を保護する意図的な過重重み）、harvest=3、pruning=2。天候シナリオ乗数も適用 — winter_storm時の防除×2.5、flash_flood時の収穫・防除×2.0。モンテカルロフラグ付きOJTタスクは+10ボーナスを受け、キューの最高優先度になります。その後、優先度順に必要スキルレベルと残余時間を持つ適格作業員にグリーディ割り当て（バックトラックなし）。",
+    t2_pill:"モンテカルロ知識ストレステスト",t2_title:"200試行の不在シミュレーション",t2_desc:"run_knowledge_stress_test()が割り当てアルゴリズムを200回実行。毎回ランダムに不在イベントを適用：週全休5%（離職/長期休暇）、常勤の有給1〜2日15%、病欠1日5%。各試行で未割り当てタスクを記録。200試行後：スキル領域別failure_prob（タスクが未消化になる頻度）・作業員別dependency_score（その人が不在時にベースラインより何件多くタスクが失敗するか）・key_person_riskランキングを算出。この出力が緊急OJT生成を駆動します。",
+    km_label:"ナレッジマップ",km_title:"作物ドメイン別スキル集中リスク",km_desc:"generate_knowledge_map()が7名全員をスキャンし、シニアが「advanced」スキルを保有する人数に基づいて各作物ドメインをリスク分類します。",
+    km_c1:"作物ドメイン",km_c2:"リスクレベル",km_c3:"条件",
+    km_r1a:"全ドメイン",km_r1b:"Critical",km_r1c:"「advanced」スキルを持つシニアが0名 — 知識が完全に欠如",
+    km_r2a:"全ドメイン",km_r2b:"High",km_r2c:"「advanced」を持つシニアが正確に1名 — 単一障害点（キーパーソンリスク）",
+    km_r3a:"全ドメイン",km_r3b:"Medium",km_r3c:"複数シニアがいるが「advanced」作業員の合計が≤2名 — 脆弱なカバレッジ",
+    km_r4a:"全ドメイン",km_r4b:"Low",km_r4c:"「advanced」スキルを持つ作業員が3名以上 — 冗長なカバレッジ、不在に耐性あり",
+    prio_title:"タスク優先度計算",
+    ojt_label:"OJT生成",ojt_title:"2段階の自動OJTペアリング",
+    ojt1_badge:"ティア1 — モンテカルロ駆動（優先度+10）",ojt1_title:"ストレステスト結果からの緊急OJT",ojt1_desc:"ストレステストでfailure_prob≥10%のスキル領域ごとに緊急OJTタスクを自動生成（OJT_MC_作物名）。そのスキルの「advanced」を持つシニア作業員を見つけ、持っていない若手作業員の最上位者とペアにします。これらのタスクは優先度+10を受け、週間スケジュールの絶対最高優先度になります — アルゴリズムは他の全ての作業をスケジューリングする前に、シニアの時間を重要な知識継承に強制割り当てします。",
+    ojt2_badge:"ティア2 — ルールベース（通常優先度）",ojt2_title:"ナレッジマップ駆動のOJT",ojt2_desc:"独立して、generate_knowledge_map()がcritical・high・mediumの集中リスクを持つ作物ドメインを特定し、各ドメインにOJT_RB_作物名タスクを生成。モンテカルロフラグ付きタスクより優先度がやや低い（base − 2）ですが、ほとんどの通常農作業より高い優先度を維持。両ティアとも同じペアリングロジック：高度スキルを持つシニアトレーナー1名＋若手トレーニー1名、3時間ブロック。",
+    pipeline_label:"データパイプライン",pipeline_title:"プランナー内のデータフロー",
+    fp1_title:"master_dataから作業員プロファイルとタスクカタログを読み込み",fp1_desc:"get_default_workers()が7名の作業員プロファイル（作物→none/basic/advancedのスキルマップ、役割、利用可能日、日当）を提供。get_default_tasks()が複雑度・所要時間・作物割り当て付きのタスクカタログを提供。両方とも1回読み込んでキャッシュ。",
+    fp2_title:"モンテカルロストレステストがtask_failure_probsを生成",fp2_desc:"run_knowledge_stress_test()が200回のランダム不在シミュレーションを実行。出力のtask_failure_probeリスト（失敗確率降順ソート）が最も脆弱な作物スキル領域を特定。ティア1 OJT生成の主要入力です。",
+    fp3_title:"OJTタスクがタスクキューに動的に注入",fp3_desc:"optimize_task_assignment()がoptionalのstress_result引数を受け取ります。提供された場合、まずティア1 MCドリブンOJTタスクを生成し、次にgenerate_knowledge_map()からティア2ルールベースOJTタスクを追加。優先度ソート前に両ティアをタスクリストにマージ。",
+    fp4_title:"優先度ソートと7日間のグリーディ割り当て",fp4_desc:"全タスク（通常＋OJT）を優先度スコア降順でソート。OJTタスクはシニア＋若手ペアを強制 — 十分な時間を持つ適格なトレーナーまたはトレーニーがいない場合、タスクは未割り当てリストへ。通常タスクは残余時間を持つ最初のN名の適格作業員を選択。",
+    fp5_title:"KPI出力とsession_stateエクスポート",fp5_desc:"KPI：coverage_pct（割り当て/総タスク%）・完了OJTセッション数・knowledge_transfer_score（ojt_sessions / needed_ojt）・avg_senior_utilization。結果がFarm Ownerダッシュボード向けにsession_stateに書き込まれます。",
+    results_label:"出力結果",results_title:"プランナーが生成するもの",
+    r1_title:"週次タスク割り当てスケジュール",r1_desc:"どの作業員がどのタスクを担当するかを日別テーブルで表示 — OJTセッションはトレーナー/トレーニー名・作物・時間付き。フィールドスタッフは週間スケジュールを、マネージャーはカバレッジギャップを確認。",
+    r2_title:"知識集中リスクマップ",r2_desc:"どの作物でシニア単一障害点依存があるかを示す作物別リスクテーブル（Critical/High/Medium/Low）— 取締役レベルの事業継承計画議論の主要資料。",
+    r3_title:"キーパーソン依存度ランキング",r3_desc:"モンテカルロストレステストが作業員別dependency_scoreランキングを生成 — 各人が不在の際にベースラインと比べて何件多くのタスクが失敗するかを計測。高スコアは農場が失えない人材を特定します。",
+    r4_title:"知識継承スコア（0〜100%）",r4_desc:"min(完了OJTセッション / 必要OJTセッション, 1.0) × 100 — 今週どれだけ知識が能動的に継承されているかをFarm Ownerに伝える単一指標。目標：100%は全ての重要スキルギャップにOJTセッションが組まれていることを意味します。",
+    r5_title:"未割り当てタスクリスト",r5_desc:"スキル不足や時間不足でスケジューリングできなかったタスクを明示的に列挙 — ファームマネージャーが作業員の利用可能日調整や採用で対処できる可視的なバックログを作成します。",
+    why_label:"なぜ重要か",why_title:"解決する農場管理の課題",
+    w1_title:"文書化できない暗黙知",w1_desc:"経験豊富なハワイのコーヒー農家は香りと色で収穫適期を判断します — どのマニュアルにも書かれていない知識です。ベテラン作業員が引退・転居すると、その能力は永久に失われます。プランナーは構造化された同席（OJTペアリング）を強制し、暗黙知を観察を通じて移転可能にします。",
+    w2_title:"事後対応でなく事前の事業継承",w2_desc:"ほとんどの農場の事業継承失敗はベテランが去った後に発覚します。モンテカルロストレステストは離脱シナリオを起きる前にシミュレーション — キーパーソンが今週不在なら、どのスキルが業務崩壊を引き起こすかを正確に定量化します。",
+    w3_title:"収穫の緊急性と競合するOJT",w3_desc:"明示的な優先度重み付けがなければ、収穫の緊急性が常に勝ちOJTは実施されません。モンテカルロフラグが立ったスキルにojt urgency_weight=6（harvest=3より高い）を設定することで、繁忙期でもアルゴリズムがシニア作業員の教育時間を強制確保し、農場の長期的な能力を守ります。",
+    w4_title:"収量・労務シミュレーターへの下流入力",w4_desc:"ストレステストのtask_failure_probsが収量・労務シミュレーターのrisk_alertsにフィードバックされます。コーヒー収穫の知識集中が重大なリスクを持つ農場は追加の収益リスクを抱え、気象駆動の収益予測と並んでFarm Ownerダッシュボードに定量化・可視化されます。",
+    cta_label:"ナビゲーション",cta_title:"他のエンジンを見る",cta_prev:"← エンジン05: 作物健康予測",cta_suite:"スイート概要",cta_next:"エンジン07: スマート灌漑 →",
+    footer_note:"ポートフォリオ事例 · 大山愛美"
+  }
+};
+let lang = "en";
+function applyLang(l) {
+  lang = l;
+  document.querySelectorAll("[data-i18n]").forEach(el => {
+    const k = el.getAttribute("data-i18n");
+    if (T[l][k] !== undefined) el.innerHTML = T[l][k];
+  });
+  document.querySelectorAll(".lang-btn").forEach(btn => {
+    btn.classList.toggle("active", btn.getAttribute("data-lang-btn") === l);
+  });
+}
+document.querySelectorAll(".lang-btn").forEach(btn => {
+  btn.addEventListener("click", () => applyLang(btn.getAttribute("data-lang-btn")));
+});
+document.querySelectorAll(".fade-up").forEach((el, i) => {
+  el.style.animationDelay = (i * 0.08) + "s";
+});
+</script>
+</body>
+</html>

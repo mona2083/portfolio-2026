@@ -20,29 +20,36 @@
       --suite-sky:    #0369a1;
     }
 
-    /* ── Hero visual: 4-app grid ── */
+    /* ── Hero visual: 7-engine grid (3 cols) ── */
     .suite-hero-visual {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      width: 240px;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      width: 276px;
       flex-shrink: 0;
+    }
+    /* 7番目のタイルを中央列に配置 */
+    .suite-hero-visual .suite-app-tile:last-child {
+      grid-column: 2 / 3;
     }
     .suite-app-tile {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 10px;
-      padding: 14px 12px;
+      padding: 12px 8px;
       text-align: center;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
     .suite-app-tile:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.08); }
-    .suite-app-tile .tile-icon { font-size: 1.5rem; margin-bottom: 4px; }
-    .suite-app-tile .tile-label { font-size: 0.65rem; font-weight: 600; color: var(--muted); letter-spacing: 0.05em; line-height: 1.3; }
+    .suite-app-tile .tile-icon { font-size: 1.3rem; margin-bottom: 4px; }
+    .suite-app-tile .tile-label { font-size: 0.6rem; font-weight: 600; color: var(--muted); letter-spacing: 0.04em; line-height: 1.3; }
     .suite-app-tile.t-pl  { border-top: 3px solid var(--suite-green); }
     .suite-app-tile.t-lc  { border-top: 3px solid var(--suite-lime); }
     .suite-app-tile.t-hl  { border-top: 3px solid var(--suite-amber); }
     .suite-app-tile.t-yl  { border-top: 3px solid var(--suite-blue); }
+    .suite-app-tile.t-ch  { border-top: 3px solid var(--suite-teal); }
+    .suite-app-tile.t-ss  { border-top: 3px solid var(--suite-brown); }
+    .suite-app-tile.t-ir  { border-top: 3px solid var(--suite-sky); }
 
     /* ── Problem / Solution two-column ── */
     .prob-sol-grid {
@@ -383,9 +390,11 @@
       .prob-sol-grid    { grid-template-columns: 1fr; }
       .persona-grid     { grid-template-columns: 1fr; }
     }
-    @media (max-width: 600px) {
-      .suite-hero-visual { width: 180px; }
-      .suite-app-tile   { padding: 10px 8px; }
+    @media (max-width: 700px) {
+      .suite-hero-visual { width: 210px; }
+      .suite-app-tile   { padding: 10px 6px; }
+      .suite-app-tile .tile-icon { font-size: 1.1rem; }
+      .suite-app-tile .tile-label { font-size: 0.55rem; }
     }
     @media (max-width: 480px) {
       .suite-hero-visual { display: none; }
@@ -434,11 +443,15 @@
         </div>
       </div>
 
-      <!-- 4-tile visual (primary engines) -->
+      <!-- 7-engine visual (3-col grid, 7th centered) -->
       <div class="suite-hero-visual fade-up">
         <div class="suite-app-tile t-pl">
           <div class="tile-icon">📅</div>
           <div class="tile-label">Planting<br>Strategy</div>
+        </div>
+        <div class="suite-app-tile t-lc">
+          <div class="tile-icon">🌱</div>
+          <div class="tile-label">Crop<br>Lifecycle</div>
         </div>
         <div class="suite-app-tile t-hl">
           <div class="tile-icon">🌾</div>
@@ -446,11 +459,19 @@
         </div>
         <div class="suite-app-tile t-yl">
           <div class="tile-icon">🌦️</div>
-          <div class="tile-label">Yield & Labor<br>Simulator</div>
+          <div class="tile-label">Yield &amp;<br>Labor Sim</div>
         </div>
-        <div class="suite-app-tile t-lc">
+        <div class="suite-app-tile t-ch">
           <div class="tile-icon">🌿</div>
           <div class="tile-label">Crop Health<br>Predictor</div>
+        </div>
+        <div class="suite-app-tile t-ss">
+          <div class="tile-icon">🎓</div>
+          <div class="tile-label">Knowledge<br>Transfer</div>
+        </div>
+        <div class="suite-app-tile t-ir">
+          <div class="tile-icon">💧</div>
+          <div class="tile-label">Smart<br>Irrigation</div>
         </div>
       </div>
     </div>

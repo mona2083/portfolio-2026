@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>How It Works — Harvest Logistics Optimizer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&family=Noto+Serif+JP:wght@300;400&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/style.css"/>
+  <style>
+    :root{--bg:#fdf8f0;--accent:#b45309;--accent2:#f0c882;--accent3:#fef3e2;--border:#f0d090;}
+    .constraint-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:20px;}
+    @media(max-width:700px){.constraint-grid{grid-template-columns:1fr;}}
+    .constraint-card{border:1px solid var(--border);border-radius:10px;padding:16px 18px;background:white;}
+    .badge{font-size:10px;font-weight:700;letter-spacing:.08em;padding:2px 8px;border-radius:12px;display:inline-block;margin-bottom:8px;}
+    .hard-badge{background:#fdecea;color:#c0392b;}
+    .soft-badge{background:#fff8e0;color:#b87a00;}
+    .urg-badge{background:#fef3e2;color:#b45309;}
+    .formula-box{background:#1a1a1a;color:#b7d5c8;border-radius:8px;padding:16px 20px;font-family:'Courier New',monospace;font-size:13px;line-height:1.7;margin:16px 0;}
+    .skill-table{width:100%;border-collapse:collapse;font-size:13px;margin:16px 0;}
+    .skill-table th{background:var(--accent3);padding:8px 12px;text-align:left;border:1px solid var(--border);font-weight:600;}
+    .skill-table td{padding:8px 12px;border:1px solid var(--border);vertical-align:top;}
+    .skill-table tr:nth-child(even) td{background:#fffdf8;}
+    .flow-steps{counter-reset:steps;list-style:none;padding:0;margin:24px 0 0;}
+    .flow-step{counter-increment:steps;display:flex;gap:18px;margin-bottom:20px;align-items:flex-start;}
+    .flow-step::before{content:counter(steps);min-width:32px;height:32px;border-radius:50%;background:var(--accent);color:white;font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;}
+    .flow-step h4{margin:0 0 4px;font-size:15px;}
+    .flow-step p{margin:0;font-size:13px;color:#555;line-height:1.6;}
+    .result-section{border-left:3px solid var(--accent);padding:10px 16px;margin:10px 0;background:white;border-radius:0 8px 8px 0;}
+    .result-section h4{margin:0 0 4px;font-size:14px;}
+    .result-section p{margin:0;font-size:13px;color:#555;}
+    .urgency-row{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0;}
+    .urgency-card{flex:1;min-width:130px;border-radius:8px;padding:12px 14px;background:white;border:1px solid var(--border);}
+    .urgency-card .u-dot{font-size:1.2rem;margin-bottom:4px;}
+    .urgency-card .u-label{font-size:10px;font-weight:700;letter-spacing:.08em;}
+    .urgency-card .u-penalty{font-size:12px;color:#555;margin-top:4px;font-family:'Courier New',monospace;}
+  </style>
+</head>
+<body>
+<nav>
+  <div class="nav-inner">
+    <a href="ag-tech-suite-index.html" class="nav-logo" style="text-decoration:none;color:inherit;">Ag-Tech Suite</a>
+    <div class="nav-links">
+      <a href="ag-tech-suite-index.html" class="btn-back" data-i18n="nav_back">← Suite Overview</a>
+      <div class="lang-toggle">
+        <button class="lang-btn active" data-lang-btn="en">EN</button>
+        <button class="lang-btn" data-lang-btn="ja">JA</button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="container">
+    <p class="hero-eyebrow fade-up" data-i18n="hero_eyebrow">Engine 03 — Technical Deep Dive</p>
+    <h1 class="hero-title fade-up" data-i18n="hero_title">How the <em>Harvest Logistics Optimizer</em> works</h1>
+    <p class="hero-desc fade-up" data-i18n="hero_desc">A plain-English explanation of CP-SAT interval variable scheduling — assigning workers, trucks, and equipment across parcels over a multi-day harvest horizon.</p>
+    <div class="one-liner fade-up"><p data-i18n="one_liner">Instead of a daily whiteboard assignment, this engine solves the entire week's harvest logistics as a job-shop scheduling problem — guaranteeing that urgent parcels are harvested first, skilled workers are matched to the right crops, and trucks never idle when produce is ready.</p></div>
+    <div class="btn-group fade-up" style="margin-bottom:20px">
+      <a href="ag-tech-suite-index.html" class="btn btn-outline" data-i18n="nav_back">← Suite Overview</a>
+    </div>
+  </div>
+</div>
+
+<section>
+  <div class="container">
+    <p class="section-label" data-i18n="overview_label">Overview</p>
+    <h2 class="section-title" data-i18n="overview_title">What it schedules</h2>
+    <table class="skill-table">
+      <thead><tr><th data-i18n="ov_c1">Setting</th><th data-i18n="ov_c2">Detail</th></tr></thead>
+      <tbody>
+        <tr><td data-i18n="ov_r1a">Workers</td><td data-i18n="ov_r1b">Up to 13 (5 full-time + 8 seasonal) — each with skill profile, availability days, and daily wage</td></tr>
+        <tr><td data-i18n="ov_r2a">Trucks</td><td data-i18n="ov_r2b">3 trucks with different capacity/refrigeration — assigned to tasks needing transport to Honolulu Port or Processing Plant</td></tr>
+        <tr><td data-i18n="ov_r3a">Planning horizon</td><td data-i18n="ov_r3b">7 days (Mon–Sun), 9-hour workday (6:00–15:00 — avoiding Hawaii's afternoon heat)</td></tr>
+        <tr><td data-i18n="ov_r4a">Task types</td><td data-i18n="ov_r4b">Harvest · Planting · Pest Control · Pruning · Weeding · OJT (Training) · Packing · Transit/Setup</td></tr>
+        <tr><td data-i18n="ov_r5a">Solver</td><td data-i18n="ov_r5b">OR-Tools CP-SAT with Interval Variables and AddNoOverlap constraints</td></tr>
+        <tr><td data-i18n="ov_r6a">Solve time</td><td data-i18n="ov_r6b">≤ 30 seconds (configurable, 120s max in global simulation mode)</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section style="background:var(--accent3)">
+  <div class="container">
+    <p class="section-label" data-i18n="tech_label">The Technology</p>
+    <h2 class="section-title" data-i18n="tech_title">Job-shop scheduling with interval variables</h2>
+    <div class="tech-cards">
+      <div class="tech-card">
+        <div class="tech-pill" data-i18n="t1_pill">Interval variables — the key abstraction</div>
+        <h3 class="tech-title" data-i18n="t1_title">CP-SAT Interval Variables + AddNoOverlap</h3>
+        <p class="tech-desc" data-i18n="t1_desc">Each task assignment is modelled as an Interval Variable: a start time, duration, and end time — all linked by CP-SAT constraints. AddNoOverlap across all intervals assigned to the same worker (or truck) guarantees no double-booking. This is the same technique used in industrial scheduling for manufacturing lines and airport gates. The solver explores millions of feasible assignment combinations and proves the optimal assignment within the time limit.</p>
+      </div>
+      <div class="tech-card">
+        <div class="tech-pill" data-i18n="t2_pill">Urgency-weighted objective with labor cost</div>
+        <h3 class="tech-title" data-i18n="t2_title">Multi-Priority Objective Function</h3>
+        <p class="tech-desc" data-i18n="t2_desc">The solver minimizes: PENALTY_URGENCY_HIGH_MISS × 50,000 + PENALTY_URGENCY_MED_MISS × 10,000 + labor_cost × 1 + truck_cost × 1 − BONUS_ADVANCED_MATCH × 300 − BONUS_FULLTIME_UTIL × 50. A single missed critical harvest (50,000 pts) outweighs hundreds of dollars of extra labor cost. The hierarchy ensures health-flagged parcels are always harvested first, then cost is minimized within that constraint.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <p class="section-label" data-i18n="urg_label">Urgency System</p>
+    <h2 class="section-title" data-i18n="urg_title">Four priority levels, seeded by Health Predictor</h2>
+    <p class="section-desc" data-i18n="urg_desc">Urgency is not manually assigned — it is derived from the Crop Health Predictor's risk score for each parcel.</p>
+    <div class="urgency-row">
+      <div class="urgency-card">
+        <div class="u-dot">🔴</div>
+        <div class="u-label" style="color:#c0392b;" data-i18n="urg1_label">CRITICAL (this week)</div>
+        <div class="u-penalty" data-i18n="urg1_penalty">Health risk ≥ 0.70<br>Miss penalty: 50,000 pts</div>
+      </div>
+      <div class="urgency-card">
+        <div class="u-dot">🟠</div>
+        <div class="u-label" style="color:#b45309;" data-i18n="urg2_label">HIGH (this month)</div>
+        <div class="u-penalty" data-i18n="urg2_penalty">Health risk ≥ 0.50<br>Miss penalty: 10,000 pts</div>
+      </div>
+      <div class="urgency-card">
+        <div class="u-dot">🟡</div>
+        <div class="u-label" style="color:#856404;" data-i18n="urg3_label">MEDIUM (watch)</div>
+        <div class="u-penalty" data-i18n="urg3_penalty">Health risk ≥ 0.30<br>Miss penalty: 0 pts</div>
+      </div>
+      <div class="urgency-card">
+        <div class="u-dot">🟢</div>
+        <div class="u-label" style="color:#155724;" data-i18n="urg4_label">LOW (OK)</div>
+        <div class="u-penalty" data-i18n="urg4_penalty">Health risk &lt; 0.30<br>No penalty</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="background:var(--accent3)">
+  <div class="container">
+    <p class="section-label" data-i18n="con_label">Constraint Design</p>
+    <h2 class="section-title" data-i18n="con_title">Hard constraints that model real farm operations</h2>
+    <div class="constraint-grid">
+      <div class="constraint-card">
+        <span class="badge hard-badge" data-i18n="hard_badge">HARD</span>
+        <h4 data-i18n="c1_title">Worker no-overlap</h4>
+        <p data-i18n="c1_desc">No worker can be assigned two tasks that overlap in time. Implemented via AddNoOverlap over all Interval Variables assigned to each worker. The solver never double-books.</p>
+      </div>
+      <div class="constraint-card">
+        <span class="badge hard-badge" data-i18n="hard_badge">HARD</span>
+        <h4 data-i18n="c2_title">Truck no-overlap</h4>
+        <p data-i18n="c2_desc">Each truck can only run one delivery at a time. Interval Variables for truck assignments are subject to AddNoOverlap — a truck carrying papaya to Honolulu Port cannot simultaneously be assigned a macadamia run.</p>
+      </div>
+      <div class="constraint-card">
+        <span class="badge hard-badge" data-i18n="hard_badge">HARD</span>
+        <h4 data-i18n="c3_title">Worker availability</h4>
+        <p data-i18n="c3_desc">Each worker has available_days[] per week (accounting for days off, illness, contract limits). Tasks are only assigned on days the worker is available. Seasonal workers have limited availability days.</p>
+      </div>
+      <div class="constraint-card">
+        <span class="badge hard-badge" data-i18n="hard_badge">HARD</span>
+        <h4 data-i18n="c4_title">Skill matching</h4>
+        <p data-i18n="c4_desc">Harvest tasks require workers with at least "basic" skill for that crop type. Advanced workers have a higher effective harvest rate (100% vs 70% for basic). Tasks are only assigned to skill-eligible workers.</p>
+      </div>
+      <div class="constraint-card">
+        <span class="badge urg-badge" data-i18n="urg_badge">PRIORITY</span>
+        <h4 data-i18n="c5_title">2-hour task chunking</h4>
+        <p data-i18n="c5_desc">Large harvest tasks are split into 2-hour sub-tasks. This maximizes scheduling flexibility — a 6-hour harvest becomes three 2-hour chunks that can be distributed across workers and time slots. Smaller blocks fit more easily into gaps in the schedule.</p>
+      </div>
+      <div class="constraint-card">
+        <span class="badge urg-badge" data-i18n="urg_badge">PRIORITY</span>
+        <h4 data-i18n="c6_title">OJT pair co-scheduling</h4>
+        <p data-i18n="c6_desc">When the Knowledge Transfer Planner outputs OJT pairs (senior + junior), they are embedded as soft constraints: the solver prefers to assign both to the same task on the same day. OJT tasks are typed as "ojt" and handled separately from production harvest tasks.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <p class="section-label" data-i18n="math_label">The Math</p>
+    <h2 class="section-title" data-i18n="math_title">Objective function &amp; harvest rate model</h2>
+    <div class="formula-box">
+# Objective (minimize)
+PENALTY_URGENCY_HIGH_MISS  × 50,000   (per missed critical task)
++ PENALTY_URGENCY_MED_MISS × 10,000   (per missed high-urgency task)
++ labor_cost_weight        × 1         (total daily wage × days worked)
++ truck_cost_weight        × 1         (truck runs × cost_per_run)
+− BONUS_ADVANCED_MATCH     × 300       (per advanced-skill worker on matching crop)
+− BONUS_FULLTIME_UTIL      × 50        (per full-time worker utilized)
+
+# Harvest rate model (kg/hour)
+effective_rate = base_rate[crop] × 0.85  (field efficiency factor)
+  base_rate: papaya=60, coffee=20, taro=80, macadamia=40, pineapple=50 kg/h
+
+# Hours needed for a harvest task
+required_hours = ceil(est_kg / (Σ worker_rate × skill_factor))
+  skill_factor: advanced=1.0, basic=0.7
+
+# Sub-task chunking
+while remaining_hours > 0:
+    chunk_duration = min(2, remaining_hours)   # 2h max blocks
+    create_subtask(duration=chunk_duration)
+    remaining_hours -= chunk_duration
+    </div>
+  </div>
+</section>
+
+<section style="background:var(--accent3)">
+  <div class="container">
+    <p class="section-label" data-i18n="resources_label">Farm Resources</p>
+    <h2 class="section-title" data-i18n="resources_title">Workers, trucks &amp; cargo types</h2>
+    <table class="skill-table">
+      <thead><tr><th data-i18n="rc_c1">Resource</th><th data-i18n="rc_c2">Count</th><th data-i18n="rc_c3">Key Constraint</th></tr></thead>
+      <tbody>
+        <tr><td data-i18n="rc_fm">Farm Manager</td><td>1</td><td data-i18n="rc_fm_c">Advanced in all crops · 5 days/week · ¥$280/day</td></tr>
+        <tr><td data-i18n="rc_sw">Senior Workers</td><td>2</td><td data-i18n="rc_sw_c">Advanced skill · OJT trainers · Full-time</td></tr>
+        <tr><td data-i18n="rc_w">Field Workers</td><td>2</td><td data-i18n="rc_w_c">Basic to advanced mix · Full-time</td></tr>
+        <tr><td data-i18n="rc_s">Seasonal Workers</td><td>Up to 8</td><td data-i18n="rc_s_c">Basic skill · Limited availability · $160/day</td></tr>
+        <tr><td data-i18n="rc_t1">Refrigerated Truck</td><td>1</td><td data-i18n="rc_t1_c">Required for papaya (ethylene producer). 2-ton capacity.</td></tr>
+        <tr><td data-i18n="rc_t2">Standard Trucks</td><td>2</td><td data-i18n="rc_t2_c">Coffee, taro, macadamia deliveries. 3-ton capacity each.</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:13px;color:#666;margin-top:8px;" data-i18n="cargo_note">Cargo compatibility: Papaya (ethylene producer) cannot share a truck with pineapple (ethylene sensitive). Encoded as hard constraint on truck assignment variables.</p>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <p class="section-label" data-i18n="results_label">Results</p>
+    <h2 class="section-title" data-i18n="results_title">What the app shows</h2>
+    <div class="result-section"><h4 data-i18n="res1_title">① 7-day Gantt chart — worker × day × time slot</h4><p data-i18n="res1_desc">Color-coded by crop type and task type. Hover to see worker name, task, parcel, skill match, and assigned truck. Unscheduled urgent tasks flagged in red.</p></div>
+    <div class="result-section"><h4 data-i18n="res2_title">② Truck logistics timeline</h4><p data-i18n="res2_desc">Per-truck timeline showing pickup parcel, cargo kg, destination (Honolulu Port / Processing Plant / Local Market), departure time, and cargo type compatibility.</p></div>
+    <div class="result-section"><h4 data-i18n="res3_title">③ Short-staffed scenario comparison</h4><p data-i18n="res3_desc">Run with full staff (13 workers) vs. short-staffed (5 workers, 0 seasonal). Side-by-side comparison shows which urgent tasks get dropped and by how much total revenue is at risk.</p></div>
+    <div class="result-section"><h4 data-i18n="res4_title">④ Solve summary metrics</h4><p data-i18n="res4_desc">Total penalty score, tasks scheduled vs. total, total labor cost, truck runs, and skill-match bonus earned. Infeasible if critical harvest cannot be completed within the week.</p></div>
+    <div class="result-section"><h4 data-i18n="res5_title">⑤ OJT assignment view</h4><p data-i18n="res5_desc">When OJT pairs are active: Trainer and Trainee shown on the same task with pairing indicator. Days where the pair was co-scheduled vs. separated shown in the summary.</p></div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <p class="section-label" data-i18n="why_label">Why It Matters</p>
+    <h2 class="section-title" data-i18n="why_title">What this demonstrates</h2>
+    <div class="why-grid">
+      <div class="why-card fade-up"><div class="why-icon">⚙️</div><div class="why-title" data-i18n="w1_title">Industrial-Grade Scheduling</div><p class="why-desc" data-i18n="w1_desc">Interval variable job-shop scheduling with AddNoOverlap is the same technique used in factory floor scheduling, airport gate assignment, and surgical theater planning. Applied here to a farm, it demonstrates transferable optimization expertise.</p></div>
+      <div class="why-card fade-up"><div class="why-icon">🔗</div><div class="why-title" data-i18n="w2_title">Cross-Engine Inputs</div><p class="why-desc" data-i18n="w2_desc">Urgency weights come from the Crop Health Predictor. OJT pairs come from the Knowledge Transfer Planner. Worker availability comes from master_data.py. This engine consumes outputs from three other engines — demonstrating pipeline integration depth.</p></div>
+      <div class="why-card fade-up"><div class="why-icon">🌾</div><div class="why-title" data-i18n="w3_title">Domain Constraints Encoded</div><p class="why-desc" data-i18n="w3_desc">Harvest rates per crop type, ethylene cargo incompatibility, Hawaii's early-morning work schedule (6:00–15:00 to avoid afternoon heat), refrigeration requirements — all encoded as first-class model parameters.</p></div>
+      <div class="why-card fade-up"><div class="why-icon">📊</div><div class="why-title" data-i18n="w4_title">Counterfactual Scenarios</div><p class="why-desc" data-i18n="w4_desc">The short-staffed scenario button isn't a demo feature — it's a decision support tool. Managers can quantify exactly how much revenue risk they carry if seasonal workers aren't hired, before making the staffing decision.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section" style="background:#fff;">
+  <div class="container">
+    <div class="offer-box">
+      <p class="section-label" data-i18n="cta_label">Explore</p>
+      <h3 style="font-family:var(--serif);font-size:1.8rem;margin-bottom:16px;" data-i18n="cta_title">Run the full-staff vs. short-staffed comparison</h3>
+      <p style="color:var(--muted);margin-bottom:32px;" data-i18n="cta_desc">From the Portal, run the global simulation with Normal vs. Short-staffed mode. Compare the Gantt charts side by side to see which urgent tasks get dropped and what revenue is at risk.</p>
+      <div class="btn-group">
+        <a href="ats-how-it-works-crop-lifecycle.html" class="btn btn-outline" data-i18n="cta_btn1">← Engine 02: Lifecycle</a>
+        <a href="ag-tech-suite-index.html" class="btn btn-outline" data-i18n="cta_btn2">Suite Overview</a>
+        <a href="ats-how-it-works-yield-labor.html" class="btn btn-primary" data-i18n="cta_btn3">Next: Yield Simulator →</a>
+      </div>
+    </div>
+  </div>
+</section>
+<footer><div class="container"><p data-i18n="footer">© 2026 Manami Oyama · Built with HTML, CSS &amp; JavaScript</p></div></footer>
+<script>
+const PAGE_TRANSLATIONS={en:{nav_back:"← Suite Overview",hero_eyebrow:"Engine 03 — Technical Deep Dive",hero_title:"How the Harvest Logistics Optimizer works",hero_desc:"A plain-English explanation of CP-SAT interval variable scheduling — assigning workers, trucks, and equipment across parcels over a multi-day harvest horizon.",one_liner:"Instead of a daily whiteboard assignment, this engine solves the entire week's harvest logistics as a job-shop scheduling problem — guaranteeing urgent parcels are harvested first, skilled workers match the right crops, and trucks never idle when produce is ready.",overview_label:"Overview",overview_title:"What it schedules",ov_c1:"Setting",ov_c2:"Detail",ov_r1a:"Workers",ov_r1b:"Up to 13 (5 full-time + 8 seasonal) — each with skill profile, availability days, and daily wage",ov_r2a:"Trucks",ov_r2b:"3 trucks with different capacity/refrigeration — assigned to tasks needing transport",ov_r3a:"Planning horizon",ov_r3b:"7 days (Mon–Sun), 9-hour workday (6:00–15:00 — avoiding Hawaii's afternoon heat)",ov_r4a:"Task types",ov_r4b:"Harvest · Planting · Pest Control · Pruning · Weeding · OJT · Packing · Transit",ov_r5a:"Solver",ov_r5b:"OR-Tools CP-SAT with Interval Variables and AddNoOverlap constraints",ov_r6a:"Solve time",ov_r6b:"≤ 30 seconds (configurable)",tech_label:"The Technology",tech_title:"Job-shop scheduling with interval variables",t1_pill:"Interval variables — the key abstraction",t1_title:"CP-SAT Interval Variables + AddNoOverlap",t1_desc:"Each task assignment is an Interval Variable: start time, duration, and end time — linked by CP-SAT constraints. AddNoOverlap across all intervals for the same worker (or truck) guarantees no double-booking. The same technique is used for airport gates and manufacturing lines.",t2_pill:"Urgency-weighted objective with labor cost",t2_title:"Multi-Priority Objective Function",t2_desc:"Minimize: missed critical harvest (50,000 pts/task) + missed high-urgency (10,000 pts) + labor cost + truck cost − advanced-skill match bonus (300 pts) − full-time utilization bonus (50 pts). A single missed critical harvest outweighs hundreds of dollars of extra labor cost.",urg_label:"Urgency System",urg_title:"Four priority levels, seeded by Health Predictor",urg_desc:"Urgency is derived from the Crop Health Predictor's risk score for each parcel.",urg1_label:"CRITICAL (this week)",urg1_penalty:"Health risk ≥ 0.70\nMiss penalty: 50,000 pts",urg2_label:"HIGH (this month)",urg2_penalty:"Health risk ≥ 0.50\nMiss penalty: 10,000 pts",urg3_label:"MEDIUM (watch)",urg3_penalty:"Health risk ≥ 0.30\nMiss penalty: 0 pts",urg4_label:"LOW (OK)",urg4_penalty:"Health risk < 0.30\nNo penalty",con_label:"Constraint Design",con_title:"Hard constraints that model real farm operations",hard_badge:"HARD — Always enforced",urg_badge:"PRIORITY",c1_title:"Worker no-overlap",c1_desc:"No worker can be assigned two tasks that overlap in time. AddNoOverlap over all Interval Variables per worker.",c2_title:"Truck no-overlap",c2_desc:"Each truck can only run one delivery at a time. Interval Variables for truck assignments are no-overlap constrained.",c3_title:"Worker availability",c3_desc:"Each worker has available_days[] per week. Tasks only assigned on available days. Seasonal workers have limited days.",c4_title:"Skill matching",c4_desc:"Harvest tasks require workers with at least 'basic' skill for that crop. Advanced workers harvest at 100% rate; basic at 70%.",c5_title:"2-hour task chunking",c5_desc:"Large harvest tasks split into 2-hour sub-tasks to maximize scheduling flexibility. 6-hour harvest → three 2-hour chunks that distribute across workers and time slots.",c6_title:"OJT pair co-scheduling",c6_desc:"Knowledge Transfer Planner OJT pairs embedded as soft constraints — solver prefers to assign senior + junior to the same task on the same day.",math_label:"The Math",math_title:"Objective function & harvest rate model",resources_label:"Farm Resources",resources_title:"Workers, trucks & cargo types",rc_c1:"Resource",rc_c2:"Count",rc_c3:"Key Constraint",rc_fm:"Farm Manager",rc_fm_c:"Advanced in all crops · 5 days/week · $280/day",rc_sw:"Senior Workers",rc_sw_c:"Advanced skill · OJT trainers · Full-time",rc_w:"Field Workers",rc_w_c:"Basic to advanced mix · Full-time",rc_s:"Seasonal Workers",rc_s_c:"Basic skill · Limited availability · $160/day",rc_t1:"Refrigerated Truck",rc_t1_c:"Required for papaya (ethylene producer). 2-ton capacity.",rc_t2:"Standard Trucks",rc_t2_c:"Coffee, taro, macadamia deliveries. 3-ton capacity each.",cargo_note:"Cargo compatibility: Papaya (ethylene producer) cannot share a truck with pineapple (ethylene sensitive). Encoded as hard constraint.",results_label:"Results",results_title:"What the app shows",res1_title:"① 7-day Gantt chart — worker × day × time slot",res1_desc:"Color-coded by crop type and task. Unscheduled urgent tasks flagged in red.",res2_title:"② Truck logistics timeline",res2_desc:"Per-truck timeline: pickup parcel, cargo kg, destination, departure time, cargo type compatibility.",res3_title:"③ Short-staffed scenario comparison",res3_desc:"Full staff (13) vs. short-staffed (5 + 0 seasonal) side-by-side. Shows which urgent tasks drop and revenue at risk.",res4_title:"④ Solve summary metrics",res4_desc:"Total penalty, tasks scheduled vs. total, labor cost, truck runs, skill-match bonus earned.",res5_title:"⑤ OJT assignment view",res5_desc:"Trainer and Trainee shown on the same task with pairing indicator. Days co-scheduled vs. separated shown in summary.",why_label:"Why It Matters",why_title:"What this demonstrates",w1_title:"Industrial-Grade Scheduling",w1_desc:"Interval variable job-shop scheduling with AddNoOverlap is the same technique used in factory floor scheduling and airport gate assignment — applied here to farm harvest operations.",w2_title:"Cross-Engine Inputs",w2_desc:"Urgency weights from Health Predictor. OJT pairs from Knowledge Transfer Planner. Worker availability from master_data.py. Three engines feed this one.",w3_title:"Domain Constraints Encoded",w3_desc:"Harvest rates per crop, ethylene cargo incompatibility, Hawaii's early-morning work schedule, refrigeration requirements — all first-class model parameters.",w4_title:"Counterfactual Scenarios",w4_desc:"The short-staffed button is a decision support tool. Managers quantify revenue risk from not hiring seasonal workers, before making the staffing decision.",cta_label:"Explore",cta_title:"Run the full-staff vs. short-staffed comparison",cta_desc:"Run the global simulation with Normal vs. Short-staffed mode. Compare Gantt charts to see which urgent tasks drop and what revenue is at risk.",cta_btn1:"← Engine 02: Lifecycle",cta_btn2:"Suite Overview",cta_btn3:"Next: Yield Simulator →",footer:"© 2026 Manami Oyama · Built with HTML, CSS & JavaScript"},
+ja:{nav_back:"← スイート概要",hero_eyebrow:"エンジン 03 — 技術解説",hero_title:"<em>収穫物流オプティマイザー</em>の仕組み",hero_desc:"CP-SAT区間変数スケジューリングが複数日の収穫期間にわたって作業員・トラック・設備を区画に割り当てる仕組みを平易な言葉で解説します。",one_liner:"日次ホワイトボード配置の代わりに、このエンジンは1週間の収穫物流全体をジョブショップスケジューリング問題として解きます——緊急区画を最優先で収穫し、熟練作業員を適切な作物にマッチングし、出荷準備完了時にトラックが遊休することがないよう保証します。",overview_label:"概要",overview_title:"何をスケジュールするか",ov_c1:"設定項目",ov_c2:"詳細",ov_r1a:"作業員",ov_r1b:"最大13名（常勤5名＋季節労働者8名） — 各作業員にスキルプロファイル・稼働可能日・日当",ov_r2a:"トラック",ov_r2b:"異なる積載量・冷蔵機能を持つ3台 — 輸送が必要なタスクに割り当て",ov_r3a:"計画期間",ov_r3b:"7日間（月〜日）、9時間労働（6:00〜15:00 — ハワイの午後の暑さを回避）",ov_r4a:"タスク種別",ov_r4b:"収穫 · 作付 · 防除 · 剪定 · 草刈り · OJT · 選別パッキング · 移動準備",ov_r5a:"ソルバー",ov_r5b:"OR-Tools CP-SAT（区間変数＋AddNoOverlap制約）",ov_r6a:"求解時間",ov_r6b:"30秒以内（設定可能）",tech_label:"技術",tech_title:"区間変数によるジョブショップスケジューリング",t1_pill:"区間変数 — 核心となる抽象化",t1_title:"CP-SAT区間変数＋AddNoOverlap",t1_desc:"各タスク割り当ては区間変数（開始時刻・期間・終了時刻）としてモデル化され、CP-SAT制約でリンクされます。同じ作業員（またはトラック）に割り当てられた全区間にAddNoOverlapを適用し、二重予約を保証ゼロにします。空港ゲートや工場ライン管理と同じ手法です。",t2_pill:"緊急度重み付き目的関数と労働コスト",t2_title:"多優先度目的関数",t2_desc:"最小化：緊急収穫の逃し（50,000点/タスク）＋高優先度の逃し（10,000点）＋労働コスト＋トラックコスト−上級スキルマッチングボーナス（300点）−常勤稼働ボーナス（50点）。緊急収穫1件の逃しは数百ドルの余分な労働コストを遥かに上回ります。",urg_label:"緊急度システム",urg_title:"品質予測エンジンが設定する4段階優先度",urg_desc:"緊急度は手動設定ではなく、品質予測エンジンの各区画リスクスコアから導出されます。",urg1_label:"緊急（今週中）",urg1_penalty:"健全性リスク ≥ 0.70\n逃しペナルティ: 50,000点",urg2_label:"高（今月中）",urg2_penalty:"健全性リスク ≥ 0.50\n逃しペナルティ: 10,000点",urg3_label:"中（要注意）",urg3_penalty:"健全性リスク ≥ 0.30\n逃しペナルティ: 0点",urg4_label:"低（余裕あり）",urg4_penalty:"健全性リスク < 0.30\nペナルティなし",con_label:"制約設計",con_title:"実際の農場運営をモデル化するハード制約",hard_badge:"ハード — 常に強制",urg_badge:"優先度",c1_title:"作業員の重複なし",c1_desc:"作業員に時間が重複する2つのタスクを同時に割り当てることはできません。各作業員の全区間変数にAddNoOverlapを適用。",c2_title:"トラックの重複なし",c2_desc:"各トラックは同時に1件の配送のみ。トラック割り当ての区間変数にAddNoOverlapを適用。",c3_title:"作業員の稼働可能日",c3_desc:"各作業員はweekごとにavailable_days[]があります。稼働可能日にのみタスクを割り当て。季節労働者は稼働日数が限定的。",c4_title:"スキルマッチング",c4_desc:"収穫タスクはその作物に対して最低「基本」スキルを持つ作業員を要求。上級作業員の収穫レートは100%、基本は70%。",c5_title:"2時間タスク分割",c5_desc:"大きな収穫タスクを2時間のサブタスクに分割してスケジューリング柔軟性を最大化。6時間収穫→3つの2時間チャンクに分散。",c6_title:"OJTペア同時スケジューリング",c6_desc:"知識継承プランナーのOJTペアをソフト制約として組み込み——先輩＋後輩を同じタスク・同じ日に割り当てることをソルバーが優先します。",math_label:"数式",math_title:"目的関数と収穫レートモデル",resources_label:"農場リソース",resources_title:"作業員・トラック・積荷タイプ",rc_c1:"リソース",rc_c2:"数",rc_c3:"主要制約",rc_fm:"農場マネージャー",rc_fm_c:"全作物上級 · 週5日 · $280/日",rc_sw:"熟練農家",rc_sw_c:"上級スキル · OJTトレーナー · 常勤",rc_w:"現場作業員",rc_w_c:"基本〜上級混在 · 常勤",rc_s:"季節労働者",rc_s_c:"基本スキル · 限定稼働日 · $160/日",rc_t1:"冷蔵トラック",rc_t1_c:"パパイヤ（エチレン発生）に必須。積載2トン。",rc_t2:"普通トラック",rc_t2_c:"コーヒー・タロイモ・マカダミア配送。積載3トン各。",cargo_note:"積荷適合性：パパイヤ（エチレン発生）はパイナップル（エチレン敏感）と同乗不可。トラック割り当て変数のハード制約としてエンコード。",results_label:"結果",results_title:"アプリが表示するもの",res1_title:"① 7日間ガントチャート — 作業員×日×時間スロット",res1_desc:"作物種別・タスク種別でカラーコード。スケジュール未登録の緊急タスクを赤でフラグ。",res2_title:"② トラック物流タイムライン",res2_desc:"トラック別タイムライン：ピックアップ区画・積荷kg・配送先・出発時刻・積荷タイプ適合性。",res3_title:"③ 人手不足シナリオとの比較",res3_desc:"フルスタッフ（13名）vs. 人手不足（常勤5名＋季節0名）を並べて比較。どの緊急タスクが落ちるか・収益リスクを定量化。",res4_title:"④ 求解サマリー指標",res4_desc:"総ペナルティスコア・スケジュール済みタスク数/総数・労働コスト・トラック稼働回数・スキルマッチングボーナス。",res5_title:"⑤ OJT配置ビュー",res5_desc:"トレーナーとトレーニーを同タスクにペアリングインジケーター付きで表示。同時配置vs.別配置の日数をサマリーに表示。",why_label:"なぜ重要か",why_title:"このエンジンが示すもの",w1_title:"産業級スケジューリング",w1_desc:"AddNoOverlap付き区間変数ジョブショップスケジューリングは、工場フロアや空港ゲート管理と同じ手法——農場収穫作業に適用することで汎用的な最適化の専門性を示します。",w2_title:"クロスエンジン入力",w2_desc:"緊急度重みは品質予測エンジンから。OJTペアは知識継承プランナーから。作業員稼働日はmaster_data.pyから。3つのエンジンがこのエンジンに供給します。",w3_title:"農業ドメイン制約のエンコード",w3_desc:"作物別収穫レート・エチレン積荷非互換性・ハワイの早朝勤務スケジュール・冷蔵要件——全てファーストクラスのモデルパラメータとして組み込み。",w4_title:"反事実シナリオ分析",w4_desc:"人手不足ボタンはデモ機能ではなく意思決定支援ツール。季節労働者を雇わない場合の収益リスクを、採用決定前に定量化できます。",cta_label:"体験する",cta_title:"フルスタッフ vs. 人手不足比較を実行",cta_desc:"ポータルからノーマルモードと人手不足モードでグローバルシミュレーションを実行し、ガントチャートを比較してどの緊急タスクが落ちるか確認してください。",cta_btn1:"← エンジン02：ライフサイクル",cta_btn2:"スイート概要",cta_btn3:"次：収益シミュレーター →",footer:"© 2026 Manami Oyama · Built with HTML, CSS & JavaScript"}};
+let currentLang="en";
+function applyTranslations(lang){const t=PAGE_TRANSLATIONS[lang];if(!t)return;document.querySelectorAll("[data-i18n]").forEach(el=>{const k=el.getAttribute("data-i18n");if(t[k]!==undefined)el.innerHTML=t[k];});document.querySelectorAll("[data-lang-btn]").forEach(b=>b.classList.toggle("active",b.getAttribute("data-lang-btn")===lang));currentLang=lang;}
+document.querySelectorAll("[data-lang-btn]").forEach(b=>b.addEventListener("click",()=>applyTranslations(b.getAttribute("data-lang-btn"))));
+const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add("visible");}),{threshold:0.08});
+document.querySelectorAll(".fade-up,.why-card").forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>

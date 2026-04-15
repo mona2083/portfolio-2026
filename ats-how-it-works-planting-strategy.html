@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>How It Works — Planting Strategy Optimizer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&family=Noto+Serif+JP:wght@300;400&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/style.css"/>
+  <style>
+    :root{--bg:#f3f7f4;--accent:#2a7a3c;--accent2:#a8d5b5;--accent3:#e8f5ec;--border:#b8d8c2;}
+    .constraint-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:20px;}
+    @media(max-width:700px){.constraint-grid{grid-template-columns:1fr;}}
+    .constraint-card{border:1px solid var(--border);border-radius:10px;padding:16px 18px;background:white;}
+    .badge{font-size:10px;font-weight:700;letter-spacing:.08em;padding:2px 8px;border-radius:12px;display:inline-block;margin-bottom:8px;}
+    .hard-badge{background:#fdecea;color:#c0392b;}
+    .soft-badge{background:#fff8e0;color:#b87a00;}
+    .obj-badge{background:#e8f5ec;color:#2a7a3c;}
+    .formula-box{background:#1a1a1a;color:#b7d5c8;border-radius:8px;padding:16px 20px;font-family:'Courier New',monospace;font-size:13px;line-height:1.7;margin:16px 0;}
+    .skill-table{width:100%;border-collapse:collapse;font-size:13px;margin:16px 0;}
+    .skill-table th{background:var(--accent3);padding:8px 12px;text-align:left;border:1px solid var(--border);font-weight:600;}
+    .skill-table td{padding:8px 12px;border:1px solid var(--border);vertical-align:top;}
+    .skill-table tr:nth-child(even) td{background:#fafdf8;}
+    .flow-steps{counter-reset:steps;list-style:none;padding:0;margin:24px 0 0;}
+    .flow-step{counter-increment:steps;display:flex;gap:18px;margin-bottom:20px;align-items:flex-start;}
+    .flow-step::before{content:counter(steps);min-width:32px;height:32px;border-radius:50%;background:var(--accent);color:white;font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;}
+    .flow-step h4{margin:0 0 4px;font-size:15px;}
+    .flow-step p{margin:0;font-size:13px;color:#555;line-height:1.6;}
+    .result-section{border-left:3px solid var(--accent);padding:10px 16px;margin:10px 0;background:white;border-radius:0 8px 8px 0;}
+    .result-section h4{margin:0 0 4px;font-size:14px;}
+    .result-section p{margin:0;font-size:13px;color:#555;}
+    .pipe-badge{display:inline-block;background:var(--accent);color:#fff;font-size:11px;font-weight:600;letter-spacing:.06em;padding:3px 10px;border-radius:20px;margin-bottom:8px;}
+  </style>
+</head>
+<body>
+<nav>
+  <div class="nav-inner">
+    <a href="ag-tech-suite-index.html" class="nav-logo" style="text-decoration:none;color:inherit;">Ag-Tech Suite</a>
+    <div class="nav-links">
+      <a href="ag-tech-suite-index.html" class="btn-back" data-i18n="nav_back">← Suite Overview</a>
+      <div class="lang-toggle">
+        <button class="lang-btn active" data-lang-btn="en">EN</button>
+        <button class="lang-btn" data-lang-btn="ja">JA</button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="container">
+    <p class="hero-eyebrow fade-up" data-i18n="hero_eyebrow">Engine 01 — Technical Deep Dive</p>
+    <h1 class="hero-title fade-up" data-i18n="hero_title">How the <em>Planting Strategy Optimizer</em> works</h1>
+    <p class="hero-desc fade-up" data-i18n="hero_desc">A plain-English explanation of how CP-SAT constraint programming solves the 24-month crop rotation problem for a Hawaii specialty farm.</p>
+    <div class="one-liner fade-up"><p data-i18n="one_liner">Instead of guessing which crops to plant where and when, this engine <em>mathematically proves</em> the most profitable 24-month schedule — respecting parcel availability, labor capacity limits, and seasonal price swings simultaneously.</p></div>
+    <div class="btn-group fade-up" style="margin-bottom:20px">
+      <a href="ag-tech-suite-index.html" class="btn btn-outline" data-i18n="nav_back">← Suite Overview</a>
+    </div>
+  </div>
+</div>
+
+<section>
+  <div class="container">
+    <p class="section-label" data-i18n="overview_label">Overview</p>
+    <h2 class="section-title" data-i18n="overview_title">What it optimizes</h2>
+    <p class="section-desc" data-i18n="overview_desc">6 rotational parcels. 5 crop types. 36-month planning horizon. One mathematically proven schedule.</p>
+    <table class="skill-table">
+      <thead><tr><th data-i18n="ov_c1">Setting</th><th data-i18n="ov_c2">Detail</th></tr></thead>
+      <tbody>
+        <tr><td data-i18n="ov_r1a">Rotational parcels</td><td data-i18n="ov_r1b">P01–P06 (flexible cropland) — each parcel can grow any cyclical crop in sequence</td></tr>
+        <tr><td data-i18n="ov_r2a">Orchard parcels</td><td data-i18n="ov_r2b">P07–P09: Coffee, P10: Macadamia — fixed perennial trees with seasonal harvest windows</td></tr>
+        <tr><td data-i18n="ov_r3a">Cyclical crops</td><td data-i18n="ov_r3b">Papaya (9 mo growth + 4 mo harvest), Taro (10+1 mo), Pineapple (18+2 mo)</td></tr>
+        <tr><td data-i18n="ov_r4a">Perennial crops</td><td data-i18n="ov_r4b">Coffee harvest months: Sep–Jan · Macadamia harvest months: Aug–Dec</td></tr>
+        <tr><td data-i18n="ov_r5a">Planning horizon</td><td data-i18n="ov_r5b">36 months (3 years) — extended by max growth period for evaluation completeness</td></tr>
+        <tr><td data-i18n="ov_r6a">Decision variables</td><td data-i18n="ov_r6b">X[parcel][crop][month] — binary: 1 = plant crop c in parcel p at month m</td></tr>
+        <tr><td data-i18n="ov_r7a">Solve time</td><td data-i18n="ov_r7b">≤ 10 seconds (CP-SAT with configurable time limit)</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section style="background:var(--accent3)">
+  <div class="container">
+    <p class="section-label" data-i18n="tech_label">The Technology</p>
+    <h2 class="section-title" data-i18n="tech_title">Combinatorial optimization, not trial and error</h2>
+    <div class="tech-cards">
+      <div class="tech-card">
+        <div class="tech-pill" data-i18n="t1_pill">Certifiably optimal — not a heuristic</div>
+        <h3 class="tech-title" data-i18n="t1_title">OR-Tools CP-SAT — Constraint Programming</h3>
+        <p class="tech-desc" data-i18n="t1_desc">Google's CP-SAT solver searches the entire feasible space using constraint propagation, conflict-driven clause learning, and branch-and-bound. With a 10-second time limit, it returns the best solution found — typically OPTIMAL for this problem size. The same solver is used in Google's supply chain and logistics systems.</p>
+      </div>
+      <div class="tech-card">
+        <div class="tech-pill" data-i18n="t2_pill">Seasonal price × yield × labor — all in one objective</div>
+        <h3 class="tech-title" data-i18n="t2_title">Revenue-Maximizing Objective Function</h3>
+        <p class="tech-desc" data-i18n="t2_desc">The objective maximizes total expected revenue across the planning horizon. Each planted batch contributes: base_price × seasonal_multiplier × yield_kg. Winter months (Dec–Feb) carry +40% price premium. Summer (Jul–Aug) +20%. Off-season (Sep–Nov) −20%. The solver finds the planting schedule that captures the most high-premium harvest windows without overloading labor.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <p class="section-label" data-i18n="con_label">Constraint Design</p>
+    <h2 class="section-title" data-i18n="con_title">Hard rules that shape the solution space</h2>
+    <p class="section-desc" data-i18n="con_desc">Every constraint encodes a real operational reality — not a textbook example.</p>
+    <div class="constraint-grid">
+      <div class="constraint-card">
+        <span class="badge hard-badge" data-i18n="hard_badge">HARD</span>
+        <h4 data-i18n="c1_title">Parcel exclusivity</h4>
+        <p data-i18n="c1_desc">For each parcel p and month m, at most one cyclical crop can be occupying the parcel at that time. "Occupying" means: planted at start_m where start_m ≤ m &lt; start_m + growth + harvest_duration. AddAtMostOne over all overlapping X variables.</p>
+      </div>
+      <div class="constraint-card">
+        <span class="badge hard-badge" data-i18n="hard_badge">HARD</span>
+        <h4 data-i18n="c2_title">Monthly labor capacity</h4>
+        <p data-i18n="c2_desc">The total harvest kg in any month cannot exceed the available labor capacity. Peak seasons (Jan, Jul, Aug, Dec) allow 25,000 kg/month; off-peak allows 15,000 kg/month. This models the farm's ability to hire seasonal workers during busy periods.</p>
+      </div>
+      <div class="constraint-card">
+        <span class="badge hard-badge" data-i18n="hard_badge">HARD</span>
+        <h4 data-i18n="c3_title">Minimum annual plantings</h4>
+        <p data-i18n="c3_desc">Each cyclical crop must be planted at least once per planning year (configurable). Ensures revenue diversity and prevents the solver from concentrating entirely on one high-price crop that happens to peak in a particular season.</p>
+      </div>
+      <div class="constraint-card">
+        <span class="badge hard-badge" data-i18n="hard_badge">HARD</span>
+        <h4 data-i18n="c4_title">Max simultaneous plantings</h4>
+        <p data-i18n="c4_desc">No more than max_simul (default 3) of the same crop type can be planted in the same month across all parcels. Prevents over-concentration risk — if one crop is hit by pests or weather, the whole farm isn't affected at once.</p>
+      </div>
+      <div class="constraint-card">
+        <span class="badge obj-badge" data-i18n="obj_badge">OBJECTIVE</span>
+        <h4 data-i18n="c5_title">Perennial orchard fixed calendar</h4>
+        <p data-i18n="c5_desc">Coffee (P07–P09) and Macadamia (P10) trees are treated as fixed infrastructure. Their harvest kg and timing are read from the orchard calendar and added directly to the labor constraint — they compete for the same monthly labor capacity as rotational crops.</p>
+      </div>
+      <div class="constraint-card">
+        <span class="badge obj-badge" data-i18n="obj_badge">OBJECTIVE</span>
+        <h4 data-i18n="c6_title">Seasonal price maximization</h4>
+        <p data-i18n="c6_desc">Revenue for each harvest event = yield_kg × base_price × seasonal_multiplier(harvest_month). The solver naturally times plantings so harvests land in premium-price months. Papaya ($2.50/kg base × 1.4× = $3.50/kg in winter) is a strong winter revenue driver.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="background:var(--accent3)">
+  <div class="container">
+    <p class="section-label" data-i18n="math_label">The Math</p>
+    <h2 class="section-title" data-i18n="math_title">Decision variables &amp; objective</h2>
+    <div class="formula-box">
+# Decision variable
+X[p][c][m] ∈ {0, 1}
+  = 1 if crop c is planted in parcel p starting at month m
+
+# Objective (maximize)
+Σ_{p,c,m} X[p][c][m] × yield_kg[c] × price(c, harvest_month(c, m))
+
+# Constraint A — Parcel exclusivity
+∀ parcel p, month t:
+  Σ_{c,m: m≤t&lt;m+duration[c]} X[p][c][m] ≤ 1
+
+# Constraint B — Labor capacity
+∀ month t:
+  Σ_{p,c,m: harvest overlaps t} X[p][c][m] × harvest_kg[c]
+  + orchard_fixed_harvest[t] ≤ capacity[t]
+
+# Price multiplier
+price_mult(month) = 1.4 (Dec–Feb) | 1.2 (Jul–Aug) | 0.8 (Sep–Nov) | 1.0 (other)
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <p class="section-label" data-i18n="crops_label">Crop Reference</p>
+    <h2 class="section-title" data-i18n="crops_title">The five Hawaii specialty crops</h2>
+    <table class="skill-table">
+      <thead><tr><th data-i18n="cr_c1">Crop</th><th data-i18n="cr_c2">Type</th><th data-i18n="cr_c3">Growth</th><th data-i18n="cr_c4">Base Price</th><th data-i18n="cr_c5">Best Season</th></tr></thead>
+      <tbody>
+        <tr><td>🌺 Papaya</td><td data-i18n="cr_cyclical">Cyclical</td><td data-i18n="cr_papaya_g">9 mo + 4 mo harvest</td><td>$2.50/kg</td><td data-i18n="cr_winter">Winter (+40%)</td></tr>
+        <tr><td>🌿 Taro</td><td data-i18n="cr_cyclical">Cyclical</td><td data-i18n="cr_taro_g">10 mo + 1 mo harvest</td><td>$3.50/kg</td><td data-i18n="cr_winter">Winter (+40%)</td></tr>
+        <tr><td>🍍 Pineapple</td><td data-i18n="cr_cyclical">Cyclical</td><td data-i18n="cr_pine_g">18 mo + 2 mo harvest</td><td>$1.50/kg</td><td data-i18n="cr_summer">Summer (+20%)</td></tr>
+        <tr><td>☕ Coffee</td><td data-i18n="cr_perennial">Perennial</td><td data-i18n="cr_coffee_g">Harvest: Sep–Jan</td><td>$8.00/kg</td><td data-i18n="cr_winter">Winter (+40%)</td></tr>
+        <tr><td>🥜 Macadamia</td><td data-i18n="cr_perennial">Perennial</td><td data-i18n="cr_mac_g">Harvest: Aug–Dec</td><td>$7.00/kg</td><td data-i18n="cr_fall">Fall/Winter</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section style="background:var(--accent3)">
+  <div class="container">
+    <p class="section-label" data-i18n="pipe_label">Data Pipeline</p>
+    <h2 class="section-title" data-i18n="pipe_title">Results flow into Lifecycle Manager</h2>
+    <p class="section-desc" data-i18n="pipe_desc">The optimizer's output is not just a report — it seeds the next engine in the pipeline.</p>
+    <ol class="flow-steps">
+      <li class="flow-step">
+        <div><h4 data-i18n="pp1_title">Optimal schedule written to session_state</h4><p data-i18n="pp1_desc">planting_result containing schedule[], status ("OPTIMAL"/"FEASIBLE"), and total expected revenue is stored in Streamlit session_state after each run.</p></div>
+      </li>
+      <li class="flow-step">
+        <div><h4 data-i18n="pp2_title">New parcels synced to Lifecycle Manager</h4><p data-i18n="pp2_desc">For each parcel in the schedule that doesn't already have an active crop batch, a new lifecycle batch is created: batch_id, parcel_id, crop, planted_date = 2026-01-01, initial GDD. Existing mature crops are not overwritten.</p></div>
+      </li>
+      <li class="flow-step">
+        <div><h4 data-i18n="pp3_title">Perennial parcels excluded from sync</h4><p data-i18n="pp3_desc">Parcel IDs starting with "P00" (virtual planning parcels) and the fixed orchard parcels P07–P10 are excluded from the sync. Only new rotational planting decisions are passed forward.</p></div>
+      </li>
+      <li class="flow-step">
+        <div><h4 data-i18n="pp4_title">Portal dashboard reads revenue forecast</h4><p data-i18n="pp4_desc">The Farm Owner (CEO) portal reads planting_result.total_revenue as the 12-month revenue baseline, comparing it with the Yield Simulator's Monte Carlo P50 forecast.</p></div>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <p class="section-label" data-i18n="results_label">Results</p>
+    <h2 class="section-title" data-i18n="results_title">What the app shows</h2>
+    <div class="result-section"><h4 data-i18n="res1_title">① Solve status &amp; summary metrics</h4><p data-i18n="res1_desc">OPTIMAL / FEASIBLE / INFEASIBLE status, total expected revenue ($), number of planting events, and solve time in seconds.</p></div>
+    <div class="result-section"><h4 data-i18n="res2_title">② Monthly Gantt chart — parcel × month</h4><p data-i18n="res2_desc">Color-coded heatmap showing which crop occupies which parcel in each month. Growth phase (green) vs. harvest phase (amber) differentiated by shading.</p></div>
+    <div class="result-section"><h4 data-i18n="res3_title">③ Monthly revenue forecast bar chart</h4><p data-i18n="res3_desc">Stacked bar chart of expected monthly revenue by crop type. Overlaid with the seasonal price multiplier curve to show how timing aligns with premium windows.</p></div>
+    <div class="result-section"><h4 data-i18n="res4_title">④ Labor capacity utilization</h4><p data-i18n="res4_desc">Line chart of monthly harvest kg vs. capacity limit. Months where rotational + orchard harvest approaches the labor ceiling are flagged in amber.</p></div>
+    <div class="result-section"><h4 data-i18n="res5_title">⑤ Crop rotation summary table</h4><p data-i18n="res5_desc">Per-parcel planting schedule with plant month, harvest start, expected yield kg, and expected revenue per batch.</p></div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <p class="section-label" data-i18n="why_label">Why It Matters</p>
+    <h2 class="section-title" data-i18n="why_title">What this demonstrates</h2>
+    <div class="why-grid">
+      <div class="why-card fade-up"><div class="why-icon">⚙️</div><div class="why-title" data-i18n="w1_title">Production-Grade Solver</div><p class="why-desc" data-i18n="w1_desc">OR-Tools CP-SAT returns a mathematically certified solution — not a greedy heuristic. The same approach scales to hundreds of parcels and multi-year horizons without algorithm changes.</p></div>
+      <div class="why-card fade-up"><div class="why-icon">🏝️</div><div class="why-title" data-i18n="w2_title">Hawaii Domain Encoding</div><p class="why-desc" data-i18n="w2_desc">Seasonal tourist price premiums, perennial orchard calendars, and crop-specific growth periods are first-class model parameters — not hardcoded assumptions. Swapping to a different farm is a data change, not a code change.</p></div>
+      <div class="why-card fade-up"><div class="why-icon">🔗</div><div class="why-title" data-i18n="w3_title">Pipeline Integration</div><p class="why-desc" data-i18n="w3_desc">Planting decisions don't stay on this page — they flow into the Lifecycle Manager as initial batch state, seeding the GDD tracking that drives downstream alerts and harvest scheduling.</p></div>
+      <div class="why-card fade-up"><div class="why-icon">📊</div><div class="why-title" data-i18n="w4_title">Decision Under Uncertainty</div><p class="why-desc" data-i18n="w4_desc">The optimizer handles deterministic planning; the Yield Simulator provides the probabilistic overlay. Together they give owners both the optimal plan and the confidence interval around it.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section" style="background:#fff;">
+  <div class="container">
+    <div class="offer-box">
+      <p class="section-label" data-i18n="cta_label">Explore</p>
+      <h3 style="font-family:var(--serif);font-size:1.8rem;margin-bottom:16px;" data-i18n="cta_title">See Engine 01 in the full pipeline</h3>
+      <p style="color:var(--muted);margin-bottom:32px;" data-i18n="cta_desc">Run the Planting Optimizer from the sidebar, then navigate to Crop Lifecycle Manager to see the resulting batches automatically populated.</p>
+      <div class="btn-group">
+        <a href="ag-tech-suite-index.html" class="btn btn-outline" data-i18n="cta_btn2">← Suite Overview</a>
+        <a href="ats-how-it-works-crop-lifecycle.html" class="btn btn-primary" data-i18n="cta_btn3">Next: Lifecycle Manager →</a>
+      </div>
+    </div>
+  </div>
+</section>
+<footer><div class="container"><p data-i18n="footer">© 2026 Manami Oyama · Built with HTML, CSS &amp; JavaScript</p></div></footer>
+
+<script>
+const PAGE_TRANSLATIONS = {
+  en:{
+    nav_back:"← Suite Overview",
+    hero_eyebrow:"Engine 01 — Technical Deep Dive",
+    hero_title:"How the Planting Strategy Optimizer works",
+    hero_desc:"A plain-English explanation of how CP-SAT constraint programming solves the 24-month crop rotation problem for a Hawaii specialty farm.",
+    one_liner:"Instead of guessing which crops to plant where and when, this engine mathematically proves the most profitable 24-month schedule — respecting parcel availability, labor capacity limits, and seasonal price swings simultaneously.",
+    overview_label:"Overview", overview_title:"What it optimizes",
+    overview_desc:"6 rotational parcels. 5 crop types. 36-month planning horizon. One mathematically proven schedule.",
+    ov_c1:"Setting", ov_c2:"Detail",
+    ov_r1a:"Rotational parcels", ov_r1b:"P01–P06 (flexible cropland) — each parcel can grow any cyclical crop in sequence",
+    ov_r2a:"Orchard parcels", ov_r2b:"P07–P09: Coffee, P10: Macadamia — fixed perennial trees with seasonal harvest windows",
+    ov_r3a:"Cyclical crops", ov_r3b:"Papaya (9 mo growth + 4 mo harvest), Taro (10+1 mo), Pineapple (18+2 mo)",
+    ov_r4a:"Perennial crops", ov_r4b:"Coffee harvest months: Sep–Jan · Macadamia harvest months: Aug–Dec",
+    ov_r5a:"Planning horizon", ov_r5b:"36 months (3 years) — extended by max growth period for evaluation completeness",
+    ov_r6a:"Decision variables", ov_r6b:"X[parcel][crop][month] — binary: 1 = plant crop c in parcel p at month m",
+    ov_r7a:"Solve time", ov_r7b:"≤ 10 seconds (CP-SAT with configurable time limit)",
+    tech_label:"The Technology", tech_title:"Combinatorial optimization, not trial and error",
+    t1_pill:"Certifiably optimal — not a heuristic", t1_title:"OR-Tools CP-SAT — Constraint Programming",
+    t1_desc:"Google's CP-SAT solver searches the entire feasible space using constraint propagation, conflict-driven clause learning, and branch-and-bound. With a 10-second time limit, it returns the best solution found — typically OPTIMAL for this problem size.",
+    t2_pill:"Seasonal price × yield × labor — all in one objective", t2_title:"Revenue-Maximizing Objective Function",
+    t2_desc:"The objective maximizes total expected revenue across the planning horizon. Winter months (Dec–Feb) carry +40% price premium. Summer (Jul–Aug) +20%. Off-season (Sep–Nov) −20%. The solver captures the most high-premium harvest windows without overloading labor.",
+    con_label:"Constraint Design", con_title:"Hard rules that shape the solution space",
+    con_desc:"Every constraint encodes a real operational reality — not a textbook example.",
+    hard_badge:"HARD — Always enforced", obj_badge:"OBJECTIVE",
+    c1_title:"Parcel exclusivity", c1_desc:"For each parcel and month, at most one cyclical crop can occupy the parcel at that time. AddAtMostOne over all overlapping X variables.",
+    c2_title:"Monthly labor capacity", c2_desc:"Total harvest kg in any month ≤ labor capacity. Peak seasons (Jan, Jul, Aug, Dec): 25,000 kg/month. Off-peak: 15,000 kg/month.",
+    c3_title:"Minimum annual plantings", c3_desc:"Each cyclical crop must be planted at least once per planning year. Ensures revenue diversity and prevents over-concentration.",
+    c4_title:"Max simultaneous plantings", c4_desc:"No more than max_simul (default 3) of the same crop planted in the same month across all parcels. Prevents concentration risk.",
+    c5_title:"Perennial orchard fixed calendar", c5_desc:"Coffee and Macadamia harvest kg and timing are added to the labor constraint — they compete for the same monthly labor capacity as rotational crops.",
+    c6_title:"Seasonal price maximization", c6_desc:"Revenue = yield_kg × base_price × seasonal_multiplier(harvest_month). The solver naturally times plantings so harvests land in premium-price months.",
+    math_label:"The Math", math_title:"Decision variables & objective",
+    crops_label:"Crop Reference", crops_title:"The five Hawaii specialty crops",
+    cr_c1:"Crop", cr_c2:"Type", cr_c3:"Growth", cr_c4:"Base Price", cr_c5:"Best Season",
+    cr_cyclical:"Cyclical", cr_perennial:"Perennial",
+    cr_papaya_g:"9 mo + 4 mo harvest", cr_taro_g:"10 mo + 1 mo harvest", cr_pine_g:"18 mo + 2 mo harvest",
+    cr_coffee_g:"Harvest: Sep–Jan", cr_mac_g:"Harvest: Aug–Dec",
+    cr_winter:"Winter (+40%)", cr_summer:"Summer (+20%)", cr_fall:"Fall/Winter",
+    pipe_label:"Data Pipeline", pipe_title:"Results flow into Lifecycle Manager",
+    pipe_desc:"The optimizer's output is not just a report — it seeds the next engine in the pipeline.",
+    pp1_title:"Optimal schedule written to session_state", pp1_desc:"planting_result with schedule[], status, and total revenue stored in Streamlit session_state after each run.",
+    pp2_title:"New parcels synced to Lifecycle Manager", pp2_desc:"For each parcel without an active batch, a new lifecycle batch is created with initial GDD. Existing mature crops are not overwritten.",
+    pp3_title:"Perennial parcels excluded from sync", pp3_desc:"Virtual planning parcels (P00x) and fixed orchard parcels P07–P10 are excluded. Only new rotational planting decisions are passed forward.",
+    pp4_title:"Portal dashboard reads revenue forecast", pp4_desc:"The Farm Owner portal reads planting_result.total_revenue as the 12-month revenue baseline, comparing with the Yield Simulator's Monte Carlo P50.",
+    results_label:"Results", results_title:"What the app shows",
+    res1_title:"① Solve status & summary metrics", res1_desc:"OPTIMAL / FEASIBLE / INFEASIBLE status, total expected revenue ($), number of planting events, and solve time.",
+    res2_title:"② Monthly Gantt chart — parcel × month", res2_desc:"Color-coded heatmap showing which crop occupies which parcel each month. Growth phase vs. harvest phase differentiated by shading.",
+    res3_title:"③ Monthly revenue forecast bar chart", res3_desc:"Stacked bar chart of expected monthly revenue by crop. Overlaid with the seasonal price multiplier curve.",
+    res4_title:"④ Labor capacity utilization", res4_desc:"Monthly harvest kg vs. capacity limit. Months approaching the labor ceiling are flagged in amber.",
+    res5_title:"⑤ Crop rotation summary table", res5_desc:"Per-parcel planting schedule with plant month, harvest start, expected yield kg, and expected revenue per batch.",
+    why_label:"Why It Matters", why_title:"What this demonstrates",
+    w1_title:"Production-Grade Solver", w1_desc:"OR-Tools CP-SAT returns a certified solution — not a greedy heuristic. The same approach scales to hundreds of parcels without algorithm changes.",
+    w2_title:"Hawaii Domain Encoding", w2_desc:"Seasonal tourist price premiums, perennial orchard calendars, and crop-specific growth periods are first-class model parameters — not hardcoded assumptions.",
+    w3_title:"Pipeline Integration", w3_desc:"Planting decisions flow into the Lifecycle Manager as initial batch state, seeding GDD tracking that drives downstream alerts and harvest scheduling.",
+    w4_title:"Decision Under Uncertainty", w4_desc:"The optimizer handles deterministic planning; the Yield Simulator provides the probabilistic overlay. Together they give owners both the optimal plan and the confidence interval.",
+    cta_label:"Explore", cta_title:"See Engine 01 in the full pipeline",
+    cta_desc:"Run the Planting Optimizer from the sidebar, then navigate to Crop Lifecycle Manager to see the resulting batches automatically populated.",
+    cta_btn2:"← Suite Overview", cta_btn3:"Next: Lifecycle Manager →",
+    footer:"© 2026 Manami Oyama · Built with HTML, CSS & JavaScript",
+  },
+  ja:{
+    nav_back:"← スイート概要",
+    hero_eyebrow:"エンジン 01 — 技術解説",
+    hero_title:"<em>作付戦略オプティマイザー</em>の仕組み",
+    hero_desc:"CP-SAT制約プログラミングがハワイ農場の24ヶ月輪作問題をどのように解くか、平易な言葉で解説します。",
+    one_liner:"どの作物をどの区画にいつ植えるかを推測する代わりに、このエンジンは最も収益性の高い24ヶ月スケジュールを数学的に証明します——区画の空き状況、労働キャパシティ制限、季節価格変動を同時に考慮しながら。",
+    overview_label:"概要", overview_title:"何を最適化するか",
+    overview_desc:"6つの輪作区画。5種類の作物。36ヶ月の計画期間。数学的に証明された1つのスケジュール。",
+    ov_c1:"設定項目", ov_c2:"詳細",
+    ov_r1a:"輪作区画", ov_r1b:"P01〜P06（柔軟な農地）— 各区画は周期性作物を順番に栽培可能",
+    ov_r2a:"果樹園区画", ov_r2b:"P07〜P09：コーヒー、P10：マカダミア — 季節収穫窓を持つ固定多年生果樹",
+    ov_r3a:"周期性作物", ov_r3b:"パパイヤ（9ヶ月生育＋4ヶ月収穫）、タロイモ（10＋1ヶ月）、パイナップル（18＋2ヶ月）",
+    ov_r4a:"多年生作物", ov_r4b:"コーヒー収穫月：9〜1月 · マカダミア収穫月：8〜12月",
+    ov_r5a:"計画期間", ov_r5b:"36ヶ月（3年） — 評価完全性のため最長生育期間分延長",
+    ov_r6a:"決定変数", ov_r6b:"X[区画][作物][月] — バイナリ：1 = 月mに区画pに作物cを植付",
+    ov_r7a:"求解時間", ov_r7b:"10秒以内（設定可能な時間制限付きCP-SAT）",
+    tech_label:"技術", tech_title:"試行錯誤ではなく組み合わせ最適化",
+    t1_pill:"証明可能な最適解 — ヒューリスティックではない", t1_title:"OR-Tools CP-SAT — 制約プログラミング",
+    t1_desc:"GoogleのCP-SATソルバーが制約伝播・競合駆動節学習・分枝限定法を用いて全実行可能空間を探索。10秒の制限時間内で通常OPTIMAL解を返します。",
+    t2_pill:"季節価格×収穫量×労働 — 全てを1つの目的関数に", t2_title:"収益最大化目的関数",
+    t2_desc:"目的関数は計画期間全体の期待収益を最大化。冬季（12〜2月）は価格プレミアム+40%、夏季（7〜8月）は+20%、オフシーズン（9〜11月）は−20%。ソルバーは労働過負荷なしに最もプレミアムな収穫窓を捕捉します。",
+    con_label:"制約設計", con_title:"解空間を形作るハードルール",
+    con_desc:"全ての制約は実際の運営上の制約をエンコードしたもの——教科書的な例題ではありません。",
+    hard_badge:"ハード — 常に強制", obj_badge:"目的関数関連",
+    c1_title:"区画排他制約", c1_desc:"各区画・各月において、最大1つの周期性作物のみが区画を占有できます。全ての重複するX変数にAddAtMostOne制約を適用。",
+    c2_title:"月別労働キャパシティ", c2_desc:"月間収穫kg合計 ≤ 労働キャパシティ。ピーク期（1月、7月、8月、12月）：25,000kg/月。オフピーク：15,000kg/月。",
+    c3_title:"年間最小作付回数", c3_desc:"各周期性作物は計画年ごとに最低1回植付けられなければなりません。収益の多様性を確保し過度な集中を防ぎます。",
+    c4_title:"同時作付上限", c4_desc:"同月に全区画で同一作物を最大3枚（設定可能）まで。集中リスクを防ぎます。",
+    c5_title:"多年生果樹園の固定カレンダー", c5_desc:"コーヒーとマカダミアの収穫kgとタイミングは労働制約に加算——輪作作物と同じ月別労働キャパシティを競合します。",
+    c6_title:"季節価格最大化", c6_desc:"収益 = 収穫kg × 基準価格 × 季節乗数（収穫月）。ソルバーは自然に収穫がプレミアム月に当たるよう植付タイミングを調整します。",
+    math_label:"数式", math_title:"決定変数と目的関数",
+    crops_label:"作物リファレンス", crops_title:"5つのハワイ産特作作物",
+    cr_c1:"作物", cr_c2:"種別", cr_c3:"生育期間", cr_c4:"基準価格", cr_c5:"収益ピーク",
+    cr_cyclical:"周期性", cr_perennial:"多年生",
+    cr_papaya_g:"9ヶ月生育＋4ヶ月収穫", cr_taro_g:"10ヶ月生育＋1ヶ月収穫", cr_pine_g:"18ヶ月生育＋2ヶ月収穫",
+    cr_coffee_g:"収穫：9〜1月", cr_mac_g:"収穫：8〜12月",
+    cr_winter:"冬季（+40%）", cr_summer:"夏季（+20%）", cr_fall:"秋冬",
+    pipe_label:"データパイプライン", pipe_title:"結果はライフサイクルマネージャーへ流れる",
+    pipe_desc:"最適化出力はレポートだけでなく、パイプラインの次エンジンのシードとなります。",
+    pp1_title:"最適スケジュールをsession_stateに保存", pp1_desc:"実行後、schedule[]・status・total_revenueを含むplanting_resultがStreamlitのsession_stateに保存されます。",
+    pp2_title:"新規区画をライフサイクルマネージャーに同期", pp2_desc:"アクティブなバッチがない各区画に対し、初期GDD付きの新しいライフサイクルバッチを作成。既存の成熟作物は上書きされません。",
+    pp3_title:"多年生区画は同期から除外", pp3_desc:"仮想計画区画（P00x）と固定果樹園区画P07〜P10は除外。新規輪作作付決定のみが前方に渡されます。",
+    pp4_title:"ポータルダッシュボードが収益予測を読み込む", pp4_desc:"農場オーナーポータルがplanting_result.total_revenueを12ヶ月収益ベースラインとして読み込み、収益シミュレーターのモンテカルロP50と比較します。",
+    results_label:"結果", results_title:"アプリが表示するもの",
+    res1_title:"① 求解ステータス＆サマリー指標", res1_desc:"OPTIMAL/FEASIBLE/INFEASIBLEステータス、期待収益合計（$）、作付イベント数、求解時間。",
+    res2_title:"② 月次ガントチャート — 区画×月", res2_desc:"各月にどの作物がどの区画を占有するかを示すカラーコードヒートマップ。生育フェーズ（緑）と収穫フェーズ（琥珀）を色調で区別。",
+    res3_title:"③ 月次収益予測棒グラフ", res3_desc:"作物別期待月次収益の積み上げ棒グラフ。季節価格乗数カーブをオーバーレイ。",
+    res4_title:"④ 労働キャパシティ稼働率", res4_desc:"月次収穫kg vs. キャパシティ上限。労働上限に近づく月は琥珀色でフラグ。",
+    res5_title:"⑤ 輪作スケジュール一覧表", res5_desc:"区画別作付スケジュール（作付月・収穫開始・期待収穫kg・バッチ別期待収益）。",
+    why_label:"なぜ重要か", why_title:"このエンジンが示すもの",
+    w1_title:"本番級ソルバー", w1_desc:"CP-SATは認定済み最適解を返します——貪欲ヒューリスティックではありません。同じアプローチが数百区画にもアルゴリズム変更なしでスケールします。",
+    w2_title:"ハワイドメインのエンコーディング", w2_desc:"季節観光価格プレミアム・多年生果樹カレンダー・作物別生育期間がファーストクラスのモデルパラメータとして組み込まれています。",
+    w3_title:"パイプライン統合", w3_desc:"作付決定はライフサイクルマネージャーの初期バッチ状態として流れ、下流のアラートと収穫スケジューリングを駆動するGDD追跡のシードとなります。",
+    w4_title:"不確実性下での意思決定", w4_desc:"最適化エンジンが決定論的計画を担い、収益シミュレーターが確率論的オーバーレイを提供。合わさって最適プランと信頼区間の両方を提供します。",
+    cta_label:"体験する", cta_title:"エンジン01をフルパイプラインで確認",
+    cta_desc:"サイドバーから作付最適化を実行し、作物ライフサイクルマネージャーに移動して自動作成されたバッチを確認してください。",
+    cta_btn2:"← スイート概要", cta_btn3:"次：ライフサイクルマネージャー →",
+    footer:"© 2026 Manami Oyama · Built with HTML, CSS & JavaScript",
+  }
+};
+let currentLang="en";
+function applyTranslations(lang){
+  const t=PAGE_TRANSLATIONS[lang]; if(!t) return;
+  document.querySelectorAll("[data-i18n]").forEach(el=>{const k=el.getAttribute("data-i18n");if(t[k]!==undefined)el.innerHTML=t[k];});
+  document.querySelectorAll("[data-lang-btn]").forEach(b=>b.classList.toggle("active",b.getAttribute("data-lang-btn")===lang));
+  currentLang=lang;
+}
+document.querySelectorAll("[data-lang-btn]").forEach(b=>b.addEventListener("click",()=>applyTranslations(b.getAttribute("data-lang-btn"))));
+const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add("visible");}),{threshold:0.08});
+document.querySelectorAll(".fade-up,.why-card").forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>

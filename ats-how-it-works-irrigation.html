@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>How It Works — Smart Irrigation Optimizer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&family=Noto+Serif+JP:wght@300;400&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/style.css"/>
+  <style>
+    :root{--bg:#f0f7ff;--accent:#0369a1;--accent2:#7dd3fc;--accent3:#f0f9ff;--border:#bae6fd;}
+    .constraint-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:20px;}
+    @media(max-width:700px){.constraint-grid{grid-template-columns:1fr;}}
+    .constraint-card{border:1px solid var(--border);border-radius:10px;padding:16px 18px;background:white;}
+    .badge{font-size:10px;font-weight:700;letter-spacing:.08em;padding:2px 8px;border-radius:12px;display:inline-block;margin-bottom:8px;}
+    .hard-badge{background:#dbeafe;color:#1e40af;}
+    .soft-badge{background:#e0f2fe;color:#0369a1;}
+    .formula-box{background:#1a1a1a;color:#7dd3fc;border-radius:8px;padding:16px 20px;font-family:'Courier New',monospace;font-size:13px;line-height:1.7;margin:16px 0;}
+    .formula-box .comment{color:#6b7280;}
+    .skill-table{width:100%;border-collapse:collapse;font-size:13px;margin:16px 0;}
+    .skill-table th{background:var(--accent3);padding:8px 12px;text-align:left;border:1px solid var(--border);font-weight:600;}
+    .skill-table td{padding:8px 12px;border:1px solid var(--border);vertical-align:top;}
+    .skill-table tr:nth-child(even) td{background:#f8fbff;}
+    .flow-steps{counter-reset:steps;list-style:none;padding:0;margin:24px 0 0;}
+    .flow-step{counter-increment:steps;display:flex;gap:18px;margin-bottom:20px;align-items:flex-start;}
+    .flow-step::before{content:counter(steps);min-width:32px;height:32px;border-radius:50%;background:var(--accent);color:white;font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;}
+    .flow-step h4{margin:0 0 4px;font-size:15px;}
+    .flow-step p{margin:0;font-size:13px;color:#555;line-height:1.6;}
+    .result-section{border-left:3px solid var(--accent);padding:10px 16px;margin:10px 0;background:white;border-radius:0 8px 8px 0;}
+    .result-section h4{margin:0 0 4px;font-size:14px;}
+    .result-section p{margin:0;font-size:13px;color:#555;}
+    .why-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:20px;}
+    @media(max-width:700px){.why-grid{grid-template-columns:1fr;}}
+    .why-card{background:white;border:1px solid var(--border);border-radius:10px;padding:18px 20px;}
+    .why-card h4{margin:0 0 6px;font-size:14px;font-weight:600;}
+    .why-card p{margin:0;font-size:13px;color:#555;line-height:1.6;}
+    .moisture-bar{height:16px;border-radius:4px;background:linear-gradient(to right,#ef4444 0%,#ef4444 20%,#f97316 20%,#f97316 35%,#22c55e 35%,#22c55e 70%,#3b82f6 70%,#3b82f6 100%);position:relative;margin:12px 0;}
+    .moisture-labels{display:flex;justify-content:space-between;font-size:10px;color:#555;margin-top:4px;}
+  </style>
+</head>
+<body>
+<nav>
+  <div class="nav-inner">
+    <a href="ag-tech-suite-index.html" class="nav-logo" style="text-decoration:none;color:inherit;">Ag-Tech Suite</a>
+    <div class="nav-links">
+      <a href="ag-tech-suite-index.html" class="btn-back" data-i18n="nav_back">← Suite Overview</a>
+      <div class="lang-toggle">
+        <button class="lang-btn active" data-lang-btn="en">EN</button>
+        <button class="lang-btn" data-lang-btn="ja">JA</button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="container">
+    <p class="hero-eyebrow fade-up" data-i18n="hero_eyebrow">Engine 07 — Technical Deep Dive</p>
+    <h1 class="hero-title fade-up" data-i18n="hero_title">How the <em>Smart Irrigation Optimizer</em> works</h1>
+    <p class="hero-desc fade-up" data-i18n="hero_desc">A plain-English explanation of CP-SAT integer variable optimization — scheduling daily irrigation hours per parcel across a 7-day forecast horizon to minimize water cost while preventing crop stress and respecting Kona wind evaporation dynamics.</p>
+    <div class="one-liner fade-up"><p data-i18n="one_liner">Instead of fixed irrigation schedules, this engine treats each parcel's daily watering hours as integer decision variables and solves for the minimum-cost schedule that keeps every parcel's soil moisture above its stress threshold — automatically cancelling irrigation on rainy days, doubling evaporation on Kona wind days, and cutting water to harvested parcels at precisely the right time.</p></div>
+    <div class="btn-group fade-up" style="margin-bottom:20px">
+      <a href="ag-tech-suite-index.html" class="btn btn-outline" data-i18n="nav_back">← Suite Overview</a>
+    </div>
+  </div>
+</div>
+
+<section>
+  <div class="container">
+    <p class="section-label" data-i18n="overview_label">Overview</p>
+    <h2 class="section-title" data-i18n="overview_title">What it schedules</h2>
+    <table class="skill-table">
+      <thead><tr><th data-i18n="ov_c1">Setting</th><th data-i18n="ov_c2">Detail</th></tr></thead>
+      <tbody>
+        <tr><td data-i18n="ov_r1a">Parcels</td><td data-i18n="ov_r1b">Up to 8 parcels — each with crop type, current soil moisture, growth stage, pest history, and harvested_on_day</td></tr>
+        <tr><td data-i18n="ov_r2a">Planning horizon</td><td data-i18n="ov_r2b">7-day weather forecast (configurable); each day has precipitation, wind direction, and temperature</td></tr>
+        <tr><td data-i18n="ov_r3a">Decision variable</td><td data-i18n="ov_r3b">I[parcel, day] = irrigation hours (integer, 0–4 hrs/day/parcel)</td></tr>
+        <tr><td data-i18n="ov_r4a">State variable</td><td data-i18n="ov_r4b">M[parcel, day] = soil moisture ×10 as integer (50–1000, representing 5%–100%)</td></tr>
+        <tr><td data-i18n="ov_r5a">Solver</td><td data-i18n="ov_r5b">OR-Tools CP-SAT, minimization objective; time limit 10 seconds</td></tr>
+        <tr><td data-i18n="ov_r6a">Water cost</td><td data-i18n="ov_r6b">$15/hour (configurable), daily total-hours cap enforced as a hard constraint</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section style="background:var(--accent3)">
+  <div class="container">
+    <p class="section-label" data-i18n="tech_label">The Technology</p>
+    <h2 class="section-title" data-i18n="tech_title">CP-SAT integer variable optimization with state propagation</h2>
+    <div class="tech-cards">
+      <div class="tech-card">
+        <div class="tech-pill" data-i18n="t1_pill">Integer moisture state — 10× scaling trick</div>
+        <h3 class="tech-title" data-i18n="t1_title">Soil Moisture as Constrained Integer Variable</h3>
+        <p class="tech-desc" data-i18n="t1_desc">CP-SAT works with integers only. Soil moisture (0–100%) is scaled ×10 to become an integer in range [50, 1000] — allowing 0.1% precision without floating-point arithmetic. Each day's moisture is a chained state variable: M[p, d] = clamp(M[p, d-1] + I[p,d]×150 + rain_gain − evap, 50, 1000). One irrigation hour adds +15% (150 in scaled units), 1mm rain adds +0.5%, and normal evaporation subtracts −4% per day. On Kona wind days (wind direction 160°–240°), evaporation doubles to −8% per day — capturing the desiccating effect of Hawaii's offshore wind system.</p>
+      </div>
+      <div class="tech-card">
+        <div class="tech-pill" data-i18n="t2_pill">Penalty-based minimization objective</div>
+        <h3 class="tech-title" data-i18n="t2_title">Three-Term Cost Function</h3>
+        <p class="tech-desc" data-i18n="t2_desc">The solver minimizes: Σ [I[p,d] × water_cost_per_h×10] + Σ [dry_penalty[p,d] × 50] + Σ [pest_penalty[p,d] × 20]. Water cost is proportional to scheduled hours. Dry penalty = max(0, dry_threshold − M[p,d]) — activated when moisture drops below the crop's stress threshold (e.g., papaya dry threshold = 35%). Pest penalty = max(0, M[p,d] − 700) — only for parcels with pest_history_score &gt; 0.4, penalizing over-watering above 70% moisture that promotes fungal disease. The ×50 / ×20 weights ensure preventing crop death (dry penalty) vastly outweighs water cost — correctly prioritizing plant health over efficiency.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <p class="section-label" data-i18n="constraints_label">Constraints &amp; Logic</p>
+    <h2 class="section-title" data-i18n="constraints_title">The 6 scheduling rules</h2>
+    <div class="constraint-grid">
+      <div class="constraint-card">
+        <span class="badge hard-badge" data-i18n="c1_badge">Hard Constraint</span>
+        <h4 data-i18n="c1_title">Rain cancellation</h4>
+        <p style="font-size:13px;color:#555;line-height:1.6;" data-i18n="c1_desc">If precipitation ≥ 10 mm on a given day (configurable rain_cancel_threshold), irrigation is forced to 0 for all parcels on that day. model.Add(I[p,d] == 0) — no water is wasted during adequate rainfall.</p>
+      </div>
+      <div class="constraint-card">
+        <span class="badge hard-badge" data-i18n="c2_badge">Hard Constraint</span>
+        <h4 data-i18n="c2_title">Daily total-hour cap</h4>
+        <p style="font-size:13px;color:#555;line-height:1.6;" data-i18n="c2_desc">Σ I[p,d] ≤ max_daily_hours across all parcels per day — enforces the farm's water intake infrastructure limit (pump capacity, pipe flow rate). Default 24 hours/day total across all parcels.</p>
+      </div>
+      <div class="constraint-card">
+        <span class="badge hard-badge" data-i18n="c3_badge">Hard Constraint</span>
+        <h4 data-i18n="c3_title">Pre-harvest water cutoff</h4>
+        <p style="font-size:13px;color:#555;line-height:1.6;" data-i18n="c3_desc">Parcels in "harvest" growth stage have irrigation forced to 0. This models the agronomic practice of stopping irrigation 3–7 days before harvest to concentrate sugars and firm fruit — critical for papaya and pineapple quality grades.</p>
+      </div>
+      <div class="constraint-card">
+        <span class="badge hard-badge" data-i18n="c4_badge">Hard Constraint</span>
+        <h4 data-i18n="c4_title">Post-harvest cutoff (cyclical crops)</h4>
+        <p style="font-size:13px;color:#555;line-height:1.6;" data-i18n="c4_desc">After harvest day, cyclical crops (taro, papaya, pineapple) receive no irrigation — the parcel is fallow. Perennial crops (coffee, macadamia) continue receiving irrigation after harvest since the trees are permanent and require ongoing moisture.</p>
+      </div>
+      <div class="constraint-card">
+        <span class="badge soft-badge" data-i18n="c5_badge">Soft Constraint (Penalty)</span>
+        <h4 data-i18n="c5_title">Dry stress penalty</h4>
+        <p style="font-size:13px;color:#555;line-height:1.6;" data-i18n="c5_desc">dry_pen[p,d] = max(0, dry_threshold − M[p,d]). Only applied when water_needed is true (not in cutoff period). The ×50 weight makes crop death prevention the dominant driver — the solver will always prefer spending money on water over incurring this penalty.</p>
+      </div>
+      <div class="constraint-card">
+        <span class="badge soft-badge" data-i18n="c6_badge">Soft Constraint (Penalty)</span>
+        <h4 data-i18n="c6_title">Over-moisture pest penalty</h4>
+        <p style="font-size:13px;color:#555;line-height:1.6;" data-i18n="c6_desc">pest_pen[p,d] = max(0, M[p,d] − 700). Only applied to parcels where pest_history_score &gt; 0.4. Prevents over-irrigation that would push moisture above 70% on already pest-stressed parcels where Phytophthora and other water-borne pathogens thrive.</p>
+      </div>
+    </div>
+
+    <h3 style="margin-top:28px;font-size:17px;" data-i18n="formula_title">Moisture state transition &amp; objective</h3>
+    <div class="formula-box">
+<span class="comment"># Variables (per parcel p, per day d):</span>
+I[p,d] ∈ {0,1,2,3,4}      <span class="comment"># irrigation hours (integer)</span>
+M[p,d] ∈ [50, 1000]       <span class="comment"># soil moisture ×10 (integer)</span>
+
+<span class="comment"># State transition:</span>
+evap        = 80 if kona_wind else 40    <span class="comment"># 8% or 4% per day (scaled)</span>
+rain_gain   = int(rain_mm × 5)           <span class="comment"># 1mm = +0.5% moisture</span>
+M[p,d]      = clamp(M[p,d-1] + I[p,d]×150 + rain_gain − evap, 50, 1000)
+
+<span class="comment"># Penalty variables:</span>
+dry_pen[p,d]  = max(0, dry_threshold − M[p,d])  <span class="comment"># if water_needed</span>
+pest_pen[p,d] = max(0, M[p,d] − 700)             <span class="comment"># if pest_score > 0.4</span>
+
+<span class="comment"># Objective (minimize):</span>
+Σ I[p,d] × cost_per_h×10
++ Σ dry_pen[p,d] × 50     <span class="comment"># death prevention >> water cost</span>
++ Σ pest_pen[p,d] × 20    <span class="comment"># over-water penalty for pest parcels</span>
+    </div>
+
+    <p style="font-size:13px;color:#555;margin-top:8px;" data-i18n="kona_note"><strong>Kona wind detection:</strong> Wind direction 160°–240° (SE offshore) is flagged as Kona wind, doubling the evaporation rate. This is unique to Hawaii's leeward coast geography — dry offshore air from the Mauna Loa rain shadow evaporates topsoil twice as fast as trade wind days.</p>
+  </div>
+</section>
+
+<section style="background:var(--accent3)">
+  <div class="container">
+    <p class="section-label" data-i18n="pipeline_label">Data Pipeline</p>
+    <h2 class="section-title" data-i18n="pipeline_title">How data flows through the irrigation optimizer</h2>
+    <ol class="flow-steps">
+      <li class="flow-step">
+        <div><h4 data-i18n="fp1_title">Parcel sensor data from Crop Health Predictor</h4>
+        <p data-i18n="fp1_desc">The same 8 parcel profiles used by the Crop Health Predictor (P01–P08) are shared via session_state — including soil_moisture_pct, pest_history_score, growth stage, and crop type. The irrigation optimizer reads these as initial conditions for day 0 of the planning horizon.</p></div>
+      </li>
+      <li class="flow-step">
+        <div><h4 data-i18n="fp2_title">7-day weather forecast injection</h4>
+        <p data-i18n="fp2_desc">The weather forecast is a list of 7 daily dictionaries: {precip, wind_dir, temp_c, humidity}. In the demo, users can load Open-Meteo API forecasts for any of the 3 Hawaii stations (Waimea/Hilo/Kona) or manually set per-day conditions. Wind direction is decoded to detect Kona wind days (160°–240°).</p></div>
+      </li>
+      <li class="flow-step">
+        <div><h4 data-i18n="fp3_title">CP-SAT model construction</h4>
+        <p data-i18n="fp3_desc">For each (parcel, day) pair, the model creates: I[p,d] integer variable (0–4), M[p,d] integer variable (50–1000), dry_pen and pest_pen integer penalty variables. State transition constraints link each day's moisture to the previous day, irrigation input, rainfall, and evaporation. All constraints are added before calling solver.Solve().</p></div>
+      </li>
+      <li class="flow-step">
+        <div><h4 data-i18n="fp4_title">CP-SAT solve (≤ 10 seconds)</h4>
+        <p data-i18n="fp4_desc">solver.parameters.max_time_in_seconds = 10.0. For a typical 8-parcel × 7-day problem (56 irrigation variables + 56 moisture state variables + penalty variables), CP-SAT finds the optimal or near-optimal solution in under 1 second — the 10-second limit is a safety net for edge cases with unusual weather patterns.</p></div>
+      </li>
+      <li class="flow-step">
+        <div><h4 data-i18n="fp5_title">Schedule &amp; moisture trajectory output</h4>
+        <p data-i18n="fp5_desc">The solution is formatted as two arrays: schedule (per-parcel, per-day irrigation hours and resulting moisture), and trajectories (per-parcel 7-day moisture curve). Both are written to session_state and displayed as an interactive Gantt-style chart on the Field Staff dashboard — showing exactly when each parcel gets watered and what moisture level results.</p></div>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <p class="section-label" data-i18n="results_label">Results</p>
+    <h2 class="section-title" data-i18n="results_title">What the optimizer produces</h2>
+    <div class="result-section"><h4 data-i18n="r1_title">7-day per-parcel irrigation schedule</h4><p data-i18n="r1_desc">A table showing each parcel's daily irrigation hours (0–4) across the planning horizon — field staff see a simple "parcel A: 2h Monday, 0h Tuesday (rain), 1h Wednesday" work list that replaces manual judgment with solver-optimized decisions.</p></div>
+    <div class="result-section"><h4 data-i18n="r2_title">Soil moisture trajectory per parcel</h4><p data-i18n="r2_desc">A 7-day moisture curve for each parcel showing initial moisture → final moisture trajectory. Parcels that would hit the dry stress threshold without intervention are visible as dips toward the danger zone — validating that the schedule prevents crop stress.</p></div>
+    <div class="result-section"><h4 data-i18n="r3_title">Total water cost estimate</h4><p data-i18n="r3_desc">Σ (scheduled_hours × $15/hr) across all parcels and days — gives the farm manager a 7-day water bill forecast to compare against manual scheduling baseline.</p></div>
+    <div class="result-section"><h4 data-i18n="r4_title">Rain cancellation events highlighted</h4><p data-i18n="r4_desc">Days where irrigation was automatically cancelled due to forecast rain ≥ 10mm are flagged in the schedule — showing the water savings attributed to weather-responsive scheduling vs. a fixed weekly program.</p></div>
+    <div class="result-section"><h4 data-i18n="r5_title">Kona wind days flagged</h4><p data-i18n="r5_desc">Days where Kona wind is detected (wind_dir 160°–240°) are highlighted in the schedule, explaining why extra irrigation hours were assigned — connecting the schedule decision to its meteorological cause.</p></div>
+  </div>
+</section>
+
+<section style="background:var(--accent3)">
+  <div class="container">
+    <p class="section-label" data-i18n="why_label">Why It Matters</p>
+    <h2 class="section-title" data-i18n="why_title">The farm management problem it solves</h2>
+    <div class="why-grid">
+      <div class="why-card"><h4 data-i18n="w1_title">Water is scarce and expensive in Hawaii</h4><p data-i18n="w1_desc">Hawaii agricultural water costs $15+/hour for pump operation. On a 21.5-ha farm with 8 parcels, over-irrigation by just 1 hour per parcel per day adds up to $840/week in unnecessary cost. The optimizer finds the minimum-cost schedule that still prevents crop stress — a direct operational saving.</p></div>
+      <div class="why-card"><h4 data-i18n="w2_title">Kona wind is a uniquely Hawaiian challenge</h4><p data-i18n="w2_desc">On the leeward (Kona) side of Hawaii's Big Island, SE offshore winds in the Mauna Loa rain shadow create dry conditions that evaporate topsoil at double the normal rate. Fixed irrigation schedules set for normal trade wind days leave coffee and macadamia orchards stressed on Kona wind days — the optimizer adjusts automatically.</p></div>
+      <div class="why-card"><h4 data-i18n="w3_title">Pre-harvest cutoff timing for quality grades</h4><p data-i18n="w3_desc">Hawaii's premium papaya and pineapple buyers (Whole Foods, premium hotel chains) require specific Brix sugar levels that only develop when irrigation is stopped at exactly the right pre-harvest window. Manual timing is inconsistent; the optimizer integrates crop stage data from the Crop Lifecycle Manager to enforce precise cutoffs.</p></div>
+      <div class="why-card"><h4 data-i18n="w4_title">Pest-aware moisture ceiling</h4><p data-i18n="w4_desc">Taro wetland parcels with high pest history are particularly vulnerable to Phytophthora root rot when over-irrigated. The pest_penalty constraint gives the optimizer a second objective beyond just preventing drought — also preventing the over-wet conditions that the Crop Health Predictor's pest_history_score identifies as fungal disease triggers.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container" style="text-align:center;">
+    <p class="section-label" data-i18n="cta_label">Navigation</p>
+    <h2 class="section-title" data-i18n="cta_title">Explore the other engines</h2>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:16px;">
+      <a href="ats-how-it-works-knowledge-transfer.html" class="btn btn-outline" data-i18n="cta_prev">← Engine 06: Knowledge Transfer</a>
+      <a href="ag-tech-suite-index.html" class="btn btn-primary" data-i18n="cta_suite">Suite Overview</a>
+      <a href="ats-how-it-works-planting-strategy.html" class="btn btn-outline" data-i18n="cta_next">Engine 01: Planting Strategy →</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container footer-inner">
+    <span>Ag-Tech Suite — Hawaii Edition</span>
+    <span data-i18n="footer_note">Portfolio case study · Manami Oyama</span>
+  </div>
+</footer>
+
+<script>
+const T = {
+  en: {
+    nav_back:"← Suite Overview",hero_eyebrow:"Engine 07 — Technical Deep Dive",hero_title:"How the <em>Smart Irrigation Optimizer</em> works",hero_desc:"A plain-English explanation of CP-SAT integer variable optimization — scheduling daily irrigation hours per parcel across a 7-day forecast horizon to minimize water cost while preventing crop stress and respecting Kona wind evaporation dynamics.",one_liner:"Instead of fixed irrigation schedules, this engine treats each parcel's daily watering hours as integer decision variables and solves for the minimum-cost schedule that keeps every parcel's soil moisture above its stress threshold — automatically cancelling irrigation on rainy days, doubling evaporation on Kona wind days, and cutting water to harvested parcels at precisely the right time.",
+    overview_label:"Overview",overview_title:"What it schedules",ov_c1:"Setting",ov_c2:"Detail",
+    ov_r1a:"Parcels",ov_r1b:"Up to 8 parcels — each with crop type, current soil moisture, growth stage, pest history, and harvested_on_day",
+    ov_r2a:"Planning horizon",ov_r2b:"7-day weather forecast (configurable); each day has precipitation, wind direction, and temperature",
+    ov_r3a:"Decision variable",ov_r3b:"I[parcel, day] = irrigation hours (integer, 0–4 hrs/day/parcel)",
+    ov_r4a:"State variable",ov_r4b:"M[parcel, day] = soil moisture ×10 as integer (50–1000, representing 5%–100%)",
+    ov_r5a:"Solver",ov_r5b:"OR-Tools CP-SAT, minimization objective; time limit 10 seconds",
+    ov_r6a:"Water cost",ov_r6b:"$15/hour (configurable), daily total-hours cap enforced as a hard constraint",
+    tech_label:"The Technology",tech_title:"CP-SAT integer variable optimization with state propagation",
+    t1_pill:"Integer moisture state — 10× scaling trick",t1_title:"Soil Moisture as Constrained Integer Variable",t1_desc:"CP-SAT works with integers only. Soil moisture (0–100%) is scaled ×10 to become an integer in range [50, 1000] — allowing 0.1% precision without floating-point arithmetic. Each day's moisture is a chained state variable: M[p, d] = clamp(M[p, d-1] + I[p,d]×150 + rain_gain − evap, 50, 1000). One irrigation hour adds +15% (150 in scaled units), 1mm rain adds +0.5%, and normal evaporation subtracts −4% per day. On Kona wind days (wind direction 160°–240°), evaporation doubles to −8% per day — capturing the desiccating effect of Hawaii's offshore wind system.",
+    t2_pill:"Penalty-based minimization objective",t2_title:"Three-Term Cost Function",t2_desc:"The solver minimizes: Σ [I[p,d] × water_cost_per_h×10] + Σ [dry_penalty[p,d] × 50] + Σ [pest_penalty[p,d] × 20]. Water cost is proportional to scheduled hours. Dry penalty = max(0, dry_threshold − M[p,d]) — activated when moisture drops below the crop's stress threshold (e.g., papaya dry threshold = 35%). Pest penalty = max(0, M[p,d] − 700) — only for parcels with pest_history_score > 0.4, penalizing over-watering above 70% moisture that promotes fungal disease. The ×50 / ×20 weights ensure preventing crop death (dry penalty) vastly outweighs water cost — correctly prioritizing plant health over efficiency.",
+    constraints_label:"Constraints & Logic",constraints_title:"The 6 scheduling rules",
+    c1_badge:"Hard Constraint",c1_title:"Rain cancellation",c1_desc:"If precipitation ≥ 10 mm on a given day (configurable rain_cancel_threshold), irrigation is forced to 0 for all parcels on that day. model.Add(I[p,d] == 0) — no water is wasted during adequate rainfall.",
+    c2_badge:"Hard Constraint",c2_title:"Daily total-hour cap",c2_desc:"Σ I[p,d] ≤ max_daily_hours across all parcels per day — enforces the farm's water intake infrastructure limit (pump capacity, pipe flow rate). Default 24 hours/day total across all parcels.",
+    c3_badge:"Hard Constraint",c3_title:"Pre-harvest water cutoff",c3_desc:"Parcels in \"harvest\" growth stage have irrigation forced to 0. This models the agronomic practice of stopping irrigation 3–7 days before harvest to concentrate sugars and firm fruit — critical for papaya and pineapple quality grades.",
+    c4_badge:"Hard Constraint",c4_title:"Post-harvest cutoff (cyclical crops)",c4_desc:"After harvest day, cyclical crops (taro, papaya, pineapple) receive no irrigation — the parcel is fallow. Perennial crops (coffee, macadamia) continue receiving irrigation after harvest since the trees are permanent and require ongoing moisture.",
+    c5_badge:"Soft Constraint (Penalty)",c5_title:"Dry stress penalty",c5_desc:"dry_pen[p,d] = max(0, dry_threshold − M[p,d]). Only applied when water_needed is true (not in cutoff period). The ×50 weight makes crop death prevention the dominant driver — the solver will always prefer spending money on water over incurring this penalty.",
+    c6_badge:"Soft Constraint (Penalty)",c6_title:"Over-moisture pest penalty",c6_desc:"pest_pen[p,d] = max(0, M[p,d] − 700). Only applied to parcels where pest_history_score > 0.4. Prevents over-irrigation that would push moisture above 70% on already pest-stressed parcels where Phytophthora and other water-borne pathogens thrive.",
+    formula_title:"Moisture state transition & objective",
+    kona_note:"<strong>Kona wind detection:</strong> Wind direction 160°–240° (SE offshore) is flagged as Kona wind, doubling the evaporation rate. This is unique to Hawaii's leeward coast geography — dry offshore air from the Mauna Loa rain shadow evaporates topsoil twice as fast as trade wind days.",
+    pipeline_label:"Data Pipeline",pipeline_title:"How data flows through the irrigation optimizer",
+    fp1_title:"Parcel sensor data from Crop Health Predictor",fp1_desc:"The same 8 parcel profiles used by the Crop Health Predictor (P01–P08) are shared via session_state — including soil_moisture_pct, pest_history_score, growth stage, and crop type. The irrigation optimizer reads these as initial conditions for day 0 of the planning horizon.",
+    fp2_title:"7-day weather forecast injection",fp2_desc:"The weather forecast is a list of 7 daily dictionaries: {precip, wind_dir, temp_c, humidity}. In the demo, users can load Open-Meteo API forecasts for any of the 3 Hawaii stations (Waimea/Hilo/Kona) or manually set per-day conditions. Wind direction is decoded to detect Kona wind days (160°–240°).",
+    fp3_title:"CP-SAT model construction",fp3_desc:"For each (parcel, day) pair, the model creates: I[p,d] integer variable (0–4), M[p,d] integer variable (50–1000), dry_pen and pest_pen integer penalty variables. State transition constraints link each day's moisture to the previous day, irrigation input, rainfall, and evaporation. All constraints are added before calling solver.Solve().",
+    fp4_title:"CP-SAT solve (≤ 10 seconds)",fp4_desc:"solver.parameters.max_time_in_seconds = 10.0. For a typical 8-parcel × 7-day problem (56 irrigation variables + 56 moisture state variables + penalty variables), CP-SAT finds the optimal or near-optimal solution in under 1 second — the 10-second limit is a safety net for edge cases with unusual weather patterns.",
+    fp5_title:"Schedule & moisture trajectory output",fp5_desc:"The solution is formatted as two arrays: schedule (per-parcel, per-day irrigation hours and resulting moisture), and trajectories (per-parcel 7-day moisture curve). Both are written to session_state and displayed as an interactive Gantt-style chart on the Field Staff dashboard — showing exactly when each parcel gets watered and what moisture level results.",
+    results_label:"Results",results_title:"What the optimizer produces",
+    r1_title:"7-day per-parcel irrigation schedule",r1_desc:"A table showing each parcel's daily irrigation hours (0–4) across the planning horizon — field staff see a simple \"parcel A: 2h Monday, 0h Tuesday (rain), 1h Wednesday\" work list that replaces manual judgment with solver-optimized decisions.",
+    r2_title:"Soil moisture trajectory per parcel",r2_desc:"A 7-day moisture curve for each parcel showing initial moisture → final moisture trajectory. Parcels that would hit the dry stress threshold without intervention are visible as dips toward the danger zone — validating that the schedule prevents crop stress.",
+    r3_title:"Total water cost estimate",r3_desc:"Σ (scheduled_hours × $15/hr) across all parcels and days — gives the farm manager a 7-day water bill forecast to compare against manual scheduling baseline.",
+    r4_title:"Rain cancellation events highlighted",r4_desc:"Days where irrigation was automatically cancelled due to forecast rain ≥ 10mm are flagged in the schedule — showing the water savings attributed to weather-responsive scheduling vs. a fixed weekly program.",
+    r5_title:"Kona wind days flagged",r5_desc:"Days where Kona wind is detected (wind_dir 160°–240°) are highlighted in the schedule, explaining why extra irrigation hours were assigned — connecting the schedule decision to its meteorological cause.",
+    why_label:"Why It Matters",why_title:"The farm management problem it solves",
+    w1_title:"Water is scarce and expensive in Hawaii",w1_desc:"Hawaii agricultural water costs $15+/hour for pump operation. On a 21.5-ha farm with 8 parcels, over-irrigation by just 1 hour per parcel per day adds up to $840/week in unnecessary cost. The optimizer finds the minimum-cost schedule that still prevents crop stress — a direct operational saving.",
+    w2_title:"Kona wind is a uniquely Hawaiian challenge",w2_desc:"On the leeward (Kona) side of Hawaii's Big Island, SE offshore winds in the Mauna Loa rain shadow create dry conditions that evaporate topsoil at double the normal rate. Fixed irrigation schedules set for normal trade wind days leave coffee and macadamia orchards stressed on Kona wind days — the optimizer adjusts automatically.",
+    w3_title:"Pre-harvest cutoff timing for quality grades",w3_desc:"Hawaii's premium papaya and pineapple buyers (Whole Foods, premium hotel chains) require specific Brix sugar levels that only develop when irrigation is stopped at exactly the right pre-harvest window. Manual timing is inconsistent; the optimizer integrates crop stage data from the Crop Lifecycle Manager to enforce precise cutoffs.",
+    w4_title:"Pest-aware moisture ceiling",w4_desc:"Taro wetland parcels with high pest history are particularly vulnerable to Phytophthora root rot when over-irrigated. The pest_penalty constraint gives the optimizer a second objective beyond just preventing drought — also preventing the over-wet conditions that the Crop Health Predictor's pest_history_score identifies as fungal disease triggers.",
+    cta_label:"Navigation",cta_title:"Explore the other engines",cta_prev:"← Engine 06: Knowledge Transfer",cta_suite:"Suite Overview",cta_next:"Engine 01: Planting Strategy →",
+    footer_note:"Portfolio case study · Manami Oyama"
+  },
+  ja: {
+    nav_back:"← スイート概要",hero_eyebrow:"エンジン 07 — 技術解説",hero_title:"<em>スマート灌漑オプティマイザー</em> の仕組み",hero_desc:"CP-SAT整数変数最適化の平易な解説 — 7日間の気象予報期間にわたって区画ごとの日次灌漑時間をスケジューリングし、コナウィンズの蒸発動態に対応しながら作物ストレスを防ぎつつ水道コストを最小化します。",one_liner:"固定灌漑スケジュールに代わり、このエンジンは各区画の日次散水時間を整数決定変数として扱い、全区画の土壌水分をストレス閾値以上に保つ最小コストスケジュールを解きます — 雨天の灌漑を自動キャンセルし、コナウィンズの日に蒸発量を2倍に計算し、正確なタイミングで収穫前区画への送水を遮断します。",
+    overview_label:"概要",overview_title:"何をスケジューリングするか",ov_c1:"設定項目",ov_c2:"詳細",
+    ov_r1a:"区画",ov_r1b:"最大8区画 — 各区画に作物種別・現在の土壌水分・生育ステージ・病害虫履歴・収穫日を設定",
+    ov_r2a:"計画期間",ov_r2b:"7日間の気象予報（変更可能）、各日に降水量・風向き・気温を含む",
+    ov_r3a:"決定変数",ov_r3b:"I[区画, 日] = 灌漑時間（整数、0〜4時間/日/区画）",
+    ov_r4a:"状態変数",ov_r4b:"M[区画, 日] = 土壌水分×10（整数、50〜1000、5%〜100%を表現）",
+    ov_r5a:"ソルバー",ov_r5b:"OR-Tools CP-SAT、最小化目的関数、制限時間10秒",
+    ov_r6a:"水道コスト",ov_r6b:"$15/時間（変更可能）、日次合計時間上限をハード制約として強制",
+    tech_label:"技術",tech_title:"状態伝播を伴うCP-SAT整数変数最適化",
+    t1_pill:"整数水分状態 — 10倍スケーリングのテクニック",t1_title:"制約付き整数変数としての土壌水分",t1_desc:"CP-SATは整数のみで動作します。土壌水分（0〜100%）を×10スケーリングして[50, 1000]の整数に変換 — 浮動小数点演算なしに0.1%精度を実現します。各日の水分は連鎖した状態変数：M[p,d] = clamp(M[p,d-1] + I[p,d]×150 + rain_gain − evap, 50, 1000)。1時間の灌漑で+15%（スケール単位で150）、1mmの雨で+0.5%、通常蒸発で日次−4%。コナウィンズの日（風向160°〜240°）は蒸発量が2倍の−8%/日 — ハワイの沖合風システムの乾燥効果を捉えます。",
+    t2_pill:"ペナルティベースの最小化目的関数",t2_title:"3項コスト関数",t2_desc:"ソルバーが最小化：Σ [I[p,d] × water_cost_per_h×10] + Σ [dry_penalty[p,d] × 50] + Σ [pest_penalty[p,d] × 20]。水道コストは予定時間に比例。乾燥ペナルティ = max(0, dry_threshold − M[p,d]) — 水分が作物のストレス閾値を下回ると発動（例：パパイヤ乾燥閾値35%）。病害虫ペナルティ = max(0, M[p,d] − 700) — pest_history_score > 0.4の区画のみ、菌類を促進する70%以上の過湿に課金。×50/×20の重みが作物枯死防止をコスト最小化より大幅に優先します。",
+    constraints_label:"制約条件とロジック",constraints_title:"6つのスケジューリングルール",
+    c1_badge:"ハード制約",c1_title:"雨天キャンセル",c1_desc:"降水量が指定日に≥10mm（変更可能なrain_cancel_threshold）の場合、その日の全区画灌漑を0に強制。model.Add(I[p,d] == 0) — 十分な降雨中は水を無駄にしません。",
+    c2_badge:"ハード制約",c2_title:"日次合計時間上限",c2_desc:"全区画の日次Σ I[p,d] ≤ max_daily_hours — 農場の水道インフラ制限（ポンプ容量・配管流量）を強制。デフォルトは全区画合計で24時間/日。",
+    c3_badge:"ハード制約",c3_title:"収穫前の水切り",c3_desc:"「harvest」生育ステージの区画は灌漑を0に強制。収穫3〜7日前に灌漑を止めて糖分を濃縮し果実を引き締める農業慣行をモデル化 — パパイヤとパイナップルの品質グレードに重要です。",
+    c4_badge:"ハード制約",c4_title:"収穫後の水切り（周期性作物）",c4_desc:"収穫日以降、周期性作物（タロ・パパイヤ・パイナップル）は灌漑なし — 区画は休耕期。多年生作物（コーヒー・マカデミア）は木が恒久的で継続的な水分が必要なため収穫後も灌漑を続けます。",
+    c5_badge:"ソフト制約（ペナルティ）",c5_title:"乾燥ストレスペナルティ",c5_desc:"dry_pen[p,d] = max(0, dry_threshold − M[p,d])。water_neededがtrueの場合のみ適用（水切り期間中は除外）。×50の重みが作物枯死防止を主要ドライバーにし、ソルバーは常にこのペナルティより水道代支出を優先します。",
+    c6_badge:"ソフト制約（ペナルティ）",c6_title:"過湿病害虫ペナルティ",c6_desc:"pest_pen[p,d] = max(0, M[p,d] − 700)。pest_history_score > 0.4の区画のみ適用。既に病害虫ストレスを受けている区画での過灌漑による70%以上の過湿を防止 — フィトフトラなどの水生病原体が繁殖する条件を抑制します。",
+    formula_title:"水分状態遷移と目的関数",
+    kona_note:"<strong>コナウィンズ検出：</strong>風向160°〜240°（南東沖合）をコナウィンズとしてフラグを立て、蒸発率を2倍に。これはハワイの風下側海岸地形に固有のもの — マウナロアの雨陰から吹く乾燥した沖合空気がトレードウィンドの日の2倍の速さで表土を乾燥させます。",
+    pipeline_label:"データパイプライン",pipeline_title:"灌漑オプティマイザー内のデータフロー",
+    fp1_title:"作物健康予測エンジンからの区画センサーデータ",fp1_desc:"作物健康予測エンジンで使用した8区画プロファイル（P01〜P08）がsession_stateを通じて共有されます — soil_moisture_pct・pest_history_score・生育ステージ・作物種別を含む。灌漑オプティマイザーはこれらを計画期間0日目の初期条件として読み込みます。",
+    fp2_title:"7日間気象予報の注入",fp2_desc:"気象予報は7つの日次辞書リスト：{precip, wind_dir, temp_c, humidity}。デモでは3つのハワイ観測点（ワイメア/ヒロ/コナ）のOpen-Meteo API予報を読み込むか、日ごとに手動設定できます。風向きはコナウィンズ日（160°〜240°）の検出にデコードされます。",
+    fp3_title:"CP-SATモデルの構築",fp3_desc:"各（区画, 日）ペアに対してモデルが作成：I[p,d]整数変数（0〜4）、M[p,d]整数変数（50〜1000）、dry_penとpest_penの整数ペナルティ変数。状態遷移制約が各日の水分を前日・灌漑入力・降水量・蒸発量に連結。solver.Solve()呼び出し前に全制約を追加。",
+    fp4_title:"CP-SAT求解（≤10秒）",fp4_desc:"solver.parameters.max_time_in_seconds = 10.0。典型的な8区画×7日問題（灌漑変数56個＋水分状態変数56個＋ペナルティ変数）でCP-SATは1秒未満で最適または準最適解を発見 — 10秒制限は異常気象パターンのエッジケース向けの安全網。",
+    fp5_title:"スケジュールと水分軌跡の出力",fp5_desc:"解は2つの配列に整形：schedule（区画ごと・日ごとの灌漑時間と結果水分）とtrajectories（区画ごとの7日間水分曲線）。両方ともsession_stateに書き込まれ、Field Staffダッシュボードに対話型ガントチャートとして表示 — 各区画がいつ散水され、どの水分レベルになるかを正確に表示します。",
+    results_label:"出力結果",results_title:"オプティマイザーが生成するもの",
+    r1_title:"7日間の区画別灌漑スケジュール",r1_desc:"各区画の日次灌漑時間（0〜4時間）を計画期間全体で示すテーブル — フィールドスタッフは「区画A：月曜2時間、火曜0時間（雨）、水曜1時間」という単純なタスクリストで手動判断をソルバー最適化に置き換えます。",
+    r2_title:"区画別土壌水分軌跡",r2_desc:"各区画の7日間水分曲線で初期水分→最終水分の推移を表示。介入なしで乾燥ストレス閾値に達する区画は危険ゾーンへのディップとして可視化 — スケジュールが作物ストレスを防いでいることを検証します。",
+    r3_title:"総水道コスト見積もり",r3_desc:"全区画・全日のΣ（予定時間×$15/時間）— ファームマネージャーに7日間の水道代予測を提供し、手動スケジューリングのベースラインと比較できます。",
+    r4_title:"雨天キャンセルイベントの強調表示",r4_desc:"予報雨量≥10mmにより灌漑が自動キャンセルされた日をスケジュール上でフラグ — 固定週次プログラムと比較した気象連動スケジューリングによる節水効果を示します。",
+    r5_title:"コナウィンズ日のフラグ表示",r5_desc:"コナウィンズが検出された日（wind_dir 160°〜240°）をスケジュール上で強調表示し、追加灌漑時間が割り当てられた理由を説明 — スケジュール決定をその気象原因と結びつけます。",
+    why_label:"なぜ重要か",why_title:"解決する農場管理の課題",
+    w1_title:"ハワイでは水が希少で高価",w1_desc:"ハワイの農業用水はポンプ運転で$15以上/時間かかります。8区画を持つ21.5haの農場で区画あたり1時間余分に灌漑するだけで、週$840の無駄なコストになります。オプティマイザーは作物ストレスを防ぎながら最小コストスケジュールを見つけ — 直接的な運営コスト削減をもたらします。",
+    w2_title:"コナウィンズはハワイ固有の課題",w2_desc:"ハワイ島の風下側（コナ側）ではマウナロアの雨陰の南東沖合風が通常の2倍の速さで表土を乾燥させます。通常のトレードウィンドの日向けに設定された固定灌漑スケジュールは、コナウィンズの日にコーヒーとマカデミア農園をストレス状態に置いてしまいます — オプティマイザーは自動的に調整します。",
+    w3_title:"品質グレードのための収穫前水切りタイミング",w3_desc:"ハワイのプレミアムパパイヤとパイナップルのバイヤー（ホールフーズ、プレミアムホテルチェーン）は、正確な収穫前ウィンドウで灌漑を停止した場合にのみ発達する特定のBrix糖度値を要求します。手動タイミングは一貫性に欠けます；オプティマイザーは作物ライフサイクルマネージャーの生育ステージデータを統合して精確な水切りを強制します。",
+    w4_title:"病害虫を考慮した水分上限",w4_desc:"高い病害虫履歴を持つタロの湿地区画は過灌漑時にPhytophthora根腐れに特に脆弱です。pest_penalty制約はオプティマイザーに干ばつ防止だけでなく、作物健康予測エンジンのpest_history_scoreが菌類病の誘発要因として特定する過湿条件も防ぐ第2の目的関数を与えます。",
+    cta_label:"ナビゲーション",cta_title:"他のエンジンを見る",cta_prev:"← エンジン06: 知識継承プランナー",cta_suite:"スイート概要",cta_next:"エンジン01: 作付計画 →",
+    footer_note:"ポートフォリオ事例 · 大山愛美"
+  }
+};
+let lang = "en";
+function applyLang(l) {
+  lang = l;
+  document.querySelectorAll("[data-i18n]").forEach(el => {
+    const k = el.getAttribute("data-i18n");
+    if (T[l][k] !== undefined) el.innerHTML = T[l][k];
+  });
+  document.querySelectorAll(".lang-btn").forEach(btn => {
+    btn.classList.toggle("active", btn.getAttribute("data-lang-btn") === l);
+  });
+}
+document.querySelectorAll(".lang-btn").forEach(btn => {
+  btn.addEventListener("click", () => applyLang(btn.getAttribute("data-lang-btn")));
+});
+document.querySelectorAll(".fade-up").forEach((el, i) => {
+  el.style.animationDelay = (i * 0.08) + "s";
+});
+</script>
+</body>
+</html>

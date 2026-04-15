@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>How It Works — Crop Health &amp; Quality Predictor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&family=Noto+Serif+JP:wght@300;400&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/style.css"/>
+  <style>
+    :root{--bg:#f0fafa;--accent:#0e7490;--accent2:#67e8f9;--accent3:#ecfeff;--border:#a5f3fc;}
+    .feature-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:20px;}
+    @media(max-width:700px){.feature-grid{grid-template-columns:1fr;}}
+    .feature-card{border:1px solid var(--border);border-radius:10px;padding:14px 16px;background:white;}
+    .feature-card .f-name{font-size:13px;font-weight:700;font-family:'Courier New',monospace;color:var(--accent);}
+    .feature-card .f-desc{font-size:12px;color:#555;margin-top:5px;line-height:1.6;}
+    .risk-row{display:flex;gap:10px;flex-wrap:wrap;margin:16px 0;}
+    .risk-card{flex:1;min-width:150px;border-radius:8px;padding:12px 14px;background:white;border:1px solid var(--border);}
+    .risk-card .r-icon{font-size:1.4rem;margin-bottom:4px;}
+    .risk-card .r-label{font-size:11px;font-weight:700;letter-spacing:.08em;}
+    .risk-card .r-thresh{font-size:12px;color:#555;margin-top:4px;font-family:'Courier New',monospace;}
+    .formula-box{background:#1a1a1a;color:#67e8f9;border-radius:8px;padding:16px 20px;font-family:'Courier New',monospace;font-size:13px;line-height:1.7;margin:16px 0;}
+    .formula-box .comment{color:#6b7280;}
+    .skill-table{width:100%;border-collapse:collapse;font-size:13px;margin:16px 0;}
+    .skill-table th{background:var(--accent3);padding:8px 12px;text-align:left;border:1px solid var(--border);font-weight:600;}
+    .skill-table td{padding:8px 12px;border:1px solid var(--border);vertical-align:top;}
+    .skill-table tr:nth-child(even) td{background:#f8fffe;}
+    .flow-steps{counter-reset:steps;list-style:none;padding:0;margin:24px 0 0;}
+    .flow-step{counter-increment:steps;display:flex;gap:18px;margin-bottom:20px;align-items:flex-start;}
+    .flow-step::before{content:counter(steps);min-width:32px;height:32px;border-radius:50%;background:var(--accent);color:white;font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;}
+    .flow-step h4{margin:0 0 4px;font-size:15px;}
+    .flow-step p{margin:0;font-size:13px;color:#555;line-height:1.6;}
+    .result-section{border-left:3px solid var(--accent);padding:10px 16px;margin:10px 0;background:white;border-radius:0 8px 8px 0;}
+    .result-section h4{margin:0 0 4px;font-size:14px;}
+    .result-section p{margin:0;font-size:13px;color:#555;}
+    .why-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:20px;}
+    @media(max-width:700px){.why-grid{grid-template-columns:1fr;}}
+    .why-card{background:white;border:1px solid var(--border);border-radius:10px;padding:18px 20px;}
+    .why-card h4{margin:0 0 6px;font-size:14px;font-weight:600;}
+    .why-card p{margin:0;font-size:13px;color:#555;line-height:1.6;}
+  </style>
+</head>
+<body>
+<nav>
+  <div class="nav-inner">
+    <a href="ag-tech-suite-index.html" class="nav-logo" style="text-decoration:none;color:inherit;">Ag-Tech Suite</a>
+    <div class="nav-links">
+      <a href="ag-tech-suite-index.html" class="btn-back" data-i18n="nav_back">← Suite Overview</a>
+      <div class="lang-toggle">
+        <button class="lang-btn active" data-lang-btn="en">EN</button>
+        <button class="lang-btn" data-lang-btn="ja">JA</button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="container">
+    <p class="hero-eyebrow fade-up" data-i18n="hero_eyebrow">Engine 05 — Technical Deep Dive</p>
+    <h1 class="hero-title fade-up" data-i18n="hero_title">How the <em>Crop Health &amp; Quality Predictor</em> works</h1>
+    <p class="hero-desc fade-up" data-i18n="hero_desc">A plain-English explanation of LightGBM binary classification — predicting quality-degradation risk from 11 sensor features and triggering harvest-priority alerts before produce value is lost.</p>
+    <div class="one-liner fade-up"><p data-i18n="one_liner">Instead of waiting until a field worker notices visible degradation, this engine continuously scores every parcel from sensor readings using a LightGBM model trained on 5,000 synthetic records — generating a 0–100% degradation probability that directly drives the urgency level fed into the Harvest Logistics Optimizer.</p></div>
+    <div class="btn-group fade-up" style="margin-bottom:20px">
+      <a href="ag-tech-suite-index.html" class="btn btn-outline" data-i18n="nav_back">← Suite Overview</a>
+    </div>
+  </div>
+</div>
+
+<section>
+  <div class="container">
+    <p class="section-label" data-i18n="overview_label">Overview</p>
+    <h2 class="section-title" data-i18n="overview_title">What it predicts</h2>
+    <table class="skill-table">
+      <thead><tr><th data-i18n="ov_c1">Setting</th><th data-i18n="ov_c2">Detail</th></tr></thead>
+      <tbody>
+        <tr><td data-i18n="ov_r1a">Model</td><td data-i18n="ov_r1b">LightGBM binary classifier (gradient-boosted decision trees) trained on 5,000 synthetic sensor records</td></tr>
+        <tr><td data-i18n="ov_r2a">Target</td><td data-i18n="ov_r2b">is_degraded: probability that a parcel's produce will suffer quality degradation if not harvested promptly</td></tr>
+        <tr><td data-i18n="ov_r3a">Input features</td><td data-i18n="ov_r3b">11 features — environmental sensors + crop metadata + field conditions (see feature table below)</td></tr>
+        <tr><td data-i18n="ov_r4a">Parcels scored</td><td data-i18n="ov_r4b">8 default parcels (P01–P08) covering all 5 crops; batch prediction runs on all parcels per session</td></tr>
+        <tr><td data-i18n="ov_r5a">Output</td><td data-i18n="ov_r5b">Risk probability (0.0–1.0) per parcel + risk level (critical/high/medium/low) + harvest alert message</td></tr>
+        <tr><td data-i18n="ov_r6a">Training time</td><td data-i18n="ov_r6b">~2s for 200 boosting rounds on 5,000 records; model saved to lgbm_model.txt and reloaded on subsequent runs</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section style="background:var(--accent3)">
+  <div class="container">
+    <p class="section-label" data-i18n="tech_label">The Technology</p>
+    <h2 class="section-title" data-i18n="tech_title">LightGBM gradient-boosted binary classification</h2>
+    <div class="tech-cards">
+      <div class="tech-card">
+        <div class="tech-pill" data-i18n="t1_pill">LightGBM — leaf-wise tree growth</div>
+        <h3 class="tech-title" data-i18n="t1_title">Gradient Boosting on 11 Agricultural Features</h3>
+        <p class="tech-desc" data-i18n="t1_desc">LightGBM builds an ensemble of 200 decision trees (num_boost_round=200) using leaf-wise growth, which outperforms level-wise XGBoost on tabular data by focusing splits on the leaves with the highest loss reduction. Key hyperparameters: max_depth=5, num_leaves=31, learning_rate=0.05, feature_fraction=0.8, bagging_fraction=0.8 (bagging_freq=5). Binary log-loss objective with sigmoid output produces a calibrated probability in [0, 1]. Feature importance by gain identifies which sensor readings matter most — pest_history_score, days_since_harvest, and soil_moisture_pct are consistently the top three drivers.</p>
+      </div>
+      <div class="tech-card">
+        <div class="tech-pill" data-i18n="t2_pill">Synthetic training data with rule-based labels</div>
+        <h3 class="tech-title" data-i18n="t2_title">5,000-record Synthetic Dataset</h3>
+        <p class="tech-desc" data-i18n="t2_desc">Since real sensor logs are unavailable for the demo, the model trains on 5,000 synthetic records generated by a rule-based risk function: drought stress (days_since_rain &gt; 10 → +0.2 risk), heat stress (temp &gt; 30°C → +0.15), dry soil (soil_moisture &lt; 25% → +0.20), high humidity + Kona winds (humidity &gt; 75% &amp; kona_days &gt; 5 → +0.30), pest history (+0.25 × pest_score), and over-maturity (days_since_harvest &gt; crop-specific threshold → +0.35). Gaussian noise (σ=0.15) is added before binarisation — teaching the model to identify degradation patterns without overfitting to exact thresholds.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <p class="section-label" data-i18n="features_label">The 11 Features</p>
+    <h2 class="section-title" data-i18n="features_title">Sensor &amp; metadata inputs to the model</h2>
+    <div class="feature-grid">
+      <div class="feature-card"><div class="f-name">days_since_rain</div><div class="f-desc" data-i18n="f1_desc">Days elapsed since last measurable rainfall — drought proxy. Above 10 days begins triggering drought stress contribution.</div></div>
+      <div class="feature-card"><div class="f-name">avg_temp_c</div><div class="f-desc" data-i18n="f2_desc">7-day rolling average temperature (°C). Heat stress activates above 30°C; contributes up to +0.15 risk score.</div></div>
+      <div class="feature-card"><div class="f-name">avg_humidity_pct</div><div class="f-desc" data-i18n="f3_desc">7-day rolling average humidity (%). Critical only when combined with Kona wind days — high humidity + wind interaction drives fungal and pest risk.</div></div>
+      <div class="feature-card"><div class="f-name">soil_moisture_pct</div><div class="f-desc" data-i18n="f4_desc">Real-time soil moisture sensor value (%). Below 25% triggers dry-soil degradation risk (+0.20). Shared with Smart Irrigation engine.</div></div>
+      <div class="feature-card"><div class="f-name">days_since_harvest</div><div class="f-desc" data-i18n="f5_desc">Days since last harvest — maturity proxy. Each crop has its own over-maturity threshold: papaya=25d, coffee=40d, taro=45d, macadamia=50d, pineapple=35d.</div></div>
+      <div class="feature-card"><div class="f-name">pest_history_score</div><div class="f-desc" data-i18n="f6_desc">90-day accumulated pest incidence score (0–1). Directly contributes +0.25 × score to risk. Also used by Smart Irrigation to modulate over-moisture penalty.</div></div>
+      <div class="feature-card"><div class="f-name">kona_wind_days_30d</div><div class="f-desc" data-i18n="f7_desc">Number of Kona wind days (SE offshore wind) in the last 30 days. Interacts multiplicatively with high humidity to increase fungal risk.</div></div>
+      <div class="feature-card"><div class="f-name">sunshine_hours_7d</div><div class="f-desc" data-i18n="f8_desc">Total sunshine hours over the past 7 days. Below 4 hours contributes +0.10 risk — insufficient photosynthesis affects fruit sugar content and shelf life.</div></div>
+      <div class="feature-card"><div class="f-name">crop_type_enc</div><div class="f-desc" data-i18n="f9_desc">Label-encoded crop type (papaya=0, coffee=1, taro=2, macadamia=3, pineapple=4). Allows the model to learn crop-specific degradation patterns implicitly.</div></div>
+      <div class="feature-card"><div class="f-name">area_ha</div><div class="f-desc" data-i18n="f10_desc">Parcel area in hectares (0.3–5.0 in demo data). Larger parcels have more micro-climate variation; the model learns to slightly discount risk on larger parcels.</div></div>
+      <div class="feature-card"><div class="f-name">altitude_m</div><div class="f-desc" data-i18n="f11_desc">Parcel altitude (50–800m). Kona-side upland coffee parcels (550m+) experience cooler temperatures and different pest profiles than coastal papaya fields.</div></div>
+    </div>
+
+    <h3 style="margin-top:32px;font-size:17px;" data-i18n="risk_title">Risk level thresholds</h3>
+    <div class="risk-row">
+      <div class="risk-card"><div class="r-icon">🔴</div><div class="r-label" data-i18n="rl1_label">CRITICAL</div><div class="r-thresh">prob ≥ 0.70</div><p style="font-size:12px;color:#555;margin-top:6px;" data-i18n="rl1_desc">Harvest immediately — delay will confirm losses</p></div>
+      <div class="risk-card"><div class="r-icon">🟠</div><div class="r-label" data-i18n="rl2_label">HIGH</div><div class="r-thresh">prob ≥ 0.50</div><p style="font-size:12px;color:#555;margin-top:6px;" data-i18n="rl2_desc">Harvest this week — raise priority in logistics scheduler</p></div>
+      <div class="risk-card"><div class="r-icon">🟡</div><div class="r-label" data-i18n="rl3_label">MEDIUM</div><div class="r-thresh">prob ≥ 0.30</div><p style="font-size:12px;color:#555;margin-top:6px;" data-i18n="rl3_desc">Increase monitoring, re-evaluate in 3 days</p></div>
+      <div class="risk-card"><div class="r-icon">🟢</div><div class="r-label" data-i18n="rl4_label">LOW</div><div class="r-thresh">prob &lt; 0.30</div><p style="font-size:12px;color:#555;margin-top:6px;" data-i18n="rl4_desc">No action needed — nominal conditions</p></div>
+    </div>
+
+    <h3 style="margin-top:24px;font-size:17px;" data-i18n="algo_title">Model pipeline</h3>
+    <div class="formula-box">
+<span class="comment"># Training (first run — ~2 seconds):</span>
+df = generate_training_data(n_samples=5000, seed=42)
+<span class="comment"># Rule-based risk score → Gaussian noise → binarise at 0.5</span>
+X = df[FEATURES]  <span class="comment"># 11 columns</span>
+y = df["is_degraded"]  <span class="comment"># 0 or 1</span>
+params = {"objective":"binary","max_depth":5,"num_leaves":31,
+          "learning_rate":0.05,"feature_fraction":0.8,"bagging_fraction":0.8}
+model = lgb.train(params, lgb.Dataset(X, y), num_boost_round=200)
+model.save_model("lgbm_model.txt")
+
+<span class="comment"># Inference (every subsequent run — milliseconds):</span>
+model = lgb.Booster(model_file="lgbm_model.txt")
+prob = model.predict(parcel_features_df)[0]   <span class="comment"># → 0.0–1.0</span>
+level = "critical" if prob≥0.70 else "high" if prob≥0.50 else "medium" if prob≥0.30 else "low"
+    </div>
+  </div>
+</section>
+
+<section style="background:var(--accent3)">
+  <div class="container">
+    <p class="section-label" data-i18n="pipeline_label">Data Pipeline</p>
+    <h2 class="section-title" data-i18n="pipeline_title">How data flows through the predictor</h2>
+    <ol class="flow-steps">
+      <li class="flow-step">
+        <div><h4 data-i18n="fp1_title">Sensor data collection from parcel profiles</h4>
+        <p data-i18n="fp1_desc">The 8 default parcel records (P01–P08) carry pre-populated sensor readings — soil moisture, temperature, humidity, days since rain, pest history, and Kona wind count. In a live deployment these would stream from IoT sensors; in the demo they are editable via sliders.</p></div>
+      </li>
+      <li class="flow-step">
+        <div><h4 data-i18n="fp2_title">Model load-or-train decision</h4>
+        <p data-i18n="fp2_desc">On session start, CropHealthPredictor.load_or_train() checks for lgbm_model.txt. If found, the 200-tree ensemble loads in milliseconds. If not found (first run or deleted cache), the synthetic training pipeline runs, generates 5,000 records, trains the model, and saves it — taking about 2 seconds.</p></div>
+      </li>
+      <li class="flow-step">
+        <div><h4 data-i18n="fp3_title">Batch prediction across all parcels</h4>
+        <p data-i18n="fp3_desc">predict_batch() assembles all parcel sensor readings into a single DataFrame and calls model.predict() once — returning a list of 8 probabilities in one LightGBM forward pass. This is faster than 8 individual calls and enables side-by-side parcel comparison on the dashboard.</p></div>
+      </li>
+      <li class="flow-step">
+        <div><h4 data-i18n="fp4_title">Risk level classification &amp; alert generation</h4>
+        <p data-i18n="fp4_desc">Each probability is mapped to a risk level via the threshold table. generate_alert_message() produces a bilingual (EN/JA) alert string with the parcel name, crop, probability percentage, and action recommendation — displayed as a prioritized alert list on the Field Manager dashboard.</p></div>
+      </li>
+      <li class="flow-step">
+        <div><h4 data-i18n="fp5_title">Risk scores exported to Harvest Logistics Optimizer</h4>
+        <p data-i18n="fp5_desc">Critical and high-risk parcel IDs are written to session_state as harvest_priority_parcels. The Harvest Logistics Optimizer reads this list and assigns urgency_level=3 or 2 to those tasks — ensuring the CP-SAT solver applies the 50,000 or 10,000-point penalty to any schedule that misses them.</p></div>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <p class="section-label" data-i18n="results_label">Results</p>
+    <h2 class="section-title" data-i18n="results_title">What the predictor produces</h2>
+    <div class="result-section"><h4 data-i18n="r1_title">Per-parcel degradation probability (0–100%)</h4><p data-i18n="r1_desc">A sortable table showing all 8 parcels ranked by risk — field staff immediately see which parcel needs attention today, which can wait until Thursday, and which is in nominal condition.</p></div>
+    <div class="result-section"><h4 data-i18n="r2_title">Bilingual prioritized alert messages</h4><p data-i18n="r2_desc">Four-level alerts (🔴🟠🟡🟢) with actionable text in both English and Japanese — designed for a mixed field staff where some workers prefer Japanese instructions.</p></div>
+    <div class="result-section"><h4 data-i18n="r3_title">Feature importance breakdown</h4><p data-i18n="r3_desc">feature_importance(importance_type="gain") reveals which inputs most influenced the model's predictions — helping the farm manager understand which sensors to invest in and which field conditions most consistently predict quality loss.</p></div>
+    <div class="result-section"><h4 data-i18n="r4_title">Urgency levels fed to Harvest Logistics Optimizer</h4><p data-i18n="r4_desc">The 4-level urgency system (critical=3, high=2, medium=1, low=0) is directly consumed by the CP-SAT harvest scheduler — ensuring the math-based optimization always respects biological urgency over cost minimization.</p></div>
+  </div>
+</section>
+
+<section style="background:var(--accent3)">
+  <div class="container">
+    <p class="section-label" data-i18n="why_label">Why It Matters</p>
+    <h2 class="section-title" data-i18n="why_title">The farm management problem it solves</h2>
+    <div class="why-grid">
+      <div class="why-card"><h4 data-i18n="w1_title">From visual inspection to data-driven triage</h4><p data-i18n="w1_desc">A field worker can inspect 3–5 parcels per morning walk. A batch prediction scores all 8 parcels in milliseconds — surfacing hidden risk in parcels that look fine visually but have accumulated stress in soil moisture, pest history, and weather data that a human eye cannot integrate.</p></div>
+      <div class="why-card"><h4 data-i18n="w2_title">Revenue protection through timely harvest</h4><p data-i18n="w2_desc">Hawaii papaya at 28% degradation risk on a Wednesday is fine. At 72% on a Saturday it's a total loss if not harvested. The threshold-based alert system creates a clear "act now / monitor / normal" decision framework that prevents preventable losses.</p></div>
+      <div class="why-card"><h4 data-i18n="w3_title">Hawaii-specific degradation drivers</h4><p data-i18n="w3_desc">Kona wind (SE offshore wind bringing high humidity from Mauna Loa's leeward side) is a uniquely Hawaiian degradation driver that generic crop models ignore. The feature engineering explicitly captures the humidity × kona_wind_days interaction that triggers fungal and pest surge in taro and coffee.</p></div>
+      <div class="why-card"><h4 data-i18n="w4_title">Bridge between sensing and scheduling</h4><p data-i18n="w4_desc">Without a quantified risk score, the Harvest Logistics Optimizer has no way to distinguish "this parcel can wait a day" from "this parcel must be harvested today." The predictor creates that signal — turning biological urgency into a numerical input that the CP-SAT solver can optimize against.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container" style="text-align:center;">
+    <p class="section-label" data-i18n="cta_label">Navigation</p>
+    <h2 class="section-title" data-i18n="cta_title">Explore the other engines</h2>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:16px;">
+      <a href="ats-how-it-works-yield-labor.html" class="btn btn-outline" data-i18n="cta_prev">← Engine 04: Yield &amp; Labor Simulator</a>
+      <a href="ag-tech-suite-index.html" class="btn btn-primary" data-i18n="cta_suite">Suite Overview</a>
+      <a href="ats-how-it-works-knowledge-transfer.html" class="btn btn-outline" data-i18n="cta_next">Engine 06: Knowledge Transfer →</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container footer-inner">
+    <span>Ag-Tech Suite — Hawaii Edition</span>
+    <span data-i18n="footer_note">Portfolio case study · Manami Oyama</span>
+  </div>
+</footer>
+
+<script>
+const T = {
+  en: {
+    nav_back:"← Suite Overview",hero_eyebrow:"Engine 05 — Technical Deep Dive",hero_title:"How the <em>Crop Health &amp; Quality Predictor</em> works",hero_desc:"A plain-English explanation of LightGBM binary classification — predicting quality-degradation risk from 11 sensor features and triggering harvest-priority alerts before produce value is lost.",one_liner:"Instead of waiting until a field worker notices visible degradation, this engine continuously scores every parcel from sensor readings using a LightGBM model trained on 5,000 synthetic records — generating a 0–100% degradation probability that directly drives the urgency level fed into the Harvest Logistics Optimizer.",
+    overview_label:"Overview",overview_title:"What it predicts",ov_c1:"Setting",ov_c2:"Detail",
+    ov_r1a:"Model",ov_r1b:"LightGBM binary classifier (gradient-boosted decision trees) trained on 5,000 synthetic sensor records",
+    ov_r2a:"Target",ov_r2b:"is_degraded: probability that a parcel's produce will suffer quality degradation if not harvested promptly",
+    ov_r3a:"Input features",ov_r3b:"11 features — environmental sensors + crop metadata + field conditions (see feature table below)",
+    ov_r4a:"Parcels scored",ov_r4b:"8 default parcels (P01–P08) covering all 5 crops; batch prediction runs on all parcels per session",
+    ov_r5a:"Output",ov_r5b:"Risk probability (0.0–1.0) per parcel + risk level (critical/high/medium/low) + harvest alert message",
+    ov_r6a:"Training time",ov_r6b:"~2s for 200 boosting rounds on 5,000 records; model saved to lgbm_model.txt and reloaded on subsequent runs",
+    tech_label:"The Technology",tech_title:"LightGBM gradient-boosted binary classification",
+    t1_pill:"LightGBM — leaf-wise tree growth",t1_title:"Gradient Boosting on 11 Agricultural Features",t1_desc:"LightGBM builds an ensemble of 200 decision trees (num_boost_round=200) using leaf-wise growth, which outperforms level-wise XGBoost on tabular data by focusing splits on the leaves with the highest loss reduction. Key hyperparameters: max_depth=5, num_leaves=31, learning_rate=0.05, feature_fraction=0.8, bagging_fraction=0.8 (bagging_freq=5). Binary log-loss objective with sigmoid output produces a calibrated probability in [0, 1]. Feature importance by gain identifies which sensor readings matter most — pest_history_score, days_since_harvest, and soil_moisture_pct are consistently the top three drivers.",
+    t2_pill:"Synthetic training data with rule-based labels",t2_title:"5,000-record Synthetic Dataset",t2_desc:"Since real sensor logs are unavailable for the demo, the model trains on 5,000 synthetic records generated by a rule-based risk function: drought stress (days_since_rain > 10 → +0.2 risk), heat stress (temp > 30°C → +0.15), dry soil (soil_moisture < 25% → +0.20), high humidity + Kona winds (humidity > 75% & kona_days > 5 → +0.30), pest history (+0.25 × pest_score), and over-maturity (days_since_harvest > crop-specific threshold → +0.35). Gaussian noise (σ=0.15) is added before binarisation — teaching the model to identify degradation patterns without overfitting to exact thresholds.",
+    features_label:"The 11 Features",features_title:"Sensor & metadata inputs to the model",
+    f1_desc:"Days elapsed since last measurable rainfall — drought proxy. Above 10 days begins triggering drought stress contribution.",f2_desc:"7-day rolling average temperature (°C). Heat stress activates above 30°C; contributes up to +0.15 risk score.",f3_desc:"7-day rolling average humidity (%). Critical only when combined with Kona wind days — high humidity + wind interaction drives fungal and pest risk.",f4_desc:"Real-time soil moisture sensor value (%). Below 25% triggers dry-soil degradation risk (+0.20). Shared with Smart Irrigation engine.",f5_desc:"Days since last harvest — maturity proxy. Each crop has its own over-maturity threshold: papaya=25d, coffee=40d, taro=45d, macadamia=50d, pineapple=35d.",f6_desc:"90-day accumulated pest incidence score (0–1). Directly contributes +0.25 × score to risk. Also used by Smart Irrigation to modulate over-moisture penalty.",f7_desc:"Number of Kona wind days (SE offshore wind) in the last 30 days. Interacts multiplicatively with high humidity to increase fungal risk.",f8_desc:"Total sunshine hours over the past 7 days. Below 4 hours contributes +0.10 risk — insufficient photosynthesis affects fruit sugar content and shelf life.",f9_desc:"Label-encoded crop type (papaya=0, coffee=1, taro=2, macadamia=3, pineapple=4). Allows the model to learn crop-specific degradation patterns implicitly.",f10_desc:"Parcel area in hectares (0.3–5.0 in demo data). Larger parcels have more micro-climate variation; the model learns to slightly discount risk on larger parcels.",f11_desc:"Parcel altitude (50–800m). Kona-side upland coffee parcels (550m+) experience cooler temperatures and different pest profiles than coastal papaya fields.",
+    risk_title:"Risk level thresholds",rl1_label:"CRITICAL",rl1_desc:"Harvest immediately — delay will confirm losses",rl2_label:"HIGH",rl2_desc:"Harvest this week — raise priority in logistics scheduler",rl3_label:"MEDIUM",rl3_desc:"Increase monitoring, re-evaluate in 3 days",rl4_label:"LOW",rl4_desc:"No action needed — nominal conditions",
+    algo_title:"Model pipeline",
+    pipeline_label:"Data Pipeline",pipeline_title:"How data flows through the predictor",
+    fp1_title:"Sensor data collection from parcel profiles",fp1_desc:"The 8 default parcel records (P01–P08) carry pre-populated sensor readings — soil moisture, temperature, humidity, days since rain, pest history, and Kona wind count. In a live deployment these would stream from IoT sensors; in the demo they are editable via sliders.",
+    fp2_title:"Model load-or-train decision",fp2_desc:"On session start, CropHealthPredictor.load_or_train() checks for lgbm_model.txt. If found, the 200-tree ensemble loads in milliseconds. If not found (first run or deleted cache), the synthetic training pipeline runs, generates 5,000 records, trains the model, and saves it — taking about 2 seconds.",
+    fp3_title:"Batch prediction across all parcels",fp3_desc:"predict_batch() assembles all parcel sensor readings into a single DataFrame and calls model.predict() once — returning a list of 8 probabilities in one LightGBM forward pass. This is faster than 8 individual calls and enables side-by-side parcel comparison on the dashboard.",
+    fp4_title:"Risk level classification & alert generation",fp4_desc:"Each probability is mapped to a risk level via the threshold table. generate_alert_message() produces a bilingual (EN/JA) alert string with the parcel name, crop, probability percentage, and action recommendation — displayed as a prioritized alert list on the Field Manager dashboard.",
+    fp5_title:"Risk scores exported to Harvest Logistics Optimizer",fp5_desc:"Critical and high-risk parcel IDs are written to session_state as harvest_priority_parcels. The Harvest Logistics Optimizer reads this list and assigns urgency_level=3 or 2 to those tasks — ensuring the CP-SAT solver applies the 50,000 or 10,000-point penalty to any schedule that misses them.",
+    results_label:"Results",results_title:"What the predictor produces",
+    r1_title:"Per-parcel degradation probability (0–100%)",r1_desc:"A sortable table showing all 8 parcels ranked by risk — field staff immediately see which parcel needs attention today, which can wait until Thursday, and which is in nominal condition.",
+    r2_title:"Bilingual prioritized alert messages",r2_desc:"Four-level alerts (🔴🟠🟡🟢) with actionable text in both English and Japanese — designed for a mixed field staff where some workers prefer Japanese instructions.",
+    r3_title:"Feature importance breakdown",r3_desc:"feature_importance(importance_type=\"gain\") reveals which inputs most influenced the model's predictions — helping the farm manager understand which sensors to invest in and which field conditions most consistently predict quality loss.",
+    r4_title:"Urgency levels fed to Harvest Logistics Optimizer",r4_desc:"The 4-level urgency system (critical=3, high=2, medium=1, low=0) is directly consumed by the CP-SAT harvest scheduler — ensuring the math-based optimization always respects biological urgency over cost minimization.",
+    why_label:"Why It Matters",why_title:"The farm management problem it solves",
+    w1_title:"From visual inspection to data-driven triage",w1_desc:"A field worker can inspect 3–5 parcels per morning walk. A batch prediction scores all 8 parcels in milliseconds — surfacing hidden risk in parcels that look fine visually but have accumulated stress in soil moisture, pest history, and weather data that a human eye cannot integrate.",
+    w2_title:"Revenue protection through timely harvest",w2_desc:"Hawaii papaya at 28% degradation risk on a Wednesday is fine. At 72% on a Saturday it's a total loss if not harvested. The threshold-based alert system creates a clear \"act now / monitor / normal\" decision framework that prevents preventable losses.",
+    w3_title:"Hawaii-specific degradation drivers",w3_desc:"Kona wind (SE offshore wind bringing high humidity from Mauna Loa's leeward side) is a uniquely Hawaiian degradation driver that generic crop models ignore. The feature engineering explicitly captures the humidity × kona_wind_days interaction that triggers fungal and pest surge in taro and coffee.",
+    w4_title:"Bridge between sensing and scheduling",w4_desc:"Without a quantified risk score, the Harvest Logistics Optimizer has no way to distinguish \"this parcel can wait a day\" from \"this parcel must be harvested today.\" The predictor creates that signal — turning biological urgency into a numerical input that the CP-SAT solver can optimize against.",
+    cta_label:"Navigation",cta_title:"Explore the other engines",cta_prev:"← Engine 04: Yield & Labor Simulator",cta_suite:"Suite Overview",cta_next:"Engine 06: Knowledge Transfer →",
+    footer_note:"Portfolio case study · Manami Oyama"
+  },
+  ja: {
+    nav_back:"← スイート概要",hero_eyebrow:"エンジン 05 — 技術解説",hero_title:"<em>作物健康・品質予測エンジン</em> の仕組み",hero_desc:"LightGBMバイナリ分類の平易な解説 — 11のセンサー特徴量から品質劣化リスクを予測し、農産物の価値が失われる前に収穫優先度アラートを発報します。",one_liner:"フィールドワーカーが目視で劣化に気づくのを待つのではなく、このエンジンは5,000件の合成データで学習したLightGBMモデルを使いセンサー読み取り値から全区画を継続スコアリング — 0〜100%の劣化確率を生成し、収穫物流オプティマイザーに供給する緊急度レベルを直接決定します。",
+    overview_label:"概要",overview_title:"何を予測するか",ov_c1:"設定項目",ov_c2:"詳細",
+    ov_r1a:"モデル",ov_r1b:"LightGBMバイナリ分類器（勾配ブースティング決定木）、5,000件の合成センサーデータで学習",
+    ov_r2a:"目的変数",ov_r2b:"is_degraded：すぐに収穫しなければ農産物品質が劣化する確率",
+    ov_r3a:"入力特徴量",ov_r3b:"11特徴量 — 環境センサー＋作物メタデータ＋圃場状態（特徴量テーブル参照）",
+    ov_r4a:"スコアリング区画数",ov_r4b:"デフォルト8区画（P01〜P08）、5作物全カバー、バッチ予測でセッションごと全区画スコアリング",
+    ov_r5a:"出力",ov_r5b:"区画ごとのリスク確率（0.0〜1.0）＋リスクレベル（critical/high/medium/low）＋収穫アラートメッセージ",
+    ov_r6a:"学習時間",ov_r6b:"5,000件200ラウンドで約2秒、モデルをlgbm_model.txtに保存して以降は即時ロード",
+    tech_label:"技術",tech_title:"LightGBM勾配ブースティングバイナリ分類",
+    t1_pill:"LightGBM — リーフワイズ木成長",t1_title:"11農業特徴量での勾配ブースティング",t1_desc:"LightGBMはリーフワイズ成長で200本の決定木アンサンブルを構築します（num_boost_round=200）。損失削減量最大のリーフに集中してスプリットするため、レベルワイズのXGBoostより表形式データで優れた性能を発揮します。主要ハイパーパラメータ：max_depth=5、num_leaves=31、learning_rate=0.05、feature_fraction=0.8、bagging_fraction=0.8（bagging_freq=5）。バイナリ対数損失目的関数＋シグモイド出力で[0,1]のキャリブレートされた確率を生成。ゲインによる特徴量重要度では、pest_history_score・days_since_harvest・soil_moisture_pctが常に上位3位を占めます。",
+    t2_pill:"ルールベースラベルによる合成学習データ",t2_title:"5,000件合成データセット",t2_desc:"デモ用に実センサーログが利用できないため、ルールベースリスク関数で生成した5,000件の合成データで学習します。干ばつストレス（最終降雨日数>10日→+0.2）、熱ストレス（気温>30°C→+0.15）、乾燥土壌（土壌水分<25%→+0.20）、高湿度×コナウィンズ（湿度>75% & コナ日数>5日→+0.30）、病害虫履歴（+0.25×スコア）、成熟オーバー（前回収穫日数>作物別閾値→+0.35）。二値化前にガウスノイズ（σ=0.15）を加えて正確な閾値過適合を防ぎます。",
+    features_label:"11の特徴量",features_title:"モデルへのセンサー・メタデータ入力",
+    f1_desc:"最後の有意な降雨からの経過日数 — 干ばつの代理指標。10日超で干ばつストレス寄与が始まります。",f2_desc:"直近7日間の平均気温（°C）。30°C超で熱ストレスが活性化、最大+0.15のリスクスコアに寄与。",f3_desc:"直近7日間の平均湿度（%）。コナウィンズ日数との組み合わせが重要 — 高湿度×風の相互作用がタロやコーヒーの菌類・病害虫リスクを高めます。",f4_desc:"リアルタイム土壌水分センサー値（%）。25%未満で乾燥土壌劣化リスク（+0.20）が発動。スマート灌漑エンジンと共有。",f5_desc:"前回収穫からの日数 — 成熟度の代理指標。各作物の成熟オーバー閾値：パパイヤ25日・コーヒー40日・タロ45日・マカデミア50日・パイナップル35日。",f6_desc:"直近90日の病害虫発生スコア（0〜1）。+0.25×スコアとしてリスクに直接寄与。スマート灌漑エンジンでの過湿ペナルティ調整にも使用。",f7_desc:"直近30日間のコナウィンズ（南東沖合風）日数。高湿度と乗算的に作用して菌類リスクを増大させます。",f8_desc:"直近7日間の総日照時間。4時間未満で+0.10リスク — 光合成不足が果実の糖分含量と保存期間に影響します。",f9_desc:"ラベルエンコード済みの作物種別（パパイヤ=0、コーヒー=1、タロ=2、マカデミア=3、パイナップル=4）。モデルが作物固有の劣化パターンを暗黙的に学習するため使用。",f10_desc:"区画面積（ha）。デモデータでは0.3〜5.0。大区画ほど微気候変動が大きく、モデルはリスクをやや小さく学習します。",f11_desc:"区画の標高（50〜800m）。コナ側の高地コーヒー区画（550m以上）は沿岸パパイヤ畑と異なる気温・病害虫プロファイルを持ちます。",
+    risk_title:"リスクレベル閾値",rl1_label:"CRITICAL（緊急）",rl1_desc:"今すぐ収穫 — 遅延は損失を確定させます",rl2_label:"HIGH（高）",rl2_desc:"今週中に収穫 — 物流スケジューラーの優先度を上げてください",rl3_label:"MEDIUM（中）",rl3_desc:"監視強化、3日後に再評価してください",rl4_label:"LOW（低）",rl4_desc:"対応不要 — 正常状態",
+    algo_title:"モデルパイプライン",
+    pipeline_label:"データパイプライン",pipeline_title:"予測エンジン内のデータフロー",
+    fp1_title:"区画プロファイルからのセンサーデータ収集",fp1_desc:"デフォルト8区画（P01〜P08）には事前入力済みのセンサー読み取り値が含まれます — 土壌水分・気温・湿度・最終降雨日数・病害虫履歴・コナウィンズ日数。本番環境ではIoTセンサーからストリーミング、デモではスライダーで編集可能。",
+    fp2_title:"モデルのロード・学習判断",fp2_desc:"セッション開始時にCropHealthPredictor.load_or_train()がlgbm_model.txtを確認。存在すれば200本のアンサンブルをミリ秒でロード。存在しない場合（初回またはキャッシュ削除）は合成学習パイプラインが起動し、5,000件生成・学習・保存まで約2秒で完了。",
+    fp3_title:"全区画のバッチ予測",fp3_desc:"predict_batch()が全区画のセンサー読み取り値を1つのDataFrameに集約し、model.predict()を1回呼び出して8つの確率を一括取得。個別8回呼び出しより高速で、ダッシュボード上の区画横並び比較を可能にします。",
+    fp4_title:"リスクレベル分類とアラート生成",fp4_desc:"各確率は閾値テーブルでリスクレベルにマッピング。generate_alert_message()が区画名・作物・確率パーセンテージ・推奨アクションを含む日英バイリンガルアラート文字列を生成し、フィールドマネージャーダッシュボードの優先度リストに表示されます。",
+    fp5_title:"収穫物流オプティマイザーへのリスクスコア出力",fp5_desc:"Critical・High区画のIDがharvest_priority_parcelsとしてsession_stateに書き込まれます。収穫物流オプティマイザーがこのリストを読み、それらのタスクにurgency_level=3または2を付与 — CP-SATソルバーが50,000または10,000ポイントのペナルティを確実に適用します。",
+    results_label:"出力結果",results_title:"予測エンジンが生成するもの",
+    r1_title:"区画別劣化確率（0〜100%）",r1_desc:"全8区画をリスク順にソートしたテーブル — フィールドスタッフが今日対応すべき区画・木曜まで待てる区画・正常な区画を即座に把握できます。",
+    r2_title:"バイリンガル優先度アラートメッセージ",r2_desc:"4レベルアラート（🔴🟠🟡🟢）に日英両言語の実行可能テキスト — 日本語指示を好む作業員が混在するフィールドスタッフ向けに設計。",
+    r3_title:"特徴量重要度の内訳",r3_desc:"feature_importance(importance_type=\"gain\")がモデルの予測に最も影響したインプットを明示 — どのセンサーへの投資が優先か、どの圃場状態が品質損失を最も一貫して予測するかをファームマネージャーが理解する手助けをします。",
+    r4_title:"収穫物流オプティマイザーへの緊急度レベル出力",r4_desc:"4段階緊急度システム（critical=3、high=2、medium=1、low=0）がCP-SAT収穫スケジューラーに直接消費され、数理最適化が常に生物学的緊急性をコスト最小化より優先する保証をします。",
+    why_label:"なぜ重要か",why_title:"解決する農場管理の課題",
+    w1_title:"目視検査からデータ駆動トリアージへ",w1_desc:"フィールドワーカーは朝の巡回で3〜5区画を点検できます。バッチ予測はミリ秒で8区画全てをスコアリング — 土壌水分・病害虫履歴・気象データに蓄積されたストレスを人の目では統合できない方法で検出します。",
+    w2_title:"適時収穫による収益保護",w2_desc:"水曜日に劣化リスク28%のハワイパパイヤは問題ありません。土曜日に72%では収穫しなければ全損です。閾値ベースのアラートシステムが「今すぐ行動/監視/正常」という明確な意思決定フレームワークを作り出し、防ぎうる損失を防ぎます。",
+    w3_title:"ハワイ特有の劣化要因",w3_desc:"コナウィンズ（マウナロア風下側から高湿度をもたらす南東沖合風）は一般的な作物モデルが無視するハワイ固有の劣化要因です。特徴量エンジニアリングがタロやコーヒーで菌類・病害虫の急増を引き起こす湿度×コナウィンズ日数の相互作用を明示的にキャプチャします。",
+    w4_title:"センシングとスケジューリングのブリッジ",w4_desc:"定量化されたリスクスコアがなければ、収穫物流オプティマイザーは「この区画は1日待てる」と「今日必ず収穫しなければならない」を区別できません。予測エンジンがそのシグナルを生成し、生物学的緊急性をCP-SATソルバーが最適化できる数値入力に変換します。",
+    cta_label:"ナビゲーション",cta_title:"他のエンジンを見る",cta_prev:"← エンジン04: 収量・労務シミュレーター",cta_suite:"スイート概要",cta_next:"エンジン06: 知識継承プランナー →",
+    footer_note:"ポートフォリオ事例 · 大山愛美"
+  }
+};
+let lang = "en";
+function applyLang(l) {
+  lang = l;
+  document.querySelectorAll("[data-i18n]").forEach(el => {
+    const k = el.getAttribute("data-i18n");
+    if (T[l][k] !== undefined) el.innerHTML = T[l][k];
+  });
+  document.querySelectorAll(".lang-btn").forEach(btn => {
+    btn.classList.toggle("active", btn.getAttribute("data-lang-btn") === l);
+  });
+}
+document.querySelectorAll(".lang-btn").forEach(btn => {
+  btn.addEventListener("click", () => applyLang(btn.getAttribute("data-lang-btn")));
+});
+document.querySelectorAll(".fade-up").forEach((el, i) => {
+  el.style.animationDelay = (i * 0.08) + "s";
+});
+</script>
+</body>
+</html>
