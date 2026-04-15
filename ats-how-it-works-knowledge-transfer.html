@@ -63,6 +63,7 @@
     <p class="hero-desc fade-up" data-i18n="hero_desc">A plain-English explanation of greedy priority-based task optimization — matching veteran farmer tacit knowledge to the right worker-task-day combination, generating OJT pairs, and stress-testing knowledge concentration risk with Monte Carlo simulation.</p>
     <div class="one-liner fade-up"><p data-i18n="one_liner">Hawaii's aging farming workforce means critical tacit knowledge — when to pick Kona coffee by smell, how to identify taro leaf blight before it spreads — is concentrated in one or two senior workers. This engine maps that concentration, simulates what happens if a key person is absent, and auto-generates OJT pairings that force knowledge transfer before the skill walks out the door permanently.</p></div>
     <div class="btn-group fade-up" style="margin-bottom:20px">
+      <a href="http://138.68.47.65:8084/" target="_blank" class="btn btn-primary" data-i18n="hero_btn">↗ Open Live App</a>
       <a href="ag-tech-suite-index.html" class="btn btn-outline" data-i18n="nav_back">← Suite Overview</a>
     </div>
   </div>
@@ -226,8 +227,9 @@ can_assign = (skill_level[worker][crop] >= required_skill[task])
     <p class="section-label" data-i18n="cta_label">Navigation</p>
     <h2 class="section-title" data-i18n="cta_title">Explore the other engines</h2>
     <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:16px;">
+      <a href="http://138.68.47.65:8084/" target="_blank" class="btn btn-primary" data-i18n="hero_btn">↗ Open Live App</a>
       <a href="ats-how-it-works-crop-health.html" class="btn btn-outline" data-i18n="cta_prev">← Engine 05: Crop Health Predictor</a>
-      <a href="ag-tech-suite-index.html" class="btn btn-primary" data-i18n="cta_suite">Suite Overview</a>
+      <a href="ag-tech-suite-index.html" class="btn btn-outline" data-i18n="cta_suite">Suite Overview</a>
       <a href="ats-how-it-works-irrigation.html" class="btn btn-outline" data-i18n="cta_next">Engine 07: Smart Irrigation →</a>
     </div>
   </div>
@@ -243,7 +245,7 @@ can_assign = (skill_level[worker][crop] >= required_skill[task])
 <script>
 const T = {
   en: {
-    nav_back:"← Suite Overview",hero_eyebrow:"Engine 06 — Technical Deep Dive",hero_title:"How the <em>Succession &amp; Knowledge Transfer Planner</em> works",hero_desc:"A plain-English explanation of greedy priority-based task optimization — matching veteran farmer tacit knowledge to the right worker-task-day combination, generating OJT pairs, and stress-testing knowledge concentration risk with Monte Carlo simulation.",one_liner:"Hawaii's aging farming workforce means critical tacit knowledge — when to pick Kona coffee by smell, how to identify taro leaf blight before it spreads — is concentrated in one or two senior workers. This engine maps that concentration, simulates what happens if a key person is absent, and auto-generates OJT pairings that force knowledge transfer before the skill walks out the door permanently.",
+    nav_back:"← Suite Overview",hero_btn:"↗ Open Live App",hero_eyebrow:"Engine 06 — Technical Deep Dive",hero_title:"How the <em>Succession &amp; Knowledge Transfer Planner</em> works",hero_desc:"A plain-English explanation of greedy priority-based task optimization — matching veteran farmer tacit knowledge to the right worker-task-day combination, generating OJT pairs, and stress-testing knowledge concentration risk with Monte Carlo simulation.",one_liner:"Hawaii's aging farming workforce means critical tacit knowledge — when to pick Kona coffee by smell, how to identify taro leaf blight before it spreads — is concentrated in one or two senior workers. This engine maps that concentration, simulates what happens if a key person is absent, and auto-generates OJT pairings that force knowledge transfer before the skill walks out the door permanently.",
     overview_label:"Overview",overview_title:"What it optimizes",ov_c1:"Setting",ov_c2:"Detail",
     ov_r1a:"Workers",ov_r1b:"7 workers (W01–W07): 1 farm manager (25 yr exp) + 2 senior workers + 4 field workers, each with crop skill profiles",
     ov_r2a:"Task catalog",ov_r2b:"Multi-task types: Harvest · Planting · Pest Control · Pruning · Weeding · OJT — each with complexity 1–3 and crop assignment",
@@ -285,7 +287,7 @@ const T = {
     footer_note:"Portfolio case study · Manami Oyama"
   },
   ja: {
-    nav_back:"← スイート概要",hero_eyebrow:"エンジン 06 — 技術解説",hero_title:"<em>知識継承・スキルプランナー</em> の仕組み",hero_desc:"グリーディ優先度ベースのタスク最適化の平易な解説 — 熟練農家の暗黙知を適切な作業員・タスク・日付の組み合わせにマッチングし、OJTペアを生成し、モンテカルロシミュレーションで知識集中リスクをストレステストします。",one_liner:"ハワイの農業従事者の高齢化が進む中、重要な暗黙知 — コナコーヒーの摘み時を香りで判断する技術、タロ葉枯れ病を広がる前に見つける目利き — はごく少数のベテラン作業員に集中しています。このエンジンはその集中度をマッピングし、キーパーソン不在時のシナリオをシミュレーションし、技術が永久に失われる前に知識移転を強制するOJTペアリングを自動生成します。",
+    nav_back:"← スイート概要",hero_btn:"↗ アプリを開く",hero_eyebrow:"エンジン 06 — 技術解説",hero_title:"<em>知識継承・スキルプランナー</em> の仕組み",hero_desc:"グリーディ優先度ベースのタスク最適化の平易な解説 — 熟練農家の暗黙知を適切な作業員・タスク・日付の組み合わせにマッチングし、OJTペアを生成し、モンテカルロシミュレーションで知識集中リスクをストレステストします。",one_liner:"ハワイの農業従事者の高齢化が進む中、重要な暗黙知 — コナコーヒーの摘み時を香りで判断する技術、タロ葉枯れ病を広がる前に見つける目利き — はごく少数のベテラン作業員に集中しています。このエンジンはその集中度をマッピングし、キーパーソン不在時のシナリオをシミュレーションし、技術が永久に失われる前に知識移転を強制するOJTペアリングを自動生成します。",
     overview_label:"概要",overview_title:"何を最適化するか",ov_c1:"設定項目",ov_c2:"詳細",
     ov_r1a:"作業員",ov_r1b:"7名（W01〜W07）：農場マネージャー（25年経験）1名＋シニアワーカー2名＋フィールドワーカー4名、各自作物スキルプロファイル付き",
     ov_r2a:"タスクカタログ",ov_r2b:"収穫・植付・防除・剪定・除草・OJT — 各タスクに複雑度1〜3と担当作物が設定",

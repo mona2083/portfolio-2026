@@ -58,6 +58,7 @@
     <p class="hero-desc fade-up" data-i18n="hero_desc">A plain-English explanation of CP-SAT integer variable optimization — scheduling daily irrigation hours per parcel across a 7-day forecast horizon to minimize water cost while preventing crop stress and respecting Kona wind evaporation dynamics.</p>
     <div class="one-liner fade-up"><p data-i18n="one_liner">Instead of fixed irrigation schedules, this engine treats each parcel's daily watering hours as integer decision variables and solves for the minimum-cost schedule that keeps every parcel's soil moisture above its stress threshold — automatically cancelling irrigation on rainy days, doubling evaporation on Kona wind days, and cutting water to harvested parcels at precisely the right time.</p></div>
     <div class="btn-group fade-up" style="margin-bottom:20px">
+      <a href="http://138.68.47.65:8084/" target="_blank" class="btn btn-primary" data-i18n="hero_btn">↗ Open Live App</a>
       <a href="ag-tech-suite-index.html" class="btn btn-outline" data-i18n="nav_back">← Suite Overview</a>
     </div>
   </div>
@@ -221,8 +222,9 @@ pest_pen[p,d] = max(0, M[p,d] − 700)             <span class="comment"># if pe
     <p class="section-label" data-i18n="cta_label">Navigation</p>
     <h2 class="section-title" data-i18n="cta_title">Explore the other engines</h2>
     <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:16px;">
+      <a href="http://138.68.47.65:8084/" target="_blank" class="btn btn-primary" data-i18n="hero_btn">↗ Open Live App</a>
       <a href="ats-how-it-works-knowledge-transfer.html" class="btn btn-outline" data-i18n="cta_prev">← Engine 06: Knowledge Transfer</a>
-      <a href="ag-tech-suite-index.html" class="btn btn-primary" data-i18n="cta_suite">Suite Overview</a>
+      <a href="ag-tech-suite-index.html" class="btn btn-outline" data-i18n="cta_suite">Suite Overview</a>
       <a href="ats-how-it-works-planting-strategy.html" class="btn btn-outline" data-i18n="cta_next">Engine 01: Planting Strategy →</a>
     </div>
   </div>
@@ -238,7 +240,7 @@ pest_pen[p,d] = max(0, M[p,d] − 700)             <span class="comment"># if pe
 <script>
 const T = {
   en: {
-    nav_back:"← Suite Overview",hero_eyebrow:"Engine 07 — Technical Deep Dive",hero_title:"How the <em>Smart Irrigation Optimizer</em> works",hero_desc:"A plain-English explanation of CP-SAT integer variable optimization — scheduling daily irrigation hours per parcel across a 7-day forecast horizon to minimize water cost while preventing crop stress and respecting Kona wind evaporation dynamics.",one_liner:"Instead of fixed irrigation schedules, this engine treats each parcel's daily watering hours as integer decision variables and solves for the minimum-cost schedule that keeps every parcel's soil moisture above its stress threshold — automatically cancelling irrigation on rainy days, doubling evaporation on Kona wind days, and cutting water to harvested parcels at precisely the right time.",
+    nav_back:"← Suite Overview",hero_btn:"↗ Open Live App",hero_eyebrow:"Engine 07 — Technical Deep Dive",hero_title:"How the <em>Smart Irrigation Optimizer</em> works",hero_desc:"A plain-English explanation of CP-SAT integer variable optimization — scheduling daily irrigation hours per parcel across a 7-day forecast horizon to minimize water cost while preventing crop stress and respecting Kona wind evaporation dynamics.",one_liner:"Instead of fixed irrigation schedules, this engine treats each parcel's daily watering hours as integer decision variables and solves for the minimum-cost schedule that keeps every parcel's soil moisture above its stress threshold — automatically cancelling irrigation on rainy days, doubling evaporation on Kona wind days, and cutting water to harvested parcels at precisely the right time.",
     overview_label:"Overview",overview_title:"What it schedules",ov_c1:"Setting",ov_c2:"Detail",
     ov_r1a:"Parcels",ov_r1b:"Up to 8 parcels — each with crop type, current soil moisture, growth stage, pest history, and harvested_on_day",
     ov_r2a:"Planning horizon",ov_r2b:"7-day weather forecast (configurable); each day has precipitation, wind direction, and temperature",
@@ -279,7 +281,7 @@ const T = {
     footer_note:"Portfolio case study · Manami Oyama"
   },
   ja: {
-    nav_back:"← スイート概要",hero_eyebrow:"エンジン 07 — 技術解説",hero_title:"<em>スマート灌漑オプティマイザー</em> の仕組み",hero_desc:"CP-SAT整数変数最適化の平易な解説 — 7日間の気象予報期間にわたって区画ごとの日次灌漑時間をスケジューリングし、コナウィンズの蒸発動態に対応しながら作物ストレスを防ぎつつ水道コストを最小化します。",one_liner:"固定灌漑スケジュールに代わり、このエンジンは各区画の日次散水時間を整数決定変数として扱い、全区画の土壌水分をストレス閾値以上に保つ最小コストスケジュールを解きます — 雨天の灌漑を自動キャンセルし、コナウィンズの日に蒸発量を2倍に計算し、正確なタイミングで収穫前区画への送水を遮断します。",
+    nav_back:"← スイート概要",hero_btn:"↗ アプリを開く",hero_eyebrow:"エンジン 07 — 技術解説",hero_title:"<em>スマート灌漑オプティマイザー</em> の仕組み",hero_desc:"CP-SAT整数変数最適化の平易な解説 — 7日間の気象予報期間にわたって区画ごとの日次灌漑時間をスケジューリングし、コナウィンズの蒸発動態に対応しながら作物ストレスを防ぎつつ水道コストを最小化します。",one_liner:"固定灌漑スケジュールに代わり、このエンジンは各区画の日次散水時間を整数決定変数として扱い、全区画の土壌水分をストレス閾値以上に保つ最小コストスケジュールを解きます — 雨天の灌漑を自動キャンセルし、コナウィンズの日に蒸発量を2倍に計算し、正確なタイミングで収穫前区画への送水を遮断します。",
     overview_label:"概要",overview_title:"何をスケジューリングするか",ov_c1:"設定項目",ov_c2:"詳細",
     ov_r1a:"区画",ov_r1b:"最大8区画 — 各区画に作物種別・現在の土壌水分・生育ステージ・病害虫履歴・収穫日を設定",
     ov_r2a:"計画期間",ov_r2b:"7日間の気象予報（変更可能）、各日に降水量・風向き・気温を含む",

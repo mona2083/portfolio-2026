@@ -58,6 +58,7 @@
     <p class="hero-desc fade-up" data-i18n="hero_desc">A plain-English explanation of Monte Carlo simulation — sampling 2,000 weather scenarios to generate P10/P50/P90 revenue distributions and probabilistic labor-gap alerts for a 21.5-hectare Hawaii farm.</p>
     <div class="one-liner fade-up"><p data-i18n="one_liner">Instead of a single "expected yield" number, this engine runs 2,000 random weather draws per month — each one independently computing crop yields, revenues, and labor demand — then summarizes the distribution as pessimistic (P10), median (P50), and optimistic (P90) forecasts so the farm owner can plan staffing and finance with known risk levels.</p></div>
     <div class="btn-group fade-up" style="margin-bottom:20px">
+      <a href="http://138.68.47.65:8084/" target="_blank" class="btn btn-primary" data-i18n="hero_btn">↗ Open Live App</a>
       <a href="ag-tech-suite-index.html" class="btn btn-outline" data-i18n="nav_back">← Suite Overview</a>
     </div>
   </div>
@@ -239,8 +240,9 @@ labor = area_ha × 0.25 + yield_kg / labor_kg_per_month[c]
     <p class="section-label" data-i18n="cta_label">Navigation</p>
     <h2 class="section-title" data-i18n="cta_title">Explore the other engines</h2>
     <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:16px;">
+      <a href="http://138.68.47.65:8084/" target="_blank" class="btn btn-primary" data-i18n="hero_btn">↗ Open Live App</a>
       <a href="ats-how-it-works-harvest-logistics.html" class="btn btn-outline" data-i18n="cta_prev">← Engine 03: Harvest Logistics</a>
-      <a href="ag-tech-suite-index.html" class="btn btn-primary" data-i18n="cta_suite">Suite Overview</a>
+      <a href="ag-tech-suite-index.html" class="btn btn-outline" data-i18n="cta_suite">Suite Overview</a>
       <a href="ats-how-it-works-crop-health.html" class="btn btn-outline" data-i18n="cta_next">Engine 05: Crop Health Predictor →</a>
     </div>
   </div>
@@ -256,7 +258,7 @@ labor = area_ha × 0.25 + yield_kg / labor_kg_per_month[c]
 <script>
 const T = {
   en: {
-    nav_back:"← Suite Overview",hero_eyebrow:"Engine 04 — Technical Deep Dive",hero_title:"How the <em>Yield &amp; Labor Simulator</em> works",hero_desc:"A plain-English explanation of Monte Carlo simulation — sampling 2,000 weather scenarios to generate P10/P50/P90 revenue distributions and probabilistic labor-gap alerts for a 21.5-hectare Hawaii farm.",one_liner:"Instead of a single \"expected yield\" number, this engine runs 2,000 random weather draws per month — each one independently computing crop yields, revenues, and labor demand — then summarizes the distribution as pessimistic (P10), median (P50), and optimistic (P90) forecasts so the farm owner can plan staffing and finance with known risk levels.",
+    nav_back:"← Suite Overview",hero_btn:"↗ Open Live App",hero_eyebrow:"Engine 04 — Technical Deep Dive",hero_title:"How the <em>Yield &amp; Labor Simulator</em> works",hero_desc:"A plain-English explanation of Monte Carlo simulation — sampling 2,000 weather scenarios to generate P10/P50/P90 revenue distributions and probabilistic labor-gap alerts for a 21.5-hectare Hawaii farm.",one_liner:"Instead of a single \"expected yield\" number, this engine runs 2,000 random weather draws per month — each one independently computing crop yields, revenues, and labor demand — then summarizes the distribution as pessimistic (P10), median (P50), and optimistic (P90) forecasts so the farm owner can plan staffing and finance with known risk levels.",
     overview_label:"Overview",overview_title:"What it simulates",ov_c1:"Setting",ov_c2:"Detail",
     ov_r1a:"Farm",ov_r1b:"Papaya 3.0 ha · Coffee 5.0 ha · Taro 1.5 ha · Macadamia 8.0 ha · Pineapple 4.0 ha = 21.5 ha total",
     ov_r2a:"Monte Carlo runs",ov_r2b:"2,000 trials per simulation (default), configurable up to any N",
@@ -297,7 +299,7 @@ const T = {
     footer_note:"Portfolio case study · Manami Oyama"
   },
   ja: {
-    nav_back:"← スイート概要",hero_eyebrow:"エンジン 04 — 技術解説",hero_title:"<em>収量・労務シミュレーター</em> の仕組み",hero_desc:"モンテカルロ法の平易な解説 — ハワイ21.5ヘクタールの農場向けに2,000気象シナリオをサンプリングし、P10/P50/P90の収益分布と労働力不足確率アラートを生成します。",one_liner:"「期待収量」の単一数値ではなく、このエンジンは月ごとに2,000回のランダム気象抽選を実行し、各試行で独立に作物収量・収益・労働需要を計算します。結果を悲観的（P10）・中央値（P50）・楽観的（P90）の予測分布としてまとめ、農場オーナーが既知のリスクレベルで人員配置と財務計画を立てられるようにします。",
+    nav_back:"← スイート概要",hero_btn:"↗ アプリを開く",hero_eyebrow:"エンジン 04 — 技術解説",hero_title:"<em>収量・労務シミュレーター</em> の仕組み",hero_desc:"モンテカルロ法の平易な解説 — ハワイ21.5ヘクタールの農場向けに2,000気象シナリオをサンプリングし、P10/P50/P90の収益分布と労働力不足確率アラートを生成します。",one_liner:"「期待収量」の単一数値ではなく、このエンジンは月ごとに2,000回のランダム気象抽選を実行し、各試行で独立に作物収量・収益・労働需要を計算します。結果を悲観的（P10）・中央値（P50）・楽観的（P90）の予測分布としてまとめ、農場オーナーが既知のリスクレベルで人員配置と財務計画を立てられるようにします。",
     overview_label:"概要",overview_title:"何をシミュレートするか",ov_c1:"設定項目",ov_c2:"詳細",
     ov_r1a:"農場構成",ov_r1b:"パパイヤ3.0ha・コーヒー5.0ha・タロ1.5ha・マカデミア8.0ha・パイナップル4.0ha＝計21.5ha",
     ov_r2a:"モンテカルロ試行回数",ov_r2b:"デフォルト2,000回、任意のNに変更可能",

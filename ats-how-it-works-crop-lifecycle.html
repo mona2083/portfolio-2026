@@ -54,6 +54,7 @@
     <p class="hero-desc fade-up" data-i18n="hero_desc">A plain-English explanation of the GDD thermal accumulation model and water balance engine that tracks every planted batch from germination to harvest.</p>
     <div class="one-liner fade-up"><p data-i18n="one_liner">Instead of relying on a calendar date, this engine tracks <em>actual biological progress</em> — accumulating heat units day by day, factoring in soil water deficit, Kona wind stress, and pest pressure, to predict the real harvest window for each parcel.</p></div>
     <div class="btn-group fade-up" style="margin-bottom:20px">
+      <a href="http://138.68.47.65:8084/" target="_blank" class="btn btn-primary" data-i18n="hero_btn">↗ Open Live App</a>
       <a href="ag-tech-suite-index.html" class="btn btn-outline" data-i18n="nav_back">← Suite Overview</a>
     </div>
   </div>
@@ -237,9 +238,10 @@ if cumulative_gdd ≥ stage_threshold[crop][next_stage]: → advance stage
       <h3 style="font-family:var(--serif);font-size:1.8rem;margin-bottom:16px;" data-i18n="cta_title">See the growth model in action</h3>
       <p style="color:var(--muted);margin-bottom:32px;" data-i18n="cta_desc">Adjust soil moisture and Kona wind days in the UI, then watch the GDD accumulation rate and estimated harvest date shift in real time.</p>
       <div class="btn-group">
+        <a href="http://138.68.47.65:8084/" target="_blank" class="btn btn-primary" data-i18n="hero_btn">↗ Open Live App</a>
         <a href="ats-how-it-works-planting-strategy.html" class="btn btn-outline" data-i18n="cta_btn1">← Engine 01: Planting</a>
         <a href="ag-tech-suite-index.html" class="btn btn-outline" data-i18n="cta_btn2">Suite Overview</a>
-        <a href="ats-how-it-works-harvest-logistics.html" class="btn btn-primary" data-i18n="cta_btn3">Next: Harvest Logistics →</a>
+        <a href="ats-how-it-works-harvest-logistics.html" class="btn btn-outline" data-i18n="cta_btn3">Next: Harvest Logistics →</a>
       </div>
     </div>
   </div>
@@ -250,6 +252,7 @@ if cumulative_gdd ≥ stage_threshold[crop][next_stage]: → advance stage
 const PAGE_TRANSLATIONS = {
   en:{
     nav_back:"← Suite Overview",
+    hero_btn:"↗ Open Live App",
     hero_eyebrow:"Engine 02 — Technical Deep Dive",
     hero_title:"How the Crop Lifecycle Manager works",
     hero_desc:"A plain-English explanation of the GDD thermal accumulation model and water balance engine that tracks every planted batch from germination to harvest.",
@@ -301,6 +304,7 @@ const PAGE_TRANSLATIONS = {
   },
   ja:{
     nav_back:"← スイート概要",
+    hero_btn:"↗ アプリを開く",
     hero_eyebrow:"エンジン 02 — 技術解説",
     hero_title:"<em>作物ライフサイクルマネージャー</em>の仕組み",
     hero_desc:"播種から収穫まで全作付バッチを追跡するGDD積算温度モデルと水収支エンジンを平易な言葉で解説します。",

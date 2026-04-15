@@ -60,6 +60,7 @@
     <p class="hero-desc fade-up" data-i18n="hero_desc">A plain-English explanation of LightGBM binary classification — predicting quality-degradation risk from 11 sensor features and triggering harvest-priority alerts before produce value is lost.</p>
     <div class="one-liner fade-up"><p data-i18n="one_liner">Instead of waiting until a field worker notices visible degradation, this engine continuously scores every parcel from sensor readings using a LightGBM model trained on 5,000 synthetic records — generating a 0–100% degradation probability that directly drives the urgency level fed into the Harvest Logistics Optimizer.</p></div>
     <div class="btn-group fade-up" style="margin-bottom:20px">
+      <a href="http://138.68.47.65:8084/" target="_blank" class="btn btn-primary" data-i18n="hero_btn">↗ Open Live App</a>
       <a href="ag-tech-suite-index.html" class="btn btn-outline" data-i18n="nav_back">← Suite Overview</a>
     </div>
   </div>
@@ -206,8 +207,9 @@ level = "critical" if prob≥0.70 else "high" if prob≥0.50 else "medium" if pr
     <p class="section-label" data-i18n="cta_label">Navigation</p>
     <h2 class="section-title" data-i18n="cta_title">Explore the other engines</h2>
     <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:16px;">
+      <a href="http://138.68.47.65:8084/" target="_blank" class="btn btn-primary" data-i18n="hero_btn">↗ Open Live App</a>
       <a href="ats-how-it-works-yield-labor.html" class="btn btn-outline" data-i18n="cta_prev">← Engine 04: Yield &amp; Labor Simulator</a>
-      <a href="ag-tech-suite-index.html" class="btn btn-primary" data-i18n="cta_suite">Suite Overview</a>
+      <a href="ag-tech-suite-index.html" class="btn btn-outline" data-i18n="cta_suite">Suite Overview</a>
       <a href="ats-how-it-works-knowledge-transfer.html" class="btn btn-outline" data-i18n="cta_next">Engine 06: Knowledge Transfer →</a>
     </div>
   </div>
@@ -223,7 +225,7 @@ level = "critical" if prob≥0.70 else "high" if prob≥0.50 else "medium" if pr
 <script>
 const T = {
   en: {
-    nav_back:"← Suite Overview",hero_eyebrow:"Engine 05 — Technical Deep Dive",hero_title:"How the <em>Crop Health &amp; Quality Predictor</em> works",hero_desc:"A plain-English explanation of LightGBM binary classification — predicting quality-degradation risk from 11 sensor features and triggering harvest-priority alerts before produce value is lost.",one_liner:"Instead of waiting until a field worker notices visible degradation, this engine continuously scores every parcel from sensor readings using a LightGBM model trained on 5,000 synthetic records — generating a 0–100% degradation probability that directly drives the urgency level fed into the Harvest Logistics Optimizer.",
+    nav_back:"← Suite Overview",hero_btn:"↗ Open Live App",hero_eyebrow:"Engine 05 — Technical Deep Dive",hero_title:"How the <em>Crop Health &amp; Quality Predictor</em> works",hero_desc:"A plain-English explanation of LightGBM binary classification — predicting quality-degradation risk from 11 sensor features and triggering harvest-priority alerts before produce value is lost.",one_liner:"Instead of waiting until a field worker notices visible degradation, this engine continuously scores every parcel from sensor readings using a LightGBM model trained on 5,000 synthetic records — generating a 0–100% degradation probability that directly drives the urgency level fed into the Harvest Logistics Optimizer.",
     overview_label:"Overview",overview_title:"What it predicts",ov_c1:"Setting",ov_c2:"Detail",
     ov_r1a:"Model",ov_r1b:"LightGBM binary classifier (gradient-boosted decision trees) trained on 5,000 synthetic sensor records",
     ov_r2a:"Target",ov_r2b:"is_degraded: probability that a parcel's produce will suffer quality degradation if not harvested promptly",
@@ -258,7 +260,7 @@ const T = {
     footer_note:"Portfolio case study · Manami Oyama"
   },
   ja: {
-    nav_back:"← スイート概要",hero_eyebrow:"エンジン 05 — 技術解説",hero_title:"<em>作物健康・品質予測エンジン</em> の仕組み",hero_desc:"LightGBMバイナリ分類の平易な解説 — 11のセンサー特徴量から品質劣化リスクを予測し、農産物の価値が失われる前に収穫優先度アラートを発報します。",one_liner:"フィールドワーカーが目視で劣化に気づくのを待つのではなく、このエンジンは5,000件の合成データで学習したLightGBMモデルを使いセンサー読み取り値から全区画を継続スコアリング — 0〜100%の劣化確率を生成し、収穫物流オプティマイザーに供給する緊急度レベルを直接決定します。",
+    nav_back:"← スイート概要",hero_btn:"↗ アプリを開く",hero_eyebrow:"エンジン 05 — 技術解説",hero_title:"<em>作物健康・品質予測エンジン</em> の仕組み",hero_desc:"LightGBMバイナリ分類の平易な解説 — 11のセンサー特徴量から品質劣化リスクを予測し、農産物の価値が失われる前に収穫優先度アラートを発報します。",one_liner:"フィールドワーカーが目視で劣化に気づくのを待つのではなく、このエンジンは5,000件の合成データで学習したLightGBMモデルを使いセンサー読み取り値から全区画を継続スコアリング — 0〜100%の劣化確率を生成し、収穫物流オプティマイザーに供給する緊急度レベルを直接決定します。",
     overview_label:"概要",overview_title:"何を予測するか",ov_c1:"設定項目",ov_c2:"詳細",
     ov_r1a:"モデル",ov_r1b:"LightGBMバイナリ分類器（勾配ブースティング決定木）、5,000件の合成センサーデータで学習",
     ov_r2a:"目的変数",ov_r2b:"is_degraded：すぐに収穫しなければ農産物品質が劣化する確率",

@@ -438,8 +438,8 @@
           <div class="hero-meta-item"><span class="dot"></span><span data-i18n="meta_stack">Python · Streamlit · Open-Meteo API</span></div>
         </div>
         <div class="btn-group fade-up" style="justify-content:flex-start;margin-top:0;">
-          <!-- <a href="#" target="_blank" class="btn btn-primary">↗ <span data-i18n="cta_demo">Live Demo</span></a> -->
-          <a href="#engines" class="btn btn-primary" data-i18n="cta_engines">Explore Engines</a>
+          <a href="http://138.68.47.65:8084/" target="_blank" class="btn btn-primary">↗ <span data-i18n="cta_demo">Live Demo</span></a>
+          <a href="#engines" class="btn btn-outline" data-i18n="cta_engines">Explore Engines</a>
         </div>
       </div>
 
@@ -764,6 +764,9 @@
             <span class="tag">Streamlit</span>
             <span class="tag">Plotly</span>
           </div>
+          <div class="app-links">
+            <a href="ats-how-it-works-planting-strategy.html" class="btn btn-outline" style="font-size:0.75rem;padding:6px 14px;" data-i18n="hiw_link">→ How It Works</a>
+          </div>
         </div>
 
         <!-- Engine 02: Crop Lifecycle Manager -->
@@ -788,6 +791,9 @@
             <span class="tag">Water Balance</span>
             <span class="tag">Python</span>
             <span class="tag">Plotly</span>
+          </div>
+          <div class="app-links">
+            <a href="ats-how-it-works-crop-lifecycle.html" class="btn btn-outline" style="font-size:0.75rem;padding:6px 14px;" data-i18n="hiw_link">→ How It Works</a>
           </div>
         </div>
 
@@ -814,6 +820,9 @@
             <span class="tag">Python</span>
             <span class="tag">Plotly</span>
           </div>
+          <div class="app-links">
+            <a href="ats-how-it-works-harvest-logistics.html" class="btn btn-outline" style="font-size:0.75rem;padding:6px 14px;" data-i18n="hiw_link">→ How It Works</a>
+          </div>
         </div>
 
         <!-- Engine 04: Yield & Labor Simulator -->
@@ -838,6 +847,9 @@
             <span class="tag">Open-Meteo API</span>
             <span class="tag">NumPy</span>
             <span class="tag">Plotly</span>
+          </div>
+          <div class="app-links">
+            <a href="ats-how-it-works-yield-labor.html" class="btn btn-outline" style="font-size:0.75rem;padding:6px 14px;" data-i18n="hiw_link">→ How It Works</a>
           </div>
         </div>
 
@@ -864,6 +876,9 @@
             <span class="tag">Python</span>
             <span class="tag">Plotly</span>
           </div>
+          <div class="app-links">
+            <a href="ats-how-it-works-crop-health.html" class="btn btn-outline" style="font-size:0.75rem;padding:6px 14px;" data-i18n="hiw_link">→ How It Works</a>
+          </div>
         </div>
 
         <!-- Engine 06: Knowledge Transfer Planner -->
@@ -889,6 +904,9 @@
             <span class="tag">Streamlit</span>
             <span class="tag">Plotly</span>
           </div>
+          <div class="app-links">
+            <a href="ats-how-it-works-knowledge-transfer.html" class="btn btn-outline" style="font-size:0.75rem;padding:6px 14px;" data-i18n="hiw_link">→ How It Works</a>
+          </div>
         </div>
 
         <!-- Engine 07: Smart Irrigation Optimizer -->
@@ -913,6 +931,9 @@
             <span class="tag">Integer Variables</span>
             <span class="tag">Python</span>
             <span class="tag">Plotly</span>
+          </div>
+          <div class="app-links">
+            <a href="ats-how-it-works-irrigation.html" class="btn btn-outline" style="font-size:0.75rem;padding:6px 14px;" data-i18n="hiw_link">→ How It Works</a>
           </div>
         </div>
 
@@ -1045,6 +1066,7 @@
       hero_eyebrow:"Integrated Agri-Decision Suite",
       hero_tagline:"Seven AI engines — crop planning, lifecycle monitoring, harvest logistics, yield simulation, health prediction, knowledge transfer, and smart irrigation — unified in a 3-persona Portal dashboard. Built for Hawaii's specialty crop operations.",
       meta_apps:"7 Integrated Engines", meta_tech:"OR-Tools · LightGBM · Monte Carlo", meta_stack:"Python · Streamlit · Open-Meteo API",
+      cta_demo:"Live Demo",
       cta_engines:"Explore Engines",
       one_liner:"Seven AI engines run in sequence — CP-SAT plans the optimal crop mix, a GDD thermal model tracks every plant's growth, LightGBM predicts quality degradation before harvest, Monte Carlo simulates 2,000 weather scenarios, and CP-SAT again routes every worker and truck — all surfaced in a 3-persona Portal dashboard built for Hawaii's specialty crop operations.",
       prob_label:"Problem → Solution", prob_title:"Six farm operations problems. Seven integrated engines.",
@@ -1119,6 +1141,7 @@
       e7_desc:"Schedules daily irrigation across a multi-day forecast horizon. Soil moisture is modelled as an integer variable updated by irrigation input, rainfall, and evaporation. Kona wind days double the evaporation rate. Rain-cancellation thresholds and post-harvest water cutoff for non-perennial crops are hard constraints.",
       e7_o1:"Daily irrigation schedule per parcel", e7_o2:"Kona wind evaporation model (×2 on wind days)",
       e7_o3:"Rain-cancel threshold automatic cutoff", e7_o4:"ROI simulation vs. manual irrigation",
+      hiw_link:"→ How It Works",
       tech_label:"Technical Stack", tech_title:"The right tool for each constraint",
       tech1_label:"Optimization Engine (×3)", tech1_desc:"Used in three separate engines: planting schedule optimization, harvest logistics scheduling, and irrigation scheduling. CP-SAT returns mathematically certified solutions — not heuristic approximations — and handles hard constraints natively.",
       tech2_label:"Probabilistic Simulation", tech2_desc:"2,000 trials per run, each sampling a weather scenario from live Open-Meteo probabilities, then applying Gaussian noise to rainfall, temperature, humidity, and pest risk. Output is a revenue distribution reflecting the actual uncertainty of Hawaii's variable weather.",
@@ -1140,6 +1163,7 @@
       hero_eyebrow:"統合農業意思決定スイート",
       hero_tagline:"作付計画・ライフサイクル管理・収穫物流・収益シミュレーション・品質予測・技術継承・スマート散水の7つのAIエンジンを、3ペルソナ対応のポータルダッシュボードに統合。ハワイ産特作農業向けに設計。",
       meta_apps:"7つの統合エンジン", meta_tech:"OR-Tools · LightGBM · モンテカルロ", meta_stack:"Python · Streamlit · Open-Meteo API",
+      cta_demo:"ライブデモ",
       cta_engines:"エンジンを見る",
       one_liner:"7つのAIエンジンが連動して動く。CP-SATが最適作付計画を立案し、GDD熱積算モデルが各区画の生育を追跡。LightGBMが収穫前に品質劣化リスクを予測し、モンテカルロが2,000通りの天候シナリオを計算。そしてCP-SATが再び全作業員とトラックをスケジュール配置する。これら全てが、ハワイ農業のための3ペルソナ対応ポータルダッシュボードに集約されています。",
       prob_label:"課題 → 解決策", prob_title:"6つの農場経営課題に、7つのエンジンで応える。",
@@ -1214,6 +1238,7 @@
       e7_desc:"複数日予報期間にわたる日次散水を1時間ブロック単位でスケジューリング。土壌水分量を整数変数として散水・降雨・蒸発で更新。コナウィンズの日は蒸発量が2倍に増加。雨天キャンセル閾値と非多年生作物の収穫後断水がハード制約として設定されています。",
       e7_o1:"区画別日次散水スケジュール", e7_o2:"コナウィンズ蒸発モデル（風日×2倍）",
       e7_o3:"雨天閾値による自動キャンセル", e7_o4:"手動散水との比較ROIシミュレーション",
+      hiw_link:"→ 技術解説を見る",
       tech_label:"技術スタック", tech_title:"各制約に最適なツールを",
       tech1_label:"最適化エンジン（×3使用）", tech1_desc:"3つの独立エンジンで使用：作付スケジュール最適化、収穫物流スケジューリング、散水スケジューリング。CP-SATは数学的に保証された最適解を返します——ヒューリスティック近似ではなく。ハード制約をネイティブに扱えることが、収穫窓を逃すと品質損失に直結する農業ドメインで重要です。",
       tech2_label:"確率的シミュレーション", tech2_desc:"1回2,000試行。ライブOpen-Meteo確率から気象シナリオをサンプリングし、降雨・気温・湿度・病害虫リスクにガウスノイズを加えて適用。出力はハワイの変動気候の実際の不確実性を反映した収益分布です。",
